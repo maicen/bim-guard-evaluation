@@ -33,34 +33,41 @@ if str(EVAL_DIR) not in sys.path:
 
 from eval_config import (
     RESULTS_DIR,
+    bimguard_path,
     compare_to_baseline,
     load_baseline,
     new_run_id,
     update_baseline,
 )
 
-# (eval_id, script, tier, supports_json)
-SCRIPTS: list[tuple[str, str, int, bool]] = [
-    ("score_nlp_annotation", "score_nlp_annotation.py", 0, True),
-    ("validate_blue_halo", "validate_blue_halo.py", 1, True),
-    ("eval_gold_code_9_8_stairs", "eval_gold_code_9_8_stairs.py", 1, False),
-    ("score_rule_extraction", "score_rule_extraction.py", 2, True),
-    ("test_real_ifc_pipeline", "test_real_ifc_pipeline.py", 2, True),
-    ("performance_benchmark", "performance_benchmark.py", 2, False),
-    ("eval_harness", "eval_harness.py", 3, False),
-    ("test_all_38_models", "test_all_38_models.py", 3, False),
+# (eval_id, script, tier, supports_json, needs_bimguard_cwd)
+# needs_bimguard_cwd: True for scripts that read bim-guard resources via a
+# path relative to cwd (e.g. data/rulesets/*.json) rather than package-
+# relative — they must run with cwd=bim-guard's checkout, not this repo's.
+SCRIPTS: list[tuple[str, str, int, bool, bool]] = [
+    ("score_nlp_annotation", "score_nlp_annotation.py", 0, True, False),
+    ("validate_blue_halo", "validate_blue_halo.py", 1, True, False),
+    ("eval_gold_code_9_8_stairs", "eval_gold_code_9_8_stairs.py", 1, False, False),
+    ("score_rule_extraction", "score_rule_extraction.py", 2, True, False),
+    ("test_real_ifc_pipeline", "test_real_ifc_pipeline.py", 2, True, False),
+    ("test_api_endpoints", "test_api_endpoints.py", 2, True, True),
+    ("test_e2e_roundtrip", "test_e2e_roundtrip.py", 2, True, True),
+    ("performance_benchmark", "performance_benchmark.py", 2, False, False),
+    ("eval_harness", "eval_harness.py", 3, False, False),
+    ("test_all_38_models", "test_all_38_models.py", 3, False, False),
 ]
 
 
-def run_script(eval_id: str, script: str, tier: int, supports_json: bool, run_id: str, *, smoke: bool) -> dict:
+def run_script(eval_id: str, script: str, tier: int, supports_json: bool, run_id: str, *, smoke: bool, needs_bimguard_cwd: bool = False) -> dict:
     cmd = [sys.executable, str(EVAL_DIR / script)]
     if supports_json:
         cmd.append("--json")
     if smoke and script == "test_all_38_models.py":
         cmd.append("--smoke")
 
+    cwd = str(bimguard_path()) if needs_bimguard_cwd else str(EVAL_DIR)
     t0 = time.perf_counter()
-    proc = subprocess.run(cmd, cwd=str(EVAL_DIR), capture_output=True, text=True)
+    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
     duration_s = time.perf_counter() - t0
 
     manifest_entry = {
@@ -98,9 +105,9 @@ def main() -> int:
     any_failed = False
     any_regressed = False
 
-    for eval_id, script, tier, supports_json in to_run:
+    for eval_id, script, tier, supports_json, needs_bimguard_cwd in to_run:
         print(f"\n{'=' * 70}\n  [tier {tier}] {script}\n{'=' * 70}")
-        entry = run_script(eval_id, script, tier, supports_json and args.json, run_id, smoke=args.smoke)
+        entry = run_script(eval_id, script, tier, supports_json and args.json, run_id, smoke=args.smoke, needs_bimguard_cwd=needs_bimguard_cwd)
         manifest.append(entry)
 
         if entry["returncode"] != 0:

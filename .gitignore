@@ -36,3 +36,7 @@ data/validation_bcf/
 
 # Eval run output (baselines under eval/baselines/ are committed separately)
 eval/results/
+
+# Local caches materialized when eval scripts run with cwd=bim-guard
+data/.seed_library.lock
+eval/data/
