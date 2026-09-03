@@ -1,0 +1,14 @@
+{
+  "eval_id": "test_e2e_roundtrip",
+  "tier": 2,
+  "status": "PASS",
+  "passed": 10,
+  "failed": 0,
+  "total": 10,
+  "score": 1.0,
+  "duration_s": 54.927176099969074,
+  "bimguard_commit": "ec1ed9c",
+  "eval_commit": "32e132f",
+  "details": [],
+  "baseline_created": "2026-09-03T14:55:35.197345+00:00"
+}

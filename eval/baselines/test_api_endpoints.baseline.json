@@ -1,0 +1,14 @@
+{
+  "eval_id": "test_api_endpoints",
+  "tier": 2,
+  "status": "PASS",
+  "passed": 45,
+  "failed": 0,
+  "total": 45,
+  "score": 1.0,
+  "duration_s": 35.53007829998387,
+  "bimguard_commit": "ec1ed9c",
+  "eval_commit": "32e132f",
+  "details": [],
+  "baseline_created": "2026-09-03T14:54:39.495521+00:00"
+}

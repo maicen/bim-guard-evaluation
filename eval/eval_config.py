@@ -116,14 +116,76 @@ def update_baseline(eval_id: str, result: dict) -> Path:
     return path
 
 
-def compare_to_baseline(result: dict, baseline: dict, *, score_tolerance: float = 0.05) -> dict:
-    """Compare a fresh result to a stored baseline. Returns
-    {regressed: bool, score_delta: float, reason: str | None}."""
+#: eval_ids whose duration_s is a measured metric worth comparing (not just
+#: a score) get a wider tolerance — timing varies with the host, accuracy
+#: shouldn't. 1.5x mirrors performance_benchmark.py's own IQR-based stance.
+PERFORMANCE_EVAL_IDS = {"performance_benchmark"}
+
+
+def _failing_labels(details: Any) -> set[str]:
+    """Extract the set of check labels a result's `details` marks as failing.
+
+    Handles both shapes eval scripts use: a full per-check list (each entry
+    carries `passed`), and a failures-only list (entries with no `passed`
+    key are implicitly failures). Anything else (a plain metrics dict, None)
+    yields an empty set — individual-check diffing just doesn't apply.
+    """
+    if not isinstance(details, list):
+        return set()
+    out = set()
+    for d in details:
+        if isinstance(d, dict) and "label" in d and d.get("passed", False) is False:
+            out.add(d["label"])
+    return out
+
+
+def compare_to_baseline(
+    result: dict,
+    baseline: dict,
+    *,
+    score_tolerance: float = 0.05,
+    duration_tolerance: float = 0.5,
+) -> dict:
+    """Compare a fresh result to a stored baseline.
+
+    Returns:
+        {regressed, score_delta, duration_ratio, regressed_checks,
+         improved_checks, reasons: list[str]}
+    """
+    reasons: list[str] = []
+
     score_delta = result["score"] - baseline["score"]
-    regressed = score_delta < -score_tolerance
-    reason = (
-        f"score dropped {baseline['score']:.1%} -> {result['score']:.1%} "
-        f"(delta {score_delta:+.1%}, tolerance {score_tolerance:.1%})"
-        if regressed else None
-    )
-    return {"regressed": regressed, "score_delta": score_delta, "reason": reason}
+    score_regressed = score_delta < -score_tolerance
+    if score_regressed:
+        reasons.append(
+            f"score dropped {baseline['score']:.1%} -> {result['score']:.1%} "
+            f"(delta {score_delta:+.1%}, tolerance {score_tolerance:.1%})"
+        )
+
+    base_dur, cur_dur = baseline.get("duration_s") or 0.0, result.get("duration_s") or 0.0
+    duration_ratio = (cur_dur / base_dur) if base_dur > 0 else 1.0
+    perf_tolerance = 1.5 if result["eval_id"] in PERFORMANCE_EVAL_IDS else (1.0 + duration_tolerance)
+    duration_regressed = base_dur > 0.05 and duration_ratio > perf_tolerance
+    if duration_regressed:
+        reasons.append(
+            f"duration grew {base_dur:.2f}s -> {cur_dur:.2f}s "
+            f"({duration_ratio:.2f}x, tolerance {perf_tolerance:.2f}x)"
+        )
+
+    base_failing = _failing_labels(baseline.get("details"))
+    cur_failing = _failing_labels(result.get("details"))
+    regressed_checks = sorted(cur_failing - base_failing)
+    improved_checks = sorted(base_failing - cur_failing)
+    if regressed_checks:
+        reasons.append(f"{len(regressed_checks)} check(s) newly failing: {regressed_checks}")
+
+    regressed = score_regressed or duration_regressed or bool(regressed_checks)
+    return {
+        "regressed": regressed,
+        "score_delta": score_delta,
+        "duration_ratio": duration_ratio,
+        "regressed_checks": regressed_checks,
+        "improved_checks": improved_checks,
+        "reasons": reasons,
+        "reason": "; ".join(reasons) if reasons else None,
+    }
