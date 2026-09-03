@@ -29,13 +29,23 @@ Usage:
     uv run python test_real_ifc_pipeline.py
 """
 
+import argparse
 import json
 import sys
+import time
 import zipfile
 from io import BytesIO
 from pathlib import Path
 
 sys.path.insert(0, ".")
+
+EVAL_DIR = Path(__file__).resolve().parent
+if str(EVAL_DIR) not in sys.path:
+    sys.path.insert(0, str(EVAL_DIR))
+
+from eval_config import build_result, new_run_id, write_result  # noqa: E402
+
+_START = time.perf_counter()
 
 import ifcopenshell  # noqa: E402
 
@@ -407,7 +417,7 @@ def validate(model, mep, halos, clashes, zip_names, psets) -> bool:
         all_passed = all_passed and passed
 
     _out(f"\n  {sum(1 for _l, p, _d in checks if p)}/{len(checks)} checks passed")
-    return all_passed
+    return all_passed, checks
 
 
 def _find_clash(model, clashes: list, halos: list, halo_name: str, intruder_name: str):
@@ -437,11 +447,27 @@ if __name__ == "__main__":
     config = load_config()
     halos, clashes, _per_element = run_phase1(model, mep, candidates, config, scale)
     zip_names, psets = run_phase4(halos, clashes)
-    passed = validate(model, mep, halos, clashes, zip_names, psets)
+    passed, checks = validate(model, mep, halos, clashes, zip_names, psets)
 
     _out("\n" + "=" * 74)
     _out(f"  OVERALL: {'ALL CHECKS PASSED' if passed else 'SOME CHECKS FAILED'}")
     _out("=" * 74)
     _out(f"\n  Outputs: {BCF_OUTPUT}, {PSET_OUTPUT}")
+
+    cli = argparse.ArgumentParser()
+    cli.add_argument("--json", action="store_true", help="write structured results to eval/results/")
+    cli_args = cli.parse_args()
+
+    if cli_args.json:
+        passed_n = sum(1 for _l, p, _d in checks)
+        failed_n = len(checks) - passed_n
+        result = build_result(
+            "test_real_ifc_pipeline", tier=2,
+            passed=passed_n, failed=failed_n, total=len(checks),
+            duration_s=time.perf_counter() - _START,
+            details=[{"label": label, "passed": p, "detail": d} for label, p, d in checks],
+        )
+        out_path = write_result(result, run_id=new_run_id())
+        print(f"  JSON result written to {out_path}")
 
     sys.exit(0 if passed else 1)

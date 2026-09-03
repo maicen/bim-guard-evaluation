@@ -45,13 +45,24 @@ Usage:
     uv run python validate_blue_halo.py
 """
 
+import argparse
 import json
 import sys
+import time
 import zipfile
 from dataclasses import dataclass
 from io import BytesIO
+from pathlib import Path
 
 sys.path.insert(0, ".")
+
+EVAL_DIR = Path(__file__).resolve().parent
+if str(EVAL_DIR) not in sys.path:
+    sys.path.insert(0, str(EVAL_DIR))
+
+from eval_config import build_result, new_run_id, write_result  # noqa: E402
+
+_START = time.perf_counter()
 
 from app.modules.blue_halo.halo_volume_generator import (  # noqa: E402
     BraceType,
@@ -627,7 +638,7 @@ def run_validation_checks(
         all_passed = all_passed and passed
 
     _out(f"\n  {sum(p for _l, p in checks)}/{len(checks)} checks passed")
-    return all_passed
+    return all_passed, checks
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -656,7 +667,7 @@ if __name__ == "__main__":
         s1_results, s2_result, s5_results
     )
 
-    all_passed = run_validation_checks(
+    all_passed, checks = run_validation_checks(
         config,
         config_path,
         s1_results,
@@ -673,5 +684,21 @@ if __name__ == "__main__":
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write("\n".join(_LINES) + "\n")
     print(f"\nDiagnostics written to {OUTPUT_PATH}")
+
+    cli = argparse.ArgumentParser()
+    cli.add_argument("--json", action="store_true", help="write structured results to eval/results/")
+    cli_args = cli.parse_args()
+
+    if cli_args.json:
+        passed_n = sum(1 for _l, p in checks)
+        failed_n = len(checks) - passed_n
+        result = build_result(
+            "validate_blue_halo", tier=1,
+            passed=passed_n, failed=failed_n, total=len(checks),
+            duration_s=time.perf_counter() - _START,
+            details=[{"label": label, "passed": p} for label, p in checks],
+        )
+        out_path = write_result(result, run_id=new_run_id())
+        print(f"  JSON result written to {out_path}")
 
     sys.exit(0 if all_passed else 1)

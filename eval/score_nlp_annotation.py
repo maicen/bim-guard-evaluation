@@ -1,10 +1,20 @@
+import argparse
 import sys
+import time
 from pathlib import Path
 
 # Support running from repository root or from eval/
 REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
+
+EVAL_DIR = Path(__file__).resolve().parent
+if str(EVAL_DIR) not in sys.path:
+    sys.path.insert(0, str(EVAL_DIR))
+
+from eval_config import build_result, new_run_id, write_result  # noqa: E402
+
+_START = time.perf_counter()
 
 try:
     from nlp_annotation.deontic_extractor import DeonticExtractor
@@ -256,3 +266,23 @@ if failures:
         print(f"          got:             {got}")
 else:
     print("  All tests passed.")
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--json", action="store_true", help="write structured results to eval/results/")
+args = parser.parse_args()
+
+if args.json:
+    duration_s = time.perf_counter() - _START
+    details = [
+        {"label": label, "got": got, "expected_subset": expected}
+        for label, got, expected in failures
+    ]
+    result = build_result(
+        "score_nlp_annotation", tier=0,
+        passed=passed, failed=failed, total=total,
+        duration_s=duration_s, details=details,
+    )
+    out_path = write_result(result, run_id=new_run_id())
+    print(f"\n  JSON result written to {out_path}")
+
+sys.exit(0 if failed == 0 else 1)

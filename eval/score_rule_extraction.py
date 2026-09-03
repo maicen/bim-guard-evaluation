@@ -37,16 +37,20 @@ Usage:
     uv run python score_rule_extraction.py
 """
 
+import argparse
 import asyncio
 import glob
 import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 
 from pathlib import Path
+
+_START = time.perf_counter()
 
 # Resolve evaluation dir and core bim-guard repo path
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -56,6 +60,8 @@ BIMGUARD_CORE = Path(os.getenv("BIMGUARD_PATH", str(REPO_ROOT.parent / "bim-guar
 for p in [EVAL_DIR, REPO_ROOT, BIMGUARD_CORE, BIMGUARD_CORE / "app" / "modules", Path("app/modules")]:
     if p.exists() and str(p) not in sys.path:
         sys.path.insert(0, str(p))
+
+from eval_config import build_result, new_run_id, write_result  # noqa: E402
 
 try:
     from eval_gold_code_9_8_stairs import EXCLUDED_CLAUSES, GOLD_RULES
@@ -134,7 +140,7 @@ def match_gold_to_extracted(gold: dict, extracted: list[dict]) -> dict | None:
     return None
 
 
-def _score(label: str, extracted: list[dict]):
+def _score(label: str, extracted: list[dict]) -> dict:
     hits, misses = [], []
     for gold in GOLD_RULES:
         (hits if match_gold_to_extracted(gold, extracted) else misses).append(gold)
@@ -145,6 +151,11 @@ def _score(label: str, extracted: list[dict]):
         print("     missed:")
         for g in misses:
             print(f"       - {g['ref']:30s} {g['desc'][:65]}")
+    return {
+        "label": label, "hits": len(hits), "total_gold": len(GOLD_RULES),
+        "recall": recall, "extracted_total": len(extracted),
+        "missed": [g["ref"] for g in misses],
+    }
 
 
 def prepare_sendable_chunks(text: str) -> list[dict]:
@@ -248,9 +259,9 @@ def part_a():
     for chunk in sendable:
         regex_rules.extend(RegexRuleConverter().extract_rules(chunk))
     print(f"     RegexRuleConverter produced {len(regex_rules)} rule(s) total")
-    _score("Regex converter (live-path chunks)", regex_rules)
+    regex_score = _score("Regex converter (live-path chunks)", regex_rules)
 
-    return sendable
+    return sendable, regex_score
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -353,7 +364,21 @@ async def part_b(sendable: list[dict]):
 # ══════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
+    cli = argparse.ArgumentParser()
+    cli.add_argument("--json", action="store_true", help="write structured results to eval/results/ (Part A regex baseline only)")
+    cli_args = cli.parse_args()
+
     print(f"GOLD_RULES: {len(GOLD_RULES)}   EXCLUDED_CLAUSES: {len(EXCLUDED_CLAUSES)}")
     print(f"Source PDF: {PDF_PATH}\n")
-    sendable_chunks = part_a()
+    sendable_chunks, regex_score = part_a()
     asyncio.run(part_b(sendable_chunks))
+
+    if cli_args.json:
+        result = build_result(
+            "score_rule_extraction", tier=2,
+            passed=regex_score["hits"], failed=regex_score["total_gold"] - regex_score["hits"],
+            total=regex_score["total_gold"], duration_s=time.perf_counter() - _START,
+            details=regex_score,
+        )
+        out_path = write_result(result, run_id=new_run_id())
+        print(f"\n  JSON result written to {out_path} (Part A regex baseline only — Part B/LLM not scored)")

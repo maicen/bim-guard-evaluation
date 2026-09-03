@@ -33,3 +33,6 @@ htmlcov/
 data/validation_models/
 data/validation_results/
 data/validation_bcf/
+
+# Eval run output (baselines under eval/baselines/ are committed separately)
+eval/results/
