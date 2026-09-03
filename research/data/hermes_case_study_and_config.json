@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "jurisdiction": "EN 1998-1:2020 + DIN 4149:2022",
+    "region": "EU / Germany",
+    "created_by": "hermes_config_expanded.py",
+    "standards_cited": [
+      "EN 1998-1",
+      "DIN 4149"
+    ],
+    "data_gaps": [
+      "Combined config: spacing = min(EN 1998-1:2020=1.0/1.5m, DIN 4149:2022=1.2/1.8m) per axis \u2014 tighter (smaller) spacing governs \u2014 it requires more restraints, the conservative reading.",
+      "Combined config: base_from_structure_mm = max(EN 1998-1:2020=150.0mm, DIN 4149:2022=200.0mm) \u2014 larger clearance governs \u2014 it produces a halo big enough to satisfy both standards.",
+      "Combined config: pipe_diameter_mm = min(EN 1998-1:2020=63.0mm, DIN 4149:2022=75.0mm) \u2014 lower diameter threshold governs \u2014 it brings more pipes into scope for bracing.",
+      "thresholds.duct_area_sqm is not present in the source for either standard (no duct_threshold field found); left null pending standard-specific research.",
+      "Combined config: importance_factors = per-key max across EN 1998-1:2020 and DIN 4149:2022 \u2014 higher factor governs \u2014 it demands the greater restraint capacity.",
+      "Combined config: angle range = intersection of EN 1998-1:2020 (35.0-70.0 deg) and DIN 4149:2022 (40.0-65.0 deg) \u2014 intersection of both ranges governs \u2014 the band any brace satisfying both standards must fall in.",
+      "angle_constraints.ideal_degrees and tolerance_degrees are computed as the midpoint and half-range of the combined min/max above, not independently sourced values.",
+      "Source research summary gives one combined restraint_spacing and min_clearance per standard, not broken out per brace-hardware variant; all four brace_types variants below share the same combined spacing/clearance figures pending brace-specific research.",
+      "clearance_rules.seismic_zone_addition_mm and hospital_addition_mm are not present in the source for either standard; left at 0mm rather than guessed. Both standards scale required restraint capacity by Importance Factor, not clearance geometry directly, so 0mm additional clearance is the defensible reading absent clause text stating otherwise \u2014 verify against the full clause text before relying on this.",
+      "clearance_rules.adjacent_system_mm is not present in the source for either standard; left at 0mm pending standard-specific research.",
+      "seismic_parameters.hazard_factor_default is not present in the source for either standard; left null pending standard-specific research.",
+      "brace_types[*].base_footprint_mm values are generic bracing-hardware footprint placeholders (not sourced from either standard's clauses) and brace_types[*].standard_sizes are left empty pending a hardware catalog cross-reference.",
+      "standards_full_citations below are the section-reference citations from hermes_standards_research_summary.json (['EN 1998-1:2020 5.3.2.3', 'DIN 4149:2022-03 8.2.4']), not full bibliographic citations (author/title/publisher/location) \u2014 HERMES_CONTEXT.md's Priority 1/2 research pass should supply those."
+    ],
+    "paywalled_sections": []
+  },
+  "seismic_parameters": {
+    "hazard_factor_default": null,
+    "importance_factors": {
+      "standard": 1.0,
+      "hospital": 1.6
+    }
+  },
+  "thresholds": {
+    "pipe_diameter_mm": 63.0,
+    "duct_area_sqm": null
+  },
+  "brace_types": {
+    "angle_fire": {
+      "standard_sizes": [],
+      "spacing_transverse_m": 1.0,
+      "spacing_longitudinal_m": 1.5,
+      "clearance_mm": 200.0,
+      "base_footprint_mm": [
+        120,
+        120
+      ]
+    },
+    "angle_mechanical": {
+      "standard_sizes": [],
+      "spacing_transverse_m": 1.0,
+      "spacing_longitudinal_m": 1.5,
+      "clearance_mm": 200.0,
+      "base_footprint_mm": [
+        120,
+        120
+      ]
+    },
+    "cable": {
+      "standard_sizes": [],
+      "spacing_transverse_m": 1.0,
+      "spacing_longitudinal_m": 1.5,
+      "clearance_mm": 200.0,
+      "base_footprint_mm": [
+        50,
+        50
+      ]
+    },
+    "rod": {
+      "standard_sizes": [],
+      "spacing_transverse_m": 1.0,
+      "spacing_longitudinal_m": 1.5,
+      "clearance_mm": 200.0,
+      "base_footprint_mm": [
+        100,
+        100
+      ]
+    }
+  },
+  "clearance_rules": {
+    "base_from_structure_mm": 200.0,
+    "seismic_zone_addition_mm": 0,
+    "hospital_addition_mm": 0,
+    "adjacent_system_mm": 0
+  },
+  "angle_constraints": {
+    "min_degrees": 40.0,
+    "ideal_degrees": 52.5,
+    "max_degrees": 65.0,
+    "tolerance_degrees": 12.5
+  },
+  "standards_full_citations": [
+    "EN 1998-1:2020 5.3.2.3",
+    "DIN 4149:2022-03 8.2.4"
+  ]
+}

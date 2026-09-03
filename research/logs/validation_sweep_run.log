@@ -1,0 +1,196 @@
+==============================================================================
+  BIMGUARD AI — validation sweep across the verified IFC dataset
+==============================================================================
+
+  Parsed 38 model(s) from BIMGUARD AI Validation Dataset — Verified Downloadable IFC Models.md
+  Selected 38 model(s), ~950 MB to acquire (cached files reused)
+  Config: EN 1998-1:2020 + DIN 4149:2022 (variant angle_fire, clearance 200mm)
+
+[1/38] row 1: Clinic_Architectural.ifc (hospital, ~12.4 MB)
+    OK  0 MEP / 1617 struct -> 0 halos, 0 clashes, 102 piping  [5.0s]
+
+[2/38] row 2: Clinic_Structural.ifc (hospital, ~18.2 MB)
+    OK  0 MEP / 1068 struct -> 0 halos, 0 clashes, 0 piping  [22.7s]
+
+[3/38] row 3: Clinic_HVAC.ifc (hospital, ~25.7 MB)
+    OK  1548 MEP / 0 struct -> 1548 halos, 3070 clashes, 3704 piping  [50.6s]
+
+[4/38] row 4: Clinic_Electrical.ifc (hospital, ~6.5 MB)
+    OK  0 MEP / 0 struct -> 0 halos, 0 clashes, 2089 piping  [26.3s]
+
+[5/38] row 5: Clinic_Plumbing.ifc (hospital, ~53.2 MB)
+    OK  2893 MEP / 0 struct -> 2893 halos, 15534 clashes, 6587 piping  [116.7s]
+
+[6/38] row 6: west_riverside_hospital — Architecture (IFC4) (hospital, ~77.2 MB)
+    OK  0 MEP / 8935 struct -> 0 halos, 0 clashes, 0 piping  [60.8s]
+
+[7/38] row 7: west_riverside_hospital — Structural (IFC4) (hospital, ~6.2 MB)
+    OK  0 MEP / 2822 struct -> 0 halos, 0 clashes, 0 piping  [25.6s]
+
+[8/38] row 8: west_riverside_hospital — Mechanical/HVAC (IFC4) (hospital, ~69.7 MB)
+    OK  8732 MEP / 0 struct -> 8732 halos, 41128 clashes, 17424 piping  [265.1s]
+
+[9/38] row 9: west_riverside_hospital — Plumbing (IFC4) (hospital, ~22.7 MB)
+    OK  4308 MEP / 0 struct -> 4308 halos, 21800 clashes, 8539 piping  [104.8s]
+
+[10/38] row 10: west_riverside_hospital — Electrical (IFC4) (hospital, ~4.2 MB)
+    OK  84 MEP / 0 struct -> 84 halos, 178 clashes, 1673 piping  [13.9s]
+
+[11/38] row 11: west_riverside_hospital — Fire Alarm (IFC4) — cached, skipping
+
+[12/38] row 12: west_riverside_hospital — Sprinklers (IFC4) (hospital, ~32.4 MB)
+    OK  6228 MEP / 0 struct -> 6228 halos, 17538 clashes, 13490 piping  [124.0s]
+
+[13/38] row 13: west_riverside_hospital — Mechanical (IFC2X3 twin) (hospital, ~75.1 MB)
+    OK  8732 MEP / 0 struct -> 8732 halos, 41174 clashes, 18488 piping  [249.5s]
+
+[14/38] row 14: west_riverside_hospital — Plumbing (IFC2X3 twin) (hospital, ~23.8 MB)
+    OK  4308 MEP / 0 struct -> 4308 halos, 21800 clashes, 9013 piping  [109.7s]
+
+[15/38] row 15: NBU_MedicalClinic (zip: ARC+MEP+HVAC+ELE+STR) (hospital, ~78.9 MB)
+    DOWNLOAD_FAILED: download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get loca
+
+[16/38] row 16: GVA Sanitario.ifc (hospital, ~6.6 MB)
+    DOWNLOAD_FAILED: download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certif
+
+[17/38] row 18: Duplex_A_20110907.ifc (office, ~2.3 MB)
+    OK  0 MEP / 97 struct -> 0 halos, 0 clashes, 0 piping  [2.0s]
+
+[18/38] row 19: Duplex_Electrical_20121207.ifc (office, ~1.5 MB)
+    OK  0 MEP / 0 struct -> 0 halos, 0 clashes, 99 piping  [2.1s]
+
+[19/38] row 20: Duplex_MEP_20110907.ifc — cached, skipping
+
+[20/38] row 21: Duplex_Plumbing_20121113.ifc (office, ~30.1 MB)
+    OK  231 MEP / 0 struct -> 231 halos, 1528 clashes, 498 piping  [20.2s]
+
+[21/38] row 22: AC20-Institute-Var-2.ifc (office, ~10.4 MB)
+    OK  0 MEP / 149 struct -> 0 halos, 0 clashes, 0 piping  [10.1s]
+
+[22/38] row 23: AC20-FZK-Haus.ifc (office, ~2.5 MB)
+    OK  0 MEP / 63 struct -> 0 halos, 0 clashes, 0 piping  [6.0s]
+
+[23/38] row 24: DigitalHub_FM-ARC_v2.ifc (office, ~8.6 MB)
+    OK  0 MEP / 357 struct -> 0 halos, 0 clashes, 0 piping  [12.1s]
+
+[24/38] row 25: DigitalHub_FM-HZG_v2.ifc (office, ~19.9 MB)
+    OK  914 MEP / 0 struct -> 914 halos, 8000 clashes, 1795 piping  [49.3s]
+
+[25/38] row 26: DigitalHub_FM-LFT_v2.ifc — cached, skipping
+
+[26/38] row 27: DigitalHub_FM-SAN_v2.ifc (office, ~24.0 MB)
+    OK  504 MEP / 0 struct -> 504 halos, 3784 clashes, 1010 piping  [31.1s]
+
+[27/38] row 28: wbdg_office — Architecture (office, ~3.9 MB)
+    OK  0 MEP / 497 struct -> 0 halos, 0 clashes, 31 piping  [4.8s]
+
+[28/38] row 29: wbdg_office — MEP (office, ~40.0 MB)
+    OK  1959 MEP / 0 struct -> 1959 halos, 8256 clashes, 5697 piping  [162.1s]
+
+[29/38] row 30: wbdg_office — Structural (office, ~10.6 MB)
+    OK  0 MEP / 495 struct -> 0 halos, 0 clashes, 0 piping  [24.8s]
+
+[30/38] row 31: Molio_with_URIs.ifc (office, ~70.5 MB)
+    OK  0 MEP / 267 struct -> 0 halos, 0 clashes, 48 piping  [28.6s]
+
+[31/38] row 32: GVA Administrativo.ifc (office, ~6.9 MB)
+    DOWNLOAD_FAILED: download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certif
+
+[32/38] row 33: IFC Schependomlaan.ifc (office, ~47.0 MB)
+    OK  60 MEP / 1419 struct -> 60 halos, 407 clashes, 73 piping  [25.5s]
+
+[33/38] row 34: craslabbim.ifc (industrial, ~64.4 MB)
+    OK  0 MEP / 76 struct -> 0 halos, 0 clashes, 0 piping  [27.1s]
+
+[34/38] row 35: SGD_BODO_ifc.zip (ARC+PLB+VENT) (industrial, ~31.1 MB)
+    DOWNLOAD_FAILED: download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get loca
+
+[35/38] row 36: Academic_Autodesk_ifc.zip (Basic + Advanced) (industrial, ~7.0 MB)
+    DOWNLOAD_FAILED: download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get loca
+
+[36/38] row 37: Autodesk_210-King_ifc.zip (industrial, ~25.5 MB)
+    DOWNLOAD_FAILED: download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get loca
+
+[37/38] row 38: aisc_sculpture_brep.ifc — cached, skipping
+
+[38/38] row 39: aisc_sculpture_param.ifc — cached, skipping
+
+==============================================================================
+  PER-MODEL RESULTS
+==============================================================================
+    # category   model                             MEP   geom  halos  clash   pipe    mat  status
+    1 hospital   Clinic_Architectural.ifc            0   1617      0      0    102    102  ok
+    2 hospital   Clinic_Structural.ifc               0   1068      0      0      0      0  ok
+    3 hospital   Clinic_HVAC.ifc                  1548   1548   1548   3070   3704    502  ok
+    4 hospital   Clinic_Electrical.ifc               0      0      0      0   2089   2089  ok
+    5 hospital   Clinic_Plumbing.ifc              2893   2893   2893  15534   6587   6587  ok
+    6 hospital   west_riverside_hospital — Arch      0   8935      0      0      0      0  ok
+    7 hospital   west_riverside_hospital — Stru      0   2822      0      0      0      0  ok
+    8 hospital   west_riverside_hospital — Mech   8732   8732   8732  41128  17424      0  ok
+    9 hospital   west_riverside_hospital — Plum   4308   4308   4308  21800   8539      0  ok
+   10 hospital   west_riverside_hospital — Elec     84     84     84    178   1673    121  ok
+   11 hospital   west_riverside_hospital — Fire      0      0      0      0    861      1  ok
+   12 hospital   west_riverside_hospital — Spri   6228   6228   6228  17538  13490   1302  ok
+   13 hospital   west_riverside_hospital — Mech   8732   8732   8732  41174  18488      0  ok
+   14 hospital   west_riverside_hospital — Plum   4308   4308   4308  21800   9013    334  ok
+   15 hospital   NBU_MedicalClinic (zip: ARC+ME      0      0      0      0      0      0  download_failed
+      -> download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
+   16 hospital   GVA Sanitario.ifc                   0      0      0      0      0      0  download_failed
+      -> download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
+   18 office     Duplex_A_20110907.ifc               0     97      0      0      0      0  ok
+   19 office     Duplex_Electrical_20121207.ifc      0      0      0      0     99     99  ok
+   20 office     Duplex_MEP_20110907.ifc           427    427    427   2590    926    926  ok
+   21 office     Duplex_Plumbing_20121113.ifc      231    231    231   1528    498    498  ok
+   22 office     AC20-Institute-Var-2.ifc            0    149      0      0      0      0  ok
+   23 office     AC20-FZK-Haus.ifc                   0     63      0      0      0      0  ok
+   24 office     DigitalHub_FM-ARC_v2.ifc            0    357      0      0      0      0  ok
+   25 office     DigitalHub_FM-HZG_v2.ifc          914    914    914   8000   1795    881  ok
+   26 office     DigitalHub_FM-LFT_v2.ifc          595    595    595    906   1310   1310  ok
+   27 office     DigitalHub_FM-SAN_v2.ifc          504    504    504   3784   1010    506  ok
+   28 office     wbdg_office — Architecture          0    497      0      0     31     31  ok
+   29 office     wbdg_office — MEP                1959   1959   1959   8256   5697   5697  ok
+   30 office     wbdg_office — Structural            0    495      0      0      0      0  ok
+   31 office     Molio_with_URIs.ifc                 0    160      0      0     48      0  ok
+   32 office     GVA Administrativo.ifc              0      0      0      0      0      0  download_failed
+      -> download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
+   33 office     IFC Schependomlaan.ifc             60   1424     60    407     73     73  ok
+   34 industrial craslabbim.ifc                      0     76      0      0      0      0  ok
+   35 industrial SGD_BODO_ifc.zip (ARC+PLB+VENT      0      0      0      0      0      0  download_failed
+      -> download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
+   36 industrial Academic_Autodesk_ifc.zip (Bas      0      0      0      0      0      0  download_failed
+      -> download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
+   37 industrial Autodesk_210-King_ifc.zip           0      0      0      0      0      0  download_failed
+      -> download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
+   38 industrial aisc_sculpture_brep.ifc             0     87      0      0      0      0  ok
+   39 industrial aisc_sculpture_param.ifc            0     87      0      0      0      0  ok
+
+==============================================================================
+  AGGREGATE
+==============================================================================
+  models:            32/38 processed (6 failed)
+  MEP elements:      41,523 (41,523 with resolved geometry)
+  structural:        18,036 (17,874 with resolved geometry)
+  piping elements:   93,457 (21,059 carry material data)
+  halo volumes:      41,523
+  clashes:           187,693  {'minor': 181732, 'major': 5058, 'critical': 903}
+  wall clock:        1,634s
+
+==============================================================================
+  ENGINE STATUS
+==============================================================================
+  (flagged counts are only interpretable against material coverage above — see the module docstring)
+  GC-001: {'ok': 32}  flagged=0
+      reason: model carries no piping elements
+  CC-001: {'ok': 32}  flagged=93,457
+      reason: model carries no piping elements
+  MC-001: {'ok': 32}  flagged=93,457
+      reason: model carries no piping elements
+  MM-001: {'unavailable': 21, 'ok': 11}  flagged=0
+      reason: load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments',
+      reason: load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'media', 'compatibility_matrix', 'materials', 'e
+  XM-001: {'unavailable': 21, 'ok': 11}  flagged=0
+      reason: load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'couples', 'materials'
+      reason: load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'
+
+  Wrote validation_sweep_summary.json and validation_sweep_summary.txt
+  BCF files: data\validation_bcf/  |  per-model JSON: data\validation_results/

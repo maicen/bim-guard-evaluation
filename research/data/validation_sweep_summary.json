@@ -1,0 +1,3313 @@
+{
+  "totals": {
+    "models_total": 38,
+    "models_ok": 37,
+    "models_failed": 1,
+    "mep_elements": 49736,
+    "mep_with_geometry": 49736,
+    "structural_elements": 26970,
+    "structural_with_geometry": 26808,
+    "piping_elements": 116006,
+    "piping_with_material": 38012,
+    "piping_with_material_text": 0,
+    "legacy_material_records": 37,
+    "halos": 49736,
+    "clashes": 223516,
+    "clash_severity": {
+      "minor": 211581,
+      "major": 6699,
+      "critical": 5236
+    },
+    "engine_status": {
+      "GC-001": {
+        "ok": 37
+      },
+      "CC-001": {
+        "ok": 37
+      },
+      "MC-001": {
+        "ok": 37
+      },
+      "MM-001": {
+        "unavailable": 24,
+        "ok": 13
+      },
+      "XM-001": {
+        "unavailable": 24,
+        "ok": 13
+      }
+    },
+    "engine_findings": {
+      "GC-001": 0,
+      "CC-001": 116006,
+      "MC-001": 116006,
+      "MM-001": 0,
+      "XM-001": 0
+    },
+    "truncated_models": [],
+    "models_with_zero_geometry": [],
+    "seconds": 3593.7
+  },
+  "models": [
+    {
+      "row": 1,
+      "name": "Clinic_Architectural.ifc",
+      "category": "hospital",
+      "building_type": "Hospital (Medical-Dental Clinic, USA)",
+      "declared_size_mb": 12.4,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Medical-Dental%20Clinic/Clinic_Architectural.ifc",
+      "status": "ok",
+      "acquisition": "cached 13.0 MB",
+      "local_file": "data\\validation_models\\01_Clinic_Architectural_ifc.ifc",
+      "actual_size_mb": 13.0,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 1617,
+        "total_products": 3298,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 1617
+      },
+      "truncated": {},
+      "geometry_seconds": 2.2,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 102,
+      "media_seen": [
+        "stagnant_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 102
+          },
+          "reason": "",
+          "elements_scored": 102,
+          "elements_with_material": 102
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 102,
+          "bands": {
+            "Medium": 102
+          },
+          "reason": "",
+          "elements_scored": 102,
+          "elements_with_material": 102
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 102,
+          "bands": {
+            "Critical": 102
+          },
+          "reason": "",
+          "elements_scored": 102,
+          "elements_with_material": 102
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 102,
+          "elements_with_material": 102
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 102,
+          "elements_with_material": 102
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 102,
+        "with_material": 102
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\01_Clinic_Architectural_ifc.bcf",
+        "bytes": 598,
+        "entries": 2
+      },
+      "seconds": 5.0
+    },
+    {
+      "row": 2,
+      "name": "Clinic_Structural.ifc",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 18.18,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Medical-Dental%20Clinic/Clinic_Structural.ifc",
+      "status": "ok",
+      "acquisition": "cached 19.1 MB",
+      "local_file": "data\\validation_models\\02_Clinic_Structural_ifc.ifc",
+      "actual_size_mb": 19.06,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 1068,
+        "total_products": 1100,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 1068
+      },
+      "truncated": {},
+      "geometry_seconds": 19.5,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\02_Clinic_Structural_ifc.bcf",
+        "bytes": 599,
+        "entries": 2
+      },
+      "seconds": 22.7
+    },
+    {
+      "row": 3,
+      "name": "Clinic_HVAC.ifc",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 25.67,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Medical-Dental%20Clinic/Clinic_HVAC.ifc",
+      "status": "ok",
+      "acquisition": "cached 26.9 MB",
+      "local_file": "data\\validation_models\\03_Clinic_HVAC_ifc.ifc",
+      "actual_size_mb": 26.91,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 1548,
+        "structural": 0,
+        "total_products": 11363,
+        "mep_with_geometry": 1548,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 11.9,
+      "halos": 1548,
+      "clashes": 3070,
+      "clash_severity": {
+        "minor": 2760,
+        "major": 308,
+        "critical": 2
+      },
+      "piping_elements": 3704,
+      "media_seen": [
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 3704
+          },
+          "reason": "",
+          "elements_scored": 3704,
+          "elements_with_material": 502
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 3704,
+          "bands": {
+            "Medium": 3704
+          },
+          "reason": "",
+          "elements_scored": 3704,
+          "elements_with_material": 502
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 3704,
+          "bands": {
+            "Critical": 3665,
+            "High": 39
+          },
+          "reason": "",
+          "elements_scored": 3704,
+          "elements_with_material": 502
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 3704,
+          "elements_with_material": 502
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 3704,
+          "elements_with_material": 502
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 3704,
+        "with_material": 502
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\03_Clinic_HVAC_ifc.bcf",
+        "bytes": 5806134,
+        "entries": 9212
+      },
+      "seconds": 50.6
+    },
+    {
+      "row": 4,
+      "name": "Clinic_Electrical.ifc",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 6.49,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Medical-Dental%20Clinic/Clinic_Electrical.ifc",
+      "status": "ok",
+      "acquisition": "cached 6.8 MB",
+      "local_file": "data\\validation_models\\04_Clinic_Electrical_ifc.ifc",
+      "actual_size_mb": 6.8,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 0,
+        "total_products": 2389,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 0.0,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 2089,
+      "media_seen": [
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 2089
+          },
+          "reason": "",
+          "elements_scored": 2089,
+          "elements_with_material": 2089
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 2089,
+          "bands": {
+            "Medium": 2089
+          },
+          "reason": "",
+          "elements_scored": 2089,
+          "elements_with_material": 2089
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 2089,
+          "bands": {
+            "Critical": 2089
+          },
+          "reason": "",
+          "elements_scored": 2089,
+          "elements_with_material": 2089
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 2089,
+          "elements_with_material": 2089
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 2089,
+          "elements_with_material": 2089
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 2089,
+        "with_material": 2089
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\04_Clinic_Electrical_ifc.bcf",
+        "bytes": 597,
+        "entries": 2
+      },
+      "seconds": 26.3
+    },
+    {
+      "row": 5,
+      "name": "Clinic_Plumbing.ifc",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 53.25,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Medical-Dental%20Clinic/Clinic_Plumbing.ifc",
+      "status": "ok",
+      "acquisition": "cached 55.8 MB",
+      "local_file": "data\\validation_models\\05_Clinic_Plumbing_ifc.ifc",
+      "actual_size_mb": 55.83,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 2893,
+        "structural": 0,
+        "total_products": 19650,
+        "mep_with_geometry": 2893,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 4.0,
+      "halos": 2893,
+      "clashes": 15534,
+      "clash_severity": {
+        "minor": 15479,
+        "major": 55
+      },
+      "piping_elements": 6587,
+      "media_seen": [
+        "cold_water",
+        "foul_water",
+        "hot_water",
+        "rainwater",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 6587
+          },
+          "reason": "",
+          "elements_scored": 6587,
+          "elements_with_material": 6587
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 6587,
+          "bands": {
+            "Medium": 6587
+          },
+          "reason": "",
+          "elements_scored": 6587,
+          "elements_with_material": 6587
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 6587,
+          "bands": {
+            "Critical": 6107,
+            "High": 480
+          },
+          "reason": "",
+          "elements_scored": 6587,
+          "elements_with_material": 6587
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 6587,
+          "elements_with_material": 6587
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 6587,
+          "elements_with_material": 6587
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 6587,
+        "with_material": 6587
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\05_Clinic_Plumbing_ifc.bcf",
+        "bytes": 29421384,
+        "entries": 46604
+      },
+      "seconds": 116.7
+    },
+    {
+      "row": 6,
+      "name": "west_riverside_hospital \u2014 Architecture (IFC4)",
+      "category": "hospital",
+      "building_type": "Hospital, 8-storey (Singapore-donated project)",
+      "declared_size_mb": 77.19,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/west_riverside_hospital/arc_ifc4.ifc",
+      "status": "ok",
+      "acquisition": "cached 80.9 MB",
+      "local_file": "data\\validation_models\\06_west_riverside_hospital_Architecture_IFC4.ifc",
+      "actual_size_mb": 80.94,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 0,
+        "structural": 8935,
+        "total_products": 15316,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 8935
+      },
+      "truncated": {},
+      "geometry_seconds": 35.3,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\06_west_riverside_hospital_Architecture_IFC4.bcf",
+        "bytes": 616,
+        "entries": 2
+      },
+      "seconds": 60.8
+    },
+    {
+      "row": 7,
+      "name": "west_riverside_hospital \u2014 Structural (IFC4)",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 6.18,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/west_riverside_hospital/str_ifc4.ifc",
+      "status": "ok",
+      "acquisition": "cached 6.5 MB",
+      "local_file": "data\\validation_models\\07_west_riverside_hospital_Structural_IFC4.ifc",
+      "actual_size_mb": 6.48,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 0,
+        "structural": 2822,
+        "total_products": 2915,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 2822
+      },
+      "truncated": {},
+      "geometry_seconds": 21.7,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\07_west_riverside_hospital_Structural_IFC4.bcf",
+        "bytes": 616,
+        "entries": 2
+      },
+      "seconds": 25.6
+    },
+    {
+      "row": 8,
+      "name": "west_riverside_hospital \u2014 Mechanical/HVAC (IFC4)",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 69.66,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/west_riverside_hospital/mech_ifc4.ifc",
+      "status": "ok",
+      "acquisition": "cached 73.0 MB",
+      "local_file": "data\\validation_models\\08_west_riverside_hospital_Mechanical_HVAC_IFC4.ifc",
+      "actual_size_mb": 73.05,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 8732,
+        "structural": 0,
+        "total_products": 59215,
+        "mep_with_geometry": 8732,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 48.7,
+      "halos": 8732,
+      "clashes": 41128,
+      "clash_severity": {
+        "minor": 38705,
+        "major": 1978,
+        "critical": 445
+      },
+      "piping_elements": 17424,
+      "media_seen": [
+        "cold_water",
+        "hot_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 17424
+          },
+          "reason": "",
+          "elements_scored": 17424,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 17424,
+          "bands": {
+            "Medium": 17424
+          },
+          "reason": "",
+          "elements_scored": 17424,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 17424,
+          "bands": {
+            "Critical": 17424
+          },
+          "reason": "",
+          "elements_scored": 17424,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 17424,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 17424,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 17424,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\08_west_riverside_hospital_Mechanical_HVAC_IFC4.bcf",
+        "bytes": 77806873,
+        "entries": 123386
+      },
+      "seconds": 265.1
+    },
+    {
+      "row": 9,
+      "name": "west_riverside_hospital \u2014 Plumbing (IFC4)",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 22.66,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/west_riverside_hospital/plumb_ifc4.ifc",
+      "status": "ok",
+      "acquisition": "cached 23.8 MB",
+      "local_file": "data\\validation_models\\09_west_riverside_hospital_Plumbing_IFC4.ifc",
+      "actual_size_mb": 23.76,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 4308,
+        "structural": 0,
+        "total_products": 26942,
+        "mep_with_geometry": 4308,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 5.5,
+      "halos": 4308,
+      "clashes": 21800,
+      "clash_severity": {
+        "minor": 21702,
+        "major": 98
+      },
+      "piping_elements": 8539,
+      "media_seen": [
+        "cold_water",
+        "hot_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 8539
+          },
+          "reason": "",
+          "elements_scored": 8539,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 8539,
+          "bands": {
+            "Medium": 8539
+          },
+          "reason": "",
+          "elements_scored": 8539,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 8539,
+          "bands": {
+            "Critical": 8539
+          },
+          "reason": "",
+          "elements_scored": 8539,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 8539,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 8539,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 8539,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\09_west_riverside_hospital_Plumbing_IFC4.bcf",
+        "bytes": 41143663,
+        "entries": 65402
+      },
+      "seconds": 104.8
+    },
+    {
+      "row": 10,
+      "name": "west_riverside_hospital \u2014 Electrical (IFC4)",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 4.23,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/west_riverside_hospital/elec_ifc4.ifc",
+      "status": "ok",
+      "acquisition": "cached 4.4 MB",
+      "local_file": "data\\validation_models\\10_west_riverside_hospital_Electrical_IFC4.ifc",
+      "actual_size_mb": 4.44,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 84,
+        "structural": 0,
+        "total_products": 6305,
+        "mep_with_geometry": 84,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 0.6,
+      "halos": 84,
+      "clashes": 178,
+      "clash_severity": {
+        "minor": 142,
+        "major": 36
+      },
+      "piping_elements": 1673,
+      "media_seen": [
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 1673
+          },
+          "reason": "",
+          "elements_scored": 1673,
+          "elements_with_material": 121
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 1673,
+          "bands": {
+            "Medium": 1673
+          },
+          "reason": "",
+          "elements_scored": 1673,
+          "elements_with_material": 121
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 1673,
+          "bands": {
+            "Critical": 1673
+          },
+          "reason": "",
+          "elements_scored": 1673,
+          "elements_with_material": 121
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 1673,
+          "elements_with_material": 121
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 1673,
+          "elements_with_material": 121
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 1673,
+        "with_material": 121
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\10_west_riverside_hospital_Electrical_IFC4.bcf",
+        "bytes": 339624,
+        "entries": 536
+      },
+      "seconds": 13.9
+    },
+    {
+      "row": 11,
+      "name": "west_riverside_hospital \u2014 Fire Alarm (IFC4)",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 0.86,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/west_riverside_hospital/fire_ifc4.ifc",
+      "status": "ok",
+      "acquisition": "cached 0.9 MB",
+      "local_file": "data\\validation_models\\11_west_riverside_hospital_Fire_Alarm_IFC4.ifc",
+      "actual_size_mb": 0.91,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 0,
+        "structural": 0,
+        "total_products": 874,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 0.0,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 861,
+      "media_seen": [
+        "stagnant_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 861
+          },
+          "reason": "",
+          "elements_scored": 861,
+          "elements_with_material": 1
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 861,
+          "bands": {
+            "Medium": 861
+          },
+          "reason": "",
+          "elements_scored": 861,
+          "elements_with_material": 1
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 861,
+          "bands": {
+            "Critical": 861
+          },
+          "reason": "",
+          "elements_scored": 861,
+          "elements_with_material": 1
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'media', 'compatibility_matrix', 'materials', 'environments'}",
+          "elements_scored": 861,
+          "elements_with_material": 1
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'couples', 'materials'}",
+          "elements_scored": 861,
+          "elements_with_material": 1
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 861,
+        "with_material": 1
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\11_west_riverside_hospital_Fire_Alarm_IFC4.bcf",
+        "bytes": 615,
+        "entries": 2
+      },
+      "seconds": 4.3
+    },
+    {
+      "row": 12,
+      "name": "west_riverside_hospital \u2014 Sprinklers (IFC4)",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 32.42,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/west_riverside_hospital/sprinkle_ifc4.ifc",
+      "status": "ok",
+      "acquisition": "cached 34.0 MB",
+      "local_file": "data\\validation_models\\12_west_riverside_hospital_Sprinklers_IFC4.ifc",
+      "actual_size_mb": 33.99,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 304.8,
+      "counts": {
+        "mep": 6228,
+        "structural": 0,
+        "total_products": 38255,
+        "mep_with_geometry": 6228,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 8.2,
+      "halos": 6228,
+      "clashes": 17538,
+      "clash_severity": {
+        "minor": 17494,
+        "major": 44
+      },
+      "piping_elements": 13490,
+      "media_seen": [
+        "stagnant_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 13490
+          },
+          "reason": "",
+          "elements_scored": 13490,
+          "elements_with_material": 1302
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 13490,
+          "bands": {
+            "Medium": 13490
+          },
+          "reason": "",
+          "elements_scored": 13490,
+          "elements_with_material": 1302
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 13490,
+          "bands": {
+            "Critical": 13490
+          },
+          "reason": "",
+          "elements_scored": 13490,
+          "elements_with_material": 1302
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 13490,
+          "elements_with_material": 1302
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 13490,
+          "elements_with_material": 1302
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 13490,
+        "with_material": 1302
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\12_west_riverside_hospital_Sprinklers_IFC4.bcf",
+        "bytes": 33085232,
+        "entries": 52616
+      },
+      "seconds": 124.0
+    },
+    {
+      "row": 13,
+      "name": "west_riverside_hospital \u2014 Mechanical (IFC2X3 twin)",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 75.12,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/west_riverside_hospital/mech_ifc2x3.ifc",
+      "status": "ok",
+      "acquisition": "cached 78.8 MB",
+      "local_file": "data\\validation_models\\13_west_riverside_hospital_Mechanical_IFC2X3_twin.ifc",
+      "actual_size_mb": 78.76,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 8732,
+        "structural": 0,
+        "total_products": 59215,
+        "mep_with_geometry": 8732,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 46.1,
+      "halos": 8732,
+      "clashes": 41174,
+      "clash_severity": {
+        "minor": 38751,
+        "major": 1978,
+        "critical": 445
+      },
+      "piping_elements": 18488,
+      "media_seen": [
+        "cold_water",
+        "hot_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 18488
+          },
+          "reason": "",
+          "elements_scored": 18488,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 18488,
+          "bands": {
+            "Medium": 18488
+          },
+          "reason": "",
+          "elements_scored": 18488,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 18488,
+          "bands": {
+            "Critical": 18488
+          },
+          "reason": "",
+          "elements_scored": 18488,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 18488,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 18488,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 18488,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\13_west_riverside_hospital_Mechanical_IFC2X3_twin.bcf",
+        "bytes": 77850059,
+        "entries": 123524
+      },
+      "seconds": 249.5
+    },
+    {
+      "row": 14,
+      "name": "west_riverside_hospital \u2014 Plumbing (IFC2X3 twin)",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 23.84,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/west_riverside_hospital/plumb_ifc2x3.ifc",
+      "status": "ok",
+      "acquisition": "cached 25.0 MB",
+      "local_file": "data\\validation_models\\14_west_riverside_hospital_Plumbing_IFC2X3_twin.ifc",
+      "actual_size_mb": 25.0,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 4308,
+        "structural": 0,
+        "total_products": 26942,
+        "mep_with_geometry": 4308,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 5.0,
+      "halos": 4308,
+      "clashes": 21800,
+      "clash_severity": {
+        "minor": 21702,
+        "major": 98
+      },
+      "piping_elements": 9013,
+      "media_seen": [
+        "cold_water",
+        "hot_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 9013
+          },
+          "reason": "",
+          "elements_scored": 9013,
+          "elements_with_material": 334
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 9013,
+          "bands": {
+            "Medium": 9013
+          },
+          "reason": "",
+          "elements_scored": 9013,
+          "elements_with_material": 334
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 9013,
+          "bands": {
+            "Critical": 9013
+          },
+          "reason": "",
+          "elements_scored": 9013,
+          "elements_with_material": 334
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 9013,
+          "elements_with_material": 334
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 9013,
+          "elements_with_material": 334
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 9013,
+        "with_material": 334
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\14_west_riverside_hospital_Plumbing_IFC2X3_twin.bcf",
+        "bytes": 41128420,
+        "entries": 65402
+      },
+      "seconds": 109.7
+    },
+    {
+      "row": 15,
+      "name": "NBU_MedicalClinic (zip: ARC+MEP+HVAC+ELE+STR)",
+      "category": "hospital",
+      "building_type": "Hospital",
+      "declared_size_mb": 78.9,
+      "url": "https://tib.eu/data/duraark/BuildingData/01_IFC/NBU_MedicalClinic_ifc.zip",
+      "status": "ok",
+      "acquisition": "extracted largest .ifc from zip: NBU_MedicalClinic_Eng-MEP.ifc",
+      "local_file": "data\\validation_models\\15_NBU_MedicalClinic_zip_ARC_MEP_HVAC_ELE_STR\\NBU_MedicalClinic_Eng-MEP.ifc",
+      "actual_size_mb": 207.34,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 5952,
+        "structural": 0,
+        "total_products": 16544,
+        "mep_with_geometry": 5952,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 94.7,
+      "halos": 5952,
+      "clashes": 27472,
+      "clash_severity": {
+        "minor": 26595,
+        "major": 846,
+        "critical": 31
+      },
+      "piping_elements": 16012,
+      "media_seen": [
+        "cold_water",
+        "foul_water",
+        "hot_water",
+        "rainwater",
+        "stagnant_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 16012
+          },
+          "reason": "",
+          "elements_scored": 16012,
+          "elements_with_material": 16008
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 16012,
+          "bands": {
+            "Medium": 16012
+          },
+          "reason": "",
+          "elements_scored": 16012,
+          "elements_with_material": 16008
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 16012,
+          "bands": {
+            "Critical": 16012
+          },
+          "reason": "",
+          "elements_scored": 16012,
+          "elements_with_material": 16008
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'materials', 'environments', 'media', 'compatibility_matrix'}",
+          "elements_scored": 16012,
+          "elements_with_material": 16008
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'couples', 'environment_thresholds', 'materials'}",
+          "elements_scored": 16012,
+          "elements_with_material": 16008
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 16012,
+        "with_material": 16008
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\15_NBU_MedicalClinic_zip_ARC_MEP_HVAC_ELE_STR.bcf",
+        "bytes": 52259784,
+        "entries": 82418
+      },
+      "seconds": 632.6
+    },
+    {
+      "row": 16,
+      "name": "GVA Sanitario.ifc",
+      "category": "hospital",
+      "building_type": "Hospital (Spain, government BIM manual example)",
+      "declared_size_mb": 6.64,
+      "url": "https://habitatge.gva.es/documents/20051105/383348948/04N02-36_GVA_NNN-NNN_AR_M3D_NN_03_Sanitario.ifc/76be347a-fca8-5fd2-9697-a8725a28e5a0",
+      "status": "ok",
+      "acquisition": "cached 7.0 MB",
+      "local_file": "data\\validation_models\\16_GVA_Sanitario_ifc.ifc",
+      "actual_size_mb": 6.96,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 664,
+        "total_products": 1546,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 664
+      },
+      "truncated": {},
+      "geometry_seconds": 0.8,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\16_GVA_Sanitario_ifc.bcf",
+        "bytes": 594,
+        "entries": 2
+      },
+      "seconds": 5.9
+    },
+    {
+      "row": 18,
+      "name": "Duplex_A_20110907.ifc",
+      "category": "office",
+      "building_type": "Residential/office test building (widely used as a generic coordination benchmark)",
+      "declared_size_mb": 2.27,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Duplex%20Apartment/Duplex_A_20110907.ifc",
+      "status": "ok",
+      "acquisition": "cached 2.4 MB",
+      "local_file": "data\\validation_models\\18_Duplex_A_20110907_ifc.ifc",
+      "actual_size_mb": 2.38,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 97,
+        "total_products": 295,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 97
+      },
+      "truncated": {},
+      "geometry_seconds": 0.5,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\18_Duplex_A_20110907_ifc.bcf",
+        "bytes": 601,
+        "entries": 2
+      },
+      "seconds": 2.0
+    },
+    {
+      "row": 19,
+      "name": "Duplex_Electrical_20121207.ifc",
+      "category": "office",
+      "building_type": "Same building",
+      "declared_size_mb": 1.53,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Duplex%20Apartment/Duplex_Electrical_20121207.ifc",
+      "status": "ok",
+      "acquisition": "cached 1.6 MB",
+      "local_file": "data\\validation_models\\19_Duplex_Electrical_20121207_ifc.ifc",
+      "actual_size_mb": 1.6,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 304.8,
+      "counts": {
+        "mep": 0,
+        "structural": 0,
+        "total_products": 109,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 0.0,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 99,
+      "media_seen": [
+        "hot_water",
+        "stagnant_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 99
+          },
+          "reason": "",
+          "elements_scored": 99,
+          "elements_with_material": 99
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 99,
+          "bands": {
+            "Medium": 99
+          },
+          "reason": "",
+          "elements_scored": 99,
+          "elements_with_material": 99
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 99,
+          "bands": {
+            "Critical": 99
+          },
+          "reason": "",
+          "elements_scored": 99,
+          "elements_with_material": 99
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 99,
+          "elements_with_material": 99
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 99,
+          "elements_with_material": 99
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 99,
+        "with_material": 99
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\19_Duplex_Electrical_20121207_ifc.bcf",
+        "bytes": 605,
+        "entries": 2
+      },
+      "seconds": 2.1
+    },
+    {
+      "row": 20,
+      "name": "Duplex_MEP_20110907.ifc",
+      "category": "office",
+      "building_type": "Same building",
+      "declared_size_mb": 17.04,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Duplex%20Apartment/Duplex_MEP_20110907.ifc",
+      "status": "ok",
+      "acquisition": "cached 17.9 MB",
+      "local_file": "data\\validation_models\\20_Duplex_MEP_20110907_ifc.ifc",
+      "actual_size_mb": 17.87,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 427,
+        "structural": 0,
+        "total_products": 973,
+        "mep_with_geometry": 427,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 4.8,
+      "halos": 427,
+      "clashes": 2590,
+      "clash_severity": {
+        "minor": 2590
+      },
+      "piping_elements": 926,
+      "media_seen": [
+        "cold_water",
+        "foul_water",
+        "hot_water",
+        "stagnant_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 926
+          },
+          "reason": "",
+          "elements_scored": 926,
+          "elements_with_material": 926
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 926,
+          "bands": {
+            "Medium": 926
+          },
+          "reason": "",
+          "elements_scored": 926,
+          "elements_with_material": 926
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 926,
+          "bands": {
+            "Critical": 926
+          },
+          "reason": "",
+          "elements_scored": 926,
+          "elements_with_material": 926
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'media', 'materials', 'environments', 'compatibility_matrix'}",
+          "elements_scored": 926,
+          "elements_with_material": 926
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'materials', 'environment_thresholds', 'couples'}",
+          "elements_scored": 926,
+          "elements_with_material": 926
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 926,
+        "with_material": 926
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\20_Duplex_MEP_20110907_ifc.bcf",
+        "bytes": 4923726,
+        "entries": 7772
+      },
+      "seconds": 22.8
+    },
+    {
+      "row": 21,
+      "name": "Duplex_Plumbing_20121113.ifc",
+      "category": "office",
+      "building_type": "Same building",
+      "declared_size_mb": 30.09,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Duplex%20Apartment/Duplex_Plumbing_20121113.ifc",
+      "status": "ok",
+      "acquisition": "cached 31.6 MB",
+      "local_file": "data\\validation_models\\21_Duplex_Plumbing_20121113_ifc.ifc",
+      "actual_size_mb": 31.56,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 231,
+        "structural": 0,
+        "total_products": 1474,
+        "mep_with_geometry": 231,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 0.3,
+      "halos": 231,
+      "clashes": 1528,
+      "clash_severity": {
+        "minor": 1528
+      },
+      "piping_elements": 498,
+      "media_seen": [
+        "cold_water",
+        "foul_water",
+        "hot_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 498
+          },
+          "reason": "",
+          "elements_scored": 498,
+          "elements_with_material": 498
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 498,
+          "bands": {
+            "Medium": 498
+          },
+          "reason": "",
+          "elements_scored": 498,
+          "elements_with_material": 498
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 498,
+          "bands": {
+            "Critical": 452,
+            "High": 46
+          },
+          "reason": "",
+          "elements_scored": 498,
+          "elements_with_material": 498
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 498,
+          "elements_with_material": 498
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 498,
+          "elements_with_material": 498
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 498,
+        "with_material": 498
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\21_Duplex_Plumbing_20121113_ifc.bcf",
+        "bytes": 2885965,
+        "entries": 4586
+      },
+      "seconds": 20.2
+    },
+    {
+      "row": 22,
+      "name": "AC20-Institute-Var-2.ifc",
+      "category": "office",
+      "building_type": "Office/Institute building (Germany)",
+      "declared_size_mb": 10.43,
+      "url": "http://www.ifcwiki.org/images/9/98/AC20-Institute-Var-2.ifc",
+      "status": "ok",
+      "acquisition": "cached 10.9 MB",
+      "local_file": "data\\validation_models\\22_AC20_Institute_Var_2_ifc.ifc",
+      "actual_size_mb": 10.93,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 149,
+        "total_products": 1190,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 149
+      },
+      "truncated": {},
+      "geometry_seconds": 5.1,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\22_AC20_Institute_Var_2_ifc.bcf",
+        "bytes": 600,
+        "entries": 2
+      },
+      "seconds": 10.1
+    },
+    {
+      "row": 23,
+      "name": "AC20-FZK-Haus.ifc",
+      "category": "office",
+      "building_type": "Small office/house test model (Germany)",
+      "declared_size_mb": 2.45,
+      "url": "http://www.ifcwiki.org/images/e/e3/AC20-FZK-Haus.ifc",
+      "status": "ok",
+      "acquisition": "cached 2.6 MB",
+      "local_file": "data\\validation_models\\23_AC20_FZK_Haus_ifc.ifc",
+      "actual_size_mb": 2.57,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 63,
+        "total_products": 127,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 63
+      },
+      "truncated": {},
+      "geometry_seconds": 4.2,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\23_AC20_FZK_Haus_ifc.bcf",
+        "bytes": 597,
+        "entries": 2
+      },
+      "seconds": 6.0
+    },
+    {
+      "row": 24,
+      "name": "DigitalHub_FM-ARC_v2.ifc",
+      "category": "office",
+      "building_type": "Office (RWTH Aachen \"Digital Hub\")",
+      "declared_size_mb": 8.6,
+      "url": "https://raw.githubusercontent.com/RWTH-E3D/DigitalHub/master/Version_2/DigitalHub_FM-ARC_v2.ifc",
+      "status": "ok",
+      "acquisition": "cached 9.0 MB",
+      "local_file": "data\\validation_models\\24_DigitalHub_FM_ARC_v2_ifc.ifc",
+      "actual_size_mb": 9.02,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 357,
+        "total_products": 1026,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 357
+      },
+      "truncated": {},
+      "geometry_seconds": 8.5,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\24_DigitalHub_FM_ARC_v2_ifc.bcf",
+        "bytes": 605,
+        "entries": 2
+      },
+      "seconds": 12.1
+    },
+    {
+      "row": 25,
+      "name": "DigitalHub_FM-HZG_v2.ifc",
+      "category": "office",
+      "building_type": "Office",
+      "declared_size_mb": 19.92,
+      "url": "https://raw.githubusercontent.com/RWTH-E3D/DigitalHub/master/Version_2/DigitalHub_FM-HZG_v2.ifc",
+      "status": "ok",
+      "acquisition": "cached 20.9 MB",
+      "local_file": "data\\validation_models\\25_DigitalHub_FM_HZG_v2_ifc.ifc",
+      "actual_size_mb": 20.89,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 914,
+        "structural": 0,
+        "total_products": 5560,
+        "mep_with_geometry": 914,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 11.3,
+      "halos": 914,
+      "clashes": 8000,
+      "clash_severity": {
+        "minor": 8000
+      },
+      "piping_elements": 1795,
+      "media_seen": [
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 1795
+          },
+          "reason": "",
+          "elements_scored": 1795,
+          "elements_with_material": 881
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 1795,
+          "bands": {
+            "Medium": 1795
+          },
+          "reason": "",
+          "elements_scored": 1795,
+          "elements_with_material": 881
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 1795,
+          "bands": {
+            "Critical": 1795
+          },
+          "reason": "",
+          "elements_scored": 1795,
+          "elements_with_material": 881
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 1795,
+          "elements_with_material": 881
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 1795,
+          "elements_with_material": 881
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 1795,
+        "with_material": 881
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\25_DigitalHub_FM_HZG_v2_ifc.bcf",
+        "bytes": 15153503,
+        "entries": 24002
+      },
+      "seconds": 49.3
+    },
+    {
+      "row": 26,
+      "name": "DigitalHub_FM-LFT_v2.ifc",
+      "category": "office",
+      "building_type": "Office",
+      "declared_size_mb": 12.15,
+      "url": "https://raw.githubusercontent.com/RWTH-E3D/DigitalHub/master/Version_2/DigitalHub_FM-LFT_v2.ifc",
+      "status": "ok",
+      "acquisition": "cached 12.7 MB",
+      "local_file": "data\\validation_models\\26_DigitalHub_FM_LFT_v2_ifc.ifc",
+      "actual_size_mb": 12.74,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 595,
+        "structural": 0,
+        "total_products": 3971,
+        "mep_with_geometry": 595,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 3.1,
+      "halos": 595,
+      "clashes": 906,
+      "clash_severity": {
+        "minor": 797,
+        "major": 109
+      },
+      "piping_elements": 1310,
+      "media_seen": [
+        "hot_water",
+        "stagnant_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 1310
+          },
+          "reason": "",
+          "elements_scored": 1310,
+          "elements_with_material": 1310
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 1310,
+          "bands": {
+            "Medium": 1310
+          },
+          "reason": "",
+          "elements_scored": 1310,
+          "elements_with_material": 1310
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 1310,
+          "bands": {
+            "Critical": 1310
+          },
+          "reason": "",
+          "elements_scored": 1310,
+          "elements_with_material": 1310
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'media', 'materials', 'environments', 'compatibility_matrix'}",
+          "elements_scored": 1310,
+          "elements_with_material": 1310
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'materials', 'environment_thresholds', 'couples'}",
+          "elements_scored": 1310,
+          "elements_with_material": 1310
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 1310,
+        "with_material": 1310
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\26_DigitalHub_FM_LFT_v2_ifc.bcf",
+        "bytes": 1713622,
+        "entries": 2720
+      },
+      "seconds": 22.9
+    },
+    {
+      "row": 27,
+      "name": "DigitalHub_FM-SAN_v2.ifc",
+      "category": "office",
+      "building_type": "Office",
+      "declared_size_mb": 24.01,
+      "url": "https://raw.githubusercontent.com/RWTH-E3D/DigitalHub/master/Version_2/DigitalHub_FM-SAN_v2.ifc",
+      "status": "ok",
+      "acquisition": "cached 25.2 MB",
+      "local_file": "data\\validation_models\\27_DigitalHub_FM_SAN_v2_ifc.ifc",
+      "actual_size_mb": 25.18,
+      "schema": "IFC4",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 504,
+        "structural": 0,
+        "total_products": 3120,
+        "mep_with_geometry": 504,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 6.9,
+      "halos": 504,
+      "clashes": 3784,
+      "clash_severity": {
+        "minor": 3756,
+        "major": 28
+      },
+      "piping_elements": 1010,
+      "media_seen": [
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 1010
+          },
+          "reason": "",
+          "elements_scored": 1010,
+          "elements_with_material": 506
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 1010,
+          "bands": {
+            "Medium": 1010
+          },
+          "reason": "",
+          "elements_scored": 1010,
+          "elements_with_material": 506
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 1010,
+          "bands": {
+            "Critical": 1010
+          },
+          "reason": "",
+          "elements_scored": 1010,
+          "elements_with_material": 506
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 1010,
+          "elements_with_material": 506
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 1010,
+          "elements_with_material": 506
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 1010,
+        "with_material": 506
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\27_DigitalHub_FM_SAN_v2_ifc.bcf",
+        "bytes": 7148456,
+        "entries": 11354
+      },
+      "seconds": 31.1
+    },
+    {
+      "row": 28,
+      "name": "wbdg_office \u2014 Architecture",
+      "category": "office",
+      "building_type": "Office (2-story, US mid-size office prototype)",
+      "declared_size_mb": 3.91,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/wbdg_office/arc.ifc",
+      "status": "ok",
+      "acquisition": "cached 4.1 MB",
+      "local_file": "data\\validation_models\\28_wbdg_office_Architecture.ifc",
+      "actual_size_mb": 4.1,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 497,
+        "total_products": 1090,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 497
+      },
+      "truncated": {},
+      "geometry_seconds": 1.6,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 31,
+      "media_seen": [
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 31
+          },
+          "reason": "",
+          "elements_scored": 31,
+          "elements_with_material": 31
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 31,
+          "bands": {
+            "Medium": 31
+          },
+          "reason": "",
+          "elements_scored": 31,
+          "elements_with_material": 31
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 31,
+          "bands": {
+            "Critical": 31
+          },
+          "reason": "",
+          "elements_scored": 31,
+          "elements_with_material": 31
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 31,
+          "elements_with_material": 31
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 31,
+          "elements_with_material": 31
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 31,
+        "with_material": 31
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\28_wbdg_office_Architecture.bcf",
+        "bytes": 600,
+        "entries": 2
+      },
+      "seconds": 4.8
+    },
+    {
+      "row": 29,
+      "name": "wbdg_office \u2014 MEP",
+      "category": "office",
+      "building_type": "Office",
+      "declared_size_mb": 39.95,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/wbdg_office/mep.ifc",
+      "status": "ok",
+      "acquisition": "cached 41.9 MB",
+      "local_file": "data\\validation_models\\29_wbdg_office_MEP.ifc",
+      "actual_size_mb": 41.89,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 1959,
+        "structural": 0,
+        "total_products": 5900,
+        "mep_with_geometry": 1959,
+        "structural_with_geometry": 0
+      },
+      "truncated": {},
+      "geometry_seconds": 30.6,
+      "halos": 1959,
+      "clashes": 8256,
+      "clash_severity": {
+        "minor": 8047,
+        "major": 202,
+        "critical": 7
+      },
+      "piping_elements": 5697,
+      "media_seen": [
+        "cold_water",
+        "foul_water",
+        "hot_water",
+        "rainwater",
+        "stagnant_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 5697
+          },
+          "reason": "",
+          "elements_scored": 5697,
+          "elements_with_material": 5697
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 5697,
+          "bands": {
+            "Medium": 5697
+          },
+          "reason": "",
+          "elements_scored": 5697,
+          "elements_with_material": 5697
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 5697,
+          "bands": {
+            "Critical": 5002,
+            "High": 695
+          },
+          "reason": "",
+          "elements_scored": 5697,
+          "elements_with_material": 5697
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 5697,
+          "elements_with_material": 5697
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 5697,
+          "elements_with_material": 5697
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 5697,
+        "with_material": 5697
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\29_wbdg_office_MEP.bcf",
+        "bytes": 15701208,
+        "entries": 24770
+      },
+      "seconds": 162.1
+    },
+    {
+      "row": 30,
+      "name": "wbdg_office \u2014 Structural",
+      "category": "office",
+      "building_type": "Office",
+      "declared_size_mb": 10.55,
+      "url": "https://huggingface.co/datasets/sylvainHellin/ifc-bench/resolve/main/projects/wbdg_office/str.ifc",
+      "status": "ok",
+      "acquisition": "cached 11.1 MB",
+      "local_file": "data\\validation_models\\30_wbdg_office_Structural.ifc",
+      "actual_size_mb": 11.07,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 495,
+        "total_products": 508,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 495
+      },
+      "truncated": {},
+      "geometry_seconds": 19.9,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\30_wbdg_office_Structural.bcf",
+        "bytes": 602,
+        "entries": 2
+      },
+      "seconds": 24.8
+    },
+    {
+      "row": 31,
+      "name": "Molio_with_URIs.ifc",
+      "category": "office",
+      "building_type": "Office (Denmark, Molio national BIM standards body)",
+      "declared_size_mb": 70.52,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Molio/Molio_with_URIs.ifc",
+      "status": "ok",
+      "acquisition": "cached 73.9 MB",
+      "local_file": "data\\validation_models\\31_Molio_with_URIs_ifc.ifc",
+      "actual_size_mb": 73.95,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 0,
+        "structural": 267,
+        "total_products": 4192,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 160
+      },
+      "truncated": {},
+      "geometry_seconds": 1.4,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 48,
+      "media_seen": [
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 48
+          },
+          "reason": "",
+          "elements_scored": 48,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 48,
+          "bands": {
+            "Medium": 48
+          },
+          "reason": "",
+          "elements_scored": 48,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 48,
+          "bands": {
+            "Critical": 48
+          },
+          "reason": "",
+          "elements_scored": 48,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 48,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 48,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 48,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\31_Molio_with_URIs_ifc.bcf",
+        "bytes": 597,
+        "entries": 2
+      },
+      "seconds": 28.6
+    },
+    {
+      "row": 32,
+      "name": "GVA Administrativo.ifc",
+      "category": "office",
+      "building_type": "Office (Spain, government BIM manual example)",
+      "declared_size_mb": 6.88,
+      "url": "https://habitatge.gva.es/documents/20051105/383348948/04N02-36_GVA_NNN-NNN_AR_M3D_NN_02_Administrativo.ifc/1c551e67-9e95-62de-5964-3114f594202b",
+      "status": "ok",
+      "acquisition": "cached 7.2 MB",
+      "local_file": "data\\validation_models\\32_GVA_Administrativo_ifc.ifc",
+      "actual_size_mb": 7.21,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 338,
+        "total_products": 1452,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 338
+      },
+      "truncated": {},
+      "geometry_seconds": 0.5,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\32_GVA_Administrativo_ifc.bcf",
+        "bytes": 597,
+        "entries": 2
+      },
+      "seconds": 5.0
+    },
+    {
+      "row": 33,
+      "name": "IFC Schependomlaan.ifc",
+      "category": "office",
+      "building_type": "Mixed residential/general coordination benchmark (Netherlands) \u2014 flagged: not a pure office building, included for MEP+structural+architecture coordination richness",
+      "declared_size_mb": 47.0,
+      "url": "https://media.githubusercontent.com/media/buildingsmart-community/Community-Sample-Test-Files/main/IFC%202.3.0.1%20%28IFC%202x3%29/Schependomlaan/Design%20model%20IFC/IFC%20Schependomlaan.ifc",
+      "status": "ok",
+      "acquisition": "cached 49.3 MB",
+      "local_file": "data\\validation_models\\33_IFC_Schependomlaan_ifc.ifc",
+      "actual_size_mb": 49.29,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 60,
+        "structural": 1419,
+        "total_products": 3822,
+        "mep_with_geometry": 60,
+        "structural_with_geometry": 1364
+      },
+      "truncated": {},
+      "geometry_seconds": 7.8,
+      "halos": 60,
+      "clashes": 407,
+      "clash_severity": {
+        "minor": 279,
+        "major": 124,
+        "critical": 4
+      },
+      "piping_elements": 73,
+      "media_seen": [
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 73
+          },
+          "reason": "",
+          "elements_scored": 73,
+          "elements_with_material": 73
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 73,
+          "bands": {
+            "Medium": 73
+          },
+          "reason": "",
+          "elements_scored": 73,
+          "elements_with_material": 73
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 73,
+          "bands": {
+            "Critical": 73
+          },
+          "reason": "",
+          "elements_scored": 73,
+          "elements_with_material": 73
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments', 'materials'}",
+          "elements_scored": 73,
+          "elements_with_material": 73
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'materials', 'couples'}",
+          "elements_scored": 73,
+          "elements_with_material": 73
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 73,
+        "with_material": 73
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\33_IFC_Schependomlaan_ifc.bcf",
+        "bytes": 776088,
+        "entries": 1223
+      },
+      "seconds": 25.5
+    },
+    {
+      "row": 34,
+      "name": "craslabbim.ifc",
+      "category": "industrial",
+      "building_type": "Industrial/Laboratory \u2014 as-built research lab (CRAS Lab, FEUP, Portugal)",
+      "declared_size_mb": 64.42,
+      "url": "https://zenodo.org/records/7948116/files/craslabbim.ifc",
+      "status": "ok",
+      "acquisition": "cached 67.6 MB",
+      "local_file": "data\\validation_models\\34_craslabbim_ifc.ifc",
+      "actual_size_mb": 67.55,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1000.0,
+      "counts": {
+        "mep": 0,
+        "structural": 76,
+        "total_products": 261,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 76
+      },
+      "truncated": {},
+      "geometry_seconds": 0.5,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\34_craslabbim_ifc.bcf",
+        "bytes": 590,
+        "entries": 2
+      },
+      "seconds": 27.1
+    },
+    {
+      "row": 35,
+      "name": "SGD_BODO_ifc.zip (ARC+PLB+VENT)",
+      "category": "industrial",
+      "status": "error",
+      "error": "SchemaError: Unsupported schema: IFC2X2_FINAL",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\Zigurat Masters\\bim-guard\\test_all_38_models.py\", line 940, in main\n    record = process_model(\n             ^^^^^^^^^^^^^^\n  File \"D:\\Zigurat Masters\\bim-guard\\test_all_38_models.py\", line 639, in process_model\n    model = ifcopenshell.open(str(ifc_path))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Zigurat Masters\\bim-guard\\.venv\\Lib\\site-packages\\ifcopenshell\\__init__.py\", line 214, in open\n    return file(f)\n           ^^^^^^^\n  File \"D:\\Zigurat Masters\\bim-guard\\.venv\\Lib\\site-packages\\ifcopenshell\\file.py\", line 619, in __init__\n    raise exc(msg)\nifcopenshell.SchemaError: Unsupported schema: IFC2X2_FINAL\n"
+    },
+    {
+      "row": 36,
+      "name": "Academic_Autodesk_ifc.zip (Basic + Advanced)",
+      "category": "industrial",
+      "building_type": "Generic Autodesk sample buildings (commonly used as complexity-tier benchmarks; not a real industrial facility)",
+      "declared_size_mb": 7.03,
+      "url": "https://tib.eu/data/duraark/BuildingData/01_IFC/Academic_Autodesk_ifc.zip",
+      "status": "ok",
+      "acquisition": "extracted largest .ifc from zip: Academic_Autodesk-AdvancedSampleProject_Arch.ifc",
+      "local_file": "data\\validation_models\\36_Academic_Autodesk_ifc_zip_Basic_Advanced\\Academic_Autodesk-AdvancedSampleProject_Arch.ifc",
+      "actual_size_mb": 38.07,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 1.0,
+      "counts": {
+        "mep": 0,
+        "structural": 3649,
+        "total_products": 5806,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 3649
+      },
+      "truncated": {},
+      "geometry_seconds": 19.8,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 41,
+      "media_seen": [
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 41
+          },
+          "reason": "",
+          "elements_scored": 41,
+          "elements_with_material": 41
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 41,
+          "bands": {
+            "Medium": 41
+          },
+          "reason": "",
+          "elements_scored": 41,
+          "elements_with_material": 41
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 41,
+          "bands": {
+            "Critical": 41
+          },
+          "reason": "",
+          "elements_scored": 41,
+          "elements_with_material": 41
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'materials', 'environments', 'media', 'compatibility_matrix'}",
+          "elements_scored": 41,
+          "elements_with_material": 41
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'couples', 'environment_thresholds', 'materials'}",
+          "elements_scored": 41,
+          "elements_with_material": 41
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 41,
+        "with_material": 41
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\36_Academic_Autodesk_ifc_zip_Basic_Advanced.bcf",
+        "bytes": 617,
+        "entries": 2
+      },
+      "seconds": 31.6
+    },
+    {
+      "row": 37,
+      "name": "Autodesk_210-King_ifc.zip",
+      "category": "industrial",
+      "building_type": "Office tower (Australia) \u2014 cross-referenced here only for structural-complexity/steel-frame diversity",
+      "declared_size_mb": 25.49,
+      "url": "https://tib.eu/data/duraark/BuildingData/03_IFC_E57/Autodesk_210-King_ifc.zip",
+      "status": "ok",
+      "acquisition": "extracted largest .ifc from zip: Autodesk-Research_210-King.ifc",
+      "local_file": "data\\validation_models\\37_Autodesk_210_King_ifc_zip\\Autodesk-Research_210-King.ifc",
+      "actual_size_mb": 155.15,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 304.8,
+      "counts": {
+        "mep": 2261,
+        "structural": 4283,
+        "total_products": 23578,
+        "mep_with_geometry": 2261,
+        "structural_with_geometry": 4283
+      },
+      "truncated": {},
+      "geometry_seconds": 1132.2,
+      "halos": 2261,
+      "clashes": 8351,
+      "clash_severity": {
+        "minor": 3254,
+        "critical": 4302,
+        "major": 795
+      },
+      "piping_elements": 6496,
+      "media_seen": [
+        "chilled_water",
+        "cold_water",
+        "hot_water",
+        "stagnant_water",
+        "unknown"
+      ],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {
+            "Low": 6496
+          },
+          "reason": "",
+          "elements_scored": 6496,
+          "elements_with_material": 904
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 6496,
+          "bands": {
+            "Medium": 6496
+          },
+          "reason": "",
+          "elements_scored": 6496,
+          "elements_with_material": 904
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 6496,
+          "bands": {
+            "Critical": 5921,
+            "High": 575
+          },
+          "reason": "",
+          "elements_scored": 6496,
+          "elements_with_material": 904
+        },
+        "MM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'materials', 'environments', 'media', 'compatibility_matrix'}",
+          "elements_scored": 6496,
+          "elements_with_material": 904
+        },
+        "XM-001": {
+          "status": "unavailable",
+          "findings": 0,
+          "bands": {},
+          "reason": "load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'couples', 'environment_thresholds', 'materials'}",
+          "elements_scored": 6496,
+          "elements_with_material": 904
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 6496,
+        "with_material": 904
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\37_Autodesk_210_King_ifc_zip.bcf",
+        "bytes": 15935704,
+        "entries": 25055
+      },
+      "seconds": 1286.9
+    },
+    {
+      "row": 38,
+      "name": "aisc_sculpture_brep.ifc",
+      "category": "industrial",
+      "building_type": "Industrial structural-steel component (NIST/AISC conversion from CIS/2 steel design)",
+      "declared_size_mb": 0.53,
+      "url": "https://www.steptools.com/docs/stpfiles/ifc/aisc_sculpture_brep.ifc",
+      "status": "ok",
+      "acquisition": "cached 0.6 MB",
+      "local_file": "data\\validation_models\\38_aisc_sculpture_brep_ifc.ifc",
+      "actual_size_mb": 0.55,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 25.4,
+      "counts": {
+        "mep": 0,
+        "structural": 87,
+        "total_products": 468,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 87
+      },
+      "truncated": {},
+      "geometry_seconds": 0.5,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\38_aisc_sculpture_brep_ifc.bcf",
+        "bytes": 602,
+        "entries": 2
+      },
+      "seconds": 0.7
+    },
+    {
+      "row": 39,
+      "name": "aisc_sculpture_param.ifc",
+      "category": "industrial",
+      "building_type": "Same steel structure, parametric swept-solid version",
+      "declared_size_mb": 0.3,
+      "url": "https://www.steptools.com/docs/stpfiles/ifc/aisc_sculpture_param.ifc",
+      "status": "ok",
+      "acquisition": "cached 0.3 MB",
+      "local_file": "data\\validation_models\\39_aisc_sculpture_param_ifc.ifc",
+      "actual_size_mb": 0.32,
+      "schema": "IFC2X3",
+      "unit_scale_to_mm": 25.4,
+      "counts": {
+        "mep": 0,
+        "structural": 87,
+        "total_products": 468,
+        "mep_with_geometry": 0,
+        "structural_with_geometry": 87
+      },
+      "truncated": {},
+      "geometry_seconds": 0.4,
+      "halos": 0,
+      "clashes": 0,
+      "clash_severity": {},
+      "piping_elements": 0,
+      "media_seen": [],
+      "engines": {
+        "GC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "CC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MC-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "MM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        },
+        "XM-001": {
+          "status": "ok",
+          "findings": 0,
+          "bands": {},
+          "reason": "model carries no piping elements",
+          "elements_scored": 0,
+          "elements_with_material": 0
+        }
+      },
+      "material_coverage": {
+        "piping_elements": 0,
+        "with_material": 0
+      },
+      "bcf": {
+        "path": "data\\validation_bcf\\39_aisc_sculpture_param_ifc.bcf",
+        "bytes": 603,
+        "entries": 2
+      },
+      "seconds": 0.5
+    }
+  ]
+}

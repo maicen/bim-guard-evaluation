@@ -1,0 +1,155 @@
+==============================================================================
+  BIMGUARD AI — validation sweep across the verified IFC dataset
+==============================================================================
+
+  Parsed 38 model(s) from BIMGUARD AI Validation Dataset — Verified Downloadable IFC Models.md
+  Selected 38 model(s), ~950 MB to acquire (cached files reused)
+  Config: EN 1998-1:2020 + DIN 4149:2022 (variant angle_fire, clearance 200mm)
+
+[1/38] row 1: Clinic_Architectural.ifc — cached, skipping
+
+[2/38] row 2: Clinic_Structural.ifc — cached, skipping
+
+[3/38] row 3: Clinic_HVAC.ifc — cached, skipping
+
+[4/38] row 4: Clinic_Electrical.ifc — cached, skipping
+
+[5/38] row 5: Clinic_Plumbing.ifc — cached, skipping
+
+[6/38] row 6: west_riverside_hospital — Architecture (IFC4) — cached, skipping
+
+[7/38] row 7: west_riverside_hospital — Structural (IFC4) — cached, skipping
+
+[8/38] row 8: west_riverside_hospital — Mechanical/HVAC (IFC4) — cached, skipping
+
+[9/38] row 9: west_riverside_hospital — Plumbing (IFC4) — cached, skipping
+
+[10/38] row 10: west_riverside_hospital — Electrical (IFC4) — cached, skipping
+
+[11/38] row 11: west_riverside_hospital — Fire Alarm (IFC4) — cached, skipping
+
+[12/38] row 12: west_riverside_hospital — Sprinklers (IFC4) — cached, skipping
+
+[13/38] row 13: west_riverside_hospital — Mechanical (IFC2X3 twin) — cached, skipping
+
+[14/38] row 14: west_riverside_hospital — Plumbing (IFC2X3 twin) — cached, skipping
+
+[15/38] row 15: NBU_MedicalClinic (zip: ARC+MEP+HVAC+ELE+STR) — cached, skipping
+
+[16/38] row 16: GVA Sanitario.ifc — cached, skipping
+
+[17/38] row 18: Duplex_A_20110907.ifc — cached, skipping
+
+[18/38] row 19: Duplex_Electrical_20121207.ifc — cached, skipping
+
+[19/38] row 20: Duplex_MEP_20110907.ifc — cached, skipping
+
+[20/38] row 21: Duplex_Plumbing_20121113.ifc — cached, skipping
+
+[21/38] row 22: AC20-Institute-Var-2.ifc — cached, skipping
+
+[22/38] row 23: AC20-FZK-Haus.ifc — cached, skipping
+
+[23/38] row 24: DigitalHub_FM-ARC_v2.ifc — cached, skipping
+
+[24/38] row 25: DigitalHub_FM-HZG_v2.ifc — cached, skipping
+
+[25/38] row 26: DigitalHub_FM-LFT_v2.ifc — cached, skipping
+
+[26/38] row 27: DigitalHub_FM-SAN_v2.ifc — cached, skipping
+
+[27/38] row 28: wbdg_office — Architecture — cached, skipping
+
+[28/38] row 29: wbdg_office — MEP — cached, skipping
+
+[29/38] row 30: wbdg_office — Structural — cached, skipping
+
+[30/38] row 31: Molio_with_URIs.ifc — cached, skipping
+
+[31/38] row 32: GVA Administrativo.ifc — cached, skipping
+
+[32/38] row 33: IFC Schependomlaan.ifc — cached, skipping
+
+[33/38] row 34: craslabbim.ifc — cached, skipping
+
+[34/38] row 35: SGD_BODO_ifc.zip (ARC+PLB+VENT) — cached, skipping
+
+[35/38] row 36: Academic_Autodesk_ifc.zip (Basic + Advanced) — cached, skipping
+
+[36/38] row 37: Autodesk_210-King_ifc.zip — cached, skipping
+
+[37/38] row 38: aisc_sculpture_brep.ifc — cached, skipping
+
+[38/38] row 39: aisc_sculpture_param.ifc — cached, skipping
+
+==============================================================================
+  PER-MODEL RESULTS
+==============================================================================
+    # category   model                             MEP   geom  halos  clash   pipe    mat  status
+    1 hospital   Clinic_Architectural.ifc            0   1617      0      0    102    102  ok
+    2 hospital   Clinic_Structural.ifc               0   1068      0      0      0      0  ok
+    3 hospital   Clinic_HVAC.ifc                  1548   1548   1548   3070   3704    502  ok
+    4 hospital   Clinic_Electrical.ifc               0      0      0      0   2089   2089  ok
+    5 hospital   Clinic_Plumbing.ifc              2893   2893   2893  15534   6587   6587  ok
+    6 hospital   west_riverside_hospital — Arch      0   8935      0      0      0      0  ok
+    7 hospital   west_riverside_hospital — Stru      0   2822      0      0      0      0  ok
+    8 hospital   west_riverside_hospital — Mech   8732   8732   8732  41128  17424      0  ok
+    9 hospital   west_riverside_hospital — Plum   4308   4308   4308  21800   8539      0  ok
+   10 hospital   west_riverside_hospital — Elec     84     84     84    178   1673    121  ok
+   11 hospital   west_riverside_hospital — Fire      0      0      0      0    861      1  ok
+   12 hospital   west_riverside_hospital — Spri   6228   6228   6228  17538  13490   1302  ok
+   13 hospital   west_riverside_hospital — Mech   8732   8732   8732  41174  18488      0  ok
+   14 hospital   west_riverside_hospital — Plum   4308   4308   4308  21800   9013    334  ok
+   15 hospital   NBU_MedicalClinic (zip: ARC+ME   5952   5952   5952  27472  16012  16008  ok
+   16 hospital   GVA Sanitario.ifc                   0    664      0      0      0      0  ok
+   18 office     Duplex_A_20110907.ifc               0     97      0      0      0      0  ok
+   19 office     Duplex_Electrical_20121207.ifc      0      0      0      0     99     99  ok
+   20 office     Duplex_MEP_20110907.ifc           427    427    427   2590    926    926  ok
+   21 office     Duplex_Plumbing_20121113.ifc      231    231    231   1528    498    498  ok
+   22 office     AC20-Institute-Var-2.ifc            0    149      0      0      0      0  ok
+   23 office     AC20-FZK-Haus.ifc                   0     63      0      0      0      0  ok
+   24 office     DigitalHub_FM-ARC_v2.ifc            0    357      0      0      0      0  ok
+   25 office     DigitalHub_FM-HZG_v2.ifc          914    914    914   8000   1795    881  ok
+   26 office     DigitalHub_FM-LFT_v2.ifc          595    595    595    906   1310   1310  ok
+   27 office     DigitalHub_FM-SAN_v2.ifc          504    504    504   3784   1010    506  ok
+   28 office     wbdg_office — Architecture          0    497      0      0     31     31  ok
+   29 office     wbdg_office — MEP                1959   1959   1959   8256   5697   5697  ok
+   30 office     wbdg_office — Structural            0    495      0      0      0      0  ok
+   31 office     Molio_with_URIs.ifc                 0    160      0      0     48      0  ok
+   32 office     GVA Administrativo.ifc              0    338      0      0      0      0  ok
+   33 office     IFC Schependomlaan.ifc             60   1424     60    407     73     73  ok
+   34 industrial craslabbim.ifc                      0     76      0      0      0      0  ok
+   35 industrial SGD_BODO_ifc.zip (ARC+PLB+VENT      0      0      0      0      0      0  error
+      -> SchemaError: Unsupported schema: IFC2X2_FINAL
+   36 industrial Academic_Autodesk_ifc.zip (Bas      0   3649      0      0     41     41  ok
+   37 industrial Autodesk_210-King_ifc.zip        2261   6544   2261   8351   6496    904  ok
+   38 industrial aisc_sculpture_brep.ifc             0     87      0      0      0      0  ok
+   39 industrial aisc_sculpture_param.ifc            0     87      0      0      0      0  ok
+
+==============================================================================
+  AGGREGATE
+==============================================================================
+  models:            37/38 processed (1 failed)
+  MEP elements:      49,736 (49,736 with resolved geometry)
+  structural:        26,970 (26,808 with resolved geometry)
+  piping elements:   116,006 (38,012 carry raw material text — 37 model record(s) predate the material-metric split, so the normalised count is unavailable; re-run with --refresh, or see Table A.3)
+  halo volumes:      49,736
+  clashes:           223,516  {'minor': 211581, 'major': 6699, 'critical': 5236}
+  wall clock:        3,594s
+
+==============================================================================
+  ENGINE STATUS
+==============================================================================
+  (flagged counts are only interpretable against material coverage above — see the module docstring)
+  GC-001: {'ok': 37}  flagged=0
+      reason: model carries no piping elements
+  CC-001: {'ok': 37}  flagged=116,006
+      reason: model carries no piping elements
+  MC-001: {'ok': 37}  flagged=116,006
+      reason: model carries no piping elements
+  MM-001: {'unavailable': 24, 'ok': 13}  flagged=0
+      reason: load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'compatibility_matrix', 'media', 'environments',
+      reason: load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'materials', 'environments', 'media', 'compatibi
+  XM-001: {'unavailable': 24, 'ok': 13}  flagged=0
+      reason: load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'couples', 'environment_thresholds', 'materials'
+      reason: load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'environment_thresholds', 'couples', 'materials'

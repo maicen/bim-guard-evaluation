@@ -1,0 +1,30 @@
+[project]
+name = "bim-guard-evaluation"
+version = "0.1.0"
+description = "Evaluation harnesses, NLP annotation capabilities, accuracy scoring, and research validation analysis for BIM-Guard"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "ifcopenshell>=0.8.4.post1",
+    "matplotlib>=3.8.0",
+    "numpy>=1.26.0",
+    "pandas>=2.1.0",
+    "pydantic>=2.7.0",
+    "scipy>=1.11.0",
+    "tabulate>=0.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.4.0",
+]
+llm = [
+    "anthropic>=0.20.0",
+    "openai>=1.12.0",
+    "litellm>=1.35.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

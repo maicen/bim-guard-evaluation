@@ -1,0 +1,218 @@
+======================================================================
+  Blue Halo Phase 3 — validation harness (REAL CONFIG)
+======================================================================
+
+Loaded config: EN 1998-1:2020 + DIN 4149:2022  (hermes_case_study_and_config.json)
+Brace type variants: ['angle_fire', 'angle_mechanical', 'cable', 'rod']
+Standards cited: ['EN 1998-1', 'DIN 4149']
+Data gaps flagged in this config (13):
+  - Combined config: spacing = min(EN 1998-1:2020=1.0/1.5m, DIN 4149:2022=1.2/1.8m) per axis — tighter (smaller) spacing governs — it requires more restraints, the conservative reading.
+  - Combined config: base_from_structure_mm = max(EN 1998-1:2020=150.0mm, DIN 4149:2022=200.0mm) — larger clearance governs — it produces a halo big enough to satisfy both standards.
+  - Combined config: pipe_diameter_mm = min(EN 1998-1:2020=63.0mm, DIN 4149:2022=75.0mm) — lower diameter threshold governs — it brings more pipes into scope for bracing.
+  - thresholds.duct_area_sqm is not present in the source for either standard (no duct_threshold field found); left null pending standard-specific research.
+  - Combined config: importance_factors = per-key max across EN 1998-1:2020 and DIN 4149:2022 — higher factor governs — it demands the greater restraint capacity.
+  - Combined config: angle range = intersection of EN 1998-1:2020 (35.0-70.0 deg) and DIN 4149:2022 (40.0-65.0 deg) — intersection of both ranges governs — the band any brace satisfying both standards must fall in.
+  - angle_constraints.ideal_degrees and tolerance_degrees are computed as the midpoint and half-range of the combined min/max above, not independently sourced values.
+  - Source research summary gives one combined restraint_spacing and min_clearance per standard, not broken out per brace-hardware variant; all four brace_types variants below share the same combined spacing/clearance figures pending brace-specific research.
+  - clearance_rules.seismic_zone_addition_mm and hospital_addition_mm are not present in the source for either standard; left at 0mm rather than guessed. Both standards scale required restraint capacity by Importance Factor, not clearance geometry directly, so 0mm additional clearance is the defensible reading absent clause text stating otherwise — verify against the full clause text before relying on this.
+  - clearance_rules.adjacent_system_mm is not present in the source for either standard; left at 0mm pending standard-specific research.
+  - seismic_parameters.hazard_factor_default is not present in the source for either standard; left null pending standard-specific research.
+  - brace_types[*].base_footprint_mm values are generic bracing-hardware footprint placeholders (not sourced from either standard's clauses) and brace_types[*].standard_sizes are left empty pending a hardware catalog cross-reference.
+  - standards_full_citations below are the section-reference citations from hermes_standards_research_summary.json (['EN 1998-1:2020 5.3.2.3', 'DIN 4149:2022-03 8.2.4']), not full bibliographic citations (author/title/publisher/location) — HERMES_CONTEXT.md's Priority 1/2 research pass should supply those.
+
+----------------------------------------------------------------------
+SCENARIO 1 — single isolated pipe, all brace types
+----------------------------------------------------------------------
+  Element:     PIPE-001  (IfcPipeSegment)
+  Material:    Copper_C12200
+  Description: 50mm copper pipe, horizontal, 3.0m run
+  Geometry:    3000 x 50 x 50 mm  (bbox Point3D(x=0, y=0, z=975) -> Point3D(x=3000, y=50, z=1025))
+    [angle_fire] variant=angle_fire   clearance= 200.0mm  halo size=3400 x 450 x 450 mm  (volume=688,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clashes: none
+    [angle_mechanical] variant=angle_mechanical clearance= 200.0mm  halo size=3400 x 450 x 450 mm  (volume=688,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clashes: none
+    [cable] variant=cable        clearance= 200.0mm  halo size=3400 x 450 x 450 mm  (volume=688,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clashes: none
+    [rod] variant=rod          clearance= 200.0mm  halo size=3400 x 450 x 450 mm  (volume=688,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clashes: none
+
+  RESULT: isolated element, no clashes for any brace type -> True
+
+----------------------------------------------------------------------
+SCENARIO 2 — two perpendicular pipes (chilled water x hot water)
+----------------------------------------------------------------------
+  Element:     PIPE-CHW-002  (IfcPipeSegment)
+  Material:    SS316
+  Description: Chilled water pipe, horizontal, runs along X
+  Geometry:    2000 x 50 x 50 mm  (bbox Point3D(x=0, y=1000, z=1000) -> Point3D(x=2000, y=1050, z=1050))
+  Element:     PIPE-HW-002  (IfcPipeSegment)
+  Material:    CarbonSteel
+  Description: Hot water pipe, horizontal, runs along Y, crosses PIPE-CHW-002
+  Geometry:    50 x 2000 x 50 mm  (bbox Point3D(x=980, y=0, z=1000) -> Point3D(x=1030, y=2000, z=1050))
+    [angle_fire (on CHW pipe)] variant=angle_fire   clearance= 200.0mm  halo size=2400 x 450 x 450 mm  (volume=486,000,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clash: IfcPipeSegment (PIPE-HW-002) — severity=MINOR    overlap=1,125,000 mm^3
+
+  RESULT: clash detected between crossing pipes' halos -> True
+  RESULT: severity assessed as MINOR
+
+----------------------------------------------------------------------
+SCENARIO 3 — pipe 60mm from a structural beam (standard vs hospital)
+----------------------------------------------------------------------
+  Element:     PIPE-003  (IfcPipeSegment)
+  Material:    Copper_C12200
+  Description: 50mm copper pipe, 60mm clear of an adjacent beam
+  Geometry:    1000 x 50 x 50 mm  (bbox Point3D(x=0, y=0, z=1000) -> Point3D(x=1000, y=50, z=1050))
+  Element:     BEAM-003  (IfcBeam)
+  Material:    CarbonSteel
+  Description: Structural beam, 60mm clear of PIPE-003
+  Geometry:    1000 x 190 x 200 mm  (bbox Point3D(x=0, y=110, z=900) -> Point3D(x=1000, y=300, z=1100))
+
+  [standard building]
+    [angle_fire] variant=angle_fire   clearance= 200.0mm  halo size=1400 x 450 x 450 mm  (volume=283,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clash: IfcBeam (BEAM-003) — severity=MAJOR    overlap=28,000,000 mm^3
+
+  [hospital building]
+    [angle_fire] variant=angle_fire   clearance= 200.0mm  halo size=1400 x 450 x 450 mm  (volume=283,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clash: IfcBeam (BEAM-003) — severity=MAJOR    overlap=28,000,000 mm^3
+
+  RESULT: standard clearance = 200mm, hospital clearance = 200mm (+0mm) -> hospital > standard: False
+  RESULT: beam within clearance buffer, standard -> True
+  RESULT: beam within clearance buffer, hospital -> True
+
+----------------------------------------------------------------------
+SCENARIO 4 — rectangular duct, threshold check
+----------------------------------------------------------------------
+  Element:     DUCT-004  (IfcDuctSegment)
+  Material:    GalvanisedSteel
+  Description: Rectangular duct, 1500mm x 500mm cross-section, 4.0m run
+  Geometry:    4000 x 1500 x 500 mm  (bbox Point3D(x=0, y=0, z=2000) -> Point3D(x=4000, y=1500, z=2500))
+
+  Cross-section: 6.00 sqm  vs  threshold: not specified in this config (data gap — see config.data_gaps)
+  RESULT: duct area exceeds bracing threshold -> None
+    [angle_fire] variant=angle_fire   clearance= 200.0mm  halo size=4400 x 1900 x 900 mm  (volume=7,524,000,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clashes: none
+    [angle_mechanical] variant=angle_mechanical clearance= 200.0mm  halo size=4400 x 1900 x 900 mm  (volume=7,524,000,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clashes: none
+
+----------------------------------------------------------------------
+SCENARIO 5 — multi-system plant room bay, brace-type comparison
+----------------------------------------------------------------------
+  Element:     PIPE-005  (IfcPipeSegment)
+  Material:    Copper_C12200
+  Description: 50mm copper pipe, plant room bay, run 1
+  Geometry:    3000 x 50 x 50 mm  (bbox Point3D(x=0, y=0, z=1000) -> Point3D(x=3000, y=50, z=1050))
+  Element:     DUCT-005  (IfcDuctSegment)
+  Material:    GalvanisedSteel
+  Description: Rectangular duct, plant room bay, run 2
+  Geometry:    3000 x 500 x 500 mm  (bbox Point3D(x=0, y=600, z=1000) -> Point3D(x=3000, y=1100, z=1500))
+  Element:     CONDUIT-005  (IfcFlowSegment)
+  Material:    PVC
+  Description: 25mm conduit, plant room bay, run 3
+  Geometry:    3000 x 25 x 25 mm  (bbox Point3D(x=0, y=1400, z=1000) -> Point3D(x=3000, y=1425, z=1025))
+  Element:     BEAM-005  (IfcBeam)
+  Material:    CarbonSteel
+  Description: Structural beam crossing the plant room bay at x=1500
+  Geometry:    40 x 2200 x 700 mm  (bbox Point3D(x=1480, y=-200, z=900) -> Point3D(x=1520, y=2000, z=1600))
+
+  Evaluating PIPE-005 against every brace type in the config:
+    [angle_fire] variant=angle_fire   clearance= 200.0mm  halo size=3400 x 450 x 450 mm  (volume=688,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clash: IfcBeam (BEAM-005) — severity=MINOR    overlap=6,300,000 mm^3
+    [angle_mechanical] variant=angle_mechanical clearance= 200.0mm  halo size=3400 x 450 x 450 mm  (volume=688,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clash: IfcBeam (BEAM-005) — severity=MINOR    overlap=6,300,000 mm^3
+    [cable] variant=cable        clearance= 200.0mm  halo size=3400 x 450 x 450 mm  (volume=688,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clash: IfcBeam (BEAM-005) — severity=MINOR    overlap=6,300,000 mm^3
+    [rod] variant=rod          clearance= 200.0mm  halo size=3400 x 450 x 450 mm  (volume=688,500,000 mm^3)
+             spacing: transverse=1m  longitudinal=2m  angle=[40-65] deg (ideal 52 deg)
+    Clash: IfcBeam (BEAM-005) — severity=MINOR    overlap=6,300,000 mm^3
+
+  Comparison table (brace_type | clearance_mm | halo_volume_mm3 | clash_count):
+  variant      clearance_mm    halo_volume_mm3  clashes
+  angle_fire          200.0        688,500,000        1
+  angle_mechanical        200.0        688,500,000        1
+  cable               200.0        688,500,000        1
+  rod                 200.0        688,500,000        1
+
+  RESULT: recommended brace type = angle_fire (1 clash(es), 688,500,000 mm^3 halo volume)
+
+  Pset preview (export_halo_to_ifc_property_set, recommended brace type):
+    SchemaVersion        = 0.1.0
+    BraceType            = angle_iron
+    RuleVariant          = angle_fire
+    ClearanceMm          = 200.0
+    ElementBBoxMinMm     = [0, 0, 1000]
+    ElementBBoxMaxMm     = [3000, 50, 1050]
+    HaloBBoxMinMm        = [-200.0, -200.0, 800.0]
+    HaloBBoxMaxMm        = [3200.0, 250.0, 1250.0]
+    GeneratedAt          = 2026-08-22T17:26:56Z
+
+======================================================================
+  PHASE 4 — BCF / Pset export integration
+======================================================================
+
+  Exporting 5 clash(es) across 9 halo volume(s) (scenarios 1, 2, 5) to a BCF 2.1 ZIP...
+  BCF ZIP size: 9,905 bytes
+  ZIP entries (17):
+    273E4C0E-2901-40AC-8021-A252D74BDF7E/markup.bcf
+    273E4C0E-2901-40AC-8021-A252D74BDF7E/snapshot.png
+    273E4C0E-2901-40AC-8021-A252D74BDF7E/viewpoint.bcfv
+    2FBB7274-42C0-45A4-A9F0-1CE5607E58F6/markup.bcf
+    2FBB7274-42C0-45A4-A9F0-1CE5607E58F6/snapshot.png
+    2FBB7274-42C0-45A4-A9F0-1CE5607E58F6/viewpoint.bcfv
+    32B43B72-9F3D-43D4-B780-A3FF4338E558/markup.bcf
+    32B43B72-9F3D-43D4-B780-A3FF4338E558/snapshot.png
+    32B43B72-9F3D-43D4-B780-A3FF4338E558/viewpoint.bcfv
+    9B1B9CA9-9D76-42BB-9A20-2F64A0CF1659/markup.bcf
+    9B1B9CA9-9D76-42BB-9A20-2F64A0CF1659/snapshot.png
+    9B1B9CA9-9D76-42BB-9A20-2F64A0CF1659/viewpoint.bcfv
+    B419159F-630A-4458-AC21-C12359E91FA8/markup.bcf
+    B419159F-630A-4458-AC21-C12359E91FA8/snapshot.png
+    B419159F-630A-4458-AC21-C12359E91FA8/viewpoint.bcfv
+    bcf.version
+    project.bcfp
+
+  Pset_HaloReservation (Scenario 2 CHW pipe halo):
+    SchemaVersion          = 0.1.0
+    SourceElementGlobalId  = PIPE-CHW-002
+    SourceIfcClass         = IfcPipeSegment
+    BraceType              = angle_iron
+    RuleVariant            = angle_fire
+    ClearanceMm            = 200.0
+    HaloVolumeMm3          = 486000000.0
+    ElementBBoxMinMm       = [0, 1000, 1000]
+    ElementBBoxMaxMm       = [2000, 1050, 1050]
+    HaloBBoxMinMm          = [-200.0, 800.0, 800.0]
+    HaloBBoxMaxMm          = [2200.0, 1250.0, 1250.0]
+    GeneratedAt            = 2026-08-22T17:26:56Z
+
+======================================================================
+  VALIDATION CHECKS
+======================================================================
+  [PASS] Config loads correctly (jurisdiction, brace_types, thresholds match hermes_case_study_and_config.json)
+  [PASS] Bounding box expansion is correct (uniform +margin on every face)
+  [PASS] Bounding box intersection is correct (overlap region + disjoint == None)
+  [PASS] Clash detection finds the Scenario 2 crossing-pipe overlap
+  [PASS] Clash severity is assessed to a known band (minor/major/critical)
+  [PASS] Angle constraints loaded and enforced (40-65 deg range from config)
+  [PASS] Hospital flag never reduces clearance (200mm -> 200mm) — equal: hospital_addition_mm=0 in this config, a documented data gap, not a bug
+  [PASS] All 4 brace-type variants share one sourced clearance (200mm — a documented data gap, see config.data_gaps) and therefore produce identical halo volumes, as expected
+  [PASS] BCF ZIP structure valid (bcf.version + project.bcfp + 5 topic folder(s) of markup.bcf/viewpoint.bcfv/snapshot.png, matching 5 clash(es))
+  [PASS] Pset_HaloReservation is a valid, JSON-serializable IFC property set dict
+  [PASS] reporter imports without error (blue_halo_bcf_exporter, bcf_generator)
+
+  11/11 checks passed
+
+======================================================================
+  OVERALL: ALL CHECKS PASSED
+======================================================================

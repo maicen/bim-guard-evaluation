@@ -1,0 +1,74 @@
+==============================================================================
+  BIMGUARD AI — validation sweep across the verified IFC dataset
+==============================================================================
+
+  Parsed 38 model(s) from BIMGUARD AI Validation Dataset — Verified Downloadable IFC Models.md
+  Selected 6 model(s), ~156 MB to acquire (cached files reused)
+  Config: EN 1998-1:2020 + DIN 4149:2022 (variant angle_fire, clearance 200mm)
+
+[1/6] row 15: NBU_MedicalClinic (zip: ARC+MEP+HVAC+ELE+STR) (hospital, ~78.9 MB)
+    OK  5952 MEP / 0 struct -> 5952 halos, 27472 clashes, 16012 piping  [632.6s]
+
+[2/6] row 16: GVA Sanitario.ifc (hospital, ~6.6 MB)
+    OK  0 MEP / 664 struct -> 0 halos, 0 clashes, 0 piping  [5.9s]
+
+[3/6] row 32: GVA Administrativo.ifc (office, ~6.9 MB)
+    OK  0 MEP / 338 struct -> 0 halos, 0 clashes, 0 piping  [5.0s]
+
+[4/6] row 35: SGD_BODO_ifc.zip (ARC+PLB+VENT) (industrial, ~31.1 MB)
+Exception ignored in: <function file.__del__ at 0x0000019CB31A65C0>
+Traceback (most recent call last):
+  File "D:\Zigurat Masters\bim-guard\.venv\Lib\site-packages\ifcopenshell\file.py", line 649, in __del__
+    del file_dict[self.file_pointer()]
+        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+KeyError: 1772146760432
+    ERROR: SchemaError: Unsupported schema: IFC2X2_FINAL
+
+[5/6] row 36: Academic_Autodesk_ifc.zip (Basic + Advanced) (industrial, ~7.0 MB)
+    OK  0 MEP / 3649 struct -> 0 halos, 0 clashes, 41 piping  [31.6s]
+
+[6/6] row 37: Autodesk_210-King_ifc.zip (industrial, ~25.5 MB)
+    OK  2261 MEP / 4283 struct -> 2261 halos, 8351 clashes, 6496 piping  [1286.9s]
+
+==============================================================================
+  PER-MODEL RESULTS
+==============================================================================
+    # category   model                             MEP   geom  halos  clash   pipe    mat  status
+   15 hospital   NBU_MedicalClinic (zip: ARC+ME   5952   5952   5952  27472  16012  16008  ok
+   16 hospital   GVA Sanitario.ifc                   0    664      0      0      0      0  ok
+   32 office     GVA Administrativo.ifc              0    338      0      0      0      0  ok
+   35 industrial SGD_BODO_ifc.zip (ARC+PLB+VENT      0      0      0      0      0      0  error
+      -> SchemaError: Unsupported schema: IFC2X2_FINAL
+   36 industrial Academic_Autodesk_ifc.zip (Bas      0   3649      0      0     41     41  ok
+   37 industrial Autodesk_210-King_ifc.zip        2261   6544   2261   8351   6496    904  ok
+
+==============================================================================
+  AGGREGATE
+==============================================================================
+  models:            5/6 processed (1 failed)
+  MEP elements:      8,213 (8,213 with resolved geometry)
+  structural:        8,934 (8,934 with resolved geometry)
+  piping elements:   22,549 (16,953 carry material data)
+  halo volumes:      8,213
+  clashes:           35,823  {'minor': 29849, 'major': 1641, 'critical': 4333}
+  wall clock:        1,962s
+
+==============================================================================
+  ENGINE STATUS
+==============================================================================
+  (flagged counts are only interpretable against material coverage above — see the module docstring)
+  GC-001: {'ok': 5}  flagged=0
+      reason: model carries no piping elements
+  CC-001: {'ok': 5}  flagged=22,549
+      reason: model carries no piping elements
+  MC-001: {'ok': 5}  flagged=22,549
+      reason: model carries no piping elements
+  MM-001: {'unavailable': 3, 'ok': 2}  flagged=0
+      reason: load_rule_pack(): ValueError: MM-001 rule pack missing keys: {'materials', 'environments', 'media', 'compatibi
+      reason: model carries no piping elements
+  XM-001: {'unavailable': 3, 'ok': 2}  flagged=0
+      reason: load_rule_pack(): ValueError: XM-001 rule pack missing keys: {'couples', 'environment_thresholds', 'materials'
+      reason: model carries no piping elements
+
+  Wrote validation_sweep_summary.json and validation_sweep_summary.txt
+  BCF files: data\validation_bcf/  |  per-model JSON: data\validation_results/

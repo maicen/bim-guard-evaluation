@@ -1,0 +1,86 @@
+ARCHITECTURE REPRODUCIBILITY INVESTIGATION
+==========================================
+
+Symptom
+-------
+The architectural analysis returned a different number of findings for the same
+model on identical consecutive runs:
+
+    wbdg_office_arc        1304, 1307, 1304, 1304   (one server, use_cache=false)
+    Clinic_Architectural   2917 on one boot, 2847 on another
+
+Both models parsed the same element count and loaded the same 51 rules in every
+run, so the input was identical. Every rule observed appearing and disappearing
+targeted IfcSpace on a numeric property: CODE 9.5.1.2 (bathroom ceiling height,
+>= 1950 mm) and CODE 3.8.3.2 (accessible corridor width, >= 1100 mm).
+
+
+Ruled out
+---------
+1. Rule ordering. RuleService.list_by_theme reads rows in insertion order from
+   the table, and the offline client stores them in a list. Stable within a
+   process.
+
+2. Space enumeration order. ifcopenshell returns by_type("IfcSpace") in a
+   stable order; three consecutive opens of wbdg_office_arc gave 99 spaces in
+   an identical sequence (same first GlobalId, same tuple hash).
+
+3. Hash randomisation. PYTHONHASHSEED varies per process, but the counts varied
+   *inside* a single process, so it cannot be the cause.
+
+4. Warm-up or caching. Runs 3 and 4 reverted to the earlier value, so it is not
+   a state that builds up.
+
+
+Root cause
+----------
+app/modules/ifc_reader/ifc_geometry.py, IFCGeometryExtractor._get_shape
+cached tessellated shapes under id(element) -- the CPython address of the
+ifcopenshell entity_instance wrapper.
+
+ifcopenshell creates a NEW wrapper object on every entity access and frees it
+when the caller drops the reference, so those addresses are recycled. Measured
+directly on wbdg_office_arc: fetching the model's 99 spaces, releasing them,
+and fetching them again, 32 addresses were reused and 31 of those now pointed
+at a DIFFERENT space.
+
+    address 139739738185728: was space 04Sq57eS5FffNezn2ilgmZ,
+                             now space 06njXbG3HC4RydTXssDqX8
+
+The extractor is reused across rules while each rule re-fetches its target
+elements, which is exactly the pattern that triggers reuse. A cache hit
+therefore returned another element's geometry, or a cached None, chosen
+effectively at random by the allocator.
+
+That explains every part of the symptom: only geometry-derived properties were
+affected (a space's Height and Width come from the bounding box, not from a
+Pset); the variance appeared within one process; and it did not accumulate.
+
+This was not only a reproducibility bug. It silently attributed one element's
+measurements to another.
+
+
+Fix
+---
+Key the cache on the entity's own STEP instance id (element.id()), which is
+stable for the life of the model. An object that is not an ifcopenshell entity
+is measured without being cached rather than keyed on something unstable.
+
+
+Verification
+------------
+wbdg_office_arc, six consecutive runs after the fix: 1304 findings every time,
+identical rule-by-rule breakdown. Clinic_Architectural: 2847 twice on one boot,
+and 2847 again after a server restart. AC20-FZK-Haus: 77, matching its earlier
+value.
+
+The deterministic answer is the LOWER count, and it is the correct one. Every
+space in wbdg_office_arc measures at least 2500 mm tall (median 2500 mm, max
+9757 mm), so none can violate the 1950 mm bathroom-ceiling rule. The three
+CODE 9.5.1.2 findings that came and went were false violations produced by
+measuring a space with some other element's shape. The bug was inventing
+findings, not hiding them.
+
+Unit tests: 29 failed / 762 passed both before and after -- unchanged. The 29
+failures are the pre-existing missing-static-asset ones documented in
+test-results.md finding 7.
