@@ -11,6 +11,7 @@
    - **Evaluation & Scoring Harnesses (`eval/`)**: Ground-truth benchmark scoring (`eval_gold_code_9_8_stairs.py`, `score_nlp_annotation.py`, `score_rule_extraction.py`, `eval_harness.py`).
    - **Multi-Model Validation Sweeps**: Full sweeps across the 38-model verified IFC dataset (`test_all_38_models.py`, `test_real_ifc_pipeline.py`).
    - **Empirical Research Analysis (`eval/analyse_validation_results.py`, `research/`)**: Confusion matrix generation, error analysis, standards sensitivity curves, BCF 2.1 validity audits, and publication/thesis validation tables (1–7) and figures (B1–B4).
+   - **Cross-Model Comparison (`evals/rule-extraction/`)**: [Ori Eval](https://openrouter.ai/docs/guides/ori/eval) harness comparing OpenRouter models on BIM-Guard's real rule-extraction code — LLM-as-judge scoring plus deterministic gold-rule recall. TypeScript/Bun, run via the `ori` CLI, not `uv run`; see `evals/rule-extraction/README.md`.
 
 2. **Out-of-Scope (belongs in `bim-guard`)**:
    - Web application runtime, API gateways, database schemas/migrations, and production services.
@@ -45,6 +46,14 @@ When running against an adjacent checkout of `bim-guard`:
 - Windows: `$env:BIMGUARD_PATH = "C:\Users\osama\coding\bim-guard"`
 - macOS/Linux: `export BIMGUARD_PATH="/path/to/bim-guard"`
 
+Run the Ori Eval model comparison (`evals/rule-extraction/`):
+- `ori eval evals/rule-extraction --pilot 1` (price it first)
+- `ori eval evals/rule-extraction --report evals/rule-extraction/comparison.md`
+- Needs the `ori` CLI, Bun, an OpenRouter credential, and bim-guard's own venv
+  (`BIMGUARD_PYTHON` / `BIMGUARD_PATH`) — its extraction calls shell out to
+  bim-guard's real code via `eval/ori_bridge.py` rather than `uv run`. Full
+  setup in `evals/rule-extraction/README.md`.
+
 ---
 
 ## Directory Structure
@@ -52,7 +61,8 @@ When running against an adjacent checkout of `bim-guard`:
 ```
 bim-guard-evaluation/
 ├── nlp_annotation/              # 5-capability linguistic annotation layer & IFC mapping
-├── eval/                        # Evaluation, scoring, sweep, and confusion matrix scripts
+├── eval/                        # Evaluation, scoring, sweep, confusion matrix, and Ori bridge scripts
+├── evals/rule-extraction/       # Ori Eval: cross-model comparison (TypeScript/Bun, run via `ori`)
 ├── research/                    # Validation datasets, CSV tables (1-7), figures (B1-B4), logs
 ├── pyproject.toml               # Python project configuration and dependencies
 ├── README.md                    # Repository documentation and setup guide
