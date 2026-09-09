@@ -132,6 +132,15 @@ python eval/analyse_validation_results.py
 
 ---
 
+## Model Comparison (Ori Eval)
+
+`evals/rule-extraction/` uses [Ori Eval](https://openrouter.ai/docs/guides/ori/eval)
+to compare OpenRouter models on BIM-Guard's real rule-extraction code — LLM-as-judge
+scoring plus deterministic recall against the hand-annotated gold rules. See
+[evals/rule-extraction/README.md](evals/rule-extraction/README.md) for setup and usage.
+
+---
+
 ## Related Repositories
 
 - **Core Application**: [maicen/bim-guard](https://github.com/maicen/bim-guard)

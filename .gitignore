@@ -40,3 +40,12 @@ eval/results/
 # Local caches materialized when eval scripts run with cwd=bim-guard
 data/.seed_library.lock
 eval/data/
+
+# Ori Eval (evals/rule-extraction/) — TS/Bun tooling, not part of the Python venv
+node_modules/
+.ori/
+bun.lock
+evals/**/*.md
+!evals/**/README.md
+!evals/**/lib/
+!evals/**/lib/**
