@@ -49,3 +49,7 @@ evals/**/*.md
 !evals/**/README.md
 !evals/**/lib/
 !evals/**/lib/**
+
+# Label Studio local data & database
+research/label_studio/data/
+

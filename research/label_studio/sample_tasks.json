@@ -1,0 +1,269 @@
+[
+  {
+    "data": {
+      "section_ref": "9.8.2.1.(1)",
+      "text": "Except as provided in Sentence (2) and Article 9.8.4.5A., required exit stairs and public stairs serving buildings of residential occupancy shall have a width, measured between wall faces or guards, of not less than 900 mm."
+    },
+    "annotations": [
+      {
+        "id": 1001,
+        "completed_by": 1,
+        "result": [
+          {
+            "id": "span_exc_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 0,
+              "end": 56,
+              "text": "Except as provided in Sentence (2) and Article 9.8.4.5A.",
+              "labels": ["EXCEPTION"]
+            }
+          },
+          {
+            "id": "span_ref_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 39,
+              "end": 55,
+              "text": "Article 9.8.4.5A",
+              "labels": ["CROSS_REF"]
+            }
+          },
+          {
+            "id": "span_app_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 96,
+              "end": 138,
+              "text": "serving buildings of residential occupancy",
+              "labels": ["APPLICABILITY"]
+            }
+          },
+          {
+            "id": "span_deon_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 139,
+              "end": 144,
+              "text": "shall",
+              "labels": ["MANDATORY"]
+            }
+          },
+          {
+            "id": "span_dim_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 204,
+              "end": 224,
+              "text": "not less than 900 mm",
+              "labels": ["DIM_MIN"]
+            }
+          },
+          {
+            "id": "choice_ifc_1",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": ["IfcStairFlight"]
+            }
+          },
+          {
+            "id": "choice_prop_1",
+            "from_name": "property_name",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": ["Width"]
+            }
+          },
+          {
+            "id": "choice_unit_1",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": ["mm"]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "data": {
+      "section_ref": "9.8.2.1.(2)",
+      "text": "Required exit stairs serving a house or an individual dwelling unit shall have a width of not less than 860 mm."
+    },
+    "annotations": [
+      {
+        "id": 1002,
+        "completed_by": 1,
+        "result": [
+          {
+            "id": "span_app_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 21,
+              "end": 67,
+              "text": "serving a house or an individual dwelling unit",
+              "labels": ["APPLICABILITY"]
+            }
+          },
+          {
+            "id": "span_deon_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 68,
+              "end": 73,
+              "text": "shall",
+              "labels": ["MANDATORY"]
+            }
+          },
+          {
+            "id": "span_dim_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 90,
+              "end": 110,
+              "text": "not less than 860 mm",
+              "labels": ["DIM_MIN"]
+            }
+          },
+          {
+            "id": "choice_ifc_2",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": ["IfcStairFlight"]
+            }
+          },
+          {
+            "id": "choice_prop_2",
+            "from_name": "property_name",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": ["Width"]
+            }
+          },
+          {
+            "id": "choice_unit_2",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": ["mm"]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "data": {
+      "section_ref": "9.8.2.2.(2)",
+      "text": "Except as provided in Sentence (3) and Article 9.8.4.5A., the clear height over stairs shall not be less than 2 050 mm."
+    },
+    "annotations": [
+      {
+        "id": 1003,
+        "completed_by": 1,
+        "result": [
+          {
+            "id": "span_exc_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 0,
+              "end": 56,
+              "text": "Except as provided in Sentence (3) and Article 9.8.4.5A.",
+              "labels": ["EXCEPTION"]
+            }
+          },
+          {
+            "id": "span_deon_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 87,
+              "end": 96,
+              "text": "shall not",
+              "labels": ["PROHIBITED"]
+            }
+          },
+          {
+            "id": "span_dim_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 97,
+              "end": 118,
+              "text": "be less than 2 050 mm",
+              "labels": ["DIM_MIN"]
+            }
+          },
+          {
+            "id": "choice_ifc_3",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": ["IfcStairFlight"]
+            }
+          },
+          {
+            "id": "choice_prop_3",
+            "from_name": "property_name",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": ["RequiredHeadroom"]
+            }
+          },
+          {
+            "id": "choice_unit_3",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": ["mm"]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "data": {
+      "section_ref": "9.8.3.3.(1)",
+      "text": "The vertical height of a flight shall not exceed 3.7 m."
+    }
+  },
+  {
+    "data": {
+      "section_ref": "9.8.4.4.(5)",
+      "text": "The slope of treads shall not exceed 1 in 50."
+    }
+  }
+]

@@ -1,0 +1,91 @@
+<View>
+  <Header value="BIM-Guard Regulatory Code Annotation Interface" size="4" />
+  
+  <View style="padding: 10px; background: #f8fafc; border-radius: 6px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+    <Text name="section_ref" value="$section_ref" style="font-weight: bold; color: #1e293b; margin-bottom: 4px;" />
+    <Text name="text" value="$text" style="font-size: 15px; line-height: 1.6; color: #0f172a;" />
+  </View>
+
+  <!-- 1. Linguistic Span Annotations (Deontics, Conditions, Dimensions, Cross-Refs) -->
+  <View style="margin-top: 10px;">
+    <Header value="1. Linguistic Spans &amp; Operators" size="5" />
+    <Labels name="linguistic_labels" toName="text">
+      <!-- Deontic Modalities -->
+      <Label value="MANDATORY" background="#ef4444" hint="shall, must" />
+      <Label value="PROHIBITED" background="#dc2626" hint="shall not, must not" />
+      <Label value="RECOMMENDED" background="#3b82f6" hint="should, recommended" />
+      <Label value="PERMITTED" background="#10b981" hint="may, permitted" />
+
+      <!-- Conditions &amp; Exceptions -->
+      <Label value="APPLICABILITY" background="#f97316" hint="where, when, if, serving..." />
+      <Label value="EXCEPTION" background="#db2777" hint="except as provided in..." />
+      <Label value="QUALIFICATION" background="#eab308" hint="provided that, subject to..." />
+
+      <!-- Dimensions &amp; Constraints -->
+      <Label value="DIM_MIN" background="#06b6d4" hint="not less than, at least, min" />
+      <Label value="DIM_MAX" background="#0284c7" hint="not more than, max, not exceed" />
+      <Label value="DIM_EXACT" background="#6366f1" hint="equal to, exactly" />
+      <Label value="DIM_RANGE" background="#8b5cf6" hint="between X and Y" />
+
+      <!-- Cross-References -->
+      <Label value="CROSS_REF" background="#14b8a6" hint="Article 9.8.4.1, Table 3.1.17.1" />
+    </Labels>
+  </View>
+
+  <!-- 2. IFC Target Entity -->
+  <View style="margin-top: 15px;">
+    <Header value="2. IFC Target Entity Class" size="5" />
+    <Choices name="ifc_entity" toName="text" choice="single" showInline="true">
+      <Choice value="IfcStairFlight" />
+      <Choice value="IfcRailing" />
+      <Choice value="IfcRampFlight" />
+      <Choice value="IfcDoor" />
+      <Choice value="IfcWindow" />
+      <Choice value="IfcWall" />
+      <Choice value="IfcCovering" />
+      <Choice value="IfcSpace" />
+      <Choice value="Other" />
+    </Choices>
+  </View>
+
+  <!-- 3. Target Property & Unit Selection -->
+  <View style="display: flex; gap: 20px; margin-top: 10px;">
+    <View style="flex: 1;">
+      <Header value="3. Target Property" size="5" />
+      <Choices name="property_name" toName="text" choice="single">
+        <Choice value="Width" />
+        <Choice value="RiserHeight" />
+        <Choice value="TreadLength" />
+        <Choice value="RequiredHeadroom" />
+        <Choice value="FlightHeight" />
+        <Choice value="NumberOfRiser" />
+        <Choice value="HandrailHeight" />
+        <Choice value="ClearWidth" />
+        <Choice value="FireRating" />
+        <Choice value="Other" />
+      </Choices>
+    </View>
+
+    <View style="flex: 1;">
+      <Header value="4. Target Unit" size="5" />
+      <Choices name="unit" toName="text" choice="single">
+        <Choice value="mm" />
+        <Choice value="m" />
+        <Choice value="degrees" />
+        <Choice value="persons" />
+        <Choice value="none" />
+      </Choices>
+    </View>
+  </View>
+
+  <!-- 5. Inter-Span Relations -->
+  <View style="margin-top: 15px;">
+    <Header value="5. Span Relations (Optional)" size="5" />
+    <Relations>
+      <Relation value="constrains" />
+      <Relation value="applies_to" />
+      <Relation value="overrides" />
+      <Relation value="references" />
+    </Relations>
+  </View>
+</View>
