@@ -25,6 +25,12 @@ from nlp_annotation.annotation_schema import (
     IFCHintAnnotation,
     ParagraphAnnotation,
 )
+from nlp_annotation.doclang_annotator import (
+    DOCLANG_NS,
+    _HEAD_TAG_ORDER,
+    _strip_ns,
+    DocLangAnnotator,
+)
 
 
 def extract_numeric_value(text: str) -> Tuple[Optional[float], Optional[str], Optional[float], Optional[float]]:
@@ -115,11 +121,13 @@ class LabelStudioBridge:
         text = data.get("text", "")
         annotations = task.get("annotations", [])
         
-        # Merge all results from accepted or latest annotation
+        # Merge all results from accepted or latest annotation (or fallback to predictions)
         results = []
         if annotations:
             latest = annotations[-1]
             results = latest.get("result", [])
+        elif task.get("predictions"):
+            results = task["predictions"][-1].get("result", [])
 
         deontics: list[DeonticAnnotation] = []
         conditions: list[ConditionAnnotation] = []
@@ -427,13 +435,305 @@ class LabelStudioBridge:
 
         return tasks
 
+    @classmethod
+    def doclang_to_label_studio_tasks(
+        cls,
+        doclang_xml: str,
+        pre_annotate: bool = True,
+    ) -> list[dict[str, Any]]:
+        """
+        Converts DocLang XML into Label Studio tasks, preserving element IDs,
+        section hierarchy, and optionally attaching pre-annotations.
+        """
+        import xml.etree.ElementTree as ET
+        annotator = DocLangAnnotator()
+        nodes = annotator.parse_nodes(doclang_xml)
+        tasks = []
+
+        for idx, node in enumerate(nodes, start=1):
+            if not node.text.strip():
+                continue
+
+            sec_ref = node.section_number or (node.section_path[-1] if node.section_path else f"node_{idx}")
+            task: dict[str, Any] = {
+                "id": idx,
+                "data": {
+                    "text": node.text,
+                    "section_ref": sec_ref,
+                    "meta": {
+                        "element_id": node.element_id,
+                        "tag": node.tag,
+                        "level": node.level,
+                        "section_number": node.section_number,
+                        "section_name": node.section_name,
+                        "section_path": node.section_path,
+                    },
+                },
+            }
+
+            if pre_annotate:
+                ann = annotator.annotate_text(node.text)
+                results = []
+                r_idx = 1
+
+                for d in ann.get("deontics", []):
+                    span = d.get("span", "")
+                    if span and span in node.text:
+                        start = node.text.find(span)
+                        end = start + len(span)
+                        label_map = {
+                            "mandatory": "MANDATORY",
+                            "prohibited": "PROHIBITED",
+                            "recommended": "RECOMMENDED",
+                            "permitted": "PERMITTED",
+                        }
+                        lbl = label_map.get(d.get("strength", ""), "MANDATORY")
+                        results.append({
+                            "id": f"deon_{idx}_{r_idx}",
+                            "from_name": "label",
+                            "to_name": "text",
+                            "type": "labels",
+                            "value": {
+                                "start": start,
+                                "end": end,
+                                "text": span,
+                                "labels": [lbl],
+                            },
+                        })
+                        r_idx += 1
+
+                for dim in ann.get("dimensions", []):
+                    span = dim.get("span", "")
+                    if span and span in node.text:
+                        start = node.text.find(span)
+                        end = start + len(span)
+                        c_map = {
+                            "min": "DIM_MIN",
+                            "max": "DIM_MAX",
+                            "exact": "DIM_EXACT",
+                            "range": "DIM_RANGE",
+                        }
+                        lbl = c_map.get(dim.get("constraint", ""), "DIM_MIN")
+                        results.append({
+                            "id": f"dim_{idx}_{r_idx}",
+                            "from_name": "label",
+                            "to_name": "text",
+                            "type": "labels",
+                            "value": {
+                                "start": start,
+                                "end": end,
+                                "text": span,
+                                "labels": [lbl],
+                            },
+                        })
+                        r_idx += 1
+
+                for xref in ann.get("cross_refs", []):
+                    raw = xref.get("raw", "")
+                    if raw and raw in node.text:
+                        start = node.text.find(raw)
+                        end = start + len(raw)
+                        results.append({
+                            "id": f"xref_{idx}_{r_idx}",
+                            "from_name": "label",
+                            "to_name": "text",
+                            "type": "labels",
+                            "value": {
+                                "start": start,
+                                "end": end,
+                                "text": raw,
+                                "labels": ["CROSS_REF"],
+                            },
+                        })
+                        r_idx += 1
+
+                for c in ann.get("conditions", []):
+                    c_text = c.get("text", "") if isinstance(c, dict) else str(c)
+                    if isinstance(c_text, str) and c_text and c_text in node.text:
+                        start = node.text.find(c_text)
+                        end = start + len(c_text)
+                        lbl = "EXCEPTION" if c.get("type") == "exception" else "APPLICABILITY"
+                        results.append({
+                            "id": f"cond_{idx}_{r_idx}",
+                            "from_name": "label",
+                            "to_name": "text",
+                            "type": "labels",
+                            "value": {
+                                "start": start,
+                                "end": end,
+                                "text": c_text,
+                                "labels": [lbl],
+                            },
+                        })
+                        r_idx += 1
+
+                if ann.get("ifc_hints"):
+                    results.append({
+                        "id": f"ifc_{idx}",
+                        "from_name": "ifc_entity",
+                        "to_name": "text",
+                        "type": "choices",
+                        "value": {"choices": [ann["ifc_hints"][0]["ifc_class"]]},
+                    })
+                if ann.get("dimensions") and ann["dimensions"][0].get("unit"):
+                    results.append({
+                        "id": f"unit_{idx}",
+                        "from_name": "unit",
+                        "to_name": "text",
+                        "type": "choices",
+                        "value": {"choices": [ann["dimensions"][0]["unit"]]},
+                    })
+
+                task["predictions"] = [
+                    {
+                        "model_version": "bim-guard-nlp-v1",
+                        "result": results,
+                    }
+                ]
+
+            tasks.append(task)
+
+        return tasks
+
+    @classmethod
+    def label_studio_to_doclang(
+        cls,
+        tasks: list[dict[str, Any]],
+        base_doclang_xml: str,
+        validate_xsd: bool = True,
+    ) -> str:
+        """
+        Injects human-reviewed Label Studio annotations back into DocLang XML,
+        matching by element_id or text, and validates schema compliance.
+        """
+        import xml.etree.ElementTree as ET
+
+        if not base_doclang_xml or not base_doclang_xml.strip():
+            return base_doclang_xml
+
+        ET.register_namespace("", DOCLANG_NS)
+        root = ET.fromstring(base_doclang_xml)
+        annotator = DocLangAnnotator()
+        nodes = annotator.parse_nodes(root=root)
+
+        task_by_elem_id: dict[str, dict[str, Any]] = {}
+        task_by_text: dict[str, dict[str, Any]] = {}
+        for t in tasks:
+            meta = t.get("data", {}).get("meta", {})
+            eid = meta.get("element_id")
+            if eid:
+                task_by_elem_id[str(eid)] = t
+            txt = t.get("data", {}).get("text", "").strip()
+            if txt:
+                task_by_text[txt] = t
+
+        for node in nodes:
+            if node.elem is None:
+                continue
+
+            matched_task = None
+            if node.element_id and str(node.element_id) in task_by_elem_id:
+                matched_task = task_by_elem_id[str(node.element_id)]
+            elif node.text.strip() in task_by_text:
+                matched_task = task_by_text[node.text.strip()]
+
+            if not matched_task:
+                continue
+
+            ann = cls.parse_task_to_nlp_annotation(matched_task)
+
+            elem = node.elem
+            custom_el = None
+            for child in elem:
+                if _strip_ns(child.tag).lower() == "custom":
+                    custom_el = child
+                    break
+
+            if custom_el is None:
+                custom_el = ET.Element(f"{{{DOCLANG_NS}}}custom" if "}" in elem.tag else "custom")
+                insert_idx = 0
+                for i, child in enumerate(list(elem)):
+                    tag_name = _strip_ns(child.tag).lower()
+                    if tag_name in _HEAD_TAG_ORDER:
+                        insert_idx = i + 1
+                    else:
+                        break
+                elem.insert(insert_idx, custom_el)
+
+            for child in list(custom_el):
+                if _strip_ns(child.tag).lower() == "bg_nlp":
+                    custom_el.remove(child)
+
+            bg_nlp = ET.SubElement(custom_el, "bg_nlp")
+            if ann.get("subject"):
+                bg_nlp.set("subject", str(ann["subject"]))
+
+            for d in ann.get("deontics", []):
+                ET.SubElement(
+                    bg_nlp,
+                    "deontic",
+                    attrib={
+                        "operator": d.get("operator", ""),
+                        "strength": d.get("strength", ""),
+                        "negated": "true" if d.get("negated") else "false",
+                        "span": d.get("span", ""),
+                    },
+                )
+
+            for dim in ann.get("dimensions", []):
+                ET.SubElement(
+                    bg_nlp,
+                    "dimension",
+                    attrib={
+                        "value": str(dim.get("value", "")),
+                        "unit": dim.get("unit", "") or "",
+                        "constraint": dim.get("constraint", "") or "",
+                        "span": dim.get("span", ""),
+                    },
+                )
+
+            for xref in ann.get("cross_refs", []):
+                ET.SubElement(
+                    bg_nlp,
+                    "cross_ref",
+                    attrib={
+                        "raw": xref.get("raw", ""),
+                        "ref_type": xref.get("ref_type", ""),
+                        "normalized": xref.get("normalized", ""),
+                    },
+                )
+
+            for c in ann.get("conditions", []):
+                ET.SubElement(
+                    bg_nlp,
+                    "condition",
+                    attrib={
+                        "type": c.get("type", ""),
+                        "marker": c.get("marker", ""),
+                        "text": c.get("text", "")[:120],
+                    },
+                )
+
+        updated_xml = ET.tostring(root, encoding="utf-8").decode("utf-8")
+
+        if validate_xsd:
+            annotator.validate_xml(updated_xml)
+
+        return updated_xml
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Label Studio Bridge for BIM-Guard Evaluation")
-    parser.add_argument("--input", "-i", type=str, required=True, help="Path to input JSON file")
-    parser.add_argument("--mode", "-m", choices=["nlp", "gold", "preannotate"], default="nlp",
-                        help="Conversion mode: 'nlp' (ParagraphAnnotation), 'gold' (GOLD_RULES), 'preannotate' (to Label Studio)")
-    parser.add_argument("--output", "-o", type=str, help="Optional output JSON path")
+    parser.add_argument("--input", "-i", type=str, required=True, help="Path to input JSON or DocLang XML file")
+    parser.add_argument(
+        "--mode",
+        "-m",
+        choices=["nlp", "gold", "preannotate", "doclang-to-tasks", "tasks-to-doclang"],
+        default="nlp",
+        help="Conversion mode: 'nlp' (ParagraphAnnotation), 'gold' (GOLD_RULES), 'preannotate' (to Label Studio), 'doclang-to-tasks' (DocLang XML -> Label Studio), 'tasks-to-doclang' (Label Studio -> DocLang XML)",
+    )
+    parser.add_argument("--base-doclang", type=str, help="Path to base DocLang XML file (required for 'tasks-to-doclang')")
+    parser.add_argument("--output", "-o", type=str, help="Optional output path")
     args = parser.parse_args()
 
     input_path = Path(args.input)
@@ -441,10 +741,46 @@ def main() -> None:
         print(f"Error: file not found: {input_path}")
         return
 
+    bridge = LabelStudioBridge()
+
+    if args.mode == "doclang-to-tasks":
+        with open(input_path, "r", encoding="utf-8") as f:
+            xml_content = f.read()
+        tasks = bridge.doclang_to_label_studio_tasks(xml_content, pre_annotate=True)
+        print(f"Generated {len(tasks)} Label Studio tasks from DocLang XML.")
+        if args.output:
+            out_path = Path(args.output)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(out_path, "w", encoding="utf-8") as f:
+                json.dump(tasks, f, indent=2)
+            print(f"Saved tasks to {out_path}")
+        else:
+            print(json.dumps(tasks[:2], indent=2))
+        return
+
+    elif args.mode == "tasks-to-doclang":
+        if not args.base_doclang or not Path(args.base_doclang).exists():
+            print("Error: --base-doclang must point to an existing DocLang XML file.")
+            return
+        with open(input_path, "r", encoding="utf-8") as f:
+            tasks_data = json.load(f)
+        with open(args.base_doclang, "r", encoding="utf-8") as f:
+            base_xml = f.read()
+        tasks = tasks_data if isinstance(tasks_data, list) else [tasks_data]
+        updated_xml = bridge.label_studio_to_doclang(tasks, base_xml, validate_xsd=True)
+        print("Successfully injected annotations into DocLang XML and verified XSD compliance.")
+        if args.output:
+            out_path = Path(args.output)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(out_path, "w", encoding="utf-8") as f:
+                f.write(updated_xml)
+            print(f"Saved annotated DocLang XML to {out_path}")
+        else:
+            print(updated_xml[:500] + "...")
+        return
+
     with open(input_path, "r", encoding="utf-8") as f:
         data = json.load(f)
-
-    bridge = LabelStudioBridge()
 
     if args.mode == "nlp":
         tasks = data if isinstance(data, list) else [data]

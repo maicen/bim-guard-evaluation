@@ -7,8 +7,8 @@
 ### Exact Scope Boundary
 
 1. **In-Scope for `bim-guard-evaluation`**:
-   - **Linguistic NLP Annotation (`nlp_annotation/`)**: 5-capability linguistic annotation layer (deontic operators, conditions & exceptions, cross-reference resolution, clause dependencies, and dimension/unit extraction) plus IFC semantic vocabulary mapping.
-   - **Evaluation & Scoring Harnesses (`eval/`)**: Ground-truth benchmark scoring (`eval_gold_code_9_8_stairs.py`, `score_nlp_annotation.py`, `score_rule_extraction.py`, `eval_harness.py`).
+   - **Linguistic NLP Annotation & DocLang Layer (`nlp_annotation/`)**: 5-capability linguistic annotation layer (deontic operators, conditions & exceptions, cross-reference resolution, clause dependencies, and dimension/unit extraction), IFC semantic vocabulary mapping, and native DocLang v0.7 XML/archive annotation and XSD validation.
+   - **Evaluation & Scoring Harnesses (`eval/`)**: Ground-truth benchmark scoring (`eval_gold_code_9_8_stairs.py`, `score_nlp_annotation.py`, `score_rule_extraction.py`, `eval_harness.py`, `label_studio_bridge.py`, `score_iaa.py`).
    - **Multi-Model Validation Sweeps**: Full sweeps across the 38-model verified IFC dataset (`test_all_38_models.py`, `test_real_ifc_pipeline.py`).
    - **Empirical Research Analysis (`eval/analyse_validation_results.py`, `research/`)**: Confusion matrix generation, error analysis, standards sensitivity curves, BCF 2.1 validity audits, and publication/thesis validation tables (1–7) and figures (B1–B4).
    - **Cross-Model Comparison (`evals/rule-extraction/`)**: [Ori Eval](https://openrouter.ai/docs/guides/ori/eval) harness comparing OpenRouter models on BIM-Guard's real rule-extraction code — LLM-as-judge scoring plus deterministic gold-rule recall. TypeScript/Bun, run via the `ori` CLI, not `uv run`; see `evals/rule-extraction/README.md`.
@@ -35,8 +35,10 @@
 
 ## Essential Commands
 
-- Install dependencies: `uv sync` (or `pip install -e .`)
-- Run linguistic annotation scoring: `uv run python eval/score_nlp_annotation.py`
+- Install dependencies: `uv sync --all-extras` (or `pip install -e .`)
+- Run unit test suite: `uv run pytest`
+- Run linguistic annotation & DocLang scoring: `uv run python eval/score_nlp_annotation.py`
+- Run Label Studio DocLang bridge: `uv run python eval/label_studio_bridge.py --mode doclang-to-tasks --input <doc.xml> -o <tasks.json>`
 - Run rule extraction scoring: `uv run python eval/score_rule_extraction.py`
 - Run 38-model validation sweep (smoke pass): `uv run python eval/test_all_38_models.py --smoke`
 - Run 38-model validation sweep (full sweep): `uv run python eval/test_all_38_models.py`

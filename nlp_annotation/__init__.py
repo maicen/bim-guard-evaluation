@@ -32,6 +32,7 @@ from .condition_parser   import ConditionParser
 from .cross_ref_resolver import CrossRefResolver
 from .dependency_mapper  import DependencyMapper
 from .dimension_extractor import DimensionExtractor
+from .doclang_annotator import DocLangAnnotator, DocLangNode, parse_otsl_table_text
 
 # IFC entity map
 try:
@@ -105,6 +106,30 @@ class NLPAnnotator:
 
         print(f"[NLPAnnotator] Annotated {total_paras} paragraphs across {len(chunks)} sections.")
         return annotated_chunks
+
+    def annotate_doclang(
+        self,
+        xml_content: str,
+        inject_custom_markup: bool = True,
+        validate_xsd: bool = True,
+    ) -> tuple[str, list[DocLangNode]]:
+        """Annotate a DocLang XML document with linguistic analysis and XSD validation."""
+        annotator = DocLangAnnotator(code_to_ifc_map=CODE_TO_IFC_MAP)
+        return annotator.annotate_doclang(
+            xml_content,
+            inject_custom_markup=inject_custom_markup,
+            validate_xsd=validate_xsd,
+        )
+
+    def doclang_to_chunks(self, xml_content: str) -> list[dict]:
+        """Convert DocLang XML directly into ConfidenceScorer-compatible chunks with NLP preambles."""
+        annotator = DocLangAnnotator(code_to_ifc_map=CODE_TO_IFC_MAP)
+        return annotator.doclang_to_chunks(xml_content)
+
+    def doclang_to_text(self, xml_content: str) -> str:
+        """Extract plain text from DocLang XML."""
+        annotator = DocLangAnnotator(code_to_ifc_map=CODE_TO_IFC_MAP)
+        return annotator.doclang_to_text(xml_content)
 
     # ── Private ───────────────────────────────────────────────────────────────
 

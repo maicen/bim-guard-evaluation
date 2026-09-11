@@ -2,13 +2,13 @@
   "eval_id": "score_nlp_annotation",
   "tier": 0,
   "status": "PASS",
-  "passed": 54,
+  "passed": 60,
   "failed": 0,
-  "total": 54,
+  "total": 60,
   "score": 1.0,
-  "duration_s": 0.019011600001249462,
-  "bimguard_commit": "ec1ed9c",
-  "eval_commit": "32e132f",
+  "duration_s": 0.08031710000068415,
+  "bimguard_commit": "ffe484a",
+  "eval_commit": "12a248d",
   "details": [],
-  "baseline_created": "2026-09-03T14:54:00.195685+00:00"
+  "baseline_created": "2026-09-11T12:46:05.758688+00:00"
 }

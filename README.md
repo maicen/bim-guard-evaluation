@@ -22,9 +22,11 @@ This repository isolates academic and empirical validation from core application
    - **Clause Dependency Mapping**: Relational mapping (`NOTWITHSTANDING`, `IN LIEU OF`, `SUBJECT TO`).
    - **Dimension & Unit Extraction**: Measurement values, metric/imperial units, and constraint bounds (`min`, `max`, `range`, `exact`).
    - **IFC Semantic Entity Mapping**: Grounded dictionary linking code vocabulary to IFC classes (`IfcStairFlight`, `IfcDoor`, `IfcPipeSegment`, etc.).
+   - **Native DocLang (v0.7) XML Annotation**: Ingest DocLang XML and OTSL tables, annotate semantic elements in-place inside schema-compliant `<custom><bg_nlp .../></custom>` elements, and validate with `doclang.validate()`.
 
 2. **Scoring & Evaluation Harnesses (`eval/`)**
-   - `score_nlp_annotation.py`: Automated scoring test suite verifying 54 linguistic test cases across all 5 annotator capabilities.
+   - `score_nlp_annotation.py`: Automated scoring test suite verifying 60 linguistic and DocLang test cases across all capabilities.
+   - `label_studio_bridge.py`: Bidirectional converter between Label Studio tasks, DocLang XML, ParagraphAnnotation, and GOLD_RULES.
    - `score_rule_extraction.py`: Structural diagnostics (heading detection, skip leakage, table coverage, regex baseline) and LLM-based rule extraction accuracy against hand-annotated gold standards.
    - `eval_gold_code_9_8_stairs.py`: Hand-annotated ground-truth dataset for Part 9 code requirements.
    - `eval_harness.py`: LLM-as-judge evaluation harness tracking correctness, completeness, and executability.
@@ -50,15 +52,21 @@ bim-guard-evaluation/
 │   ├── deontic_extractor.py        # Modal operator & obligation strength parser
 │   ├── dependency_mapper.py        # Relational clause dependency mapper
 │   ├── dimension_extractor.py      # Quantity, unit, and constraint extractor
+│   ├── doclang_annotator.py        # Native DocLang v0.7 XML parsing & annotation
 │   └── ifc_mapping.py              # IFC entity mapping dictionary
 ├── eval/                           # Evaluation and scoring harnesses
-│   ├── score_nlp_annotation.py     # 5-capability NLP annotation scoring
+│   ├── score_nlp_annotation.py     # 6-capability NLP & DocLang annotation scoring
+│   ├── label_studio_bridge.py      # Bidirectional Label Studio & DocLang bridge
+│   ├── score_iaa.py                # Inter-annotator agreement scoring
 │   ├── score_rule_extraction.py    # Rule extraction accuracy scoring
 │   ├── eval_gold_code_9_8_stairs.py # Hand-annotated ground-truth answer key
 │   ├── eval_harness.py             # LLM-as-judge scoring harness
 │   ├── analyse_validation_results.py # Confusion matrices, 7 tables, 4 figures
 │   ├── test_all_38_models.py       # 38-model validation sweep harness
 │   └── test_real_ifc_pipeline.py   # Real IFC end-to-end pipeline validation
+├── docs/                           # DocLang specification & reference toolkit
+│   ├── doclang-spec-0.7.md         # Normative DocLang v0.7 specification
+│   └── doclang-README-fea2146.md   # Reference toolkit guide
 ├── research/                       # Research data, CSV tables, figures & logs
 │   ├── table1_per_model.csv        # Validation sweep summary table
 │   ├── table2_severity.csv         # Clash severity distribution

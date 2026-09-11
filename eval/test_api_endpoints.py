@@ -180,6 +180,12 @@ def run_checks(client) -> None:
     r = client.get(f"/api/documents/{NONEXISTENT_ID}")
     check_status("GET /api/documents/{nonexistent} -> 404", r, 404)
 
+    r = client.get(f"/api/documents/{NONEXISTENT_ID}/doclang")
+    check_status("GET /api/documents/{nonexistent}/doclang -> 404", r, 404)
+
+    r = client.get(f"/api/documents/{NONEXISTENT_ID}/export-doclang")
+    check_status("GET /api/documents/{nonexistent}/export-doclang -> 404", r, 404)
+
     # BCF v2.1
     r = client.get("/api/bcf/v2.1/projects")
     check_status("GET /api/bcf/v2.1/projects -> 200", r, 200)

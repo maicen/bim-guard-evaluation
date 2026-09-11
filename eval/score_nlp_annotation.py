@@ -22,12 +22,14 @@ try:
     from nlp_annotation.cross_ref_resolver import CrossRefResolver
     from nlp_annotation.dependency_mapper import DependencyMapper
     from nlp_annotation.dimension_extractor import DimensionExtractor
+    from nlp_annotation.doclang_annotator import DocLangAnnotator, parse_otsl_table_text
 except ImportError:
     from app.modules.nlp_annotation.deontic_extractor import DeonticExtractor
     from app.modules.nlp_annotation.condition_parser import ConditionParser
     from app.modules.nlp_annotation.cross_ref_resolver import CrossRefResolver
     from app.modules.nlp_annotation.dependency_mapper import DependencyMapper
     from app.modules.nlp_annotation.dimension_extractor import DimensionExtractor
+    from nlp_annotation.doclang_annotator import DocLangAnnotator, parse_otsl_table_text
 
 de = DeonticExtractor()
 cp = ConditionParser()
@@ -239,6 +241,35 @@ t = "unless otherwise permitted by the authority having jurisdiction"
 deps = dm.extract(t)
 check("Unless no ref -> still exception", [d["dep_type"] for d in deps], ["exception"])
 
+# ── 6. DOCLANG XML ADOPTION & VALIDATION ────────────────────────────────────
+
+dla = DocLangAnnotator()
+doclang_sample = """<doclang xmlns="https://www.doclang.ai/ns/v0" version="0.7">
+  <heading level="1">9.8. Stairs</heading>
+  <heading level="2">9.8.4. Dimensions</heading>
+  <text><custom><bg_element_id value="elem-stairs-run"/></custom>Every flight of stairs shall have a minimum run of 280 mm.</text>
+  <table>
+    <fcel/>Type<fcel/>Min Run<nl/>
+    <fcel/>Residential<fcel/>210 mm
+  </table>
+</doclang>"""
+
+nodes = dla.parse_nodes(doclang_sample)
+check("DocLang node count", [len(nodes)], [4])
+check("DocLang section hierarchy", [nodes[1].section_number, nodes[2].section_number], ["9.8.4", "9.8.4"])
+check("DocLang element ID preserved", [nodes[2].element_id], ["elem-stairs-run"])
+
+annotated_xml, _ = dla.annotate_doclang(doclang_sample, validate_xsd=True)
+check("DocLang XML annotated with bg_nlp", ["<bg_nlp" in annotated_xml, 'operator="SHALL"' in annotated_xml], [True, True])
+
+plain_text = dla.doclang_to_text(annotated_xml)
+check("DocLang plain text clean without XML tags", ["bg_nlp" not in plain_text, "minimum run of 280 mm" in plain_text], [True, True])
+
+import xml.etree.ElementTree as ET
+table_el = ET.fromstring("<table><fcel/>A<fcel/>B<nl/><fcel/>1<fcel/>2</table>")
+rows, _ = parse_otsl_table_text(table_el)
+check("DocLang OTSL table parsed", [len(rows), rows[0]], [2, ["A", "B"]])
+
 # ── RESULTS ───────────────────────────────────────────────────────────────────
 
 total = passed + failed
@@ -252,6 +283,7 @@ cats = [
     ("3. Cross-references",      10),
     ("4. Dimensions",             9),
     ("5. Dependencies",           8),
+    ("6. DocLang XML adoption",   6),
 ]
 offset = 0
 for name, n in cats:
