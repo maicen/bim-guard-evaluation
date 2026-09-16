@@ -7,9 +7,10 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
-            "cwd": "${workspaceFolder}",
-            "justMyCode": false
+            "justMyCode": false,
+            "purpose": [
+                "debug-in-terminal"
+            ]
         },
         {
             "name": "Python Debugger: Convert PDF to DLNG (pdf_to_dlng.py)",
@@ -17,8 +18,6 @@
             "request": "launch",
             "program": "${workspaceFolder}/scripts/pdf_to_dlng.py",
             "console": "integratedTerminal",
-            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
-            "cwd": "${workspaceFolder}",
             "justMyCode": false
         }
     ]
