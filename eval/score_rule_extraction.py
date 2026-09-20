@@ -140,21 +140,49 @@ def match_gold_to_extracted(gold: dict, extracted: list[dict]) -> dict | None:
     return None
 
 
+def _extracted_matches_any_gold(rule: dict, gold_rules: list[dict]) -> bool:
+    """Mirror match_gold_to_extracted's criteria, from the extracted side, so an
+    extracted rule that fails to pair with ANY gold rule counts as a false positive."""
+    for gold in gold_rules:
+        if match_gold_to_extracted(gold, [rule]) is not None:
+            return True
+    return False
+
+
 def _score(label: str, extracted: list[dict]) -> dict:
     hits, misses = [], []
     for gold in GOLD_RULES:
         (hits if match_gold_to_extracted(gold, extracted) else misses).append(gold)
-    recall = len(hits) / len(GOLD_RULES) if GOLD_RULES else 0.0
-    print(f"\n     {label}: {len(hits)}/{len(GOLD_RULES)} gold rules recovered "
-          f"({recall:.0%} recall), {len(extracted)} rules extracted total")
+
+    false_positives = [r for r in extracted if not _extracted_matches_any_gold(r, GOLD_RULES)]
+
+    tp, fn, fp = len(hits), len(misses), len(false_positives)
+    recall = tp / len(GOLD_RULES) if GOLD_RULES else 0.0
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
+
+    print(f"\n     {label}:")
+    print(f"       confusion matrix — TP={tp}  FP={fp}  FN={fn}  (gold={len(GOLD_RULES)}, extracted={len(extracted)})")
+    print(f"       precision={precision:.0%}  recall={recall:.0%}  F1={f1:.0%}")
     if misses:
-        print("     missed:")
+        print("     missed (false negatives):")
         for g in misses:
             print(f"       - {g['ref']:30s} {g['desc'][:65]}")
+    if false_positives:
+        print("     hallucinated / unmatched (false positives):")
+        for r in false_positives:
+            print(f"       - {r.get('target', '?')}.{r.get('property_name', '?')} "
+                  f"{r.get('operator', '?')} {_extracted_value(r)}")
+
     return {
-        "label": label, "hits": len(hits), "total_gold": len(GOLD_RULES),
-        "recall": recall, "extracted_total": len(extracted),
+        "label": label, "hits": tp, "total_gold": len(GOLD_RULES),
+        "recall": recall, "precision": precision, "f1": f1,
+        "extracted_total": len(extracted),
+        "true_positives": tp, "false_positives": fp, "false_negatives": fn,
         "missed": [g["ref"] for g in misses],
+        "hallucinated": [
+            f"{r.get('target', '?')}.{r.get('property_name', '?')}" for r in false_positives
+        ],
     }
 
 
@@ -376,7 +404,7 @@ if __name__ == "__main__":
     if cli_args.json:
         result = build_result(
             "score_rule_extraction", tier=2,
-            passed=regex_score["hits"], failed=regex_score["total_gold"] - regex_score["hits"],
+            passed=regex_score["true_positives"], failed=regex_score["false_negatives"],
             total=regex_score["total_gold"], duration_s=time.perf_counter() - _START,
             details=regex_score,
         )

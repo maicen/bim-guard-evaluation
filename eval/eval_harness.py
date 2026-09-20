@@ -345,10 +345,80 @@ def run_evaluation(cases=None):
                 "completeness": verdict["completeness"],
                 "executability": verdict["executability"],
                 "issues": verdict.get("issues", ""),
+                # "needs_review" cases (e.g. ambiguous_ventilation) have no numeric
+                # threshold in the source text — a human expert would NOT emit a
+                # confident rule. Track this so a hallucinated confident rule there
+                # can be scored as a false positive, not silently rewarded.
+                "expects_no_rule": bool(case["ideal_rule"].get("needs_review", False)),
             }
         )
 
     return results
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Confusion matrix — turns the 1-5 judge scores into a binary correct/incorrect
+# classification per case, so precision/recall/F1 and false positives/negatives
+# can be reported alongside the raw scores (reviewer feedback: "false positive
+# negative is not in place").
+# ══════════════════════════════════════════════════════════════════════════════
+
+CORRECT_THRESHOLD = 4  # correctness AND completeness must both be >= this to count as a hit
+
+
+def classify_result(r):
+    """Return one of 'TP', 'FP', 'FN', 'TN', or None (judge error / excluded)."""
+    c, co = r["correctness"], r["completeness"]
+    if c < 0:  # judge error — can't classify
+        return None
+
+    judged_correct = c >= CORRECT_THRESHOLD and co >= CORRECT_THRESHOLD
+    rule_produced = r["generated"] is not None
+
+    if r["expects_no_rule"]:
+        # Ground truth says "don't emit a confident rule here".
+        return "FP" if (rule_produced and judged_correct) else "TN"
+    else:
+        # Ground truth says "a rule should exist".
+        return "TP" if (rule_produced and judged_correct) else "FN"
+
+
+def print_confusion_matrix(results):
+    """Print TP/FP/FN/TN counts plus precision/recall/F1 derived from the judge verdicts."""
+    counts = {"TP": 0, "FP": 0, "FN": 0, "TN": 0}
+    skipped = 0
+    for r in results:
+        label = classify_result(r)
+        if label is None:
+            skipped += 1
+            continue
+        counts[label] += 1
+        r["classification"] = label
+
+    tp, fp, fn, tn = counts["TP"], counts["FP"], counts["FN"], counts["TN"]
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    recall = tp / (tp + fn) if (tp + fn) else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
+
+    print(f"\n{'=' * 70}")
+    print("  CONFUSION MATRIX (judge-derived, threshold: correctness & completeness >= "
+          f"{CORRECT_THRESHOLD}/5)")
+    print(f"{'=' * 70}")
+    print(f"  {'Case':<25} {'Classification'}")
+    print(f"  {'-' * 25} {'-' * 20}")
+    for r in results:
+        print(f"  {r['id']:<25} {r.get('classification', 'SKIPPED (judge error)')}")
+
+    print(f"\n  TP={tp}  FP={fp}  FN={fn}  TN={tn}"
+          + (f"  (skipped {skipped} judge error(s))" if skipped else ""))
+    print(f"  precision={precision:.0%}  recall={recall:.0%}  F1={f1:.0%}")
+
+    return {
+        "true_positives": tp, "false_positives": fp,
+        "false_negatives": fn, "true_negatives": tn,
+        "precision": precision, "recall": recall, "f1": f1,
+        "skipped": skipped,
+    }
 
 
 def print_summary(results):
@@ -388,7 +458,7 @@ def print_summary(results):
     return totals, valid
 
 
-def save_results(results):
+def save_results(results, confusion=None):
     """Save timestamped results for historical comparison."""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     path = os.path.join(RESULTS_DIR, f"eval_{timestamp}.json")
@@ -397,6 +467,7 @@ def save_results(results):
         "timestamp": timestamp,
         "provider": LLM_PROVIDER,
         "results": results,
+        "confusion_matrix": confusion,
     }
     with open(path, "w") as f:
         json.dump(payload, f, indent=2)
@@ -465,7 +536,8 @@ def main():
 
     results = run_evaluation(cases)
     print_summary(results)
-    save_results(results)
+    confusion = print_confusion_matrix(results)
+    save_results(results, confusion)
 
 
 if __name__ == "__main__":
