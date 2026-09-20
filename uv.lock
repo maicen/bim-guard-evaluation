@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 2
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'win32'",
@@ -219,6 +219,7 @@ dependencies = [
     { name = "defusedxml" },
     { name = "doclang" },
     { name = "docling-slim" },
+    { name = "httpx" },
     { name = "ifcopenshell" },
     { name = "matplotlib" },
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
@@ -251,6 +252,7 @@ requires-dist = [
     { name = "defusedxml", specifier = ">=0.7.1" },
     { name = "doclang", specifier = ">=0.7.3" },
     { name = "docling-slim", specifier = ">=2.127.0" },
+    { name = "httpx", specifier = ">=0.28.1" },
     { name = "ifcopenshell", specifier = ">=0.8.4.post1" },
     { name = "litellm", marker = "extra == 'llm'", specifier = ">=1.35.0" },
     { name = "matplotlib", specifier = ">=3.8.0" },

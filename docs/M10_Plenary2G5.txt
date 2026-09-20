@@ -1,0 +1,61 @@
+
+Can you see my screen? Yep. Uh, this is group five.
+We are presenting bingo card.
+It is, uh, automated code compliance, uh, platform uh, provided in terms of software as a service, we rely on open source, uh, technology so far, uh.
+Our workflow is demonstrated here in our GitHub repo.
+We are developing that openly in public for each one who is interested to, uh,
+watch us developing the workflow is that you have two inputs or two types of inputs.
+The first one is an IFC file, uh, for a project and uh, a code or standard, uh,
+that includes rules to be, uh, checked for, uh, compliance and so on and so forth.
+Uh, it works that, uh, in that way that it extracts, automatically extracts rules from the, uh, standards or building codes using, uh,
+an LP and prompt engineering, uh, in that we are also doing some research, linguistic analysis of building codes to enhance our extraction accuracy.
+Uh, it is not fully automated. That includes the human in the loop.
+Also to, uh, for accountability and accuracy, uh, we have assessed the risks of hallucinations or, uh, unreliable, uh, generated rules and so on.
+Uh, so far, we have developed a prototype of our system, including all the things we need to provide.
+Some of of the modules of development has reached, uh, considerable, uh, maturity level.
+Uh, some of them are still under development. So in brief.
+Uh, I'm going to show you through, uh, the interface, the web interface of the application.
+That's, uh, an initial dashboard. Uh, if you were to start that workflow, you can click your new check or, uh, new project, something like that.
+You are able to create a new project, upload an IFC file which would be stored in the database and stored and on, uh, a cloud storage.
+Uh, you can also view the. The file you have uploaded here, or implemented of yours that will be used later on for annotation and coordination, so on.
+Um, later on there is, uh, run analysis.
+That's in case we so far, this module is still under development.
+You check the project you would like to run an analysis for, and, uh, the analysis team.
+So we are focusing on the architecture. The two disciplines is architecture and the map.
+Uh, we will stay with the architecture and the building code.
+We are verifying again inside the building code.
+This means of ingress. Uh, it will demonstrate what, what it should look, uh, look like after the full development of that project of that mature.
+Because this module is still under development. Uh, so in brief, it extracts the elements from the FC file, it finds the relevant,
+uh, uh, clauses from the code that should be applicable to that element.
+And it compares the comparison module under development.
+But this is a prototype to show you how how we should act after the development of that, uh, module.
+And uh, later on we will develop the report section.
+It will exports uh analysis summary in terms of the documents management and so on.
+You can also as mentioned earlier, you can upload a file here.
+We have here for example uh chapter of the code.
+You can edit or view it. Uh also under development the role extraction is to view.
+It uses uh any like which should allow for any helium provider to be used.
+And do choose the your terrorism model that you want to use.
+And you bring your own API key.
+Select the document you would like to analyze and uh press extract rules is still under development so far, but we have extracted rules, uh, manually.
+Just for the verification and the proof of concept for the workflow.
+So as you see, we have a prototype so far, but uh, and you have the option here to import the Json rulesets also as well.
+Uh, but we have uh, still uh, we have still some modules under development.
+Uh, we will be progressing through the upcoming weeks hopefully.
+And thank you for your attention. Any questions? Um, no.
+Thank you. Um. Yes. Thank you. Um, yes.
+Is is is a strong, well structured model. And, um, you demonstrate IFC uploads and, uh, rule extraction, um, and open the show, um, IFC pairing and,
+um, my, um, to Jason roll and will check and Pkf report and human, uh, episodes as well.
+So it's. Yes. And, um, I really appreciate that response both or I principle and very well present throughout uh,
+the whole, uh, whole whole scheme and, um, auditable and, and force positive monitoring as well.
+And, um, this adoption roadmap is very practical.
+Um, the only things I comment here as, uh, very limited, um, the evidence of your, um, um, real extraction, the accuracy,
+um, and also the IFC validation performance and, um, yeah, you just show me the examples for the, uh, Jason library.
+That is good. And I post to us and, um, but, uh, if you hadn't submit to me my test IMC or be, for example,
+um, case and, um, maybe, um, you have, um, more petitions or we call, uh, example.
+Um, that would be good. And um, and also the architecture of the dot architecture diagrams and the API reference.
+That may be good for your next submission. Okay. Yes.
+Not it. Not so I agree with your, uh, point of view.
+Uh, some still under development and yes, in our roadmap, actually.
+Thank you for your feedback. Yeah, yeah. No problem.
+Yeah I see as in the right direction. So keep going. Thank you.

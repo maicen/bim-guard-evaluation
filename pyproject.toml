@@ -8,6 +8,7 @@ dependencies = [
     "defusedxml>=0.7.1",
     "doclang>=0.7.3",
     "docling-slim>=2.127.0",
+    "httpx>=0.28.1",
     "ifcopenshell>=0.8.4.post1",
     "matplotlib>=3.8.0",
     "numpy>=1.26.0",

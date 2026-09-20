@@ -1,0 +1,2036 @@
+<doclang version="0.7">
+  <page_header>
+    <layer value="furniture"/>
+    <location value="190"/>
+    <location value="22"/>
+    <location value="377"/>
+    <location value="28"/>
+    2012 Building Code Compendium
+  </page_header>
+  <picture>
+    <location value="59"/>
+    <location value="10"/>
+    <location value="122"/>
+    <location value="27"/>
+  </picture>
+  <heading level="2">
+    <location value="60"/>
+    <location value="57"/>
+    <location value="127"/>
+    <location value="70"/>
+    Part 9
+  </heading>
+  <heading level="2">
+    <location value="60"/>
+    <location value="85"/>
+    <location value="353"/>
+    <location value="97"/>
+    Housing and Small Buildings
+  </heading>
+  <index>
+    <location value="49"/>
+    <location value="121"/>
+    <location value="500"/>
+    <location value="463"/>
+    <ched/>
+    9.1.
+    <ched/>
+    General
+    <ecel/>
+    <ched/>
+    9.8.5.
+    <ched/>
+    Ramps ...........................................................................
+    <ched/>
+    31
+    <nl/>
+    <fcel/>
+    9.1.1.
+    <fcel/>
+    Application ....................................................................
+    <fcel/>
+    5
+    <fcel/>
+    9.8.6.
+    <fcel/>
+    Landings .......................................................................
+    <fcel/>
+    32
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.8.7.
+    <fcel/>
+    Handrails .......................................................................
+    <fcel/>
+    33 e 8.1
+    <nl/>
+    <fcel/>
+    9.2.
+    <fcel/>
+    Reserved
+    <ecel/>
+    <fcel/>
+    9.8.8.
+    <fcel/>
+    Guards...........................................................................
+    <fcel/>
+    35
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.8.9.
+    <fcel/>
+    Construction .................................................................
+    <fcel/>
+    38 e 8.1
+    <nl/>
+    <fcel/>
+    9.3.
+    <fcel/>
+    Materials, Systems and Equipment
+    <ecel/>
+    <fcel/>
+    9.8.10.
+    <fcel/>
+    Cantilevered Precast Concrete Steps ........................
+    <fcel/>
+    40
+    <nl/>
+    <fcel/>
+    9.3.1.
+    <fcel/>
+    Concrete ........................................................................
+    <fcel/>
+    6
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.3.2.
+    <fcel/>
+    Lumber and Wood Products .......................................
+    <fcel/>
+    8
+    <fcel/>
+    9.9.
+    <fcel/>
+    Means of Egress General ..........................................................................
+    <fcel/>
+    40
+    <nl/>
+    <fcel/>
+    9.3.3.
+    <fcel/>
+    Metal ..............................................................................
+    <fcel/>
+    11
+    <fcel/>
+    9.9.1. 9.9.2.
+    <fcel/>
+    Types and Purpose of Exits ........................................
+    <fcel/>
+    41
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.9.3.
+    <fcel/>
+    Dimensions of Means of Egress ................................
+    <fcel/>
+    42
+    <nl/>
+    <fcel/>
+    9.4.
+    <fcel/>
+    Structural Requirements
+    <ecel/>
+    <fcel/>
+    9.9.4.
+    <fcel/>
+    Fire Protection of Exits ................................................
+    <fcel/>
+    42
+    <nl/>
+    <fcel/>
+    9.4.1.
+    <fcel/>
+    Structural Design Requirements and Application Limitations ....................................................................
+    <fcel/>
+    11
+    <fcel/>
+    9.9.5.
+    <fcel/>
+    Obstructions and Hazards in Means of Egress ........
+    <fcel/>
+    44 45
+    <nl/>
+    <fcel/>
+    9.4.2.
+    <fcel/>
+    Specified Loads ............................................................
+    <fcel/>
+    12
+    <fcel/>
+    9.9.6.
+    <fcel/>
+    Doors in a Means of Egress ........................................
+    <ecel/>
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Deflections ....................................................................
+    <ecel/>
+    <fcel/>
+    9.9.7.
+    <fcel/>
+    Access to Exits ............................................................
+    <fcel/>
+    47
+    <nl/>
+    <fcel/>
+    9.4.3. 9.4.4.
+    <fcel/>
+    Foundation Conditions ................................................
+    <fcel/>
+    13 13
+    <fcel/>
+    9.9.8.
+    <fcel/>
+    Exits from Floor Areas ................................................
+    <fcel/>
+    49 51
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.9.9. 9.9.10.
+    <fcel/>
+    Egress from Dwelling Units ........................................ Egress from Bedrooms ...............................................
+    <fcel/>
+    51
+    <nl/>
+    <fcel/>
+    9.5.
+    <fcel/>
+    Design of Areas, Spaces and
+    <ecel/>
+    <fcel/>
+    9.9.11.
+    <fcel/>
+    Signs .............................................................................
+    <fcel/>
+    52
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Doorways
+    <ecel/>
+    <fcel/>
+    9.9.12.
+    <fcel/>
+    Lighting .........................................................................
+    <fcel/>
+    53
+    <nl/>
+    <fcel/>
+    9.5.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    15
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.5.2.
+    <fcel/>
+    Barrier-Free Design ......................................................
+    <fcel/>
+    16
+    <fcel/>
+    9.10.
+    <fcel/>
+    Fire Protection
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.5.3.
+    <fcel/>
+    Ceiling Heights .............................................................
+    <fcel/>
+    16
+    <fcel/>
+    9.10.1.
+    <fcel/>
+    Definitions and Application ........................................
+    <fcel/>
+    54
+    <nl/>
+    <fcel/>
+    9.5.4.
+    <fcel/>
+    Living Rooms or Spaces Within Dwelling Units .......
+    <fcel/>
+    17
+    <fcel/>
+    9.10.2.
+    <fcel/>
+    Occupancy Classification ...........................................
+    <fcel/>
+    55
+    <nl/>
+    <fcel/>
+    9.5.5.
+    <fcel/>
+    Dining Rooms or Spaces Within Dwelling Units .......
+    <fcel/>
+    17
+    <fcel/>
+    9.10.3.
+    <fcel/>
+    Ratings ..........................................................................
+    <fcel/>
+    56
+    <nl/>
+    <fcel/>
+    9.5.6.
+    <fcel/>
+    Kitchens within Dwelling Units ...................................
+    <fcel/>
+    18
+    <fcel/>
+    9.10.4
+    <fcel/>
+    Building Size Determination .......................................
+    <fcel/>
+    56
+    <nl/>
+    <fcel/>
+    9.5.7.
+    <fcel/>
+    Bedrooms or Spaces in Dwelling Units and
+    <ecel/>
+    <fcel/>
+    9.10.5.
+    <fcel/>
+    Permitted Openings in Wall and Ceiling
+    <ecel/>
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Dormitories ...................................................................
+    <fcel/>
+    18
+    <ecel/>
+    <fcel/>
+    Assemblies ...................................................................
+    <fcel/>
+    57
+    <nl/>
+    <fcel/>
+    9.5.8.
+    <fcel/>
+    Combined Spaces ........................................................
+    <fcel/>
+    18
+    <fcel/>
+    9.10.6.
+    <fcel/>
+    Construction Types .....................................................
+    <fcel/>
+    57
+    <nl/>
+    <fcel/>
+    9.5.9.
+    <fcel/>
+    Bathrooms and Water Closet Rooms .........................
+    <fcel/>
+    19
+    <fcel/>
+    9.10.7.
+    <fcel/>
+    Steel Members ..............................................................
+    <fcel/>
+    58
+    <nl/>
+    <fcel/>
+    9.5.10.
+    <fcel/>
+    Hallways ........................................................................
+    <fcel/>
+    19
+    <fcel/>
+    9.10.8.
+    <fcel/>
+    Fire-Resistance, Combustibility and Sprinklers in
+    <fcel/>
+    e 1
+    <nl/>
+    <fcel/>
+    9.5.11.
+    <fcel/>
+    Doorway Sizes ..............................................................
+    <fcel/>
+    19
+    <ecel/>
+    <fcel/>
+    Relation to Occupancy, Height and Supported Elements .......................................................................
+    <fcel/>
+    58
+    <nl/>
+    <fcel/>
+    9.6.
+    <fcel/>
+    Glass
+    <ecel/>
+    <fcel/>
+    9.10.9.
+    <fcel/>
+    Fire Separations Between Rooms and Spaces
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.6.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    20
+    <ecel/>
+    <fcel/>
+    Within Buildings ...........................................................
+    <fcel/>
+    59
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.10.10.
+    <fcel/>
+    Service Rooms .............................................................
+    <fcel/>
+    64
+    <nl/>
+    <fcel/>
+    9.7.
+    <fcel/>
+    Windows, Doors and Skylights
+    <ecel/>
+    <fcel/>
+    9.10.11.
+    <fcel/>
+    Firewalls ........................................................................
+    <fcel/>
+    66
+    <nl/>
+    <fcel/>
+    9.7.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    25
+    <fcel/>
+    9.10.12.
+    <fcel/>
+    Prevention of Fire Spread at Exterior Walls and
+    <fcel/>
+    66
+    <nl/>
+    <fcel/>
+    9.7.2.
+    <fcel/>
+    Required Windows, Doors and Skylights .................
+    <fcel/>
+    25
+    <ecel/>
+    <fcel/>
+    Between Storeys .......................................................... Doors, Dampers and Other Closures in Fire
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.7.3.
+    <fcel/>
+    Performance of Windows, Doors and Skylights .......
+    <fcel/>
+    27
+    <ecel/>
+    <fcel/>
+    Separations ..................................................................
+    <fcel/>
+    67
+    <nl/>
+    <fcel/>
+    9.7.4. 8
+    <fcel/>
+    Manufactured Windows, Doors and Skylights ..........
+    <fcel/>
+    28a
+    <fcel/>
+    9.10.13.
+    <fcel/>
+    Spatial Separations Between Buildings ....................
+    <fcel/>
+    70
+    <nl/>
+    <fcel/>
+    9.7.5.
+    <fcel/>
+    Site-Built Windows, Doors and Skylights ..................
+    <fcel/>
+    28a
+    <fcel/>
+    9.10.14.
+    <fcel/>
+    Spatial Separation Between Houses .........................
+    <fcel/>
+    74
+    <nl/>
+    <fcel/>
+    9.7.6.
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.10.15.
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Installation ....................................................................
+    <fcel/>
+    28a
+    <fcel/>
+    9.10.16.
+    <fcel/>
+    Fire Blocks ....................................................................
+    <fcel/>
+    77
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.10.17.
+    <fcel/>
+    Flame Spread Limits ....................................................
+    <fcel/>
+    78
+    <nl/>
+    <fcel/>
+    9.8.
+    <fcel/>
+    Stairs, Ramps, Handrails and
+    <ecel/>
+    <fcel/>
+    9.10.18.
+    <fcel/>
+    Alarm and Detection Systems ....................................
+    <fcel/>
+    81
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Guards
+    <ecel/>
+    <fcel/>
+    9.10.19.
+    <fcel/>
+    Smoke Alarms ..............................................................
+    <fcel/>
+    82
+    <nl/>
+    <fcel/>
+    9.8.1. 8.1
+    <fcel/>
+    Application ....................................................................
+    <fcel/>
+    28c
+    <fcel/>
+    9.10.20.
+    <fcel/>
+    Firefighting ...................................................................
+    <fcel/>
+    82b e 8
+    <nl/>
+    <fcel/>
+    9.8.2. 9.8.3. 8 8.1
+    <fcel/>
+    Stair Dimensions .......................................................... Stair Configurations .....................................................
+    <fcel/>
+    28d 28d
+    <fcel/>
+    9.10.21.
+    <fcel/>
+    Fire Protection for Construction Camps ...................
+    <fcel/>
+    83
+    <nl/>
+    <fcel/>
+    9.8.4.
+    <fcel/>
+    Step Dimensions ..........................................................
+    <fcel/>
+    29
+    <fcel/>
+    9.10.22.
+    <fcel/>
+    Fire Protection for Gas, Propane and Electric Cooktops ......................................................................
+    <fcel/>
+    84
+    <nl/>
+  </index>
+  <page_footer>
+    <layer value="furniture"/>
+    <location value="234"/>
+    <location value="483"/>
+    <location value="310"/>
+    <location value="489"/>
+    Division B - Part 9
+  </page_footer>
+  <page_footer>
+    <layer value="furniture"/>
+    <location value="477"/>
+    <location value="483"/>
+    <location value="484"/>
+    <location value="489"/>
+    1
+  </page_footer>
+  <page_break/>
+  <heading level="2">
+    <location value="160"/>
+    <location value="22"/>
+    <location value="347"/>
+    <location value="28"/>
+    2012 Building Code Compendium
+  </heading>
+  <picture>
+    <location value="390"/>
+    <location value="10"/>
+    <location value="452"/>
+    <location value="27"/>
+  </picture>
+  <index>
+    <location value="17"/>
+    <location value="53"/>
+    <location value="453"/>
+    <location value="467"/>
+    <ched/>
+    9.11. 9.11.1.
+    <ched/>
+    Sound Transmission Protection From Airborne Noise ...............................
+    <ched/>
+    85
+    <ched/>
+    9.20.
+    <ched/>
+    Masonry and Insulating Concrete Form Walls Not in Contact With the
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.12. e 8
+    <fcel/>
+    Excavation
+    <ecel/>
+    <fcel/>
+    9.20.1.
+    <fcel/>
+    Ground Application ...................................................................
+    <fcel/>
+    114
+    <nl/>
+    <fcel/>
+    9.12.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    87
+    <fcel/>
+    9.20.2.
+    <fcel/>
+    Masonry Units ..............................................................
+    <fcel/>
+    115
+    <nl/>
+    <fcel/>
+    9.12.2.
+    <fcel/>
+    Depth .............................................................................
+    <fcel/>
+    87
+    <fcel/>
+    9.20.3.
+    <fcel/>
+    Mortar ............................................................................
+    <fcel/>
+    116
+    <nl/>
+    <fcel/>
+    9.12.3.
+    <fcel/>
+    Backfill ..........................................................................
+    <fcel/>
+    88
+    <fcel/>
+    9.20.4.
+    <fcel/>
+    Mortar Joints ................................................................
+    <fcel/>
+    117
+    <nl/>
+    <fcel/>
+    9.12.4.
+    <fcel/>
+    Trenches Beneath Footings ........................................
+    <fcel/>
+    89
+    <fcel/>
+    9.20.5.
+    <fcel/>
+    Masonry Support .........................................................
+    <fcel/>
+    118
+    <nl/>
+    <fcel/>
+    9.13.
+    <fcel/>
+    Dampproofing, Waterproofing and
+    <ecel/>
+    <fcel/>
+    9.20.6.
+    <fcel/>
+    Thickness and Height .................................................
+    <fcel/>
+    121 122
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Soil Gas Control
+    <ecel/>
+    <fcel/>
+    9.20.7. 9.20.8.
+    <fcel/>
+    Chases and Recesses ................................................. Support of Loads .........................................................
+    <fcel/>
+    122
+    <nl/>
+    <fcel/>
+    9.13.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    89
+    <fcel/>
+    9.20.9.
+    <fcel/>
+    Bonding and Tying ......................................................
+    <fcel/>
+    123
+    <nl/>
+    <fcel/>
+    9.13.2.
+    <fcel/>
+    Dampproofing...............................................................
+    <fcel/>
+    90
+    <fcel/>
+    9.20.10.
+    <fcel/>
+    Lateral Support ............................................................
+    <fcel/>
+    125
+    <nl/>
+    <fcel/>
+    9.13.3.
+    <fcel/>
+    Waterproofing...............................................................
+    <fcel/>
+    92
+    <fcel/>
+    9.20.11.
+    <fcel/>
+    Anchorage of Roofs, Floors and Intersecting
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.13.4.
+    <fcel/>
+    Soil Gas Control ...........................................................
+    <fcel/>
+    93
+    <ecel/>
+    <fcel/>
+    Walls ............................................................................. Corbelling .....................................................................
+    <fcel/>
+    126 127
+    <nl/>
+    <fcel/>
+    9.14.
+    <fcel/>
+    Drainage
+    <ecel/>
+    <fcel/>
+    9.20.12. 9.20.13.
+    <fcel/>
+    Control of Rain Water Penetration .............................
+    <fcel/>
+    127
+    <nl/>
+    <fcel/>
+    9.14.1.
+    <fcel/>
+    Scope ............................................................................
+    <ecel/>
+    <fcel/>
+    9.20.14.
+    <fcel/>
+    Protection During Work ..............................................
+    <fcel/>
+    130
+    <nl/>
+    <fcel/>
+    9.14.2.
+    <fcel/>
+    Foundation Drainage ...................................................
+    <fcel/>
+    94
+    <fcel/>
+    9.20.15.
+    <fcel/>
+    Reinforcement for Earthquake Resistance ...............
+    <fcel/>
+    130
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    94
+    <fcel/>
+    9.20.16.
+    <fcel/>
+    Corrosion Resistance .................................................
+    <fcel/>
+    130
+    <nl/>
+    <fcel/>
+    9.14.3.
+    <fcel/>
+    Drainage Tile and Pipe ................................................
+    <fcel/>
+    95
+    <fcel/>
+    9.20.17.
+    <fcel/>
+    Above-Ground Flat Insulating Concrete Form
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.14.4. e 8
+    <fcel/>
+    Granular Drainage Layer ............................................. Drainage Disposal ........................................................
+    <fcel/>
+    96 96
+    <ecel/>
+    <fcel/>
+    Walls .............................................................................
+    <fcel/>
+    131
+    <nl/>
+    <fcel/>
+    9.14.5. 9.14.6.
+    <fcel/>
+    Surface Drainage .........................................................
+    <fcel/>
+    97
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.15.
+    <fcel/>
+    Footings and Foundations
+    <ecel/>
+    <fcel/>
+    9.21.
+    <fcel/>
+    Masonry and Concrete Chimneys and Flues
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.15.1.
+    <fcel/>
+    Application....................................................................
+    <fcel/>
+    97
+    <fcel/>
+    9.21.1.
+    <fcel/>
+    General .........................................................................
+    <fcel/>
+    133
+    <nl/>
+    <fcel/>
+    9.15.2.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    98
+    <fcel/>
+    9.21.2.
+    <fcel/>
+    Chimney Flues .............................................................
+    <fcel/>
+    134
+    <nl/>
+    <fcel/>
+    9.15.3.
+    <fcel/>
+    Footings ........................................................................
+    <fcel/>
+    98a
+    <fcel/>
+    9.21.3.
+    <fcel/>
+    Chimney Lining ............................................................
+    <fcel/>
+    136
+    <nl/>
+    <fcel/>
+    9.15.4.
+    <fcel/>
+    Foundation Walls .........................................................
+    <fcel/>
+    99
+    <fcel/>
+    9.21.4.
+    <fcel/>
+    Masonry and Concrete Chimney Construction ........
+    <fcel/>
+    137
+    <nl/>
+    <fcel/>
+    9.15.5.
+    <fcel/>
+    Support of Joists and Beams on Masonry
+    <ecel/>
+    <fcel/>
+    9.21.5.
+    <fcel/>
+    Clearance from Combustible Construction ..............
+    <fcel/>
+    138
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Foundation Walls .........................................................
+    <fcel/>
+    104
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.15.6.
+    <fcel/>
+    Parging and Finishing of Foundation Walls ..............
+    <fcel/>
+    105
+    <fcel/>
+    9.22.
+    <fcel/>
+    Fireplaces
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.16.
+    <fcel/>
+    Floors-on-Ground
+    <ecel/>
+    <fcel/>
+    9.22.1. 9.22.2.
+    <fcel/>
+    General ......................................................................... Fireplace Liners ...........................................................
+    <fcel/>
+    139 139
+    <nl/>
+    <fcel/>
+    9.16.1.
+    <fcel/>
+    Scope ............................................................................
+    <fcel/>
+    105
+    <fcel/>
+    9.22.3.
+    <fcel/>
+    Fireplace Walls ............................................................
+    <fcel/>
+    140
+    <nl/>
+    <fcel/>
+    9.16.2.
+    <fcel/>
+    Material Beneath Floors ..............................................
+    <fcel/>
+    106
+    <fcel/>
+    9.22.4.
+    <fcel/>
+    Fire Chamber................................................................
+    <fcel/>
+    140
+    <nl/>
+    <fcel/>
+    9.16.3.
+    <fcel/>
+    Drainage ........................................................................
+    <fcel/>
+    106
+    <fcel/>
+    9.22.5.
+    <fcel/>
+    Hearth ...........................................................................
+    <fcel/>
+    140
+    <nl/>
+    <fcel/>
+    9.16.4.
+    <fcel/>
+    Concrete........................................................................
+    <ecel/>
+    <fcel/>
+    9.22.6.
+    <fcel/>
+    Damper .........................................................................
+    <fcel/>
+    141
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    107
+    <ecel/>
+    <fcel/>
+    Smoke Chamber ..........................................................
+    <fcel/>
+    141
+    <nl/>
+    <fcel/>
+    9.16.5.
+    <fcel/>
+    Wood .............................................................................
+    <fcel/>
+    107
+    <fcel/>
+    9.22.7. 9.22.8.
+    <fcel/>
+    Factory-Built Fireplaces ..............................................
+    <fcel/>
+    141
+    <nl/>
+    <fcel/>
+    9.17.
+    <fcel/>
+    Columns
+    <ecel/>
+    <fcel/>
+    9.22.9.
+    <fcel/>
+    Clearance of Combustible Material............................
+    <fcel/>
+    141
+    <nl/>
+    <fcel/>
+    9.17.1.
+    <fcel/>
+    Scope ............................................................................
+    <fcel/>
+    108
+    <fcel/>
+    9.22.10.
+    <fcel/>
+    Fireplace Inserts and Hearth-Mounted Stoves .........
+    <fcel/>
+    142
+    <nl/>
+    <fcel/>
+    9.17.2.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    108
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.17.3.
+    <fcel/>
+    Steel Columns ..............................................................
+    <fcel/>
+    109
+    <fcel/>
+    9.23.
+    <fcel/>
+    Wood-Frame Construction
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.17.4.
+    <fcel/>
+    Wood Columns .............................................................
+    <fcel/>
+    109
+    <fcel/>
+    9.23.1.
+    <fcel/>
+    Application ...................................................................
+    <fcel/>
+    142
+    <nl/>
+    <fcel/>
+    9.17.5.
+    <fcel/>
+    Unit Masonry Columns ................................................
+    <fcel/>
+    110
+    <fcel/>
+    9.23.2.
+    <fcel/>
+    General .........................................................................
+    <fcel/>
+    143
+    <nl/>
+    <fcel/>
+    9.17.6.
+    <fcel/>
+    Solid Concrete Columns .............................................
+    <fcel/>
+    110
+    <fcel/>
+    9.23.3.
+    <fcel/>
+    Fasteners ......................................................................
+    <fcel/>
+    143
+    <nl/>
+    <fcel/>
+    9.18.
+    <fcel/>
+    Crawl Spaces
+    <ecel/>
+    <fcel/>
+    9.23.4.
+    <fcel/>
+    Maximum Spans ..........................................................
+    <fcel/>
+    146
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.23.5.
+    <fcel/>
+    Notching and Drilling ..................................................
+    <fcel/>
+    149
+    <nl/>
+    <fcel/>
+    9.18.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    110
+    <fcel/>
+    9.23.6.
+    <fcel/>
+    Anchorage ....................................................................
+    <fcel/>
+    149
+    <nl/>
+    <fcel/>
+    9.18.2.
+    <fcel/>
+    Access ...........................................................................
+    <fcel/>
+    111
+    <fcel/>
+    9.23.7.
+    <fcel/>
+    Sill Plates ...................................................................... Beams to Support Floors ............................................
+    <fcel/>
+    150 150
+    <nl/>
+    <fcel/>
+    9.18.3.
+    <fcel/>
+    Ventilation .....................................................................
+    <fcel/>
+    111
+    <fcel/>
+    9.23.8.
+    <fcel/>
+    Floor Joists ..................................................................
+    <fcel/>
+    151
+    <nl/>
+    <fcel/>
+    9.18.4.
+    <fcel/>
+    Clearance ......................................................................
+    <fcel/>
+    111
+    <fcel/>
+    9.23.9.
+    <fcel/>
+    Wall Studs ....................................................................
+    <fcel/>
+    153
+    <nl/>
+    <fcel/>
+    9.18.5.
+    <fcel/>
+    Drainage ........................................................................
+    <fcel/>
+    112
+    <fcel/>
+    9.23.10. 9.23.11.
+    <fcel/>
+    Wall Plates ....................................................................
+    <fcel/>
+    156
+    <nl/>
+    <fcel/>
+    9.18.6.
+    <fcel/>
+    Ground Cover ...............................................................
+    <fcel/>
+    112
+    <fcel/>
+    9.23.12.
+    <fcel/>
+    Framing Over Openings ..............................................
+    <fcel/>
+    157
+    <nl/>
+    <fcel/>
+    9.18.7.
+    <fcel/>
+    Fire Protection ..............................................................
+    <fcel/>
+    112
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    158
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Roof Spaces
+    <ecel/>
+    <fcel/>
+    9.23.13. 9.23.14.
+    <fcel/>
+    Roof and Ceiling Framing ........................................... Subflooring...................................................................
+    <fcel/>
+    161
+    <nl/>
+    <fcel/>
+    9.19.
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.23.15.
+    <fcel/>
+    Roof Sheathing ............................................................
+    <fcel/>
+    163 165
+    <nl/>
+    <fcel/>
+    9.19.1. 9.19.2.
+    <fcel/>
+    Venting .......................................................................... Access ...........................................................................
+    <fcel/>
+    113 114
+    <fcel/>
+    9.23.16.
+    <fcel/>
+    Wall Sheathing .............................................................
+    <ecel/>
+    <nl/>
+  </index>
+  <page_footer>
+    <layer value="furniture"/>
+    <location value="30"/>
+    <location value="483"/>
+    <location value="37"/>
+    <location value="489"/>
+    2
+  </page_footer>
+  <page_footer>
+    <layer value="furniture"/>
+    <location value="204"/>
+    <location value="483"/>
+    <location value="280"/>
+    <location value="489"/>
+    Division B - Part 9
+  </page_footer>
+  <page_break/>
+  <picture>
+    <location value="59"/>
+    <location value="10"/>
+    <location value="122"/>
+    <location value="27"/>
+  </picture>
+  <heading level="2">
+    <location value="190"/>
+    <location value="22"/>
+    <location value="377"/>
+    <location value="28"/>
+    2012 Building Code Compendium
+  </heading>
+  <index>
+    <location value="45"/>
+    <location value="52"/>
+    <location value="496"/>
+    <location value="472"/>
+    <fcel/>
+    9.24.
+    <fcel/>
+    Sheet Steel Stud Wall Framing
+    <ecel/>
+    <fcel/>
+    9.29.4.
+    <fcel/>
+    Plastering ......................................................................
+    <fcel/>
+    205
+    <nl/>
+    <fcel/>
+    9.24.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    166
+    <fcel/>
+    9.29.5.
+    <fcel/>
+    Gypsum Board Finish (Taped Joints) .......................
+    <fcel/>
+    205
+    <nl/>
+    <fcel/>
+    9.24.2.
+    <fcel/>
+    Size of Framing .............................................................
+    <fcel/>
+    167
+    <fcel/>
+    9.29.6.
+    <fcel/>
+    Plywood Finish .............................................................
+    <fcel/>
+    208
+    <nl/>
+    <fcel/>
+    9.24.3.
+    <fcel/>
+    Installation ....................................................................
+    <fcel/>
+    169
+    <fcel/>
+    9.29.7.
+    <fcel/>
+    Hardboard Finish .........................................................
+    <fcel/>
+    209
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.29.8.
+    <fcel/>
+    Insulating Fibreboard Finish.......................................
+    <fcel/>
+    209
+    <nl/>
+    <fcel/>
+    9.25.
+    <fcel/>
+    Heat Transfer, Air Leakage and
+    <ecel/>
+    <fcel/>
+    9.29.9.
+    <fcel/>
+    Particleboard, OSB or Waferboard Finish .................
+    <fcel/>
+    210
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Condensation Control
+    <ecel/>
+    <fcel/>
+    9.29.10.
+    <fcel/>
+    Wall Tile Finish .............................................................
+    <fcel/>
+    210
+    <nl/>
+    <fcel/>
+    9.25.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    170
+    <fcel/>
+    9.30.
+    <fcel/>
+    Flooring
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.25.2. 9.25.3.
+    <fcel/>
+    Thermal Insulation ....................................................... Air Barrier Systems ......................................................
+    <fcel/>
+    171
+    <fcel/>
+    9.30.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    211
+    <nl/>
+    <fcel/>
+    9.25.4.
+    <fcel/>
+    Vapour Barriers ............................................................
+    <fcel/>
+    172 174
+    <fcel/>
+    9.30.2.
+    <fcel/>
+    Panel-Type Underlay ...................................................
+    <fcel/>
+    212
+    <nl/>
+    <fcel/>
+    9.25.5.
+    <fcel/>
+    Properties and Position of Materials in Building
+    <ecel/>
+    <fcel/>
+    9.30.3.
+    <fcel/>
+    Wood Strip Flooring ....................................................
+    <fcel/>
+    213
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    175
+    <fcel/>
+    9.30.4.
+    <fcel/>
+    Parquet Flooring ..........................................................
+    <fcel/>
+    214
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Envelope........................................................................
+    <ecel/>
+    <fcel/>
+    9.30.5.
+    <fcel/>
+    Resilient Flooring .........................................................
+    <fcel/>
+    214
+    <nl/>
+    <fcel/>
+    9.26. 9.26.1.
+    <fcel/>
+    Roofing General .......................................................................... Roofing Materials .........................................................
+    <fcel/>
+    176 177
+    <fcel/>
+    9.30.6. 9.31.
+    <fcel/>
+    Ceramic Tile ..................................................................
+    <fcel/>
+    215
+    <nl/>
+    <fcel/>
+    9.26.2.
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.31.1.
+    <fcel/>
+    Plumbing Facilities Scope ............................................................................ General ..........................................................................
+    <fcel/>
+    215 215
+    <nl/>
+    <fcel/>
+    9.26.3. e
+    <fcel/>
+    Slope of Roof Surfaces ................................................
+    <fcel/>
+    178
+    <fcel/>
+    9.31.2.
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.26.4. 8
+    <fcel/>
+    Flashing at Intersections .............................................
+    <fcel/>
+    179
+    <fcel/>
+    9.31.3.
+    <ecel/>
+    <fcel/>
+    215
+    <nl/>
+    <fcel/>
+    9.26.5.
+    <fcel/>
+    Eave Protection for Shingles and Shakes .................
+    <fcel/>
+    180a
+    <fcel/>
+    9.31.4.
+    <fcel/>
+    Water Supply and Distribution ...................................
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.26.6.
+    <fcel/>
+    Underlay Beneath Shingles .........................................
+    <fcel/>
+    181
+    <ecel/>
+    <fcel/>
+    Required Facilities .......................................................
+    <fcel/>
+    216
+    <nl/>
+    <fcel/>
+    9.26.7.
+    <fcel/>
+    Asphalt Shingles on Slopes of 1 in 3 or Greater .......
+    <fcel/>
+    181
+    <fcel/>
+    9.31.5.
+    <fcel/>
+    Reserved .......................................................................
+    <fcel/>
+    216
+    <nl/>
+    <fcel/>
+    9.26.8.
+    <fcel/>
+    Asphalt Shingles on Slopes of Less Than 1 in 3 ......
+    <fcel/>
+    182
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    216
+    <nl/>
+    <fcel/>
+    9.26.9.
+    <fcel/>
+    Wood Roof Shingles ....................................................
+    <fcel/>
+    183
+    <fcel/>
+    9.31.6.
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    Service Water Heating Facilities ................................
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.26.10. 9.26.11.
+    <fcel/>
+    Cedar Roof Shakes ...................................................... Built-Up Roofs ..............................................................
+    <fcel/>
+    184 185
+    <fcel/>
+    9.32. 9.32.1.
+    <fcel/>
+    Ventilation General .......................................................................... Natural Ventilation .......................................................
+    <fcel/>
+    217 218
+    <nl/>
+    <fcel/>
+    9.26.12. 9.26.13.
+    <fcel/>
+    Selvage Roofing ...........................................................
+    <fcel/>
+    187 187
+    <fcel/>
+    9.32.3.
+    <ecel/>
+    <fcel/>
+    219 e 8
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Sheet Metal Roofing .....................................................
+    <fcel/>
+    188
+    <fcel/>
+    9.32.2.
+    <fcel/>
+    Mechanical Ventilation ................................................
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.26.14.
+    <fcel/>
+    Glass Reinforced Polyester Roofing .......................... Applied Rubberized Asphalt Roofing ..................
+    <fcel/>
+    188 188
+    <fcel/>
+    9.33.
+    <fcel/>
+    Heating and Air-Conditioning
+    <fcel/>
+    227
+    <nl/>
+    <fcel/>
+    9.26.15.
+    <fcel/>
+    Hot Polyvinyl Chloride Sheet Roofing ..............................
+    <ecel/>
+    <fcel/>
+    9.33.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    e 2
+    <nl/>
+    <fcel/>
+    9.26.16. 9.26.17.
+    <fcel/>
+    Concrete Roof Tiles .....................................................
+    <fcel/>
+    188
+    <ecel/>
+    <fcel/>
+    Design Temperatures ..................................................
+    <fcel/>
+    228 228
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Drains and Downspouts .....................................
+    <fcel/>
+    188
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.26.18.
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.33.2. 9.33.3.
+    <fcel/>
+    Required Heating Systems .........................................
+    <fcel/>
+    229
+    <nl/>
+    <fcel/>
+    9.27. 9.27.1. 9.27.2.
+    <fcel/>
+    Roof Cladding Application .................................................................... Required Protection from Precipitation .....................
+    <fcel/>
+    189 189 190
+    <fcel/>
+    9.33.4. 9.34. 9.34.1.
+    <fcel/>
+    Carbon Monoxide Alarms ........................................... Electrical Facilities General ..........................................................................
+    <fcel/>
+    230
+    <nl/>
+    <fcel/>
+    9.27.3. 9.27.4.
+    <fcel/>
+    Sealants .........................................................................
+    <fcel/>
+    192
+    <fcel/>
+    9.34.2. 9.34.3.
+    <fcel/>
+    Emergency Lighting ....................................................
+    <fcel/>
+    230 232
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Second Plane of Protection.........................................
+    <ecel/>
+    <fcel/>
+    9.34.4.
+    <fcel/>
+    Lighting Outlets ...........................................................
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.27.5.
+    <fcel/>
+    Attachment of Cladding ...............................................
+    <fcel/>
+    193
+    <ecel/>
+    <fcel/>
+    Reserved .......................................................................
+    <fcel/>
+    r
+    <nl/>
+    <fcel/>
+    9.27.6.
+    <fcel/>
+    Lumber Siding ..............................................................
+    <fcel/>
+    195 195
+    <fcel/>
+    9.35. 9.35.1.
+    <fcel/>
+    Garages and Carports Scope ............................................................................
+    <fcel/>
+    232
+    <nl/>
+    <fcel/>
+    9.27.7.
+    <fcel/>
+    Wood Shingles and Shakes ........................................
+    <ecel/>
+    <fcel/>
+    9.35.2.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    232a e
+    <nl/>
+    <fcel/>
+    9.27.8. 9.27.9.
+    <fcel/>
+    Plywood ......................................................................... Hardboard .....................................................................
+    <fcel/>
+    197 198
+    <fcel/>
+    9.35.3.
+    <fcel/>
+    Foundations
+    <fcel/>
+    232a e
+    <nl/>
+    <fcel/>
+    9.27.10.
+    <fcel/>
+    OSB and Waferboard ................................................... Metal ..............................................................................
+    <fcel/>
+    199 199
+    <fcel/>
+    9.35.4.
+    <fcel/>
+    .................................................................
+    <fcel/>
+    232a e 8
+    <nl/>
+    <fcel/>
+    9.27.11.
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    Walls and Columns ......................................................
+    <fcel/>
+    233
+    <nl/>
+    <fcel/>
+    9.27.12.
+    <fcel/>
+    Vinyl Siding ...................................................................
+    <fcel/>
+    200
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Exterior Insulation Finish Systems ............................
+    <fcel/>
+    200
+    <fcel/>
+    9.36. 9.36.1.
+    <fcel/>
+    Cottages Scope ............................................................................
+    <fcel/>
+    234
+    <nl/>
+    <fcel/>
+    9.27.13. 9.28. e 2.1
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    9.36.2. 9.36.3.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    234 235
+    <nl/>
+    <fcel/>
+    9.28.1. 9.28.2. e 2.1
+    <fcel/>
+    Stucco General ..........................................................................
+    <fcel/>
+    200a
+    <ecel/>
+    <fcel/>
+    Tourist Accommodation
+    <ecel/>
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Stucco Materials ...........................................................
+    <fcel/>
+    201 201
+    <ecel/>
+    <fcel/>
+    ..............................................
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.28.3. 9.28.4.
+    <fcel/>
+    Fasteners ...................................................................... Stucco Lath ...................................................................
+    <fcel/>
+    202
+    <fcel/>
+    9.37. 9.37.1.
+    <fcel/>
+    Log Construction General ..........................................................................
+    <fcel/>
+    235 235
+    <nl/>
+    <fcel/>
+    9.28.5.
+    <fcel/>
+    Stucco Mixes ................................................................ Stucco Application .......................................................
+    <fcel/>
+    203 203
+    <fcel/>
+    9.37.2. 9.37.3.
+    <fcel/>
+    Walls .............................................................................. Lintels............................................................................
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.28.6.
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <ecel/>
+    <fcel/>
+    236
+    <nl/>
+    <fcel/>
+    9.29.
+    <fcel/>
+    Interior Wall and Ceiling Finishes
+    <ecel/>
+    <fcel/>
+    9.38.
+    <fcel/>
+    Park Model Trailers
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.29.1.
+    <fcel/>
+    General ..........................................................................
+    <fcel/>
+    204
+    <fcel/>
+    9.38.1.
+    <fcel/>
+    Scope
+    <fcel/>
+    236
+    <nl/>
+    <fcel/>
+    9.29.2.
+    <fcel/>
+    Waterproof Wall Finish ................................................
+    <fcel/>
+    204
+    <ecel/>
+    <fcel/>
+    ............................................................................
+    <fcel/>
+    236
+    <nl/>
+    <fcel/>
+    9.29.3.
+    <fcel/>
+    Wood Furring ................................................................
+    <fcel/>
+    205
+    <fcel/>
+    9.38.2. 9.38.3.
+    <fcel/>
+    General .......................................................................... Requirements ...............................................................
+    <fcel/>
+    236
+    <nl/>
+  </index>
+  <text>
+    <location value="489"/>
+    <location value="320"/>
+    <location value="500"/>
+    <location value="326"/>
+    r11
+  </text>
+  <text>
+    <location value="489"/>
+    <location value="342"/>
+    <location value="502"/>
+    <location value="347"/>
+    e6.1
+  </text>
+  <text>
+    <location value="489"/>
+    <location value="349"/>
+    <location value="502"/>
+    <location value="354"/>
+    e6.1
+  </text>
+  <page_footer>
+    <layer value="furniture"/>
+    <location value="234"/>
+    <location value="483"/>
+    <location value="310"/>
+    <location value="489"/>
+    Division B - Part 9
+  </page_footer>
+  <page_footer>
+    <layer value="furniture"/>
+    <location value="477"/>
+    <location value="483"/>
+    <location value="484"/>
+    <location value="489"/>
+    3
+  </page_footer>
+  <page_break/>
+  <page_header>
+    <layer value="furniture"/>
+    <location value="160"/>
+    <location value="22"/>
+    <location value="347"/>
+    <location value="28"/>
+    2012 Building Code Compendium
+  </page_header>
+  <index>
+    <location value="29"/>
+    <location value="54"/>
+    <location value="231"/>
+    <location value="102"/>
+    <fcel/>
+    9.39.
+    <fcel/>
+    Reinforced Concrete Slabs
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.39.1.
+    <fcel/>
+    Scope ............................................................................
+    <fcel/>
+    237
+    <nl/>
+    <fcel/>
+    9.40.
+    <fcel/>
+    Additional Requirements for
+    <ecel/>
+    <nl/>
+    <ecel/>
+    <fcel/>
+    Change of Use
+    <ecel/>
+    <nl/>
+    <fcel/>
+    9.40.1.
+    <fcel/>
+    Scope ............................................................................
+    <fcel/>
+    238
+    <nl/>
+    <fcel/>
+    9.40.2.
+    <fcel/>
+    Additional Construction ..............................................
+    <fcel/>
+    238
+    <nl/>
+  </index>
+  <text>
+    <location value="221"/>
+    <location value="98"/>
+    <location value="233"/>
+    <location value="103"/>
+    238
+  </text>
+  <picture>
+    <location value="390"/>
+    <location value="10"/>
+    <location value="452"/>
+    <location value="27"/>
+  </picture>
+  <page_footer>
+    <layer value="furniture"/>
+    <location value="30"/>
+    <location value="483"/>
+    <location value="37"/>
+    <location value="489"/>
+    4
+  </page_footer>
+  <page_footer>
+    <layer value="furniture"/>
+    <location value="204"/>
+    <location value="483"/>
+    <location value="280"/>
+    <location value="489"/>
+    Division B - Part 9
+  </page_footer>
+</doclang>

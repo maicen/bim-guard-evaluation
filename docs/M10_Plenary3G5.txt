@@ -1,0 +1,87 @@
+
+Hi, all. Can you see my screen? Yep, it's group five.
+I'll quickly go through our workflow and, uh,
+we'll highlight after that the limitations and the upcoming work to be, uh, developed or under development.
+Uh, improve. Our project compares an IFC file against a set of rules.
+Uh, you can upload an IFC file, and we choose the open BIM Workflow to encourage that open source,
+uh uh, movement, uh, as you see in the workflow here.
+This is how you upload the project. After that, you can visualize that project in the viewer 3D viewer sample one showing the project,
+and later on that will be used for issues management.
+Uh, also you can upload a document of rules, uh, to be extracted like, uh, typically a standard or uh, a code building code, something like that.
+And here we show how to run analysis against the, uh, certain standard.
+I would like to highlight that we missed a step here in the recording. I'll come back to that again.
+Um, and when you run the analysis, analysis is so far directed towards certain or specific,
+uh, types of rules, uh, and specific elements like doors, windows, uh, and, uh, evacuation.
+Uh, this is the analysis result. It shows like it highlights in a table what have burst and what haven't, what was in the border line.
+And it can export PDF and Excel. Uh, that's a sample.
+Uh, it's a generated system generated PDF file. Showing what passed and what happened.
+And this is the door. Uh, uh, sorry, this is the Excel schedule also showing what pass and what haven't passed.
+Uh, here, I'll come through the different, uh, documents we have used and some, uh, windows of the project.
+Uh, this is a sample building code we have used. And as you can see, the structured text.
+So one of the things under development now is working on unstructured texts.
+This is the case of natural building codes and standards being used.
+This is to be developed. And this one shows the documents uploaded before we have been through that.
+This is a viewer window and this is the rules extraction workflow.
+We are using two different workflows for rules in structured extraction.
+The LM one. It used to work before but we had a bug here right now.
+So it's still under development. And this is the NLP or regex a regular expression way of extraction.
+I didn't want to waste your time showing you how to run the pipeline, but simply we we upload.
+We select a file here from the library and we give it a name for uh.
+We categorize the rules by filters for better user experience.
+And after you run the by applying it. It loads for some time and it gives you some look here.
+Uh, during the extraction for server observability, uh, and uh, this is if you click here, it will drive you to the rules library.
+It's still also under, uh, some improvement for user experience.
+We have improved that a lot since the last, uh, submission. And, uh, uh, this is the sample analysis window.
+Also can go through the different ways, uh, the different items that is being checked and analyzed.
+And this is the export function here. Uh, we will add something at the end, like, like there are two, uh, besides the rule extraction, uh,
+development that we can extract, that, uh, that's still under development to extract from unstructured text.
+We still have two things under development. The modeling manual.
+Because out of our research, we found out that there should be some manuals and the best practices to be followed for the better results.
+Also, the reporting part, uh, besides the exporting and Excel and PDF static files,
+there is a PDF file that should be exported for coordination between different, uh, software.
+And this is our repo of the code.
+It is public for everyone. Feel free to try and, uh, evaluate.
+Uh, thank you all for your time. Looking forward to hearing feedback.
+Uh, also, I'd like to add something that we have I haven't touched upon in the rule extraction part.
+It should be, uh, Um, a confusion matrix highlighting the accuracy that will be part of the research,
+but we haven't covered that yet because that's part still under development. We hope to complete that by the final submission.
+Okay. Thank you. Um, well, um, it's good development. Um, I know it's it's still quite a lot of on hold at the moment.
+Um, but, um, you you did, uh, improve on the second submission, and, um,
+you you get the IFC in and BCF out, uh, platform here and, um, geometry, um, process and standardization.
+So, um, synthetic validation. Um, so it's it's been building up the framework.
+Um, um, slowly. Okay.
+So, um, a strong research, uh, review in here and then, um, technically interesting to combine the AI through extraction and also, um.
+Um, and also, I think the module separated, improve the explanation and testing and maintainability as well.
+And the IFC geometry recovery relationship analysis and the BCF reporting human rule approval as well considered and also the the
+testing produce identify BCF issues from 25 synthetic elements and include 16 of the high end critical case in your proposed documents.
+And however I think the central extraction precisions and we call an LRM as a judge table and you still need to put some effort on it.
+And then, um, consider this is a third submission and that should be in place now.
+Um, so, um, a lot of work you can catch up in here and um,
+compare with other team and the the main AI components do not demonstrate properly in here, and I cannot see it from documentation.
+And, um, the corruption, uh, the corrosion, um, validations, uh, relies on a small, uh, synthetic data set.
+But however, while it's causing the 160 day schedule impacts and you need a more stronger assumption validation here.
+Okay. So that is the, the the bigger part.
+Um, I think you need to improve it as well. So for next submission and I want you guys to complete the red X and uh, versus the, uh,
+real extraction evaluation here and more test, the different uh, will be called IFC exposure.
+So, um, it's more solid, uh, test in here.
+And, um, also, you mentioned the confusion matrix you have in place and false positive negative is not in place as well.
+So that's need to catch up and integrate the missing engines and also the the obtain the corrosion expert review.
+Um it's still not in here. So um you need to have um uh, validate course program assumption evidence and include the traceable, uh,
+BCF examples and make it more complete production, uh, evidence in here for your submission for the final submission.
+So still got quite a lot of work to do, but, uh, you still got time to catch up if you guys, um, uh, put the effort on that.
+Okay. Um, so, Thiago, uh, yes, I was, I was going to to mention some of the things I think you already attached the key points.
+Uh, I think the team faced a lot of challenges, you know, in the, in the past few months.
+So I want to to mention the the amount of effort that they were able to to surpass themselves and still be able to move forward, as I said.
+And, um, I think they from a technology perspective, they solve the key aspects.
+Now they need to polish the end product in a way, because as you said, the results are there.
+But, uh, from a presentation perspective, and they know that and we we discussed this on our previous meeting.
+Um, it's not the final presentation. And I, we discuss that it's better to focus on keep moving forward.
+And then we, uh, do the, the final, uh, enhancements.
+Uh, and as you say, uh, some of these things is just a matter of, uh,
+bringing them to the presentation, to the documentation, improving a little bit user experience.
+But some of the critical problems to be solved, already solved now is just to keep going.
+And as I said, uh, I know that steam passed through a complicated period.
+And now let's enjoy the summer to get it to the finish line.
+But keep going, Tim. Well done. Yeah, yeah.
+Still got time to catch up. So, um, don't give up. Um, keep.
+Keep going. Okay. Uh. Well done. So, um.
