@@ -9,9 +9,10 @@ yEd "maps") and node-link JSON (for programmatic reuse/scoring).
 
 from __future__ import annotations
 
+import itertools
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, Iterator, List
 
 import networkx as nx
 from networkx.readwrite import json_graph
@@ -31,6 +32,13 @@ def build_graph(
     property_matches: List[CandidateMatch],
 ) -> nx.MultiDiGraph:
     graph = nx.MultiDiGraph()
+    # GraphML writes each MultiDiGraph edge's `key` straight through as the
+    # document-wide <edge id="...">, so keys must be unique across the WHOLE
+    # graph, not just per (u, v) pair. A single shared counter guarantees
+    # that; the old scheme (e.g. f"{kind}:{score}") let unrelated edges with
+    # the same rounded score or label collide, silently dropping edges on
+    # import into GraphML tools such as Gephi.
+    edge_ids: Iterator[int] = itertools.count()
 
     for clause in clauses:
         graph.add_node(
@@ -53,7 +61,7 @@ def build_graph(
         graph.add_edge(
             _clause_node_id(edge.source_ref),
             _clause_node_id(edge.target_ref),
-            key=f"{edge.edge_type}:{edge.label}",
+            key=next(edge_ids),
             kind=edge.edge_type,
             label=edge.label,
         )
@@ -100,21 +108,23 @@ def build_graph(
         graph.add_edge(
             _bsdd_node_id(edge["class_uri"]),
             _bsdd_node_id(edge["property_uri"]),
-            key=f"class_has_property:{edge.get('property_set', '')}",
+            key=next(edge_ids),
             kind="class_has_property",
             property_set=edge.get("property_set") or "",
         )
 
     for match in class_matches:
-        _add_candidate_edge(graph, match, "candidate_class_match")
+        _add_candidate_edge(graph, match, "candidate_class_match", edge_ids)
 
     for match in property_matches:
-        _add_candidate_edge(graph, match, "candidate_property_match")
+        _add_candidate_edge(graph, match, "candidate_property_match", edge_ids)
 
     return graph
 
 
-def _add_candidate_edge(graph: nx.MultiDiGraph, match: CandidateMatch, edge_kind: str) -> None:
+def _add_candidate_edge(
+    graph: nx.MultiDiGraph, match: CandidateMatch, edge_kind: str, edge_ids: Iterator[int]
+) -> None:
     source = _clause_node_id(match.clause_ref)
     target = _bsdd_node_id(match.term_uri)
     if source not in graph or target not in graph:
@@ -122,7 +132,7 @@ def _add_candidate_edge(graph: nx.MultiDiGraph, match: CandidateMatch, edge_kind
     graph.add_edge(
         source,
         target,
-        key=f"{edge_kind}:{round(match.composite, 4)}",
+        key=next(edge_ids),
         kind=edge_kind,
         composite_score=round(match.composite, 4),
         **{f"signal_{name}": round(value, 4) for name, value in match.signals.items()},
