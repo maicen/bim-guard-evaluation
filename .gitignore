@@ -53,4 +53,7 @@ evals/**/*.md
 # Label Studio local data & database
 research/label_studio/data/
 
+# Generated knowledge-graph exports (kg/build_kg.py) — large, regeneratable
+research/kg/
+
 .DS_Store
