@@ -1,6 +1,0 @@
-engine,status,bands seen,flagged,flag_%,required inputs,elements with all inputs,coverage_%
-GC-001,ok=37,Low:116006,0,0.0,material+dissimilar_neighbour,8,0.0
-CC-001,ok=37,Medium:116006,116006,100.0,material+joint_type+operating_temperature_c,0,0.0
-MC-001,ok=37,High:1835/Critical:114171,116006,100.0,material+media+nominal_diameter_mm+operating_temperature_c,0,0.0
-MM-001,ok=13 unavailable=24,-,0,0.0,material+media+environment_class,15,0.0
-XM-001,ok=13 unavailable=24,-,0,0.0,material+dissimilar_neighbour+environment_class,0,0.0
