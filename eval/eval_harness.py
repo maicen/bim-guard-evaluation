@@ -252,27 +252,25 @@ def parse_judge_response(raw):
 def generate_rule_from_text(text):
     """Run Module 3's LLM rule extractor on a text chunk and return the first generated rule.
 
-    Calls LiteLLMRuleExtractor directly — the same extractor the web app's
-    RuleExtractionService uses per-chunk in production. It takes text in and
+    Calls LlamaIndexRuleGenerator directly — the same extractor the web app's
+    RuleExtractionService uses per-chunk in production (replaces the deleted
+    app.services.rule_extractor.LiteLLMRuleExtractor). It takes text in and
     returns rule dicts out with no database involved, so this eval run never
     touches the shared rules table (unlike the old RuleStore/RuleGenerator
     path, whose db_path argument is ignored and which always wrote to and
     cleared the live shared database).
     """
     try:
-        from app.services.llm_client import LiteLLMClient
-        from app.services.rule_extractor import LiteLLMRuleExtractor
+        from app.modules.rule_builder.llamaindex_rule_generator import LlamaIndexRuleGenerator
     except ImportError:
         from pathlib import Path
 
         sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
-        from app.services.llm_client import LiteLLMClient
-        from app.services.rule_extractor import LiteLLMRuleExtractor
+        from app.modules.rule_builder.llamaindex_rule_generator import LlamaIndexRuleGenerator
 
-    extractor = LiteLLMRuleExtractor(
-        client=LiteLLMClient(model=os.getenv("BIM_GUARD_RULE_MODEL", "gpt-4o-mini"))
-    )
-    rules = asyncio.run(extractor.extract_rules_from_text(text))
+    model = os.getenv("BIM_GUARD_RULE_MODEL", "gpt-4o-mini")
+    extractor = LlamaIndexRuleGenerator()
+    rules = asyncio.run(extractor.extract_rules_from_text(text, model=model))
     return rules[0] if rules else None
 
 
