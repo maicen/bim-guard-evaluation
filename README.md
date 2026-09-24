@@ -12,7 +12,15 @@ Evaluation harnesses, NLP annotation capabilities, accuracy scoring, and empiric
 
 ## Overview
 
-This repository isolates academic and empirical validation from core application services:
+This repository isolates academic and empirical validation from core application services.
+
+> [!TIP]
+> **Start here for research credibility:** [`research/CLAIMS.md`](research/CLAIMS.md) is
+> the claims-to-evidence ledger for every headline number in this repo — what backs it,
+> where the artifact lives, and how verifiable it currently is. [`LIMITATIONS.md`](LIMITATIONS.md)
+> states known methodological gaps plainly. [`research/appendix_c_determinism_investigation.md`](research/appendix_c_determinism_investigation.md)
+> documents a run-to-run non-determinism bug found, root-caused, fixed upstream, and verified —
+> evidence the validation pipeline is audited, not merely run.
 
 1. **Linguistic NLP Annotation (`nlp_annotation/`)**
    Five rule-based annotator capabilities extracting structured metadata from building codes and standard clauses:
