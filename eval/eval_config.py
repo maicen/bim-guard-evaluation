@@ -9,7 +9,7 @@ Import this before any bim-guard (`app.*`) import:
 
     from eval_config import setup_bimguard_path, write_result, new_run_id
     setup_bimguard_path()
-    from app.modules.blue_halo... import ...
+    from app.modules.ifc_reader.ifc_geometry import IFCGeometryExtractor  # example
 """
 
 from __future__ import annotations

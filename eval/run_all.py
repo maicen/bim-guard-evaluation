@@ -45,17 +45,19 @@ from eval_config import (
 # needs_bimguard_cwd: True for scripts that read bim-guard resources via a
 # path relative to cwd (e.g. data/rulesets/*.json) rather than package-
 # relative — they must run with cwd=bim-guard's checkout, not this repo's.
+#
+# validate_blue_halo.py, test_real_ifc_pipeline.py, test_e2e_roundtrip.py,
+# performance_benchmark.py, and test_all_38_models.py were removed
+# 2026-09-25: they measured bim-guard's Piping/Corrosion and Seismic
+# domains, which bim-guard permanently retired on 2026-09-21 ("app is
+# architecture-only" -- bim-guard commit 3157c1b). See
+# research/archive/retired_corrosion_piping_seismic_domain/README.md.
 SCRIPTS: list[tuple[str, str, int, bool, bool]] = [
     ("score_nlp_annotation", "score_nlp_annotation.py", 0, True, False),
-    ("validate_blue_halo", "validate_blue_halo.py", 1, True, False),
     ("eval_gold_code_9_8_stairs", "eval_gold_code_9_8_stairs.py", 1, False, False),
     ("score_rule_extraction", "score_rule_extraction.py", 2, True, False),
-    ("test_real_ifc_pipeline", "test_real_ifc_pipeline.py", 2, True, False),
     ("test_api_endpoints", "test_api_endpoints.py", 2, True, True),
-    ("test_e2e_roundtrip", "test_e2e_roundtrip.py", 2, True, True),
-    ("performance_benchmark", "performance_benchmark.py", 2, False, False),
     ("eval_harness", "eval_harness.py", 3, False, False),
-    ("test_all_38_models", "test_all_38_models.py", 3, False, False),
 ]
 
 
