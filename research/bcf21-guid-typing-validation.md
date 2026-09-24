@@ -1,5 +1,16 @@
 # BCF 2.1 schema validation: GUID typing fixes
 
+> **Note (2026-09-25):** two of the three files in scope
+> (`bcf_generator.py`, `bcf_exporter.py`) are still current in bim-guard and
+> still back its BCF export path (now serving the architecture-only domain).
+> The third, `blue_halo_bcf_exporter.py`, was removed when bim-guard retired
+> its Piping/Corrosion/Seismic domain on 2026-09-21 — see
+> `research/archive/retired_corrosion_piping_seismic_domain/README.md`. The
+> XSD structural-compliance findings below concern the shared
+> `bcf_generator.generate_bcf` and are not domain-specific; they remain
+> applicable. Only the "Correction to the note above" section's mention of
+> the 38-model sweep and the Blue Halo export path is now historical.
+
 Date: 2026-09-02
 Scope: `app/modules/reporter/bcf_generator.py`, `app/services/bcf_exporter.py`,
 `app/modules/reporter/blue_halo_bcf_exporter.py`

@@ -65,8 +65,10 @@ def run_script(eval_id: str, script: str, tier: int, supports_json: bool, run_id
     cmd = [sys.executable, str(EVAL_DIR / script)]
     if supports_json:
         cmd.append("--json")
-    if smoke and script == "test_all_38_models.py":
-        cmd.append("--smoke")
+    # `smoke` is accepted for forward compatibility (a future script may add
+    # its own --smoke fast-subset flag) but nothing in SCRIPTS currently
+    # supports one: test_all_38_models.py, the last script that did, was
+    # removed 2026-09-25 (see research/archive/retired_corrosion_piping_seismic_domain/).
 
     cwd = str(bimguard_path()) if needs_bimguard_cwd else str(EVAL_DIR)
     # Propagate this run's id so the child writes eval_config.write_result()

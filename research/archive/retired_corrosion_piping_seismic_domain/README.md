@@ -53,6 +53,7 @@ own choice to delete rather than archive the equivalent production code
 - `eval/performance_benchmark.py` — halo-generation performance benchmark (`app.modules.ifc_reader.piping_schema`).
 - `eval/test_real_ifc_pipeline.py` — real-IFC Blue Halo end-to-end pipeline test.
 - `eval/test_e2e_roundtrip.py` — end-to-end roundtrip through the now-removed `/api/analyze/seismic` endpoint (current bim-guard exposes `/api/analyze/arch` instead; no replacement e2e harness has been written yet — see `LIMITATIONS.md`).
+- `eval/analyse_validation_results.py` — generated the 7 thesis tables and 4 Appendix B figures in `appendix_b/` above from the sweep's output; imported `app.modules.blue_halo` directly and imported private helpers from `test_all_38_models`, so it could not function once that module was removed.
 
 ## What this means for the thesis
 

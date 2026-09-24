@@ -4,9 +4,9 @@ Evaluation harnesses, NLP annotation capabilities, accuracy scoring, and empiric
 
 > [!NOTE]
 > **Cross-Reference:** This repository is the evaluation and empirical analysis companion to the primary BIM-Guard platform repository:
-> - **Core Platform Repository:** [maicen/bim-guard](https://github.com/maicen/bim-guard) — FastAPI API Gateway, Svelte 5 SPA frontend, ISO 19650 CDE workflow, and modular compliance/corrosion physics engines (GC-001, CC-001, MC-001, MM-001, XM-001).
+> - **Core Platform Repository:** [maicen/bim-guard](https://github.com/maicen/bim-guard) — FastAPI API Gateway, Svelte 5 SPA frontend, ISO 19650 CDE workflow, and architecture-domain compliance engines (ARCH-EGRESS-001, ARCH-SPATIAL-001, plus a domain-agnostic graph engine and Digital Inspector). bim-guard previously also shipped a Piping/Corrosion domain (GC-001/CC-001/MC-001/MM-001/XM-001) and a Seismic domain (SB-001 "Blue Halo"), both permanently retired on 2026-09-21 — see [`research/archive/retired_corrosion_piping_seismic_domain/README.md`](research/archive/retired_corrosion_piping_seismic_domain/README.md).
 > 
-> All research analysis, confusion matrix evaluations, linguistic annotation benchmarks, and multi-model validation sweeps are intentionally maintained and conducted in this dedicated repository outside the production BIM-Guard runtime system.
+> All research analysis, confusion matrix evaluations, linguistic annotation benchmarks, and validation work are intentionally maintained and conducted in this dedicated repository outside the production BIM-Guard runtime system.
 
 ---
 
@@ -39,12 +39,12 @@ This repository isolates academic and empirical validation from core application
    - `score_rule_extraction_corrections.py`: Field-level rule extraction correction accuracy scored against real human reviewer edits from bim-guard's live `rule_extraction_drafts` table (Mode A), complementing the gold-PDF pipeline above. See [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md).
    - `eval_gold_code_9_8_stairs.py`: Hand-annotated ground-truth dataset for Part 9 code requirements.
    - `eval_harness.py`: LLM-as-judge evaluation harness tracking correctness, completeness, and executability.
-   - `test_all_38_models.py`: Automated validation sweep over the 38-model verified IFC dataset, extracting geometry, generating halo volumes, and executing corrosion compliance engines.
-   - `analyse_validation_results.py`: Research synthesis script generating confusion matrices, empirical distributions, standards sensitivity curves, BCF validity checks, and thesis validation tables and figures.
+   - `score_iaa.py`: Inter-annotator agreement scoring (Cohen's/Fleiss' kappa, span-IoU F1) — implemented and tested, not yet run against real multi-annotator data; see `LIMITATIONS.md`.
 
 3. **Research Artifacts & Validation Data (`research/`)**
-   - **38-model sweep evidence** (`research/appendix_b/run_20260918/`): the 2026-09-18 validation-sweep run backing the thesis's headline 223,516-clash figure — `validation_sweep_summary.json`, tables `table1_per_model.csv` through `table7b_schema_twins.csv`, figures `figB1_clash_severity.png` through `figB4_schema_scatter.png`, and a `PROVENANCE.md` documenting how they were produced. See [`research/CLAIMS.md`](research/CLAIMS.md) for the claims-to-evidence ledger and current verification status of every headline number in this repo.
-   - **Empirical Reports & Methodology**: Appendix B validation specifications, baseline corrosion findings, BCF 2.1 GUID typing audits, and dataset inventories.
+   - [`research/CLAIMS.md`](research/CLAIMS.md): the claims-to-evidence ledger — what backs every headline number in this repo, where the evidence lives, and its current verification status (including the retired-domain claims below).
+   - `research/archive/retired_corrosion_piping_seismic_domain/`: the 2026-09-18, 38-model validation sweep (223,516 clashes) and related research, preserved as a historical record of bim-guard's since-retired Piping/Corrosion/Seismic domain. See that directory's README for what changed and why.
+   - [`research/appendix_c_determinism_investigation.md`](research/appendix_c_determinism_investigation.md): a run-to-run non-determinism bug in the (still-current) architectural analysis, found, root-caused, and fixed upstream.
 
 ---
 
@@ -70,20 +70,21 @@ bim-guard-evaluation/
 │   ├── score_rule_extraction_corrections.py # Rule extraction correction accuracy (live reviewer edits)
 │   ├── eval_gold_code_9_8_stairs.py # Hand-annotated ground-truth answer key
 │   ├── eval_harness.py             # LLM-as-judge scoring harness
-│   ├── analyse_validation_results.py # Confusion matrices, 7 tables, 4 figures
-│   ├── test_all_38_models.py       # 38-model validation sweep harness
-│   └── test_real_ifc_pipeline.py   # Real IFC end-to-end pipeline validation
+│   ├── run_all.py                  # Tier-ordered orchestrator with baseline comparison
+│   ├── compare_baselines.py        # Standalone baseline comparison CLI
+│   └── ori_bridge.py               # Bridge for the TypeScript Ori Eval model-comparison harness
 ├── docs/                           # DocLang specification & reference toolkit
 │   ├── doclang-spec-0.7.md         # Normative DocLang v0.7 specification
 │   ├── doclang-README-fea2146.md   # Reference toolkit guide
-│   └── rule-extraction-corrections.md # score_rule_extraction_corrections.py design & usage
+│   ├── rule-extraction-corrections.md # score_rule_extraction_corrections.py design & usage
+│   └── DATA_LICENSING.md           # Third-party building-code corpus licensing basis
 ├── research/                       # Research data, claims ledger, and archived run artifacts
 │   ├── CLAIMS.md                   # Claims-to-evidence ledger — status of every headline number
-│   ├── LIMITATIONS.md              # (see root) methodological limitations, stated plainly
-│   └── appendix_b/run_20260918/    # 38-model sweep run: validation_sweep_summary.json,
-│                                   # table1_per_model.csv…table7b_schema_twins.csv,
-│                                   # figB1_clash_severity.png…figB4_schema_scatter.png,
-│                                   # PROVENANCE.md
+│   ├── appendix_c_determinism_investigation.md # Determinism bug: found, root-caused, fixed upstream
+│   └── archive/retired_corrosion_piping_seismic_domain/ # Historical: the retired Piping/Corrosion/Seismic domain
+├── LICENSE
+├── LIMITATIONS.md                  # Methodological limitations, stated plainly
+├── CITATION.cff
 ├── pyproject.toml
 └── README.md
 ```
@@ -140,18 +141,23 @@ pipeline above:
 python eval/score_rule_extraction_corrections.py --live
 ```
 
-### 3. Full 38-Model Validation Sweep
-Runs the automated geometry extraction, halo clash generation, and compliance checks across the dataset:
+### 3. LLM-as-Judge Rule Generation Quality
+Scores rule-generation correctness/completeness/executability against golden cases, with a TP/FP/FN/TN confusion matrix:
 ```bash
-python eval/test_all_38_models.py --smoke   # Quick smoke test on 3 models
-python eval/test_all_38_models.py           # Full 38-model sweep
+python eval/eval_harness.py
 ```
 
-### 4. Empirical Research & Confusion Matrix Analysis
-Synthesizes validation results into confusion matrices, sensitivity analyses, 7 tables, and 4 figures:
+### 4. Orchestrated Run
+Runs the hermetic/component tiers in order and compares against stored baselines:
 ```bash
-python eval/analyse_validation_results.py
+python eval/run_all.py --tier 1 --json --compare-baseline
 ```
+
+> [!NOTE]
+> A 38-model IFC validation sweep and confusion-matrix/tables-and-figures synthesis
+> previously ran here (`test_all_38_models.py`, `analyse_validation_results.py`).
+> Both measured bim-guard's Piping/Corrosion domain, permanently retired 2026-09-21 —
+> see [`research/archive/retired_corrosion_piping_seismic_domain/README.md`](research/archive/retired_corrosion_piping_seismic_domain/README.md).
 
 ---
 

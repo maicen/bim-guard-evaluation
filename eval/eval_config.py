@@ -127,8 +127,12 @@ def update_baseline(eval_id: str, result: dict) -> Path:
 
 #: eval_ids whose duration_s is a measured metric worth comparing (not just
 #: a score) get a wider tolerance — timing varies with the host, accuracy
-#: shouldn't. 1.5x mirrors performance_benchmark.py's own IQR-based stance.
-PERFORMANCE_EVAL_IDS = {"performance_benchmark"}
+#: shouldn't. Empty as of 2026-09-25: performance_benchmark.py measured the
+#: since-retired Piping/Corrosion halo-generation path and was removed (see
+#: research/archive/retired_corrosion_piping_seismic_domain/). The mechanism
+#: is kept for whatever timing-sensitive harness targets the current
+#: architecture-only engines next -- add its eval_id here when it exists.
+PERFORMANCE_EVAL_IDS: set[str] = set()
 
 
 def _failing_labels(details: Any) -> set[str]:

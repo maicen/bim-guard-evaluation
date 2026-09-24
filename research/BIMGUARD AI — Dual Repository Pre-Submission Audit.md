@@ -7,15 +7,25 @@
 > `bim-guard-evaluation`'s working tree by commit `750ae73` ("Remove obsolete
 > research tables and test results", 2026-09-21) during an unrelated cleanup
 > pass — though the files were never removed from git history. They have
-> since been restored to
-> [`research/appendix_b/run_20260918/`](appendix_b/run_20260918/PROVENANCE.md)
-> and are hash-pinned and status-tracked in [`research/CLAIMS.md`](CLAIMS.md).
-> The underlying figure (223,516 clashes across 37 of 38 models) is
-> unchanged and is now traceable to per-model records. This finding is
-> superseded; the rest of the audit below (thesis-metadata mismatches,
-> repository-structure observations, etc.) was not re-verified as part of
-> this note and stands as originally written unless `CLAIMS.md` says
-> otherwise for a specific claim.
+> since been restored, and are hash-pinned and status-tracked in
+> [`research/CLAIMS.md`](CLAIMS.md). The underlying figure (223,516 clashes
+> across 37 of 38 models) is unchanged and is now traceable to per-model
+> records. This finding is superseded; the rest of the audit below
+> (thesis-metadata mismatches, repository-structure observations, etc.) was
+> not re-verified as part of this note and stands as originally written
+> unless `CLAIMS.md` says otherwise for a specific claim.
+>
+> **Second addendum — added 2026-09-25.** The restored sweep measured
+> bim-guard's Piping/Corrosion and Seismic domains, which bim-guard
+> permanently removed on 2026-09-21 ("app is architecture-only"; commit
+> `3157c1b`) — the same week this audit and the `750ae73` deletion both
+> happened. The restored evidence has moved to
+> [`research/archive/retired_corrosion_piping_seismic_domain/`](archive/retired_corrosion_piping_seismic_domain/README.md)
+> as a historical record, and `research/CLAIMS.md` marks it `retired-domain`.
+> This retroactively explains part of why this audit found the codebase
+> "materially different" from the brief it was checked against: a real
+> product pivot happened in the same window this audit was written, not only
+> documentation drift.
 
 **Prepared for:** Mark Shane Haines, MAICEN Group 5 — FMP submission (deadline 27 September 2026)
 **Repositories audited:**

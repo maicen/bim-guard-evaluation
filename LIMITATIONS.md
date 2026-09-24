@@ -68,21 +68,23 @@ the corresponding claim-by-claim evidence ledger.
   through `eval/eval_config.py`'s `build_result()` capture only two git
   commit SHAs, not a full environment fingerprint.
 
-## Corpus and engine coverage
+## Retired domain (historical, not a current gap)
 
-- **MM-001 and XM-001 (material-media and cross-material corrosion engines)
-  ran successfully on 13 of 37 processed models (35%), not 37.** The
-  remaining 24 report `unavailable`. See `research/CLAIMS.md` §1 for the
-  full breakdown.
-- **Corrosion-engine material input coverage is 33%** — only 38,012 of
-  116,006 piping elements in the 38-model sweep carry explicit material
-  data; CC-001/MC-001 scores for the remainder rest on the engines' default
-  material assumption.
-- **GC-001, MM-001, and XM-001 report exactly zero findings across the
-  entire 38-model sweep.** This has not been independently confirmed as a
-  true absence of the relevant risk condition versus a non-firing engine
-  (e.g. via a synthetic known-positive smoke test). Flagged, not yet
-  resolved — see `research/CLAIMS.md` §1.
+- **bim-guard permanently removed its Piping/Corrosion domain (GC-001,
+  CC-001, MC-001, MM-001, XM-001) and Seismic domain (SB-001 "Blue Halo") on
+  2026-09-21** ("app is architecture-only"; bim-guard commit `3157c1b`). The
+  38-model validation sweep, its coverage caveats (MM-001/XM-001 ran on only
+  13 of 37 models; three engines returned exactly zero findings; corrosion
+  material-input coverage was 33%), and the measurement scripts that
+  produced them are archived, not fixed forward — see
+  `research/archive/retired_corrosion_piping_seismic_domain/README.md` and
+  `research/CLAIMS.md` §1-2. This is listed here for completeness, not as an
+  open item: there is nothing to resolve against a capability that no longer
+  exists by design.
+- **No committed validation of the current architecture-only engines
+  (ARCH-EGRESS-001, ARCH-SPATIAL-001) exists in this repository yet.** This
+  is genuinely open, unstarted work, not a retired one — distinct from the
+  point above.
 
 ## Scope
 

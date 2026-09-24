@@ -11,7 +11,8 @@ This file provides guidance for AI coding agents working in the `bim-guard-evalu
 - **This repository handles**:
   - All scoring harnesses and accuracy benchmarks (`eval/score_nlp_annotation.py`, `eval/score_rule_extraction.py`, `eval/score_rule_extraction_corrections.py`, `eval/eval_harness.py`).
   - Linguistic NLP annotation modules (`nlp_annotation/`) and ground-truth answer keys (`eval/eval_gold_code_9_8_stairs.py`).
-  - Empirical research analysis: confusion matrices, precision/recall/F1 breakdowns, standards sensitivity curves, 38-model validation sweeps (`eval/test_all_38_models.py`), and publication/thesis validation tables and figures (`eval/analyse_validation_results.py`, `research/`).
+  - Empirical research analysis: precision/recall/F1 breakdowns and inter-annotator agreement scoring (`eval/score_iaa.py`), `research/`.
+  - **Retired (historical only, do not extend):** the Piping/Corrosion domain (GC-001/CC-001/MC-001/MM-001/XM-001) and Seismic domain (SB-001 "Blue Halo") validation this repo once ran. bim-guard permanently removed both on 2026-09-21 ("app is architecture-only"). See `research/archive/retired_corrosion_piping_seismic_domain/README.md`.
   - Cross-model comparison (`evals/rule-extraction/`): an [Ori Eval](https://openrouter.ai/docs/guides/ori/eval) harness comparing OpenRouter models on BIM-Guard's real rule-extraction code — LLM-as-judge scoring plus deterministic gold-rule recall. TypeScript/Bun, run via the `ori` CLI, not `uv run`; see `evals/rule-extraction/README.md`.
 - **This repository DOES NOT handle**:
   - Production FastAPI backend or web server logic (lives in `bim-guard/app/`).
@@ -35,9 +36,8 @@ This file provides guidance for AI coding agents working in the `bim-guard-evalu
 - Run Label Studio DocLang bridge: `uv run python eval/label_studio_bridge.py --mode doclang-to-tasks --input <doc.xml> -o <tasks.json>`
 - Run rule extraction scoring (gold PDF): `uv run python eval/score_rule_extraction.py`
 - Run rule extraction correction accuracy (live reviewer edits, Mode A): `uv run python eval/score_rule_extraction_corrections.py` — see [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md)
-- Run 38-model validation sweep (smoke): `uv run python eval/test_all_38_models.py --smoke`
-- Run 38-model validation sweep (full): `uv run python eval/test_all_38_models.py`
-- Run research analysis / confusion matrices: `uv run python eval/analyse_validation_results.py`
+- Run LLM-as-judge rule-generation scoring: `uv run python eval/eval_harness.py`
+- Run the orchestrated tier-1 pass with baseline comparison: `uv run python eval/run_all.py --tier 1 --json --compare-baseline`
 
 When running against an adjacent checkout of `bim-guard`:
 - macOS/Linux: `export BIMGUARD_PATH="/path/to/bim-guard"`
