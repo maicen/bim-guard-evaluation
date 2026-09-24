@@ -1,17 +1,56 @@
 """
 eval_gold_code_9_8_stairs.py
 ------------------------------------------------
-Hand-annotated ground truth for CODE Part 9, Sections 9.8.2-9.8.4.7 (stairs),
-sourced verbatim from data/uploads/..._pdf_stairs_mock.pdf — the same document
-code_seed_rules.py's stair entries were originally derived from, extended here
-to cover the WHOLE section (table rows, relative-bound tread rules, tolerances,
-winders, spiral stairs) rather than just the ~10 clauses seeded so far.
+Hand-annotated ground truth for the Ontario Building Code 2023, Part 9,
+Sections 9.8.2-9.8.4.7 (stairs), extended to cover the WHOLE section (table
+rows, relative-bound tread rules, tolerances, winders, spiral stairs) rather
+than just the ~10 clauses code_seed_rules.py originally seeded.
+
+Provenance
+----------
+Annotator:    Osama Ata (sole annotator; single-pass, no independent second
+              annotation, no adjudication step -- see LIMITATIONS.md).
+Annotated:    2026 (exact date not recorded at annotation time; this repo's
+              earliest commit touching this file is the authoritative lower
+              bound -- see `git log --follow` on this path).
+Source doc:   Ontario Building Code 2023, Volume 1, Part 9 ("Housing and
+              Small Buildings"), Sections 9.8.2-9.8.4.7.
+Source file:  sources/OBC_2023.Volume_1_P_9.pdf (SHA-256
+              702f28dc2b7910479578743619c01ee76c050ea06a04bfcea5701407ca4f0b34),
+              page 32 of 302 onward (1-indexed) through the end of Section 9.8.
+              Verified by direct text extraction: this PDF's page 32 opens
+              with "9.8.2. Stair Dimensions / 9.8.2.1. Stair Width" and its
+              body text matches SOURCE_TEXT below verbatim.
+Guidelines:   None formally written; a clause was included in GOLD_RULES iff
+              it states a single, discrete, numerically checkable requirement
+              (a target/property/operator/value that could map onto an IFC
+              property), and excluded into EXCLUDED_CLAUSES iff it is
+              definitional, an occupant-load-dependent table lookup, or has
+              no clean IFC property mapping -- see the two docstring notes
+              below for the exact criteria applied.
+Adjudication: None (single annotator; see LIMITATIONS.md).
+IAA:          Not computed -- no second annotation exists to compare against.
+
+CORRECTION (2026-09-24): this docstring previously cited the source as
+`data/uploads/..._pdf_stairs_mock.pdf`. That file does not exist anywhere in
+this repository and never did as far as this correction's author could
+determine; it appears to have been a placeholder/working-file name that was
+never updated once the final source (above) was pinned down. It has been
+replaced with the actual, verified, hash-pinned source above. The docstring
+also previously cited `app/services/rule_extractor.py` as the schema this
+gold set's field names match; that module was deleted in bim-guard commit
+`64b13e9` ("Remove dead legacy NLP extraction modules, consolidate to one LLM
+rule-extraction path") and is no longer bim-guard's rule-extraction entry
+point -- see `app/modules/rule_builder/llamaindex_rule_generator.py` instead
+(the `RuleExtractionProvider` dict shape this gold set's fields match is
+unchanged across that migration).
 
 Used by score_rule_extraction.py to measure rule-extraction accuracy
 against a known-correct answer key instead of eyeballing output.
 
-Field names match the LiteLLMRuleExtractor / RuleConverter schema
-(app/services/rule_extractor.py, app/modules/rule_builder/rule_converter.py).
+Field names match the RuleExtractionProvider dict shape produced by
+app/modules/rule_builder/llamaindex_rule_generator.py's LlamaIndexRuleGenerator
+and consumed by app/modules/rule_builder/rule_converter.py.
 
 GOLD_RULES: clauses that ARE discrete, checkable requirements — every one of
 these should show up in extracted output with the right target/property/value.
