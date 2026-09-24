@@ -112,6 +112,16 @@ def diff_draft(draft: dict) -> dict:
     narrative_changed = [
         f for f in NARRATIVE_FIELDS if _norm(original.get(f)) != _norm(corrected.get(f))
     ]
+    # The LLM's wrong value and the human's fix for each changed field -- not
+    # just which fields changed. Downstream consumers that need to know
+    # *what* the model got wrong (not just *that* it did) use this; e.g.
+    # kg/prioritize_review_queue.py matches a wrong target_ifc_class/
+    # property_name value here against the KG's uncertain-review queue to
+    # boost review priority on terms a real production correction implicates.
+    field_diffs = [
+        {"field": f, "original": original.get(f), "corrected": corrected.get(f)}
+        for f in changed
+    ]
 
     return {
         "draft_id": draft.get("id"),
@@ -121,6 +131,7 @@ def diff_draft(draft: dict) -> dict:
         "changed_fields": changed,
         "unchanged_fields": unchanged,
         "narrative_changed_fields": narrative_changed,
+        "field_diffs": field_diffs,
         "field_correct": len(unchanged),
         "field_total": len(STRUCTURAL_FIELDS),
     }
