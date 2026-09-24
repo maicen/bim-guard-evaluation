@@ -93,6 +93,25 @@ uv run python eval/score_rule_extraction_corrections.py --json
 schema every other script here uses, so results land in `eval/results/` and
 can be tracked with `eval/compare_baselines.py` like any other eval.
 
+## Verified working (2026-09-25)
+
+This endpoint was silently broken for an unknown period before this date:
+`GET /api/rules/drafts` matched bim-guard's `GET /{rule_id}` route instead of
+its own handler (no path type converter on `{rule_id}`, and `/drafts` was
+declared after it in `app/api/rules.py` -- FastAPI/Starlette match in
+declaration order), so every call 422'd ("invalid int") before
+`list_all_rule_drafts()` ever ran. Fixed in bim-guard commit `992b7b0`
+(reordered `/drafts` above `/{rule_id}`, matching the same fix already
+applied once before for `/export-ids`). Confirmed fixed by running this
+script `--live` against a local server pointed at the real hosted Supabase
+project: 1 edited draft fetched, scored at 95% field-level accuracy (19/20
+fields unchanged, `severity` the only correction).
+
+`eval/check_api_endpoints.py` now has a standing regression guard for this
+specific failure mode (an unauthenticated `GET /api/rules/drafts` must 401,
+not 422) so a future re-introduction of the same bug is caught without
+needing real credentials.
+
 ## Known limitation
 
 This only measures drafts a reviewer actually edited. It cannot detect:
