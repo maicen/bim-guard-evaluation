@@ -47,3 +47,25 @@ packages = ["nlp_annotation", "eval"]
 pythonpath = ["."]
 testpaths = ["eval/tests"]
 
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+exclude = ["research/", "sources/", "docs/archive/"]
+
+[tool.ruff.lint]
+# Moderate rule set for a first pass on a repo that has never been linted:
+# pyflakes (F) and pycodestyle errors (E) catch real bugs (unused imports,
+# undefined names, bare except); UP modernizes to the Python version this
+# repo actually targets; I sorts imports consistently. Deliberately not
+# enabling stricter families (ANN, D, B, S, ...) yet -- that is a separate,
+# larger pass tracked in the repository rebuild plan, not a Phase-0 change.
+select = ["E", "F", "I", "UP"]
+ignore = [
+    "E501",  # line-length is a formatter concern; several long lines here
+             # are prose docstrings/comments intentionally kept unwrapped.
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Gold-standard/data modules read like prose on purpose.
+"eval/eval_gold_code_9_8_stairs.py" = ["E501"]
+
