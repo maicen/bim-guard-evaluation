@@ -1,5 +1,22 @@
 # BIMGUARD AI — Dual Repository Pre-Submission Audit
 
+> **Supersession note — added 2026-09-24.** This audit's headline finding
+> (below) states that the 38-model / 223,516-clash validation sweep "does not
+> match any file that exists in either repository." That was correct as of
+> this audit's writing: the sweep's evidence files had been removed from
+> `bim-guard-evaluation`'s working tree by commit `750ae73` ("Remove obsolete
+> research tables and test results", 2026-09-21) during an unrelated cleanup
+> pass — though the files were never removed from git history. They have
+> since been restored to
+> [`research/appendix_b/run_20260918/`](appendix_b/run_20260918/PROVENANCE.md)
+> and are hash-pinned and status-tracked in [`research/CLAIMS.md`](CLAIMS.md).
+> The underlying figure (223,516 clashes across 37 of 38 models) is
+> unchanged and is now traceable to per-model records. This finding is
+> superseded; the rest of the audit below (thesis-metadata mismatches,
+> repository-structure observations, etc.) was not re-verified as part of
+> this note and stands as originally written unless `CLAIMS.md` says
+> otherwise for a specific claim.
+
 **Prepared for:** Mark Shane Haines, MAICEN Group 5 — FMP submission (deadline 27 September 2026)
 **Repositories audited:**
 - Core: [github.com/maicen/bim-guard](https://github.com/maicen/bim-guard) (branch `main`, cloned at audit time — HEAD `17adc2e`)

@@ -111,7 +111,7 @@ export BIMGUARD_PATH="/path/to/bim-guard"  # Windows: $env:BIMGUARD_PATH="C:\pat
 ## Running Evaluations
 
 ### 1. Linguistic Annotation Scoring
-Runs the 54-point test suite across deontic extraction, conditions, cross-references, dependencies, and dimension constraints:
+Runs the 60-point test suite across deontic extraction, conditions, cross-references, dependencies, and dimension constraints:
 ```bash
 python eval/score_nlp_annotation.py
 ```
