@@ -106,14 +106,14 @@ someone else to find:**
 | **SHA-256** | `f1801caf5371d8faa15ca7e923736a361a03bfab84bae930d6d848fa20596b06` |
 | **Status** | **`single-run`** annotation — n=1 annotator, no adjudication, no inter-annotator agreement computed. See `LIMITATIONS.md`. |
 
-**Known defect, disclosed here:** the module's docstring cites its source as
-`data/uploads/..._pdf_stairs_mock.pdf` — **this file does not exist anywhere
-in this repository.** The actual source text is embedded verbatim in the same
-file's `SOURCE_TEXT` constant, and the closest real source document is
-`sources/OBC_2023.Volume_1_P_9_extracted_subset.pdf`. The docstring citation
-is stale/incorrect and will be corrected (see `eval/eval_gold_code_9_8_stairs.py`
-header, Phase 0 item 0.9) to name the annotator, date, and the actual source
-PDF rather than a path that resolves to nothing.
+**Resolved 2026-09-24:** the module's docstring previously cited its source as
+`data/uploads/..._pdf_stairs_mock.pdf` — a file that does not exist anywhere in
+this repository. The actual source has been verified directly by text
+extraction: `sources/OBC_2023.Volume_1_P_9.pdf`, page 32 of 302 onward, whose
+text opens with "9.8.2. Stair Dimensions / 9.8.2.1. Stair Width" and matches
+`SOURCE_TEXT` verbatim. The module's docstring now cites this file with its
+SHA-256 and page range, and states the annotator (single annotator, no
+adjudication, no IAA — see `LIMITATIONS.md`).
 
 ---
 
