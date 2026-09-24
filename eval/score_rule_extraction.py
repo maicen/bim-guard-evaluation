@@ -46,16 +46,16 @@ from pathlib import Path
 
 _START = time.perf_counter()
 
-# Resolve evaluation dir and core bim-guard repo path
-REPO_ROOT = Path(__file__).resolve().parent.parent
 EVAL_DIR = Path(__file__).resolve().parent
-BIMGUARD_CORE = Path(os.getenv("BIMGUARD_PATH", str(REPO_ROOT.parent / "bim-guard")))
+if str(EVAL_DIR) not in sys.path:
+    sys.path.insert(0, str(EVAL_DIR))
 
-for p in [EVAL_DIR, REPO_ROOT, BIMGUARD_CORE, BIMGUARD_CORE / "app" / "modules", Path("app/modules")]:
-    if p.exists() and str(p) not in sys.path:
-        sys.path.insert(0, str(p))
+from eval_config import build_result, new_run_id, setup_bimguard_path, write_result  # noqa: E402
 
-from eval_config import build_result, new_run_id, write_result  # noqa: E402
+# The one bootstrap (see eval_config.setup_bimguard_path's docstring) --
+# replaces this script's own former REPO_ROOT/EVAL_DIR/BIMGUARD_CORE
+# duplication of the same logic.
+setup_bimguard_path()
 
 try:
     from eval_gold_code_9_8_stairs import EXCLUDED_CLAUSES, GOLD_RULES

@@ -279,9 +279,20 @@ def generate_rule_from_text(text):
     try:
         from app.modules.rule_builder.llamaindex_rule_generator import LlamaIndexRuleGenerator
     except ImportError:
-        from pathlib import Path
+        # The fallback this replaced computed Path(__file__).parent * 4, which
+        # resolves to the *parent of this repo's parent* (e.g. /Users/x, not
+        # /Users/x/coding/bim-guard) -- four levels up from eval/eval_harness.py
+        # is not bim-guard under any checkout layout this repo documents. It
+        # never actually added a path that made the import succeed; it was
+        # dead code riding on some other bootstrap (this script imports no
+        # eval_config path helper at module scope) having already put
+        # bim-guard on sys.path first. Use the real bootstrap instead.
+        EVAL_DIR = os.path.dirname(os.path.abspath(__file__))
+        if EVAL_DIR not in sys.path:
+            sys.path.insert(0, EVAL_DIR)
+        from eval_config import setup_bimguard_path
 
-        sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+        setup_bimguard_path()
         from app.modules.rule_builder.llamaindex_rule_generator import LlamaIndexRuleGenerator
 
     model = os.getenv("BIM_GUARD_RULE_MODEL", "gpt-4o-mini")

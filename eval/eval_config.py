@@ -34,10 +34,20 @@ def bimguard_path() -> Path:
 
 
 def setup_bimguard_path() -> Path:
-    """Insert this repo and bim-guard onto sys.path so `app.*` imports resolve.
-    Idempotent — safe to call multiple times or from multiple scripts."""
+    """Insert this repo and bim-guard onto sys.path so both `app.*` imports
+    and bim-guard's app/modules/ submodules (document_parsing, ifc_reader,
+    etc. -- imported as top-level packages, not via `app.modules.X`, by
+    several harnesses) resolve. Idempotent — safe to call multiple times or
+    from multiple scripts.
+
+    This is the ONE bootstrap; scripts should call this instead of
+    reimplementing the REPO_ROOT/EVAL_DIR/BIMGUARD_CORE sys.path dance
+    themselves (four scripts did before 2026-09-25; three were removed in
+    the Piping/Corrosion/Seismic domain retirement, and the fourth,
+    score_rule_extraction.py, now calls this).
+    """
     core = bimguard_path()
-    for p in (EVAL_DIR, REPO_ROOT, core):
+    for p in (EVAL_DIR, REPO_ROOT, core, core / "app" / "modules"):
         if p.exists() and str(p) not in sys.path:
             sys.path.insert(0, str(p))
     return core
