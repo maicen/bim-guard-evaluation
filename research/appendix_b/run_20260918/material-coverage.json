@@ -1,0 +1,496 @@
+{
+  "models_dir": "test-models\\models",
+  "inference_enabled": true,
+  "totals": {
+    "total": 93457,
+    "from_ifc": 1780,
+    "inferred": 29884,
+    "unknown": 61793,
+    "coverage_pct": 33.88
+  },
+  "models": [
+    {
+      "total": 102,
+      "from_ifc": 0,
+      "inferred": 10,
+      "unknown": 92,
+      "name": "Clinic_Architectural.ifc",
+      "resolved": 10,
+      "systems_missing": [
+        [
+          "unknown",
+          92
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Material",
+          92
+        ]
+      ]
+    },
+    {
+      "total": 2089,
+      "from_ifc": 0,
+      "inferred": 0,
+      "unknown": 2089,
+      "name": "Clinic_Electrical.ifc",
+      "resolved": 0,
+      "systems_missing": [
+        [
+          "unknown",
+          2089
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "N/A",
+          1353
+        ],
+        [
+          "Metal - Paint Finish - Dark Gray, Matte",
+          601
+        ],
+        [
+          "Metal - Paint Finish - Ivory, Glossy",
+          81
+        ],
+        [
+          "Paint-Philips Chloride-Black",
+          43
+        ],
+        [
+          "Glass - Frosted",
+          8
+        ]
+      ]
+    },
+    {
+      "total": 3704,
+      "from_ifc": 496,
+      "inferred": 0,
+      "unknown": 3208,
+      "name": "Clinic_HVAC.ifc",
+      "resolved": 496,
+      "systems_missing": [
+        [
+          "unknown",
+          3208
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Varies",
+          6
+        ]
+      ]
+    },
+    {
+      "total": 6587,
+      "from_ifc": 528,
+      "inferred": 2035,
+      "unknown": 4024,
+      "name": "Clinic_Plumbing.ifc",
+      "resolved": 2563,
+      "systems_missing": [
+        [
+          "unknown",
+          3944
+        ],
+        [
+          "rainwater",
+          80
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Material",
+          3509
+        ],
+        [
+          "N/A",
+          408
+        ],
+        [
+          "Plastic",
+          104
+        ],
+        [
+          "Chrome - DELTA - Polished",
+          3
+        ]
+      ]
+    },
+    {
+      "total": 1673,
+      "from_ifc": 0,
+      "inferred": 0,
+      "unknown": 1673,
+      "name": "west_riverside_hospital_elec_ifc4.ifc",
+      "resolved": 0,
+      "systems_missing": [
+        [
+          "unknown",
+          1673
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Metal - Paint Finish - Ivory, Glossy",
+          52
+        ],
+        [
+          "Red",
+          44
+        ],
+        [
+          "White",
+          13
+        ],
+        [
+          "Metal - Chrome",
+          12
+        ]
+      ]
+    },
+    {
+      "total": 861,
+      "from_ifc": 0,
+      "inferred": 354,
+      "unknown": 507,
+      "name": "west_riverside_hospital_fire_ifc4.ifc",
+      "resolved": 354,
+      "systems_missing": [
+        [
+          "unknown",
+          507
+        ]
+      ],
+      "raw_rejected": []
+    },
+    {
+      "total": 17424,
+      "from_ifc": 0,
+      "inferred": 1893,
+      "unknown": 15531,
+      "name": "west_riverside_hospital_mech_ifc4.ifc",
+      "resolved": 1893,
+      "systems_missing": [
+        [
+          "unknown",
+          15531
+        ]
+      ],
+      "raw_rejected": []
+    },
+    {
+      "total": 8539,
+      "from_ifc": 0,
+      "inferred": 4976,
+      "unknown": 3563,
+      "name": "west_riverside_hospital_plumb_ifc4.ifc",
+      "resolved": 4976,
+      "systems_missing": [
+        [
+          "unknown",
+          3563
+        ]
+      ],
+      "raw_rejected": []
+    },
+    {
+      "total": 13490,
+      "from_ifc": 2,
+      "inferred": 12397,
+      "unknown": 1091,
+      "name": "west_riverside_hospital_sprinkle_ifc4.ifc",
+      "resolved": 12399,
+      "systems_missing": [
+        [
+          "unknown",
+          1091
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Victaulic",
+          1036
+        ]
+      ]
+    },
+    {
+      "total": 1795,
+      "from_ifc": 0,
+      "inferred": 0,
+      "unknown": 1795,
+      "name": "DigitalHub_FM-HZG_v2.ifc",
+      "resolved": 0,
+      "systems_missing": [
+        [
+          "unknown",
+          1795
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "<Unnamed>",
+          881
+        ]
+      ]
+    },
+    {
+      "total": 1310,
+      "from_ifc": 0,
+      "inferred": 14,
+      "unknown": 1296,
+      "name": "DigitalHub_FM-LFT_v2.ifc",
+      "resolved": 14,
+      "systems_missing": [
+        [
+          "unknown",
+          1296
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "<Unnamed>",
+          701
+        ],
+        [
+          "Metall - Zink",
+          595
+        ]
+      ]
+    },
+    {
+      "total": 1010,
+      "from_ifc": 0,
+      "inferred": 0,
+      "unknown": 1010,
+      "name": "DigitalHub_FM-SAN_v2.ifc",
+      "resolved": 0,
+      "systems_missing": [
+        [
+          "unknown",
+          1010
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "<Unnamed>",
+          506
+        ]
+      ]
+    },
+    {
+      "total": 99,
+      "from_ifc": 0,
+      "inferred": 3,
+      "unknown": 96,
+      "name": "Duplex_Electrical_20121207.ifc",
+      "resolved": 3,
+      "systems_missing": [
+        [
+          "unknown",
+          96
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "N/A",
+          76
+        ],
+        [
+          "Metal - Chrome",
+          10
+        ],
+        [
+          "Glass - Frosted",
+          6
+        ],
+        [
+          "Metal - Painted Finish - Ivory, Matte",
+          2
+        ],
+        [
+          "Glass",
+          2
+        ]
+      ]
+    },
+    {
+      "total": 926,
+      "from_ifc": 0,
+      "inferred": 222,
+      "unknown": 704,
+      "name": "Duplex_MEP_20110907.ifc",
+      "resolved": 222,
+      "systems_missing": [
+        [
+          "unknown",
+          704
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Material",
+          704
+        ]
+      ]
+    },
+    {
+      "total": 498,
+      "from_ifc": 46,
+      "inferred": 173,
+      "unknown": 279,
+      "name": "Duplex_Plumbing_20121113.ifc",
+      "resolved": 219,
+      "systems_missing": [
+        [
+          "unknown",
+          279
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Material",
+          238
+        ],
+        [
+          "N/A",
+          36
+        ],
+        [
+          "Chrome - DELTA - Polished",
+          2
+        ],
+        [
+          "Metal - Delta - Aged Pewter - PT",
+          2
+        ],
+        [
+          "Plastic",
+          1
+        ]
+      ]
+    },
+    {
+      "total": 73,
+      "from_ifc": 13,
+      "inferred": 0,
+      "unknown": 60,
+      "name": "IFC_Schependomlaan.ifc",
+      "resolved": 13,
+      "systems_missing": [
+        [
+          "unknown",
+          60
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "04 Zink",
+          60
+        ]
+      ]
+    },
+    {
+      "total": 48,
+      "from_ifc": 0,
+      "inferred": 0,
+      "unknown": 48,
+      "name": "Molio_with_URIs.ifc",
+      "resolved": 0,
+      "systems_missing": [
+        [
+          "unknown",
+          48
+        ]
+      ],
+      "raw_rejected": []
+    },
+    {
+      "total": 31,
+      "from_ifc": 0,
+      "inferred": 0,
+      "unknown": 31,
+      "name": "wbdg_office_arc.ifc",
+      "resolved": 0,
+      "systems_missing": [
+        [
+          "unknown",
+          31
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Material",
+          31
+        ]
+      ]
+    },
+    {
+      "total": 5697,
+      "from_ifc": 695,
+      "inferred": 793,
+      "unknown": 4209,
+      "name": "wbdg_office_mep.ifc",
+      "resolved": 1488,
+      "systems_missing": [
+        [
+          "unknown",
+          4173
+        ],
+        [
+          "rainwater",
+          36
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Material",
+          4209
+        ]
+      ]
+    },
+    {
+      "total": 18488,
+      "from_ifc": 0,
+      "inferred": 1893,
+      "unknown": 16595,
+      "name": "west_riverside_hospital_mech_ifc2x3.ifc",
+      "resolved": 1893,
+      "systems_missing": [
+        [
+          "unknown",
+          16595
+        ]
+      ],
+      "raw_rejected": []
+    },
+    {
+      "total": 9013,
+      "from_ifc": 0,
+      "inferred": 5121,
+      "unknown": 3892,
+      "name": "west_riverside_hospital_plumb_ifc2x3.ifc",
+      "resolved": 5121,
+      "systems_missing": [
+        [
+          "unknown",
+          3892
+        ]
+      ],
+      "raw_rejected": [
+        [
+          "Porcelain,White",
+          97
+        ],
+        [
+          "Metal Polished",
+          93
+        ]
+      ]
+    }
+  ]
+}

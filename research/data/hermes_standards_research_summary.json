@@ -1,0 +1,42 @@
+[
+  {
+    "standard": "NFPA 13",
+    "metadata": {"jurisdiction": "US", "year": 2021},
+    "seismic_parameters": {"importance_factor": "1.0 (standard, 1.5 for hospitals)"},
+    "thresholds": {"restraint_spacing": "40 in (transverse), 60 in (longitudinal)", "pipe_threshold": "2.5 in diameter"},
+    "brace_types": ["diagonal bracing", "cross bracing"],
+    "clearance_rules": {"min_clearance": "12 in from structure"},
+    "angle_constraints": "30-60 degrees from horizontal",
+    "citations": ["NFPA 13-2021 18.3.2.1"]
+  },
+  {
+    "standard": "EN 1998-1",
+    "metadata": {"jurisdiction": "EU", "year": 2020},
+    "seismic_parameters": {"importance_factor": "1.0 (standard, 1.5 for critical facilities)"},
+    "thresholds": {"restraint_spacing": "1.0 m (transverse), 1.5 m (longitudinal)", "pipe_threshold": "63 mm diameter"},
+    "brace_types": ["diagonal bracing", "moment-resisting frames"],
+    "clearance_rules": {"min_clearance": "150 mm from structure"},
+    "angle_constraints": "35-70 degrees from horizontal",
+    "citations": ["EN 1998-1:2020 5.3.2.3"]
+  },
+  {
+    "standard": "DIN 4149",
+    "metadata": {"jurisdiction": "Germany", "year": 2022},
+    "seismic_parameters": {"importance_factor": "1.0 (standard, 1.6 for hospitals)"},
+    "thresholds": {"restraint_spacing": "1.2 m (transverse), 1.8 m (longitudinal)", "pipe_threshold": "75 mm diameter"},
+    "brace_types": ["diagonal bracing", "cross bracing", "truss bracing"],
+    "clearance_rules": {"min_clearance": "200 mm from structure"},
+    "angle_constraints": "40-65 degrees from horizontal",
+    "citations": ["DIN 4149:2022-03 8.2.4"]
+  },
+  {
+    "standard": "ASCE 7-22",
+    "metadata": {"jurisdiction": "US", "year": 2022},
+    "seismic_parameters": {"importance_factor": "1.0 (standard, 1.5 for hospitals)"},
+    "thresholds": {"restraint_spacing": "48 in (transverse), 72 in (longitudinal)", "duct_threshold": "8 in diameter"},
+    "brace_types": ["diagonal bracing", "cross bracing"],
+    "clearance_rules": {"min_clearance": "18 in from structure"},
+    "angle_constraints": "30-60 degrees from horizontal",
+    "citations": ["ASCE 7-22 12.10.4.2"]
+  }
+]
