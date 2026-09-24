@@ -28,6 +28,7 @@ This repository isolates academic and empirical validation from core application
    - `score_nlp_annotation.py`: Automated scoring test suite verifying 60 linguistic and DocLang test cases across all capabilities.
    - `label_studio_bridge.py`: Bidirectional converter between Label Studio tasks, DocLang XML, ParagraphAnnotation, and GOLD_RULES.
    - `score_rule_extraction.py`: Structural diagnostics (heading detection, skip leakage, table coverage, regex baseline) and LLM-based rule extraction accuracy against hand-annotated gold standards.
+   - `score_rule_extraction_corrections.py`: Field-level rule extraction correction accuracy scored against real human reviewer edits from bim-guard's live `rule_extraction_drafts` table (Mode A), complementing the gold-PDF pipeline above. See [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md).
    - `eval_gold_code_9_8_stairs.py`: Hand-annotated ground-truth dataset for Part 9 code requirements.
    - `eval_harness.py`: LLM-as-judge evaluation harness tracking correctness, completeness, and executability.
    - `test_all_38_models.py`: Automated validation sweep over the 38-model verified IFC dataset, extracting geometry, generating halo volumes, and executing corrosion compliance engines.
@@ -58,7 +59,8 @@ bim-guard-evaluation/
 │   ├── score_nlp_annotation.py     # 6-capability NLP & DocLang annotation scoring
 │   ├── label_studio_bridge.py      # Bidirectional Label Studio & DocLang bridge
 │   ├── score_iaa.py                # Inter-annotator agreement scoring
-│   ├── score_rule_extraction.py    # Rule extraction accuracy scoring
+│   ├── score_rule_extraction.py    # Rule extraction accuracy scoring (gold PDF)
+│   ├── score_rule_extraction_corrections.py # Rule extraction correction accuracy (live reviewer edits)
 │   ├── eval_gold_code_9_8_stairs.py # Hand-annotated ground-truth answer key
 │   ├── eval_harness.py             # LLM-as-judge scoring harness
 │   ├── analyse_validation_results.py # Confusion matrices, 7 tables, 4 figures
@@ -66,7 +68,8 @@ bim-guard-evaluation/
 │   └── test_real_ifc_pipeline.py   # Real IFC end-to-end pipeline validation
 ├── docs/                           # DocLang specification & reference toolkit
 │   ├── doclang-spec-0.7.md         # Normative DocLang v0.7 specification
-│   └── doclang-README-fea2146.md   # Reference toolkit guide
+│   ├── doclang-README-fea2146.md   # Reference toolkit guide
+│   └── rule-extraction-corrections.md # score_rule_extraction_corrections.py design & usage
 ├── research/                       # Research data, CSV tables, figures & logs
 │   ├── table1_per_model.csv        # Validation sweep summary table
 │   ├── table2_severity.csv         # Clash severity distribution
@@ -123,6 +126,16 @@ python eval/score_nlp_annotation.py
 Evaluates rule extraction accuracy against hand-annotated ground-truth:
 ```bash
 python eval/score_rule_extraction.py
+```
+
+### 2b. Rule Extraction Correction Accuracy
+Scores extraction accuracy against real human reviewer edits pulled live from
+bim-guard's `rule_extraction_drafts` table (Mode A — no bim-guard import
+needed). See [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md)
+for the scoring method, auth setup, and how this complements the gold-PDF
+pipeline above:
+```bash
+python eval/score_rule_extraction_corrections.py --live
 ```
 
 ### 3. Full 38-Model Validation Sweep

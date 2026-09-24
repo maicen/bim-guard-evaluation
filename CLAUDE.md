@@ -9,7 +9,7 @@ This file provides guidance for AI coding agents working in the `bim-guard-evalu
 ### Strict Scope Delineation
 
 - **This repository handles**:
-  - All scoring harnesses and accuracy benchmarks (`eval/score_nlp_annotation.py`, `eval/score_rule_extraction.py`, `eval/eval_harness.py`).
+  - All scoring harnesses and accuracy benchmarks (`eval/score_nlp_annotation.py`, `eval/score_rule_extraction.py`, `eval/score_rule_extraction_corrections.py`, `eval/eval_harness.py`).
   - Linguistic NLP annotation modules (`nlp_annotation/`) and ground-truth answer keys (`eval/eval_gold_code_9_8_stairs.py`).
   - Empirical research analysis: confusion matrices, precision/recall/F1 breakdowns, standards sensitivity curves, 38-model validation sweeps (`eval/test_all_38_models.py`), and publication/thesis validation tables and figures (`eval/analyse_validation_results.py`, `research/`).
 - **This repository DOES NOT handle**:
@@ -30,7 +30,8 @@ This file provides guidance for AI coding agents working in the `bim-guard-evalu
 
 - Install dependencies: `uv sync`
 - Run NLP scoring suite: `uv run python eval/score_nlp_annotation.py`
-- Run rule extraction scoring: `uv run python eval/score_rule_extraction.py`
+- Run rule extraction scoring (gold PDF): `uv run python eval/score_rule_extraction.py`
+- Run rule extraction correction accuracy (live reviewer edits, Mode A): `uv run python eval/score_rule_extraction_corrections.py` — see [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md)
 - Run 38-model validation sweep (smoke): `uv run python eval/test_all_38_models.py --smoke`
 - Run research analysis / confusion matrices: `uv run python eval/analyse_validation_results.py`
 
