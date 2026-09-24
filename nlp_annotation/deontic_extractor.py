@@ -15,7 +15,6 @@ Order matters: SHALL NOT must be checked before SHALL.
 import re
 from collections import Counter
 
-
 # (pattern, strength, canonical_operator)
 # Most specific / negated patterns FIRST
 _DEONTIC_PATTERNS = [

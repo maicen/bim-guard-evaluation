@@ -42,7 +42,6 @@ import sys
 import time
 import urllib.error
 import urllib.request
-
 from pathlib import Path
 
 _START = time.perf_counter()
@@ -65,6 +64,7 @@ except ImportError:
 
 from document_parsing.section_chunker import SectionChunker  # noqa: E402
 from ifc_reader import _PROPERTY_ALIASES  # noqa: E402
+
 
 def _resolve_pdf_path() -> str:
     """Locate the Part-A source PDF, deferred to call time.
@@ -226,8 +226,9 @@ def part_a():
     print("\n[A2] Extracting PDF text (pypdf directly — bim-guard's own")
     print("     extract_document_text() now requires a running Docling service with no")
     print("     dependency-light fallback) and building SectionChunker chunks")
-    from pypdf import PdfReader
     import io
+
+    from pypdf import PdfReader
     pdf_bytes = open(_resolve_pdf_path(), "rb").read()
     text = "\n".join(page.extract_text() or "" for page in PdfReader(io.BytesIO(pdf_bytes)).pages)
 
@@ -261,10 +262,10 @@ async def part_b(sendable: list[dict]):
     served = _ollama_models()
     if served is None:
         print(f"\n     SKIPPED — no Ollama daemon answering at {OLLAMA_BASE_URL}.")
-        print(f"     To run this part:")
-        print(f"       ollama serve")
+        print("     To run this part:")
+        print("       ollama serve")
         print(f"       ollama pull {tag}")
-        print(f"       uv run python score_rule_extraction.py")
+        print("       uv run python score_rule_extraction.py")
         return None
     if tag not in served:
         print(f"\n     SKIPPED — Ollama is up at {OLLAMA_BASE_URL} but does not serve {tag!r}.")

@@ -28,13 +28,13 @@ import csv
 import json
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import networkx as nx
 
 from kg.llm_correction import CANDIDATE_KINDS, load_graph_json
 
-GroundingIndex = Dict[str, Dict[str, List[Dict[str, Any]]]]
+GroundingIndex = dict[str, dict[str, list[dict[str, Any]]]]
 
 
 def build_grounding_index(graph: nx.MultiDiGraph, *, score_high: float = 0.45) -> GroundingIndex:
@@ -79,9 +79,9 @@ def build_grounding_index(graph: nx.MultiDiGraph, *, score_high: float = 0.45) -
     return dict(index)
 
 
-def uncertain_review_queue(graph: nx.MultiDiGraph) -> List[Dict[str, Any]]:
+def uncertain_review_queue(graph: nx.MultiDiGraph) -> list[dict[str, Any]]:
     """Returns every llm_verdict="uncertain" edge as a flat review row, most-ambiguous first."""
-    rows: List[Dict[str, Any]] = []
+    rows: list[dict[str, Any]] = []
 
     for clause_node, term_node, _key, attrs in graph.edges(keys=True, data=True):
         if attrs.get("llm_verdict") != "uncertain":
@@ -114,7 +114,7 @@ def write_grounding_index(index: GroundingIndex, path: Path) -> None:
         json.dump(index, f, indent=2)
 
 
-def write_review_queue(rows: List[Dict[str, Any]], json_path: Path, csv_path: Path) -> None:
+def write_review_queue(rows: list[dict[str, Any]], json_path: Path, csv_path: Path) -> None:
     json_path.parent.mkdir(parents=True, exist_ok=True)
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(rows, f, indent=2)

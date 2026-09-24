@@ -1,11 +1,12 @@
+import os
 import time
 from pathlib import Path
-import os
-from tqdm import tqdm
+
+from docling.datamodel.service.options import ConvertDocumentsOptions
 
 # 1. Import the thin client instead of the local heavy converter
 from docling.service_client import DoclingServiceClient
-from docling.datamodel.service.options import ConvertDocumentsOptions
+from tqdm import tqdm
 
 file_path_str = r"C:\Users\osama\coding\bim-guard-evaluation\sources\OBC_2023.App-A.pdf"
 

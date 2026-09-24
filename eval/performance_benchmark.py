@@ -87,17 +87,16 @@ import json
 import logging
 import math
 import multiprocessing
+import os
 import platform
 import statistics
 import sys
 import time
+from collections.abc import Iterable, Sequence
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Iterable, Optional, Sequence
 
 import numpy as np
-
-import os
 
 # Reuse the project's own geometry primitives rather than redefining them, so
 # the benchmark measures the same data contract the platform would use.
@@ -525,7 +524,7 @@ def halo_aabbs(halos: Sequence[Mesh]) -> np.ndarray:
     return out
 
 
-def broadphase_hash_grid(boxes: np.ndarray, cell_size: Optional[float] = None) -> list[tuple[int, int]]:
+def broadphase_hash_grid(boxes: np.ndarray, cell_size: float | None = None) -> list[tuple[int, int]]:
     """
     Find candidate interfering Halo pairs with a uniform spatial hash grid.
 
@@ -757,7 +756,7 @@ class MetricStats:
     raw: list[float]
 
     @classmethod
-    def summarise(cls, metric: str, values: Sequence[float]) -> "MetricStats":
+    def summarise(cls, metric: str, values: Sequence[float]) -> MetricStats:
         """
         Build robust statistics for one metric.
 
@@ -2079,7 +2078,7 @@ def validate_generator() -> int:
 # ---------------------------------------------------------------------------
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     """Parse arguments, run the benchmark suite and write the artefacts."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[1])
     parser.add_argument("--out", default="docs/benchmarks", help="output directory")

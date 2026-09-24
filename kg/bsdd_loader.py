@@ -19,7 +19,7 @@ import importlib.util
 import sys
 from pathlib import Path
 from types import ModuleType
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any
 
 _EVAL_DIR = Path(__file__).resolve().parent.parent / "eval"
 if str(_EVAL_DIR) not in sys.path:
@@ -53,9 +53,9 @@ def _load_bsdd_duckdb_store() -> ModuleType:
 #: IFC 4.3 dictionary URIs (observed via exploration of the live data).
 DEFAULT_DICTIONARIES = {"ifc-4.3", "ifc/4.3"}
 
-ClassRow = Dict[str, Any]
-PropertyRow = Dict[str, Any]
-EdgeRow = Dict[str, Any]
+ClassRow = dict[str, Any]
+PropertyRow = dict[str, Any]
+EdgeRow = dict[str, Any]
 
 
 def default_bsdd_db_path() -> Path:
@@ -64,9 +64,9 @@ def default_bsdd_db_path() -> Path:
 
 
 def load_ontology(
-    db_path: Optional[Path] = None,
-    dictionaries: Optional[Set[str]] = None,
-) -> Tuple[Dict[str, ClassRow], Dict[str, PropertyRow], List[EdgeRow]]:
+    db_path: Path | None = None,
+    dictionaries: set[str] | None = None,
+) -> tuple[dict[str, ClassRow], dict[str, PropertyRow], list[EdgeRow]]:
     """Reads (classes, properties, class_properties) from the bSDD DuckDB file.
 
     classes/properties are keyed by uri; edges is a flat list of

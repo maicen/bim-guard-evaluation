@@ -29,7 +29,7 @@ import json
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import networkx as nx
 from networkx.readwrite import json_graph
@@ -37,7 +37,7 @@ from networkx.readwrite import json_graph
 _BIMGUARD_ENV_LOADED = False
 
 
-def load_bimguard_env(bimguard_root: Path) -> Optional[Path]:
+def load_bimguard_env(bimguard_root: Path) -> Path | None:
     """Loads OPENROUTER_API_KEY (and friends) from bim-guard's own .env file.
 
     Mirrors bim-guard's own app.environment.load_env_file (override=False:
@@ -72,14 +72,14 @@ class Candidate:
     target_id: str
     kind: str  # candidate_class_match | candidate_property_match
     composite_score: float
-    target_attrs: Dict[str, Any]
+    target_attrs: dict[str, Any]
 
 
 @dataclass
 class ClauseTask:
     clause_id: str
-    clause_attrs: Dict[str, Any]
-    candidates: List[Candidate] = field(default_factory=list)
+    clause_attrs: dict[str, Any]
+    candidates: list[Candidate] = field(default_factory=list)
 
 
 def select_tasks(
@@ -88,7 +88,7 @@ def select_tasks(
     top_k: int = 5,
     score_low: float = 0.15,
     score_high: float = 0.45,
-) -> List[ClauseTask]:
+) -> list[ClauseTask]:
     """Builds one ClauseTask per clause that has >=1 borderline-score candidate.
 
     Per clause and per candidate kind, candidates are sorted by
@@ -96,12 +96,12 @@ def select_tasks(
     capped at top_k -- so a clause contributes at most 2*top_k candidates
     (top_k class + top_k property) to its single LLM call.
     """
-    tasks: List[ClauseTask] = []
+    tasks: list[ClauseTask] = []
     for node, attrs in graph.nodes(data=True):
         if attrs.get("kind") != "clause":
             continue
 
-        by_kind: Dict[str, List[Candidate]] = {k: [] for k in CANDIDATE_KINDS}
+        by_kind: dict[str, list[Candidate]] = {k: [] for k in CANDIDATE_KINDS}
         for _, target, key, edge_attrs in graph.out_edges(node, keys=True, data=True):
             kind = edge_attrs.get("kind")
             if kind not in CANDIDATE_KINDS:
@@ -119,7 +119,7 @@ def select_tasks(
                 )
             )
 
-        candidates: List[Candidate] = []
+        candidates: list[Candidate] = []
         for kind, cands in by_kind.items():
             cands.sort(key=lambda c: -c.composite_score)
             candidates.extend(cands[:top_k])
@@ -176,7 +176,7 @@ def build_prompt(task: ClauseTask) -> str:
 _JSON_OBJECT_RE = re.compile(r"\{.*\}", re.DOTALL)
 
 
-def parse_llm_response(text: str) -> Dict[int, Dict[str, Any]]:
+def parse_llm_response(text: str) -> dict[int, dict[str, Any]]:
     """Parses the model's JSON reply into {candidate_index: {verdict, confidence, reason}}.
 
     Lenient: strips markdown code fences and grabs the first {...} block,
@@ -189,7 +189,7 @@ def parse_llm_response(text: str) -> Dict[int, Dict[str, Any]]:
         raise ValueError(f"no JSON object found in LLM response: {text[:200]!r}")
     payload = json.loads(match.group(0))
     results = payload.get("results", [])
-    out: Dict[int, Dict[str, Any]] = {}
+    out: dict[int, dict[str, Any]] = {}
     for item in results:
         idx = item.get("index")
         if idx is None:
@@ -202,7 +202,7 @@ def parse_llm_response(text: str) -> Dict[int, Dict[str, Any]]:
     return out
 
 
-async def verify_task(task: ClauseTask, model: str, semaphore: "Any") -> Tuple[ClauseTask, Dict[int, Dict[str, Any]]]:
+async def verify_task(task: ClauseTask, model: str, semaphore: Any) -> tuple[ClauseTask, dict[int, dict[str, Any]]]:
     import litellm
 
     prompt = build_prompt(task)
@@ -220,7 +220,7 @@ async def verify_task(task: ClauseTask, model: str, semaphore: "Any") -> Tuple[C
     return task, parse_llm_response(text)
 
 
-def apply_results(graph: nx.MultiDiGraph, task: ClauseTask, results: Dict[int, Dict[str, Any]], model: str) -> int:
+def apply_results(graph: nx.MultiDiGraph, task: ClauseTask, results: dict[int, dict[str, Any]], model: str) -> int:
     """Writes llm_verdict/llm_confidence/llm_reason/llm_model onto each verified edge.
     Returns the number of edges updated."""
     updated = 0
@@ -238,7 +238,7 @@ def apply_results(graph: nx.MultiDiGraph, task: ClauseTask, results: Dict[int, D
     return updated
 
 
-def drop_rejected(graph: nx.MultiDiGraph, verdicts: Tuple[str, ...] = ("incorrect",)) -> int:
+def drop_rejected(graph: nx.MultiDiGraph, verdicts: tuple[str, ...] = ("incorrect",)) -> int:
     """Returns a count of (and, if called, removes) edges whose llm_verdict is in `verdicts`.
     Call this on a graph you're about to export as the "corrected" version."""
     to_remove = [

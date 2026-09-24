@@ -102,6 +102,7 @@ from __future__ import annotations
 import argparse
 import json
 import multiprocessing
+import os
 import re
 import ssl
 import sys
@@ -110,10 +111,10 @@ import traceback
 import urllib.error
 import urllib.request
 import zipfile
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Optional
-import os
+from typing import Any
 
 # Resolve evaluation dir and core bim-guard repo path
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -126,11 +127,6 @@ for p in [EVAL_DIR, REPO_ROOT, BIMGUARD_CORE, Path(".")]:
 
 import ifcopenshell  # noqa: E402
 import ifcopenshell.geom  # noqa: E402
-
-from app.modules.ifc_reader.piping_producer import (  # noqa: E402
-    media_for_system,
-    produce_piping_elements_from_model,
-)
 from app.modules.blue_halo.halo_volume_generator import (  # noqa: E402
     BoundingBox,
     ClashReport,
@@ -149,6 +145,10 @@ from app.modules.comparator.compliance_runner import (  # noqa: E402
     run_mic_compliance_check,
 )
 from app.modules.comparator.issue_adapter import IssueIdAllocator  # noqa: E402
+from app.modules.ifc_reader.piping_producer import (  # noqa: E402
+    media_for_system,
+    produce_piping_elements_from_model,
+)
 from app.modules.reporter.blue_halo_bcf_exporter import (  # noqa: E402
     generate_bcf_zip_from_halo_clashes,
 )
@@ -283,7 +283,7 @@ def parse_dataset(path: Path = DATASET_DOC) -> list[ModelSpec]:
 # ═══════════════════════════════════════════════════════════════════════════
 
 
-def _ssl_context() -> Optional[Any]:
+def _ssl_context() -> Any | None:
     """Return an SSL context backed by certifi's CA bundle, or None.
 
     Several dataset hosts (tib.eu, habitatge.gva.es) chain to roots absent
@@ -318,7 +318,7 @@ def _download(url: str, dest: Path) -> None:
     part.replace(dest)
 
 
-def _first_ifc_in_zip(archive: Path, extract_root: Path) -> Optional[Path]:
+def _first_ifc_in_zip(archive: Path, extract_root: Path) -> Path | None:
     """Extract the largest .ifc member of `archive` and return its path.
 
     The dataset's zip rows bundle several discipline files; the largest is
@@ -339,7 +339,7 @@ def _first_ifc_in_zip(archive: Path, extract_root: Path) -> Optional[Path]:
         return target
 
 
-def ensure_local_ifc(spec: ModelSpec, *, allow_download: bool) -> tuple[Optional[Path], str]:
+def ensure_local_ifc(spec: ModelSpec, *, allow_download: bool) -> tuple[Path | None, str]:
     """Return (path_to_ifc, note), downloading and unzipping as needed."""
     raw_name = spec.slug + (".zip" if spec.is_zip else ".ifc")
     raw_path = DOWNLOAD_DIR / raw_name

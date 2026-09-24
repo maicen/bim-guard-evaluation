@@ -18,7 +18,7 @@ import json
 import os
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -55,7 +55,7 @@ def _git_commit(repo_path: Path) -> str | None:
 
 
 def new_run_id() -> str:
-    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
 def build_result(
@@ -118,7 +118,7 @@ def load_baseline(eval_id: str) -> dict | None:
 def update_baseline(eval_id: str, result: dict) -> Path:
     BASELINES_DIR.mkdir(parents=True, exist_ok=True)
     baseline = dict(result)
-    baseline["baseline_created"] = datetime.now(timezone.utc).isoformat()
+    baseline["baseline_created"] = datetime.now(UTC).isoformat()
     path = BASELINES_DIR / f"{eval_id}.baseline.json"
     with open(path, "w", encoding="utf-8") as f:
         json.dump(baseline, f, indent=2)

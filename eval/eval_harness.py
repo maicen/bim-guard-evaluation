@@ -25,7 +25,7 @@ import asyncio
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 # ── Configure your LLM provider here ──────────────────────────────────────────
 # Option A: Anthropic (recommended — same model family as your pipeline)
@@ -477,7 +477,7 @@ def save_results(results, confusion=None):
     # UTC, matching eval_config.new_run_id()'s convention -- this script
     # previously used local-time datetime.now(), a second, incompatible time
     # convention within the same repository.
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
     path = os.path.join(RESULTS_DIR, f"eval_{timestamp}.json")
 
     payload = {

@@ -16,10 +16,10 @@ import json
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any
 
 
-def compute_span_iou(span_a: Tuple[int, int], span_b: Tuple[int, int]) -> float:
+def compute_span_iou(span_a: tuple[int, int], span_b: tuple[int, int]) -> float:
     """Computes Intersection over Union (IoU) of two character spans [start, end]."""
     start_a, end_a = span_a
     start_b, end_b = span_b
@@ -32,7 +32,7 @@ def compute_span_iou(span_a: Tuple[int, int], span_b: Tuple[int, int]) -> float:
     return intersection / union if union > 0 else 0.0
 
 
-def compute_cohens_kappa(rater1: List[str], rater2: List[str]) -> float:
+def compute_cohens_kappa(rater1: list[str], rater2: list[str]) -> float:
     """
     Computes Cohen's Kappa between two raters over aligned categorical items.
     """
@@ -58,7 +58,7 @@ def compute_cohens_kappa(rater1: List[str], rater2: List[str]) -> float:
     return (p_o - p_e) / (1.0 - p_e)
 
 
-def compute_fleiss_kappa(matrix: List[List[int]]) -> float:
+def compute_fleiss_kappa(matrix: list[list[int]]) -> float:
     """
     Computes Fleiss' Kappa for inter-rater agreement with fixed number of raters.
     matrix: N x k where matrix[i][j] is count of raters assigning item i to category j.
@@ -90,15 +90,15 @@ def compute_fleiss_kappa(matrix: List[List[int]]) -> float:
 
 
 def compute_span_f1(
-    spans_a: List[Tuple[int, int, str]],
-    spans_b: List[Tuple[int, int, str]],
+    spans_a: list[tuple[int, int, str]],
+    spans_b: list[tuple[int, int, str]],
     iou_threshold: float = 0.5,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """
     Calculates span Precision, Recall, and F1 between reference annotator A and evaluated annotator B.
     Each span is (start, end, label).
     """
-    matched_b: Set[int] = set()
+    matched_b: set[int] = set()
     tp = 0
 
     for sa_start, sa_end, sa_label in spans_a:
@@ -134,15 +134,15 @@ class IAACalculator:
     Analyzes Label Studio task files with multiple annotations per task.
     """
 
-    def __init__(self, tasks: List[Dict[str, Any]]) -> None:
+    def __init__(self, tasks: list[dict[str, Any]]) -> None:
         self.tasks = tasks
 
-    def extract_annotator_ratings(self) -> Dict[int, Dict[str, Any]]:
+    def extract_annotator_ratings(self) -> dict[int, dict[str, Any]]:
         """
         Groups annotations by annotator ID.
         Returns: { annotator_id: { task_id: { "choices": {...}, "spans": [...] } } }
         """
-        annotator_data: Dict[int, Dict[str, Any]] = defaultdict(dict)
+        annotator_data: dict[int, dict[str, Any]] = defaultdict(dict)
 
         for task_idx, task in enumerate(self.tasks):
             task_id = str(task.get("id", task.get("data", {}).get("section_ref", task_idx)))
@@ -179,7 +179,7 @@ class IAACalculator:
 
         return annotator_data
 
-    def evaluate_pairwise(self, annotator_a: int, annotator_b: int) -> Dict[str, Any]:
+    def evaluate_pairwise(self, annotator_a: int, annotator_b: int) -> dict[str, Any]:
         """Evaluates pairwise agreement between two annotators."""
         ratings = self.extract_annotator_ratings()
         data_a = ratings.get(annotator_a, {})
@@ -227,7 +227,7 @@ class IAACalculator:
             "per_category_span_f1": per_category_f1,
         }
 
-    def print_summary_report(self, annotator_pairs: Optional[List[Tuple[int, int]]] = None) -> str:
+    def print_summary_report(self, annotator_pairs: list[tuple[int, int]] | None = None) -> str:
         """Generates a markdown table report of agreement metrics."""
         ratings = self.extract_annotator_ratings()
         annotator_ids = sorted(list(ratings.keys()))
@@ -298,7 +298,7 @@ def main() -> int:
         print(f"Error: file not found: {input_path}")
         return 2
 
-    with open(input_path, "r", encoding="utf-8") as f:
+    with open(input_path, encoding="utf-8") as f:
         tasks = json.load(f)
 
     if not isinstance(tasks, list):

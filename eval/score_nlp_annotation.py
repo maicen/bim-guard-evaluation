@@ -17,18 +17,19 @@ from eval_config import build_result, new_run_id, write_result  # noqa: E402
 _START = time.perf_counter()
 
 try:
-    from nlp_annotation.deontic_extractor import DeonticExtractor
     from nlp_annotation.condition_parser import ConditionParser
     from nlp_annotation.cross_ref_resolver import CrossRefResolver
+    from nlp_annotation.deontic_extractor import DeonticExtractor
     from nlp_annotation.dependency_mapper import DependencyMapper
     from nlp_annotation.dimension_extractor import DimensionExtractor
     from nlp_annotation.doclang_annotator import DocLangAnnotator, parse_otsl_table_text
 except ImportError:
-    from app.modules.nlp_annotation.deontic_extractor import DeonticExtractor
     from app.modules.nlp_annotation.condition_parser import ConditionParser
     from app.modules.nlp_annotation.cross_ref_resolver import CrossRefResolver
+    from app.modules.nlp_annotation.deontic_extractor import DeonticExtractor
     from app.modules.nlp_annotation.dependency_mapper import DependencyMapper
     from app.modules.nlp_annotation.dimension_extractor import DimensionExtractor
+
     from nlp_annotation.doclang_annotator import DocLangAnnotator, parse_otsl_table_text
 
 de = DeonticExtractor()
@@ -266,6 +267,7 @@ plain_text = dla.doclang_to_text(annotated_xml)
 check("DocLang plain text clean without XML tags", ["bg_nlp" not in plain_text, "minimum run of 280 mm" in plain_text], [True, True])
 
 import xml.etree.ElementTree as ET
+
 table_el = ET.fromstring("<table><fcel/>A<fcel/>B<nl/><fcel/>1<fcel/>2</table>")
 rows, _ = parse_otsl_table_text(table_el)
 check("DocLang OTSL table parsed", [len(rows), rows[0]], [2, ["A", "B"]])

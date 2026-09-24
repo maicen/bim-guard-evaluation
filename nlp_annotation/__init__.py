@@ -27,10 +27,10 @@ Usage:
     annotated_chunks = NLPAnnotator().annotate(final_chunks)
 """
 
-from .deontic_extractor  import DeonticExtractor
-from .condition_parser   import ConditionParser
+from .condition_parser import ConditionParser
 from .cross_ref_resolver import CrossRefResolver
-from .dependency_mapper  import DependencyMapper
+from .deontic_extractor import DeonticExtractor
+from .dependency_mapper import DependencyMapper
 from .dimension_extractor import DimensionExtractor
 from .doclang_annotator import DocLangAnnotator, DocLangNode, parse_otsl_table_text
 

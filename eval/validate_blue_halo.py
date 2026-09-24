@@ -65,8 +65,8 @@ from eval_config import build_result, new_run_id, write_result  # noqa: E402
 _START = time.perf_counter()
 
 from app.modules.blue_halo.halo_volume_generator import (  # noqa: E402
-    BraceType,
     BoundingBox,
+    BraceType,
     ClashReport,
     ClearanceConfig,
     ClearanceRule,
@@ -406,7 +406,7 @@ def scenario_5(config: ClearanceConfig) -> dict:
          f"({len(best_clashes)} clash(es), {best_halo.halo_bbox_mm.volume_mm3:,.0f} mm^3 halo volume)")
 
     pset = export_halo_to_ifc_property_set(best_halo)
-    _out(f"\n  Pset preview (export_halo_to_ifc_property_set, recommended brace type):")
+    _out("\n  Pset preview (export_halo_to_ifc_property_set, recommended brace type):")
     for key, value in pset["BlueHalo_ClearanceVolume"].items():
         _out(f"    {key:20s} = {value}")
 

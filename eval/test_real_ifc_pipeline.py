@@ -48,9 +48,7 @@ from eval_config import build_result, new_run_id, write_result  # noqa: E402
 _START = time.perf_counter()
 
 import ifcopenshell  # noqa: E402
-
 from app.modules.blue_halo.halo_volume_generator import (  # noqa: E402
-    BraceType,
     ClashReport,
     ClearanceConfig,
     HaloVolume,

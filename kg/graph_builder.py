@@ -11,8 +11,9 @@ from __future__ import annotations
 
 import itertools
 import json
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Dict, Iterator, List
+from typing import Any
 
 import networkx as nx
 from networkx.readwrite import json_graph
@@ -23,13 +24,13 @@ from kg.similarity import CandidateMatch
 
 
 def build_graph(
-    clauses: List[Clause],
-    clause_edges: List[ClauseEdge],
-    classes: Dict[str, ClassRow],
-    properties: Dict[str, PropertyRow],
-    class_property_edges: List[EdgeRow],
-    class_matches: List[CandidateMatch],
-    property_matches: List[CandidateMatch],
+    clauses: list[Clause],
+    clause_edges: list[ClauseEdge],
+    classes: dict[str, ClassRow],
+    properties: dict[str, PropertyRow],
+    class_property_edges: list[EdgeRow],
+    class_matches: list[CandidateMatch],
+    property_matches: list[CandidateMatch],
 ) -> nx.MultiDiGraph:
     graph = nx.MultiDiGraph()
     # GraphML writes each MultiDiGraph edge's `key` straight through as the
@@ -147,7 +148,7 @@ def _bsdd_node_id(uri: str) -> str:
     return f"bsdd::{uri}"
 
 
-def export_graph(graph: nx.MultiDiGraph, out_base: Path) -> Dict[str, Path]:
+def export_graph(graph: nx.MultiDiGraph, out_base: Path) -> dict[str, Path]:
     """Writes <out_base>.graphml and <out_base>.json. Returns the written paths."""
     out_base.parent.mkdir(parents=True, exist_ok=True)
 

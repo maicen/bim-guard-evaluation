@@ -7,8 +7,6 @@ Unit tests for Label Studio Bridge and Inter-Annotator Agreement (IAA) scoring.
 import json
 from pathlib import Path
 
-import pytest
-
 from eval.label_studio_bridge import (
     LabelStudioBridge,
     extract_numeric_value,
@@ -65,7 +63,7 @@ def test_sample_tasks_conversion_to_nlp():
     sample_tasks_path = Path(__file__).resolve().parent.parent.parent / "research" / "label_studio" / "sample_tasks.json"
     assert sample_tasks_path.exists()
 
-    with open(sample_tasks_path, "r", encoding="utf-8") as f:
+    with open(sample_tasks_path, encoding="utf-8") as f:
         tasks = json.load(f)
 
     bridge = LabelStudioBridge()
@@ -86,7 +84,7 @@ def test_sample_tasks_conversion_to_nlp():
 
 def test_sample_tasks_conversion_to_gold_rules():
     sample_tasks_path = Path(__file__).resolve().parent.parent.parent / "research" / "label_studio" / "sample_tasks.json"
-    with open(sample_tasks_path, "r", encoding="utf-8") as f:
+    with open(sample_tasks_path, encoding="utf-8") as f:
         tasks = json.load(f)
 
     bridge = LabelStudioBridge()

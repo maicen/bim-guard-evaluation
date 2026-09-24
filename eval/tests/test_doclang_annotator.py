@@ -10,7 +10,6 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-import pytest
 from doclang import validate
 
 from eval.label_studio_bridge import LabelStudioBridge

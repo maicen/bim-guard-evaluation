@@ -14,7 +14,7 @@ import argparse
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from nlp_annotation.annotation_schema import (
     ConditionAnnotation,
@@ -26,14 +26,14 @@ from nlp_annotation.annotation_schema import (
     ParagraphAnnotation,
 )
 from nlp_annotation.doclang_annotator import (
-    DOCLANG_NS,
     _HEAD_TAG_ORDER,
-    _strip_ns,
+    DOCLANG_NS,
     DocLangAnnotator,
+    _strip_ns,
 )
 
 
-def extract_numeric_value(text: str) -> Tuple[Optional[float], Optional[str], Optional[float], Optional[float]]:
+def extract_numeric_value(text: str) -> tuple[float | None, str | None, float | None, float | None]:
     """
     Extracts numeric value(s) and unit from span text (e.g., 'not less than 2 050 mm').
     Handles spaces within numbers (e.g. '2 050').
@@ -85,7 +85,7 @@ def extract_numeric_value(text: str) -> Tuple[Optional[float], Optional[str], Op
     return val, unit, None, None
 
 
-def normalize_cross_ref(raw_ref: str) -> Tuple[str, str]:
+def normalize_cross_ref(raw_ref: str) -> tuple[str, str]:
     """
     Normalizes a regulatory cross-reference (e.g. 'Article 9.8.4.5A.' -> ('article', '9.8.4.5A')).
     """
@@ -250,7 +250,7 @@ class LabelStudioBridge:
         )
 
     @staticmethod
-    def parse_task_to_gold_rule(task: dict[str, Any]) -> Optional[dict[str, Any]]:
+    def parse_task_to_gold_rule(task: dict[str, Any]) -> dict[str, Any] | None:
         """
         Extracts a discrete GOLD_RULE dictionary from a Label Studio annotated task.
         Returns None if the clause does not contain a checkable constraint.
@@ -353,7 +353,7 @@ class LabelStudioBridge:
     @staticmethod
     def gold_rules_to_preannotated_tasks(
         gold_rules: list[dict[str, Any]],
-        clause_texts: Optional[dict[str, str]] = None,
+        clause_texts: dict[str, str] | None = None,
     ) -> list[dict[str, Any]]:
         """
         Converts GOLD_RULES into Label Studio pre-annotated import tasks.
@@ -445,7 +445,6 @@ class LabelStudioBridge:
         Converts DocLang XML into Label Studio tasks, preserving element IDs,
         section hierarchy, and optionally attaching pre-annotations.
         """
-        import xml.etree.ElementTree as ET
         annotator = DocLangAnnotator()
         nodes = annotator.parse_nodes(doclang_xml)
         tasks = []
@@ -744,7 +743,7 @@ def main() -> None:
     bridge = LabelStudioBridge()
 
     if args.mode == "doclang-to-tasks":
-        with open(input_path, "r", encoding="utf-8") as f:
+        with open(input_path, encoding="utf-8") as f:
             xml_content = f.read()
         tasks = bridge.doclang_to_label_studio_tasks(xml_content, pre_annotate=True)
         print(f"Generated {len(tasks)} Label Studio tasks from DocLang XML.")
@@ -762,9 +761,9 @@ def main() -> None:
         if not args.base_doclang or not Path(args.base_doclang).exists():
             print("Error: --base-doclang must point to an existing DocLang XML file.")
             return
-        with open(input_path, "r", encoding="utf-8") as f:
+        with open(input_path, encoding="utf-8") as f:
             tasks_data = json.load(f)
-        with open(args.base_doclang, "r", encoding="utf-8") as f:
+        with open(args.base_doclang, encoding="utf-8") as f:
             base_xml = f.read()
         tasks = tasks_data if isinstance(tasks_data, list) else [tasks_data]
         updated_xml = bridge.label_studio_to_doclang(tasks, base_xml, validate_xsd=True)
@@ -779,7 +778,7 @@ def main() -> None:
             print(updated_xml[:500] + "...")
         return
 
-    with open(input_path, "r", encoding="utf-8") as f:
+    with open(input_path, encoding="utf-8") as f:
         data = json.load(f)
 
     if args.mode == "nlp":

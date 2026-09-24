@@ -1,5 +1,6 @@
 from pypdf import PdfReader, PdfWriter
 
+
 def extract_pages(input_pdf, output_pdf, pages_to_extract):
     """
     Extracts specified pages from a PDF and saves them to a new PDF.

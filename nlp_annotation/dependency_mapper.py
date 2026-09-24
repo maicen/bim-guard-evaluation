@@ -16,8 +16,8 @@ Also extracts any cross-references embedded in the dependency clause.
 """
 
 import re
-from .cross_ref_resolver import CrossRefResolver
 
+from .cross_ref_resolver import CrossRefResolver
 
 # Clause terminator: stop only at a sentence-ending period (period + space or
 # period at end-of-string), NOT at dots inside CODE section numbers like 9.8.3.(1).

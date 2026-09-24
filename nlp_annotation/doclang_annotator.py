@@ -24,11 +24,11 @@ import tempfile
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import defusedxml.ElementTree as safe_ET
 from defusedxml.common import DefusedXmlException
-from doclang import ValidationError, validate
+from doclang import validate
 
 from .annotation_schema import ParagraphAnnotation
 from .condition_parser import ConditionParser
@@ -66,7 +66,7 @@ def _strip_ns(tag: str) -> str:
     return tag.split("}")[-1] if "}" in tag else tag
 
 
-def _get_element_id(elem: ET.Element) -> Optional[str]:
+def _get_element_id(elem: ET.Element) -> str | None:
     """Extracts bg_element_id from <custom><bg_element_id value="..."/></custom> if present."""
     for custom in elem:
         if _strip_ns(custom.tag).lower() == "custom":
@@ -78,15 +78,15 @@ def _get_element_id(elem: ET.Element) -> Optional[str]:
     return elem.attrib.get("id")
 
 
-def parse_otsl_table_text(table_elem: ET.Element) -> Tuple[List[List[str]], str]:
+def parse_otsl_table_text(table_elem: ET.Element) -> tuple[list[list[str]], str]:
     """
     Parses OTSL table delimiters (<fcel/> and <nl/>) with mixed content
     into rows and markdown-like text representation.
     """
     raw_text = "".join(table_elem.itertext()).strip()
-    rows: List[List[str]] = []
-    current_row: List[str] = []
-    current_cell: List[str] = []
+    rows: list[list[str]] = []
+    current_row: list[str] = []
+    current_cell: list[str] = []
 
     # In OTSL, cells are delimited by <fcel/> and rows by <nl/>
     # Content typically sits in child.tail after the delimiter element
@@ -153,13 +153,13 @@ class DocLangNode:
     """Represents a structured node extracted from DocLang XML."""
     tag: str
     text: str
-    element_id: Optional[str] = None
+    element_id: str | None = None
     level: int = 1
-    section_number: Optional[str] = None
-    section_name: Optional[str] = None
-    section_path: List[str] = field(default_factory=list)
-    annotation: Optional[ParagraphAnnotation] = None
-    elem: Optional[ET.Element] = None
+    section_number: str | None = None
+    section_name: str | None = None
+    section_path: list[str] = field(default_factory=list)
+    annotation: ParagraphAnnotation | None = None
+    elem: ET.Element | None = None
 
 
 class DocLangAnnotator:
@@ -168,7 +168,7 @@ class DocLangAnnotator:
     DocLang documents with linguistic NLP pre-analysis and full XSD validation.
     """
 
-    def __init__(self, code_to_ifc_map: Optional[Dict[str, str]] = None):
+    def __init__(self, code_to_ifc_map: dict[str, str] | None = None):
         self._deontic = DeonticExtractor()
         self._condition = ConditionParser()
         self._crossref = CrossRefResolver()
@@ -180,9 +180,9 @@ class DocLangAnnotator:
 
     def parse_nodes(
         self,
-        xml_content: Optional[str] = None,
-        root: Optional[ET.Element] = None,
-    ) -> List[DocLangNode]:
+        xml_content: str | None = None,
+        root: ET.Element | None = None,
+    ) -> list[DocLangNode]:
         """
         Parses DocLang XML or an existing ElementTree root into structured DocLangNodes
         tracking section hierarchy, element IDs, and text blocks.
@@ -195,10 +195,10 @@ class DocLangAnnotator:
             except (ET.ParseError, DefusedXmlException):
                 return []
 
-        nodes: List[DocLangNode] = []
-        current_sec_num: Optional[str] = None
-        current_sec_name: Optional[str] = None
-        level_map: Dict[int, str] = {}
+        nodes: list[DocLangNode] = []
+        current_sec_num: str | None = None
+        current_sec_name: str | None = None
+        level_map: dict[int, str] = {}
 
         for elem in root.iter():
             tag = _strip_ns(elem.tag).lower()
@@ -282,7 +282,7 @@ class DocLangAnnotator:
 
     # ── Paragraph Annotation ──────────────────────────────────────────────────
 
-    def _extract_ifc_hints(self, text: str) -> List[Dict[str, str]]:
+    def _extract_ifc_hints(self, text: str) -> list[dict[str, str]]:
         """Map surface forms in text to IFC classes using the code-to-IFC map."""
         found = []
         seen_ifc: set = set()
@@ -295,7 +295,7 @@ class DocLangAnnotator:
                     found.append({"surface": surface, "ifc_class": ifc_class})
         return found
 
-    def _extract_subject(self, text: str, ifc_hints: list) -> Optional[str]:
+    def _extract_subject(self, text: str, ifc_hints: list) -> str | None:
         """Heuristic: noun phrase before deontic verb or first IFC hint."""
         m = re.match(r"^([^,\.]{3,60}?)\s+(?:shall|must|may|is\s+required)\b", text, re.IGNORECASE)
         if m:
@@ -345,7 +345,7 @@ class DocLangAnnotator:
         xml_content: str,
         inject_custom_markup: bool = True,
         validate_xsd: bool = True,
-    ) -> Tuple[str, List[DocLangNode]]:
+    ) -> tuple[str, list[DocLangNode]]:
         """
         Parses DocLang XML, annotates semantic elements with linguistic analysis,
         injects schema-valid <custom><bg_nlp .../></custom> metadata, and validates
@@ -505,18 +505,18 @@ class DocLangAnnotator:
 
     # ── Chunk Conversion for Rule Extraction ──────────────────────────────────
 
-    def doclang_to_chunks(self, xml_content: str) -> List[Dict[str, Any]]:
+    def doclang_to_chunks(self, xml_content: str) -> list[dict[str, Any]]:
         """
         Converts DocLang XML into structured section chunks with enriched
         NLP pre-analysis preambles, matching ConfidenceScorer chunk shape.
         """
         nodes = self.parse_nodes(xml_content)
-        chunks: List[Dict[str, Any]] = []
+        chunks: list[dict[str, Any]] = []
 
-        current_sec_num: Optional[str] = None
-        current_sec_name: Optional[str] = None
-        current_sec_path: List[str] = []
-        current_paras: List[Dict[str, Any]] = []
+        current_sec_num: str | None = None
+        current_sec_name: str | None = None
+        current_sec_path: list[str] = []
+        current_paras: list[dict[str, Any]] = []
 
         def flush():
             nonlocal current_paras
@@ -560,7 +560,7 @@ class DocLangAnnotator:
         flush()
         return chunks
 
-    def _build_preamble(self, scored_paras: List[Dict[str, Any]], section_name: str) -> str:
+    def _build_preamble(self, scored_paras: list[dict[str, Any]], section_name: str) -> str:
         """Constructs a compact [NLP PRE-ANALYSIS] preamble for the LLM."""
         lines = ["[NLP PRE-ANALYSIS]"]
         if section_name:

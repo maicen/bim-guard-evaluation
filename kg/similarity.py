@@ -24,8 +24,8 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
+from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Dict, List, Sequence
 
 import numpy as np
 import scipy.sparse as sp
@@ -43,7 +43,7 @@ DEFAULT_WEIGHTS = {
 }
 
 
-def tokenize(text: str) -> List[str]:
+def tokenize(text: str) -> list[str]:
     return _TOKEN_RE.findall((text or "").lower())
 
 
@@ -78,7 +78,7 @@ class TfidfSpace:
         for toks in docs_tokens:
             doc_freq.update(set(toks))
 
-        self.vocab: Dict[str, int] = {term: idx for idx, term in enumerate(doc_freq)}
+        self.vocab: dict[str, int] = {term: idx for idx, term in enumerate(doc_freq)}
         n_docs = len(documents)
         idf = np.zeros(len(self.vocab), dtype=np.float64)
         for term, idx in self.vocab.items():
@@ -109,7 +109,7 @@ class CandidateMatch:
     term_uri: str
     term_kind: str  # "class" or "property"
     composite: float
-    signals: Dict[str, float] = field(default_factory=dict)
+    signals: dict[str, float] = field(default_factory=dict)
 
 
 def score_candidates(
@@ -123,8 +123,8 @@ def score_candidates(
     *,
     top_k: int = 15,
     min_composite: float = 0.05,
-    weights: Dict[str, float] | None = None,
-) -> List[CandidateMatch]:
+    weights: dict[str, float] | None = None,
+) -> list[CandidateMatch]:
     """Scores clauses against bSDD terms (classes or properties).
 
     `term_texts` should be a definition+description blob per term (used for
@@ -151,7 +151,7 @@ def score_candidates(
     heading_tokens = [tokenize(h) for h in clause_headings]
     term_name_tokens = [tokenize(n) for n in term_names]
 
-    results: List[CandidateMatch] = []
+    results: list[CandidateMatch] = []
     for ci, clause_ref in enumerate(clause_refs):
         row = cosine_matrix[ci]
         if top_k and top_k < len(row):

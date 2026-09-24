@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from nlp_annotation.doclang_annotator import DocLangAnnotator
 
@@ -38,16 +38,16 @@ class Clause:
 
     ref: str
     heading: str
-    section_path: List[str] = field(default_factory=list)
+    section_path: list[str] = field(default_factory=list)
     level: int = 0
     text: str = ""
-    element_ids: List[str] = field(default_factory=list)
-    deontics: List[Dict[str, Any]] = field(default_factory=list)
-    conditions: List[Dict[str, Any]] = field(default_factory=list)
-    dimensions: List[Dict[str, Any]] = field(default_factory=list)
-    cross_refs: List[Dict[str, Any]] = field(default_factory=list)
-    dependencies: List[Dict[str, Any]] = field(default_factory=list)
-    ifc_hints: List[Dict[str, Any]] = field(default_factory=list)
+    element_ids: list[str] = field(default_factory=list)
+    deontics: list[dict[str, Any]] = field(default_factory=list)
+    conditions: list[dict[str, Any]] = field(default_factory=list)
+    dimensions: list[dict[str, Any]] = field(default_factory=list)
+    cross_refs: list[dict[str, Any]] = field(default_factory=list)
+    dependencies: list[dict[str, Any]] = field(default_factory=list)
+    ifc_hints: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -60,7 +60,7 @@ class ClauseEdge:
     label: str = ""
 
 
-def _derive_ref(heading_text: str, fallback_idx: int) -> Tuple[str, str]:
+def _derive_ref(heading_text: str, fallback_idx: int) -> tuple[str, str]:
     """Splits a heading into (clause_ref, clean_heading_text)."""
     heading_text = heading_text.strip()
     m = _REF_PATTERN.match(heading_text)
@@ -77,13 +77,13 @@ def _numeric_suffix(ref: str) -> str:
     return ref.split("-", 1)[-1] if "-" in ref else ref
 
 
-def build_clauses(xml_content: str) -> List[Clause]:
+def build_clauses(xml_content: str) -> list[Clause]:
     """Parses DocLang XML into a flat list of Clause units in document order."""
     annotator = DocLangAnnotator()
     nodes = annotator.parse_nodes(xml_content)
 
-    clauses: List[Clause] = []
-    current: Optional[Clause] = None
+    clauses: list[Clause] = []
+    current: Clause | None = None
     heading_idx = 0
     preamble_idx = 0
 
@@ -128,10 +128,10 @@ def build_clauses(xml_content: str) -> List[Clause]:
     return clauses
 
 
-def _dedupe_refs(clauses: List[Clause]) -> None:
+def _dedupe_refs(clauses: list[Clause]) -> None:
     """Appends a numeric suffix to any clause ref that collides with an earlier one
     (e.g. repeated/ambiguous headings), so every clause has a unique graph node id."""
-    seen: Dict[str, int] = {}
+    seen: dict[str, int] = {}
     for clause in clauses:
         base = clause.ref
         if base not in seen:
@@ -141,14 +141,14 @@ def _dedupe_refs(clauses: List[Clause]) -> None:
         clause.ref = f"{base}#{seen[base]}"
 
 
-def build_clause_edges(clauses: List[Clause]) -> List[ClauseEdge]:
+def build_clause_edges(clauses: list[Clause]) -> list[ClauseEdge]:
     """Resolves each clause's cross-references and dependency markers against
     other clauses' refs in the same document to produce clause-to-clause edges."""
-    by_numeric: Dict[str, str] = {}
+    by_numeric: dict[str, str] = {}
     for clause in clauses:
         by_numeric.setdefault(_numeric_suffix(clause.ref), clause.ref)
 
-    edges: List[ClauseEdge] = []
+    edges: list[ClauseEdge] = []
     for clause in clauses:
         for xref in clause.cross_refs:
             target_ref = by_numeric.get(xref.get("normalized", ""))

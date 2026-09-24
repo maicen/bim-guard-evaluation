@@ -71,8 +71,8 @@ def check(label: str, condition: bool, detail: str = "") -> None:
 
 class InProcessClient:
     def __init__(self):
-        from starlette.testclient import TestClient
         from app.main import app
+        from starlette.testclient import TestClient
 
         self._client = TestClient(app)
 

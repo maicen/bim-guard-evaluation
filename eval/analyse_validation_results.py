@@ -60,16 +60,15 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import math
+import os
 import re
 import sys
 import time
 import xml.etree.ElementTree as ET
 import zipfile
 from collections import Counter, defaultdict
-import os
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 # Resolve evaluation dir and core bim-guard repo path
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -83,15 +82,9 @@ for p in [EVAL_DIR, REPO_ROOT, BIMGUARD_CORE, Path(".")]:
 import matplotlib  # noqa: E402
 
 matplotlib.use("Agg")
+import ifcopenshell  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
-
-import ifcopenshell  # noqa: E402
-
-from app.modules.ifc_reader.piping_producer import (  # noqa: E402
-    media_for_system,
-    produce_piping_elements_from_model,
-)
 from app.modules.blue_halo.halo_volume_generator import (  # noqa: E402
     ElementGeometry,
     detect_halo_clash_against_geometry,
@@ -103,6 +96,11 @@ from app.modules.comparator.compliance_runner import (  # noqa: E402
     run_galvanic_compliance_check,
     run_mic_compliance_check,
 )
+from app.modules.ifc_reader.piping_producer import (  # noqa: E402
+    media_for_system,
+    produce_piping_elements_from_model,
+)
+
 try:
     from test_all_38_models import (  # noqa: E402
         BRACE_VARIANT,
@@ -110,8 +108,8 @@ try:
         MEP_CLASSES,
         STRUCTURAL_CLASSES,
         _EngineElement,
-        _SpatialGrid,
         _median,
+        _SpatialGrid,
         world_bboxes_mm,
     )
 except ImportError:
@@ -121,8 +119,8 @@ except ImportError:
         MEP_CLASSES,
         STRUCTURAL_CLASSES,
         _EngineElement,
-        _SpatialGrid,
         _median,
+        _SpatialGrid,
         world_bboxes_mm,
     )
 
@@ -901,7 +899,7 @@ def write_appendix(records, ok, tables, extra, sev_totals, sev_grand,
         "material, CC-001 Medium for every material, and MC-001 Critical for all but one. These",
         "are constant functions of their input, not risk assessments.",
         "",
-        f"The cause is input availability, not engine logic. The best-covered engine is",
+        "The cause is input availability, not engine logic. The best-covered engine is",
         f"{best_engine}, whose required inputs are present on {ready.get(best_engine,0):,} of",
         f"{recomputed_total:,} elements ({best_pct:.3f}%); the rest are at zero. A 100% flag rate",
         "and 0% input coverage are the same fact viewed twice: the coercers substitute a default",

@@ -78,8 +78,8 @@ class Response:
 
 class InProcessClient:
     def __init__(self):
-        from starlette.testclient import TestClient
         from app.main import app
+        from starlette.testclient import TestClient
 
         self._client = TestClient(app)
 

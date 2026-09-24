@@ -29,7 +29,7 @@ import json
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "eval"))
 from eval_config import setup_bimguard_path  # noqa: E402
@@ -48,7 +48,7 @@ from kg.llm_correction import (  # noqa: E402
 DEFAULT_MODEL = "openrouter/anthropic/claude-3.5-haiku"
 
 
-async def _run(tasks: List[ClauseTask], model: str, concurrency: int) -> List[Any]:
+async def _run(tasks: list[ClauseTask], model: str, concurrency: int) -> list[Any]:
     import litellm
 
     litellm.suppress_debug_info = True
@@ -112,7 +112,7 @@ def main(argv: list[str] | None = None) -> int:
     results = asyncio.run(_run(tasks, args.model, args.concurrency))
 
     updated_edges = 0
-    errors: List[Dict[str, Any]] = []
+    errors: list[dict[str, Any]] = []
     for task, outcome in zip(tasks, results):
         if isinstance(outcome, BaseException):
             errors.append({"clause_id": task.clause_id, "error": repr(outcome)})

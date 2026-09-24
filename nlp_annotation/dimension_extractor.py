@@ -14,7 +14,6 @@ Units covered: mm, m, cm, m², m³, %, min, h, °, storeys
 
 import re
 
-
 # Unit normalisation: variant → canonical
 _UNIT_VARIANTS = {
     'mm':         'mm',
