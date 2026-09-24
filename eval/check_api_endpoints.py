@@ -1,7 +1,15 @@
 """
-test_api_endpoints.py
+check_api_endpoints.py
 ------------------------------------------------
 Mode A — Black-Box API Evaluation (plan-26003.md Priority 1).
+
+Renamed from test_api_endpoints.py on 2026-09-25: despite the name, this is
+not a pytest file (see the note at the bottom of this docstring) -- pytest's
+own testpaths config (pyproject.toml) already excludes it from a bare
+`pytest` run, but a `pytest eval/` (or a future misconfigured CI step) would
+still collect it, and it uses module-level `global passed/failed` state that
+is not import-safe. The eval_id string below is unchanged ("test_api_endpoints")
+so existing baselines and result files stay valid.
 
 Exercises bim-guard's FastAPI surface as an external black box: every router
 group gets at least one smoke check — a safe read that should succeed, a

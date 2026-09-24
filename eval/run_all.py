@@ -56,7 +56,7 @@ SCRIPTS: list[tuple[str, str, int, bool, bool]] = [
     ("score_nlp_annotation", "score_nlp_annotation.py", 0, True, False),
     ("eval_gold_code_9_8_stairs", "eval_gold_code_9_8_stairs.py", 1, False, False),
     ("score_rule_extraction", "score_rule_extraction.py", 2, True, False),
-    ("test_api_endpoints", "test_api_endpoints.py", 2, True, True),
+    ("test_api_endpoints", "check_api_endpoints.py", 2, True, True),
     ("eval_harness", "eval_harness.py", 3, False, False),
 ]
 
