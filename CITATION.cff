@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software or its evaluation methodology, please cite it as below."
+title: "bim-guard-evaluation: Evaluation Harnesses and Empirical Validation for BIM-Guard"
+authors:
+  - family-names: Ata
+    given-names: Osama
+date-released: 2026-09-24
+version: "0.1.0"
+repository-code: "https://github.com/maicen/bim-guard-evaluation"
+license: MIT
+type: software
+keywords:
+  - building information modeling
+  - IFC
+  - compliance checking
+  - NLP annotation
+  - LLM evaluation
+  - corrosion engineering
+abstract: >
+  Evaluation harnesses, linguistic NLP annotation, accuracy scoring, and
+  empirical research validation analysis for the BIM-Guard platform: a
+  BIM compliance-checking system covering IFC geometry extraction, LLM-based
+  rule extraction from building codes, and corrosion/clash compliance engines.
+  Developed as part of an MSc Final Master Project (MAICEN Group 5).
