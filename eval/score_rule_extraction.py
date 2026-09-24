@@ -270,6 +270,11 @@ async def part_b(sendable: list[dict]):
     # malformed reply instead of degrading gracefully — a real robustness gap in that
     # production code, not just an eval quirk. Catch it per-chunk here so one bad chunk
     # doesn't kill the whole run; each is scored as zero rules like the old shim did.
+    # NOTE (reproducibility): LlamaIndexRuleGenerator.extract_rules_from_text
+    # takes only `model` -- no temperature/seed parameter exists to pin, so
+    # every call below is an unrepeated, unparameterized LLM draw. That
+    # constraint lives upstream in bim-guard and is out of this repo's scope
+    # to fix (see CLAUDE.md's scope delineation and LIMITATIONS.md).
     extractor = LlamaIndexRuleGenerator()
     llm_rules = []
     unparseable = 0

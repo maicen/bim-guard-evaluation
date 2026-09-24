@@ -25,7 +25,7 @@ import asyncio
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 # ── Configure your LLM provider here ──────────────────────────────────────────
 # Option A: Anthropic (recommended — same model family as your pipeline)
@@ -186,6 +186,18 @@ def build_judge_message(source_text, ideal_rule, generated_rule):
 # ══════════════════════════════════════════════════════════════════════════════
 
 
+# Every judge call uses temperature=0 for maximum determinism. This does not
+# make the judge's output reproducible in the strict sense (provider-side
+# non-determinism in sampling/routing can still vary a single call), but it
+# removes deliberate randomness as a variable, which the un-pinned defaults
+# previously left unspecified. See LIMITATIONS.md: even pinned, this harness
+# takes a single draw per case with no repeats and no confidence interval.
+JUDGE_LLM_PARAMS = {
+    "anthropic": {"model": "claude-sonnet-4-20250514", "temperature": 0.0, "max_tokens": 300},
+    "openai": {"model": "gpt-4o-2024-08-06", "temperature": 0.0, "max_tokens": 300},
+}
+
+
 def call_judge_anthropic(message):
     """Call Anthropic Claude as the judge."""
     try:
@@ -194,10 +206,12 @@ def call_judge_anthropic(message):
         print("ERROR: pip install anthropic")
         sys.exit(1)
 
+    params = JUDGE_LLM_PARAMS["anthropic"]
     client = Anthropic()
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=300,
+        model=params["model"],
+        max_tokens=params["max_tokens"],
+        temperature=params["temperature"],
         system=JUDGE_PROMPT,
         messages=[{"role": "user", "content": message}],
     )
@@ -212,10 +226,12 @@ def call_judge_openai(message):
         print("ERROR: pip install openai")
         sys.exit(1)
 
+    params = JUDGE_LLM_PARAMS["openai"]
     client = OpenAI()
     response = client.chat.completions.create(
-        model="gpt-4o",
-        max_tokens=300,
+        model=params["model"],
+        max_tokens=params["max_tokens"],
+        temperature=params["temperature"],
         messages=[
             {"role": "system", "content": JUDGE_PROMPT},
             {"role": "user", "content": message},
@@ -458,12 +474,19 @@ def print_summary(results):
 
 def save_results(results, confusion=None):
     """Save timestamped results for historical comparison."""
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    # UTC, matching eval_config.new_run_id()'s convention -- this script
+    # previously used local-time datetime.now(), a second, incompatible time
+    # convention within the same repository.
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     path = os.path.join(RESULTS_DIR, f"eval_{timestamp}.json")
 
     payload = {
         "timestamp": timestamp,
         "provider": LLM_PROVIDER,
+        "llm_params": JUDGE_LLM_PARAMS[LLM_PROVIDER],
+        "correct_threshold": CORRECT_THRESHOLD,
+        "n_samples_per_case": 1,
+        "sampling_note": "single draw per case; no repeats, no confidence interval (see LIMITATIONS.md)",
         "results": results,
         "confusion_matrix": confusion,
     }

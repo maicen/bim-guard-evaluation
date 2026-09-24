@@ -121,6 +121,13 @@ def cmd_case(case_id: str, model: str) -> dict:
     t0 = time.perf_counter()
     extraction_error: str | None = None
     try:
+        # NOTE (reproducibility): LlamaIndexRuleGenerator.extract_rules_from_text
+        # (bim-guard: app/modules/rule_builder/llamaindex_rule_generator.py)
+        # takes only `model` -- no temperature/seed parameter exists to pin.
+        # This call is therefore an unrepeated, unparameterized draw whatever
+        # this repo does; the constraint is upstream, not fixable here without
+        # a bim-guard change (out of this repo's scope per CLAUDE.md). See
+        # LIMITATIONS.md.
         rules = asyncio.run(_rule_generator().extract_rules_from_text(case["source_text"], model=model))
     except Exception as exc:
         # A malformed field in one model's reply (observed: openai/gpt-4o-mini
