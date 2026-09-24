@@ -12,7 +12,7 @@ EVAL_DIR = Path(__file__).resolve().parent
 if str(EVAL_DIR) not in sys.path:
     sys.path.insert(0, str(EVAL_DIR))
 
-from eval_config import build_result, new_run_id, write_result  # noqa: E402
+from eval_config import build_result, write_result  # noqa: E402
 
 _START = time.perf_counter()
 
@@ -316,7 +316,7 @@ if args.json:
         passed=passed, failed=failed, total=total,
         duration_s=duration_s, details=details,
     )
-    out_path = write_result(result, run_id=new_run_id())
+    out_path = write_result(result)  # let write_result() resolve $BGEVAL_RUN_ID (run_all.py) or mint one (standalone)
     print(f"\n  JSON result written to {out_path}")
 
 sys.exit(0 if failed == 0 else 1)

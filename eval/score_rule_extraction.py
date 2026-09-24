@@ -50,7 +50,7 @@ EVAL_DIR = Path(__file__).resolve().parent
 if str(EVAL_DIR) not in sys.path:
     sys.path.insert(0, str(EVAL_DIR))
 
-from eval_config import build_result, new_run_id, setup_bimguard_path, write_result  # noqa: E402
+from eval_config import build_result, setup_bimguard_path, write_result  # noqa: E402
 
 # The one bootstrap (see eval_config.setup_bimguard_path's docstring) --
 # replaces this script's own former REPO_ROOT/EVAL_DIR/BIMGUARD_CORE
@@ -345,5 +345,5 @@ if __name__ == "__main__":
                 total=llm_score["total_gold"], duration_s=time.perf_counter() - _START,
                 details=llm_score,
             )
-            out_path = write_result(result, run_id=new_run_id())
+            out_path = write_result(result)  # let write_result() resolve $BGEVAL_RUN_ID (run_all.py) or mint one (standalone)
             print(f"\n  JSON result written to {out_path}")
