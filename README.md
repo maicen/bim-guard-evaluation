@@ -35,8 +35,7 @@ This repository isolates academic and empirical validation from core application
    - `analyse_validation_results.py`: Research synthesis script generating confusion matrices, empirical distributions, standards sensitivity curves, BCF validity checks, and thesis validation tables and figures.
 
 3. **Research Artifacts & Validation Data (`research/`)**
-   - **Tables**: `table1_per_model.csv` through `table7b_schema_twins.csv`
-   - **Figures**: `figB1_clash_severity.png` through `figB4_schema_scatter.png`
+   - **38-model sweep evidence** (`research/appendix_b/run_20260918/`): the 2026-09-18 validation-sweep run backing the thesis's headline 223,516-clash figure — `validation_sweep_summary.json`, tables `table1_per_model.csv` through `table7b_schema_twins.csv`, figures `figB1_clash_severity.png` through `figB4_schema_scatter.png`, and a `PROVENANCE.md` documenting how they were produced. See [`research/CLAIMS.md`](research/CLAIMS.md) for the claims-to-evidence ledger and current verification status of every headline number in this repo.
    - **Empirical Reports & Methodology**: Appendix B validation specifications, baseline corrosion findings, BCF 2.1 GUID typing audits, and dataset inventories.
 
 ---
@@ -70,18 +69,13 @@ bim-guard-evaluation/
 │   ├── doclang-spec-0.7.md         # Normative DocLang v0.7 specification
 │   ├── doclang-README-fea2146.md   # Reference toolkit guide
 │   └── rule-extraction-corrections.md # score_rule_extraction_corrections.py design & usage
-├── research/                       # Research data, CSV tables, figures & logs
-│   ├── table1_per_model.csv        # Validation sweep summary table
-│   ├── table2_severity.csv         # Clash severity distribution
-│   ├── table3_material_engine.csv  # Material cross-tabulation
-│   ├── table4_engine_coverage.csv  # Engine input coverage
-│   ├── table5_bcf_validity.csv     # BCF 2.1 archive XML/viewpoint audit
-│   ├── table6_standards_sensitivity.csv # Threshold sensitivity
-│   ├── table7_schema.csv           # IFC2X3 vs IFC4 fidelity
-│   ├── figB1_clash_severity.png    # Histogram
-│   ├── figB2_material_heatmap.png  # Risk heatmap
-│   ├── figB3_engine_radar.png      # Engine coverage radar
-│   └── figB4_schema_scatter.png    # Schema comparison scatter
+├── research/                       # Research data, claims ledger, and archived run artifacts
+│   ├── CLAIMS.md                   # Claims-to-evidence ledger — status of every headline number
+│   ├── LIMITATIONS.md              # (see root) methodological limitations, stated plainly
+│   └── appendix_b/run_20260918/    # 38-model sweep run: validation_sweep_summary.json,
+│                                   # table1_per_model.csv…table7b_schema_twins.csv,
+│                                   # figB1_clash_severity.png…figB4_schema_scatter.png,
+│                                   # PROVENANCE.md
 ├── pyproject.toml
 └── README.md
 ```
