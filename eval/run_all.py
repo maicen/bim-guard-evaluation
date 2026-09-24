@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
@@ -66,8 +67,11 @@ def run_script(eval_id: str, script: str, tier: int, supports_json: bool, run_id
         cmd.append("--smoke")
 
     cwd = str(bimguard_path()) if needs_bimguard_cwd else str(EVAL_DIR)
+    # Propagate this run's id so the child writes eval_config.write_result()
+    # under the SAME run_id we expect below, instead of minting its own.
+    env = {**os.environ, "BGEVAL_RUN_ID": run_id}
     t0 = time.perf_counter()
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, env=env)
     duration_s = time.perf_counter() - t0
 
     manifest_entry = {
@@ -80,10 +84,21 @@ def run_script(eval_id: str, script: str, tier: int, supports_json: bool, run_id
     }
 
     if supports_json:
-        result_files = sorted(RESULTS_DIR.glob(f"{eval_id}_*.json"))
-        if result_files:
-            with open(result_files[-1], encoding="utf-8") as f:
+        # Select by the exact run_id we assigned -- NOT sorted(glob(...))[-1].
+        # That used to silently attribute a *previous* run's result to this
+        # one whenever a child crashed before writing (and that stale result
+        # could then be promoted to baseline by --update-baseline). A missing
+        # file for this run_id is now a hard failure, not a fallback.
+        expected = RESULTS_DIR / f"{eval_id}_{run_id}.json"
+        if expected.exists():
+            with open(expected, encoding="utf-8") as f:
                 manifest_entry["result"] = json.load(f)
+        elif proc.returncode == 0:
+            manifest_entry["returncode"] = 1
+            manifest_entry["stderr_tail"] += (
+                f"\n[run_all.py] expected result file not found: {expected}"
+                " (script exited 0 but did not write a result for this run_id)"
+            )
 
     return manifest_entry
 

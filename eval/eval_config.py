@@ -89,9 +89,18 @@ def build_result(
 
 
 def write_result(result: dict, run_id: str | None = None) -> Path:
-    """Write a result dict to eval/results/<eval_id>_<run_id>.json."""
+    """Write a result dict to eval/results/<eval_id>_<run_id>.json.
+
+    run_id resolution order: the explicit argument, then $BGEVAL_RUN_ID (set by
+    run_all.py on every child it launches, so a single orchestrated run shares
+    one id across all its scripts), then a freshly minted one for a script run
+    standalone. This is the fix for the run_all.py stale-result bug: before,
+    each child minted its own run_id and run_all.py picked up
+    sorted(glob(...))[-1] instead of the id it had assigned, so a crashed
+    child could have the *previous* run's result silently attributed to it.
+    """
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    run_id = run_id or new_run_id()
+    run_id = run_id or os.getenv("BGEVAL_RUN_ID") or new_run_id()
     out_path = RESULTS_DIR / f"{result['eval_id']}_{run_id}.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2)
