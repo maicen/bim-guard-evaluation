@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
@@ -283,7 +284,7 @@ class IAACalculator:
         return "\n".join(lines)
 
 
-def main() -> None:
+def main() -> int:
     parser = argparse.ArgumentParser(description="Score Inter-Annotator Agreement from Label Studio Exports")
     parser.add_argument("--input", "-i", type=str, required=True, help="Path to exported tasks JSON with multiple annotations")
     parser.add_argument("--output", "-o", type=str, help="Optional markdown output report path")
@@ -291,8 +292,11 @@ def main() -> None:
 
     input_path = Path(args.input)
     if not input_path.exists():
+        # Previously `return`ed None here, which left main() -> None and this
+        # module exiting 0 on a missing input -- a failure silently reported
+        # as a success to any caller (e.g. run_all.py) checking the exit code.
         print(f"Error: file not found: {input_path}")
-        return
+        return 2
 
     with open(input_path, "r", encoding="utf-8") as f:
         tasks = json.load(f)
@@ -311,6 +315,8 @@ def main() -> None:
             f.write(report)
         print(f"\nReport written to {out_path}")
 
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

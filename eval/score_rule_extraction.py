@@ -66,7 +66,24 @@ except ImportError:
 from document_parsing.section_chunker import SectionChunker  # noqa: E402
 from ifc_reader import _PROPERTY_ALIASES  # noqa: E402
 
-PDF_PATH = glob.glob("data/uploads/*pdf_stairs_mock.pdf")[0]
+def _resolve_pdf_path() -> str:
+    """Locate the Part-A source PDF, deferred to call time.
+
+    Previously `PDF_PATH = glob.glob(...)[0]` ran at MODULE SCOPE, so simply
+    `import`ing this module from a cwd that doesn't happen to have
+    data/uploads/*pdf_stairs_mock.pdf underneath it raised an uncaught
+    IndexError before any code in this file could run or report a useful
+    error. Deferred into a function with an explicit message instead.
+    """
+    matches = glob.glob("data/uploads/*pdf_stairs_mock.pdf")
+    if not matches:
+        raise FileNotFoundError(
+            "no data/uploads/*pdf_stairs_mock.pdf found under the current "
+            f"working directory ({Path.cwd()}). This script's Part A needs "
+            "bim-guard's data/uploads/ fixture PDF and must be run with "
+            "cwd=<bim-guard checkout> (see run_all.py's needs_bimguard_cwd)."
+        )
+    return matches[0]
 
 # ── Part-B model: local Ollama by default (free, no vendor key) ────────────
 # LiteLLMClient takes no base_url argument, so the endpoint is handed to litellm
@@ -211,7 +228,7 @@ def part_a():
     print("     dependency-light fallback) and building SectionChunker chunks")
     from pypdf import PdfReader
     import io
-    pdf_bytes = open(PDF_PATH, "rb").read()
+    pdf_bytes = open(_resolve_pdf_path(), "rb").read()
     text = "\n".join(page.extract_text() or "" for page in PdfReader(io.BytesIO(pdf_bytes)).pages)
 
     sendable = prepare_sendable_chunks(text)
@@ -313,7 +330,7 @@ if __name__ == "__main__":
     cli_args = cli.parse_args()
 
     print(f"GOLD_RULES: {len(GOLD_RULES)}   EXCLUDED_CLAUSES: {len(EXCLUDED_CLAUSES)}")
-    print(f"Source PDF: {PDF_PATH}\n")
+    print(f"Source PDF: {_resolve_pdf_path()}\n")
     sendable_chunks = part_a()
     llm_score = asyncio.run(part_b(sendable_chunks))
 
