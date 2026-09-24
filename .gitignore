@@ -57,3 +57,4 @@ research/label_studio/data/
 research/kg/
 
 .DS_Store
+.vscode/
