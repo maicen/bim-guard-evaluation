@@ -169,6 +169,23 @@ def run_checks(client) -> None:
     r = client.get("/api/rules/export-ids")
     check_status("GET /api/rules/export-ids (no exportable rules) -> 400", r, (200, 400))
 
+    # Route-ordering regression guard: GET /{rule_id} has no int converter in
+    # its path, so it matches ANY single path segment at the routing level --
+    # a literal route (like /drafts) declared after it in app/api/rules.py
+    # gets shadowed and 422s ("invalid int") instead of ever running its own
+    # handler. This exact bug broke /export-ids once (see the NOTE comment
+    # above that route in bim-guard) and broke /drafts the same way later
+    # (fixed 2026-09-25 -- see score_rule_extraction_corrections.py, this
+    # repo's actual consumer of this endpoint). No auth token is needed to
+    # tell the two failure modes apart: 401 proves the request reached
+    # list_all_rule_drafts()'s own auth dependency (route ordering is
+    # correct); 422 means /{rule_id} intercepted "drafts" first (regressed).
+    r = client.get("/api/rules/drafts")
+    check_status(
+        "GET /api/rules/drafts -> 401, not 422 (catches /{rule_id} route-ordering shadowing)",
+        r, 401,
+    )
+
     # Analyze
     r = client.get(f"/api/analyze/status/{NONEXISTENT_ID}")
     check_status("GET /api/analyze/status/{nonexistent} -> 404", r, (404, 200))
