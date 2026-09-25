@@ -64,6 +64,19 @@ onto the existing OBC graph.
     completed cleanly). Don't run a second instance in parallel or kill
     and re-launch it repeatedly -- that's exactly what produced the
     backlog.
+  - **Fourth, found by inspecting `<url>/openapi.json`:** the script no
+    longer splits the PDF client-side with `pypdf.PdfWriter` at all --
+    `ConvertDocumentsOptions` has a native `page_range` field, so each
+    chunk now uploads the original PDF once with a different
+    `page_range`, letting docling-serve do the slicing itself (simpler,
+    and avoids any pypdf re-serialization quirks on the split-out
+    pages). Also raised the client's `job_timeout` (was defaulting to
+    300s) well above any single chunk's expected runtime, since a
+    client that gives up early doesn't cancel the server-side job --
+    see the "On timeouts" note in the Step 1 section above, which is
+    the real lesson from the backlog incident: **don't** tighten
+    timeouts to fail faster on a congested server, that's what caused
+    the backlog in the first place.
 - **Not yet run: Steps 2–4** (`kg.build_kg`, `kg.correct_graph`,
   `kg.merge_graphs`) — blocked on Step 1. Step 3 spends real OpenRouter
   money; always run its dry run first and confirm the call count/model
@@ -132,23 +145,38 @@ chain over TLS and trusting it for the duration of the run; verification
 stays on, nothing is done with `verify=False`. No action needed unless
 you point `--url` at a non-`.orb.local` host with its own cert problem.
 
-**Large PDFs are chunked automatically.** Against this docling-serve
-instance, a single request reliably fails partway through once it runs
-past ~3-5 minutes (empirically, well before the server could have
-actually finished — looks like an idle/keepalive timeout somewhere in
-front of it, not a docling-serve processing limit), so the script splits
-the source into `--chunk-pages`-sized page ranges (default 40) and
-converts them one request at a time. Each chunk's `.dclg` is cached to
-`<output>.chunks/` the moment it's produced, and each chunk gets its own
-retry-with-backoff (`MAX_ATTEMPTS_PER_CHUNK`, default 3) before the run
-gives up — so a flaky connection costs you a retry, not the whole
-document. If a run does give up, **just re-run the same command**: every
-already-cached chunk is skipped, so it only retries what's missing. Once
-every chunk succeeds they're stitched into one `.dclg` with a single
-`<doclang>` root (identical in content to one unbounded request), and the
-chunk cache is deleted — pass `--keep-chunk-cache` to keep it anyway, and
-note it's kept automatically whenever a run fails partway. `--chunk-pages
-0` disables chunking for a PDF small enough to convert in one request.
+**Large PDFs are chunked automatically**, using docling-serve's own
+`page_range` option (see `ConvertDocumentsOptions` in `<url>/openapi.json`)
+rather than splitting the PDF client-side: the whole file is uploaded once
+per chunk, and the server slices out just that page range. The script
+sends `--chunk-pages`-sized ranges (default 40) one request at a time.
+Each chunk's `.dclg` is cached to `<output>.chunks/` the moment it's
+produced, and each chunk gets its own retry-with-backoff
+(`MAX_ATTEMPTS_PER_CHUNK`, default 3) before the run gives up — so a
+flaky connection costs you a retry, not the whole document. If a run
+does give up, **just re-run the same command**: every already-cached
+chunk is skipped, so it only retries what's missing. Once every chunk
+succeeds they're stitched into one `.dclg` with a single `<doclang>`
+root (identical in content to one unbounded request), and the chunk
+cache is deleted — pass `--keep-chunk-cache` to keep it anyway, and note
+it's kept automatically whenever a run fails partway. `--chunk-pages 0`
+disables chunking for a PDF small enough to convert in one request.
+
+**On timeouts — read this before changing `--document-timeout` /
+`--job-timeout`.** `/v1/convert/file/async` is fire-and-forget
+server-side: once a chunk is submitted, giving up on it client-side
+(the process being killed, or the client's own wait timing out) does
+**not** cancel the job on docling-serve — it keeps running, and a retry
+or a second run just queues a duplicate conversion behind it. On a
+CPU-only, small-worker-pool instance, a duplicate queued behind another
+duplicate is how a ~5 minute chunk turns into a 40+ minute one (this
+happened during development — see the Status section above). So:
+`--document-timeout` (server-enforced per chunk, default 1800s) and
+`--job-timeout` (client-side wait per chunk, default 3600s, deliberately
+above `--document-timeout`) are both generous on purpose. Lowering them
+to "fail faster" makes a congested run *worse*, not better — if a chunk
+is genuinely stuck, let it hit `--document-timeout` server-side rather
+than tightening `--job-timeout` to abandon it early.
 
 **Verify before moving on:** open the `.dclg` file and confirm it has real
 content and a page count > 0 (`grep -c '<heading' sources/<CODE>_docling.dclg`
