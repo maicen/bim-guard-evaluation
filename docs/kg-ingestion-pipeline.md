@@ -9,41 +9,54 @@ Every step writes its own artifact to disk before the next step reads it,
 so the pipeline can be resumed or re-run from any stage without redoing
 earlier (and, for the LLM step, costly) work.
 
-## Status — SBC-201-2007 ingestion (in progress, 2026-09-25)
+## Status — SBC-201-2007 ingestion (complete, 2026-09-25)
 
 Picking this back up on another machine: this is the first code being
 run through the pipeline since `kg.merge_graphs` was added, appending
 onto the existing OBC graph.
 
-- **Done: Step 1.** `sources/SBC-201-2007_docling.dclg` (372 pages,
-  2.4MB, verified: single well-formed `<doclang>` root, content spanning
-  front matter through the back index) is committed. Took ~44 minutes
-  end to end on the (CPU-only, restarted-clean) docling-serve instance —
-  most of that is real per-chunk processing time, not overhead. Getting
-  here involved several real bugs and one operational incident (client
-  didn't trust the OrbStack cert; the websocket status-watcher hung;
-  the client's `job_timeout` fired on jobs still legitimately running
-  and a 0-page result was wrongly treated as success; and a backlog of
-  duplicate queued jobs from repeated debugging attempts, since
-  `/v1/convert/file/async` doesn't cancel on client disconnect) — all
-  fixed in `scripts/pdf_to_dclg.py` and explained inline there and in
-  the "On timeouts" note under Step 1 below. Not follow-ups.
-- **Next: Step 2** (`kg.build_kg`) — not yet run.
-- **Not yet run: Steps 3–4** (`kg.correct_graph`, `kg.merge_graphs`) —
-  Step 3 spends real OpenRouter money; always run its dry run first and
-  confirm the call count/model before adding `--yes`.
-- **Already done and merged:** `kg/merge_graphs.py` itself (unit-tested
-  standalone: collision-safe clause namespacing, shared bSDD-node union,
-  duplicate-`doc_id` rejection — not yet exercised against a real second
-  graph).
-- **Target merge command once Steps 2–3 produce
-  `research/kg/sbc_201/sbc_201_corrected_filtered.json`:**
-  ```bash
-  uv run python -m kg.merge_graphs \
-      --base research/kg/obc_app_a_corrected_filtered.json --base-doc-id obc_app_a \
-      --add sbc_201=research/kg/sbc_201/sbc_201_corrected_filtered.json \
-      --out research/kg/combined/combined
-  ```
+**Complete.** All four steps ran successfully end to end (2026-09-25):
+
+1. `sources/SBC-201-2007_docling.dclg` (372 pages, 2.4MB, committed) —
+   verified single well-formed `<doclang>` root, content spanning front
+   matter through the back index. Took ~44 minutes on a CPU-only,
+   freshly-restarted docling-serve instance. Getting here involved
+   several real bugs and one operational incident, all fixed in
+   `scripts/pdf_to_dclg.py` (cert trust, websocket hang, a too-tight
+   `job_timeout`, a 0-page result wrongly treated as success, and a
+   duplicate-job backlog from `/v1/convert/file/async` not cancelling on
+   client disconnect) — see the "On timeouts" note under Step 1 below.
+2. `research/kg/sbc_201/sbc_201.json` — 397 clauses, 2991 nodes, 13929
+   edges. Note: only ~17/397 clauses got a real section-number ref (e.g.
+   `4.4.1`); the rest fell back to generic `H<n>` ids. That's expected
+   here, not a bug — SBC-201-2007 is a full code *book* with hundreds of
+   pages of front matter, committee bios, and table-of-contents entries
+   that legitimately have no clause number, unlike OBC's narrower
+   extracted subset.
+3. **Found and fixed a real bug while running this:** `kg/correct_graph.py`'s
+   `DEFAULT_MODEL` was `openrouter/anthropic/claude-3.5-haiku`, which
+   OpenRouter has fully deprecated (confirmed against its public
+   `/api/v1/models` catalog — no such model exists anymore). All 102
+   calls 404'd (`No endpoints found for anthropic/claude-3.5-haiku`).
+   **No cost was incurred** -- OpenRouter 404s before any generation/billing.
+   Updated the default to `openrouter/anthropic/claude-haiku-4.5` (the
+   current small Claude model) and re-ran: 284/284 calls succeeded in
+   ~60s, 229 edges rejected/dropped, 55 kept in
+   `sbc_201_corrected_filtered.json`. If a future model default goes
+   stale the same way, check `curl -s https://openrouter.ai/api/v1/models`
+   before assuming the pipeline itself is broken.
+4. `research/kg/combined/combined.json` — 4879 nodes, 43737 edges.
+   Verified: 830 OBC clauses + 397 SBC clauses + 3652 shared/deduped
+   bSDD ontology nodes = 4879 exactly, all node ids unique (no
+   collisions from the two codes' clause numbering).
+
+Command used for step 4, and the template for any future code:
+```bash
+uv run python -m kg.merge_graphs \
+    --base research/kg/obc_app_a_corrected_filtered.json --base-doc-id obc_app_a \
+    --add sbc_201=research/kg/sbc_201/sbc_201_corrected_filtered.json \
+    --out research/kg/combined/combined
+```
 
 ## Pipeline overview
 

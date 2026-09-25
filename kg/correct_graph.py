@@ -17,7 +17,7 @@ Usage:
     # for real, against a specific OpenRouter model
     uv run python -m kg.correct_graph --source research/kg/obc_app_a.json \\
         --out research/kg/obc_app_a_corrected \\
-        --model openrouter/anthropic/claude-3.5-haiku \\
+        --model openrouter/anthropic/claude-haiku-4.5 \\
         --yes
 """
 
@@ -45,7 +45,7 @@ from kg.llm_correction import (  # noqa: E402
     verify_task,
 )
 
-DEFAULT_MODEL = "openrouter/anthropic/claude-3.5-haiku"
+DEFAULT_MODEL = "openrouter/anthropic/claude-haiku-4.5"
 
 
 async def _run(tasks: list[ClauseTask], model: str, concurrency: int) -> list[Any]:
