@@ -40,12 +40,22 @@ import networkx as nx
 
 from kg.llm_correction import CANDIDATE_KINDS, load_graph_json
 
-GroundingIndex = dict[str, dict[str, list[dict[str, Any]]]]
+GroundingIndex = dict[str, dict[str, Any]]  # {clause_node_id: {"ref": str, "classes": [...], "properties": [...]}}
 
 
 def build_grounding_index(graph: nx.MultiDiGraph, *, score_high: float = 0.45) -> GroundingIndex:
-    """Returns {clause_ref: {"classes": [...], "properties": [...]}} for trusted candidate edges."""
-    index: GroundingIndex = defaultdict(lambda: {"classes": [], "properties": []})
+    """Returns {clause_node_id: {"classes": [...], "properties": [...]}} for trusted candidate edges.
+
+    Keyed by the graph node id (e.g. "clause::4.4.1", or
+    "sbc_201::clause::4.4.1" in a kg.merge_graphs-combined multi-code
+    graph), not the bare clause ref -- refs are only unique *within* one
+    document. A fallback ref like "H1" is common to every document (it's
+    clause_builder.py's generic "heading had no parseable section
+    number" placeholder), so keying by bare ref would silently collide
+    two different documents' clauses into the same entry, discarding one
+    of them. The clause's own "ref" field is still available on each
+    entry's source clause node for display."""
+    index: GroundingIndex = defaultdict(lambda: {"ref": None, "classes": [], "properties": []})
 
     for clause_node, term_node, _key, attrs in graph.edges(keys=True, data=True):
         kind = attrs.get("kind")
@@ -80,11 +90,13 @@ def build_grounding_index(graph: nx.MultiDiGraph, *, score_high: float = 0.45) -
             "llm_confidence": attrs.get("llm_confidence"),
         }
         bucket = "classes" if kind == "candidate_class_match" else "properties"
-        index[clause.get("ref", clause_node)][bucket].append(entry)
+        entries = index[clause_node]
+        entries["ref"] = clause.get("ref", clause_node)
+        entries[bucket].append(entry)
 
-    for clause_ref, buckets in index.items():
-        for bucket in buckets.values():
-            bucket.sort(key=lambda e: -e["score"])
+    for entries in index.values():
+        for bucket_key in ("classes", "properties"):
+            entries[bucket_key].sort(key=lambda e: -e["score"])
 
     return dict(index)
 

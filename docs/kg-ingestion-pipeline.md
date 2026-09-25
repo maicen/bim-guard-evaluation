@@ -58,6 +58,38 @@ uv run python -m kg.merge_graphs \
     --out research/kg/combined/combined
 ```
 
+**Also ran `kg.export_grounding` on the combined graph, and found +
+fixed another real bug doing it:** `build_grounding_index`
+(`kg/grounding.py`) keyed its output dict by the bare clause `ref`
+(e.g. `"H1"`) rather than the graph node id. `H<n>` is
+`clause_builder.py`'s generic fallback for a heading with no
+parseable section number, and it's common to *every* document, not
+unique to one — confirmed both OBC and SBC have their own distinct
+`H1` clause (`obc_app_a::clause::H1` = "Appendix A" vs
+`sbc_201::clause::H1` = "Gratitude"). Keying by bare ref meant a
+multi-code combined graph could silently drop one document's grounded
+terms under a colliding key from another document's unrelated clause.
+Fixed: now keyed by the node id (doc-namespaced in a merged graph),
+with the display ref kept as a `"ref"` field on each entry. This only
+manifests once you run grounding export on a graph produced by
+`kg.merge_graphs` — running it per-code (as the pipeline did for OBC
+originally) never collided, since refs are unique within one document.
+
+```bash
+uv run python -m kg.export_grounding \
+    --source research/kg/combined/combined.json \
+    --out research/kg/combined/combined
+```
+→ 393 clauses grounded, 348 trusted class links, 277 trusted property
+links, 164 still-uncertain edges for human review
+(`combined_uncertain_review.csv`).
+
+`kg.prioritize_review_queue` (re-ranks the uncertain queue against
+real production correction signal) is **not yet run** — it requires a
+`--corrections` file from `eval/score_rule_extraction_corrections.py`
+against bim-guard's live `rule_extraction_drafts` table, and
+`eval/results/` is currently empty in this environment.
+
 ## Pipeline overview
 
 ```
