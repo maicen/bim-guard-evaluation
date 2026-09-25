@@ -41,7 +41,10 @@ This repository isolates academic and empirical validation from core application
    - `eval_harness.py`: LLM-as-judge evaluation harness tracking correctness, completeness, and executability.
    - `score_iaa.py`: Inter-annotator agreement scoring (Cohen's/Fleiss' kappa, span-IoU F1) — implemented and tested, not yet run against real multi-annotator data; see `LIMITATIONS.md`.
 
-3. **Research Artifacts & Validation Data (`research/`)**
+3. **Knowledge Graph Pipeline (`kg/`)**
+   Links code clauses to the bSDD ontology (classes/properties) into a `networkx` graph, then layers an LLM-verification and human-review pass on top of the lexical candidate matches. `docs/kg-ingestion-pipeline.md` documents the standardized, repeatable end-to-end process — PDF → DocLang → per-code graph → LLM correction/filter → merge into the combined multi-code graph — used to onboard each new code (OBC, then SBC-201-2007, and any future code).
+
+4. **Research Artifacts & Validation Data (`research/`)**
    - [`research/CLAIMS.md`](research/CLAIMS.md): the claims-to-evidence ledger — what backs every headline number in this repo, where the evidence lives, and its current verification status (including the retired-domain claims below).
    - `research/archive/retired_corrosion_piping_seismic_domain/`: the 2026-09-18, 38-model validation sweep (223,516 clashes) and related research, preserved as a historical record of bim-guard's since-retired Piping/Corrosion/Seismic domain. See that directory's README for what changed and why.
    - [`research/appendix_c_determinism_investigation.md`](research/appendix_c_determinism_investigation.md): a run-to-run non-determinism bug in the (still-current) architectural analysis, found, root-caused, and fixed upstream.
@@ -73,10 +76,24 @@ bim-guard-evaluation/
 │   ├── run_all.py                  # Tier-ordered orchestrator with baseline comparison
 │   ├── compare_baselines.py        # Standalone baseline comparison CLI
 │   └── ori_bridge.py               # Bridge for the TypeScript Ori Eval model-comparison harness
+├── kg/                              # Code-clause <-> bSDD ontology knowledge graph pipeline
+│   ├── build_kg.py                 # CLI: DocLang source -> clause/bSDD candidate-match graph
+│   ├── correct_graph.py            # CLI: LLM verification/filter pass over borderline matches
+│   ├── merge_graphs.py             # CLI: append a code's graph onto the combined multi-code graph
+│   ├── clause_builder.py           # Groups DocLang into Clause units + intra-doc edges
+│   ├── graph_builder.py            # Assembles/exports the networkx.MultiDiGraph
+│   ├── bsdd_loader.py              # Loads the bSDD ontology reference database
+│   ├── similarity.py               # Lexical clause<->term candidate scoring
+│   ├── llm_correction.py           # LLM verify/filter logic used by correct_graph.py
+│   ├── grounding.py / export_grounding.py # Grounding index export
+│   ├── prioritize_review_queue.py  # Ranks uncertain matches for human review
+│   └── apply_review_decisions.py   # Applies human review decisions back onto the graph
+│
 ├── docs/                           # DocLang specification & reference toolkit
 │   ├── doclang-spec-0.7.md         # Normative DocLang v0.7 specification
 │   ├── doclang-README-fea2146.md   # Reference toolkit guide
 │   ├── rule-extraction-corrections.md # score_rule_extraction_corrections.py design & usage
+│   ├── kg-ingestion-pipeline.md    # Standardized, repeatable code -> knowledge graph pipeline
 │   └── DATA_LICENSING.md           # Third-party building-code corpus licensing basis
 ├── research/                       # Research data, claims ledger, and archived run artifacts
 │   ├── CLAIMS.md                   # Claims-to-evidence ledger — status of every headline number
