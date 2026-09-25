@@ -15,77 +15,28 @@ Picking this back up on another machine: this is the first code being
 run through the pipeline since `kg.merge_graphs` was added, appending
 onto the existing OBC graph.
 
-- **In progress: Step 1** (`sources/SBC-201-2007.pdf` → `.dclg`, 372
-  pages). `scripts/pdf_to_dclg.py` was reworked from a hardcoded,
-  OBC-only, one-off script into the general, chunked, resumable CLI
-  documented above. Diagnosed along the way, all already fixed in the
-  file (not follow-ups):
-  - Python/`httpx` doesn't trust `docling-serve.bim-guard.orb.local`'s
-    self-signed OrbStack cert the way curl/macOS do
-    (`_trust_orb_local_cert`, via `openssl s_client` + `SSL_CERT_FILE`).
-  - The client's default websocket status-watcher gets redirected to a
-    raw internal container IP not routable from outside the OrbStack VM
-    and hangs forever — switched to `StatusWatcherKind.POLLING`.
-  - The connection to `docling-serve.bim-guard.orb.local` is itself
-    intermittent from this dev environment (plain `curl .../health`
-    flaps between `200` and `Connection refused` on its own), and a
-    single request covering the whole 372-page PDF reliably failed
-    partway through (empirically past the 3-5 minute mark) even when the
-    connection was healthy at the start — a single confirmed-good
-    50-page request took ~5 minutes on its own, so the full document was
-    always going to run well past whatever is timing it out. Fixed by
-    chunking (`--chunk-pages`, default 40) with a per-chunk on-disk cache
-    and per-chunk retry — see the Step 1 section above.
-  - **Second bug, found from the docling-serve container's own server
-    log (2026-09-25 ~19:00-21:00 local):** `_convert_chunk` only checked
-    `if result.document:` -- a truthy-but-*empty* `DoclingDocument` (0
-    pages) passed that check, so the first "successful" chunked run
-    silently wrote an empty 34-byte `.dclg` (10 chunks each converted to
-    nothing, concatenated into nothing). Fixed: now requires
-    `len(result.document.pages) > 0` too.
-  - **Third, an operational one, not a code bug:** `/v1/convert/file/async`
-    is fire-and-forget server-side -- killing the local client process
-    (e.g. Ctrl-C, or this session's own `kill` during debugging) does
-    **not** cancel the job on docling-serve. Multiple debugging attempts
-    in this session each submitted their own conversion of the same PDF
-    to the same server, and those jobs kept running and queueing up
-    server-side even after the client was killed. The server has a
-    small worker pool (`Worker 0` / `Worker 1` in its logs) and is
-    CPU-only (`Accelerator device: 'cpu'`, no GPU) — a single 40-page
-    chunk that takes ~5 minutes in isolation was measured taking
-    1000-2600+ seconds once queued behind several duplicate submissions.
-    **Before retrying:** check the docling-serve container's own logs
-    (not just `/health`) for a still-draining backlog of `Worker N
-    processing task ...` lines before submitting anything new, or
-    restart the container to clear stuck jobs, then re-run
-    `uv run python scripts/pdf_to_dclg.py --input sources/SBC-201-2007.pdf`
-    exactly once and let it finish uninterrupted (cached chunks in
-    `sources/SBC-201-2007_docling.chunks/` are skipped if some already
-    completed cleanly). Don't run a second instance in parallel or kill
-    and re-launch it repeatedly -- that's exactly what produced the
-    backlog.
-  - **Fourth, found by inspecting `<url>/openapi.json`:** the script no
-    longer splits the PDF client-side with `pypdf.PdfWriter` at all --
-    `ConvertDocumentsOptions` has a native `page_range` field, so each
-    chunk now uploads the original PDF once with a different
-    `page_range`, letting docling-serve do the slicing itself (simpler,
-    and avoids any pypdf re-serialization quirks on the split-out
-    pages). Also raised the client's `job_timeout` (was defaulting to
-    300s) well above any single chunk's expected runtime, since a
-    client that gives up early doesn't cancel the server-side job --
-    see the "On timeouts" note in the Step 1 section above, which is
-    the real lesson from the backlog incident: **don't** tighten
-    timeouts to fail faster on a congested server, that's what caused
-    the backlog in the first place.
-- **Not yet run: Steps 2–4** (`kg.build_kg`, `kg.correct_graph`,
-  `kg.merge_graphs`) — blocked on Step 1. Step 3 spends real OpenRouter
-  money; always run its dry run first and confirm the call count/model
-  before adding `--yes`.
+- **Done: Step 1.** `sources/SBC-201-2007_docling.dclg` (372 pages,
+  2.4MB, verified: single well-formed `<doclang>` root, content spanning
+  front matter through the back index) is committed. Took ~44 minutes
+  end to end on the (CPU-only, restarted-clean) docling-serve instance —
+  most of that is real per-chunk processing time, not overhead. Getting
+  here involved several real bugs and one operational incident (client
+  didn't trust the OrbStack cert; the websocket status-watcher hung;
+  the client's `job_timeout` fired on jobs still legitimately running
+  and a 0-page result was wrongly treated as success; and a backlog of
+  duplicate queued jobs from repeated debugging attempts, since
+  `/v1/convert/file/async` doesn't cancel on client disconnect) — all
+  fixed in `scripts/pdf_to_dclg.py` and explained inline there and in
+  the "On timeouts" note under Step 1 below. Not follow-ups.
+- **Next: Step 2** (`kg.build_kg`) — not yet run.
+- **Not yet run: Steps 3–4** (`kg.correct_graph`, `kg.merge_graphs`) —
+  Step 3 spends real OpenRouter money; always run its dry run first and
+  confirm the call count/model before adding `--yes`.
 - **Already done and merged:** `kg/merge_graphs.py` itself (unit-tested
   standalone: collision-safe clause namespacing, shared bSDD-node union,
   duplicate-`doc_id` rejection — not yet exercised against a real second
-  graph), this doc, and the `scripts/pdf_to_dclg.py` rework.
-- **Target merge command once Steps 1–3 produce
+  graph).
+- **Target merge command once Steps 2–3 produce
   `research/kg/sbc_201/sbc_201_corrected_filtered.json`:**
   ```bash
   uv run python -m kg.merge_graphs \
