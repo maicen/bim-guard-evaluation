@@ -15,31 +15,30 @@ Picking this back up on another machine: this is the first code being
 run through the pipeline since `kg.merge_graphs` was added, appending
 onto the existing OBC graph.
 
-- **Not yet run: Step 1** (`sources/SBC-201-2007.pdf` → `.dclg`).
-  `scripts/pdf_to_dclg.py` was reworked from a hardcoded, OBC-only,
-  one-off script into the general CLI it is now, and picked up two real
-  fixes along the way (both already in the file, not follow-ups):
+- **In progress: Step 1** (`sources/SBC-201-2007.pdf` → `.dclg`, 372
+  pages). `scripts/pdf_to_dclg.py` was reworked from a hardcoded,
+  OBC-only, one-off script into the general, chunked, resumable CLI
+  documented above. Diagnosed along the way, all already fixed in the
+  file (not follow-ups):
   - Python/`httpx` doesn't trust `docling-serve.bim-guard.orb.local`'s
-    self-signed OrbStack cert the way curl/macOS do. The script now
-    fetches that host's real chain via `openssl s_client` and points
-    `SSL_CERT_FILE` at a combined bundle (`_trust_orb_local_cert`).
-  - The client's default websocket status-watcher gets redirected by the
-    server to a raw internal container IP not routable from outside the
-    OrbStack VM, and hangs retrying forever past a trivial page count.
-    Switched to `StatusWatcherKind.POLLING`.
-  - **Still open:** even with both fixes, `docling-serve.bim-guard.orb.local`
-    was intermittently unreachable from the sandboxed dev environment this
-    was written in — plain `curl .../health` flapped between `200` and
-    `Connection refused`/timeout on its own, unrelated to the script. That
-    may well not reproduce on a normal machine with direct access to the
-    OrbStack network. First thing to try: `curl -sk https://docling-serve.bim-guard.orb.local/health`
-    a few times to confirm it's stable, then
-    `uv run python scripts/pdf_to_dclg.py --input sources/SBC-201-2007.pdf`.
-    The 372-page full PDF took long enough (multi-minute) that it's worth
-    testing on a small extracted page range first (see how
-    `sources/OBC_2023.Volume_1_P_9_extracted_subset.pdf` was made for the
-    same reason on the OBC side) if it's still slow once connectivity is
-    stable.
+    self-signed OrbStack cert the way curl/macOS do
+    (`_trust_orb_local_cert`, via `openssl s_client` + `SSL_CERT_FILE`).
+  - The client's default websocket status-watcher gets redirected to a
+    raw internal container IP not routable from outside the OrbStack VM
+    and hangs forever — switched to `StatusWatcherKind.POLLING`.
+  - The connection to `docling-serve.bim-guard.orb.local` is itself
+    intermittent from this dev environment (plain `curl .../health`
+    flaps between `200` and `Connection refused` on its own), and a
+    single request covering the whole 372-page PDF reliably failed
+    partway through (empirically past the 3-5 minute mark) even when the
+    connection was healthy at the start — a single confirmed-good
+    50-page request took ~5 minutes on its own, so the full document was
+    always going to run well past whatever is timing it out. Fixed by
+    chunking (`--chunk-pages`, default 40) with a per-chunk on-disk cache
+    and per-chunk retry — see the Step 1 section above.
+  - If you're resuming this and a run stopped partway: just re-run
+    `uv run python scripts/pdf_to_dclg.py --input sources/SBC-201-2007.pdf`
+    — cached chunks in `sources/SBC-201-2007_docling.chunks/` are skipped.
 - **Not yet run: Steps 2–4** (`kg.build_kg`, `kg.correct_graph`,
   `kg.merge_graphs`) — blocked on Step 1. Step 3 spends real OpenRouter
   money; always run its dry run first and confirm the call count/model
@@ -107,6 +106,24 @@ handles this itself (`_trust_orb_local_cert`) by fetching that host's cert
 chain over TLS and trusting it for the duration of the run; verification
 stays on, nothing is done with `verify=False`. No action needed unless
 you point `--url` at a non-`.orb.local` host with its own cert problem.
+
+**Large PDFs are chunked automatically.** Against this docling-serve
+instance, a single request reliably fails partway through once it runs
+past ~3-5 minutes (empirically, well before the server could have
+actually finished — looks like an idle/keepalive timeout somewhere in
+front of it, not a docling-serve processing limit), so the script splits
+the source into `--chunk-pages`-sized page ranges (default 40) and
+converts them one request at a time. Each chunk's `.dclg` is cached to
+`<output>.chunks/` the moment it's produced, and each chunk gets its own
+retry-with-backoff (`MAX_ATTEMPTS_PER_CHUNK`, default 3) before the run
+gives up — so a flaky connection costs you a retry, not the whole
+document. If a run does give up, **just re-run the same command**: every
+already-cached chunk is skipped, so it only retries what's missing. Once
+every chunk succeeds they're stitched into one `.dclg` with a single
+`<doclang>` root (identical in content to one unbounded request), and the
+chunk cache is deleted — pass `--keep-chunk-cache` to keep it anyway, and
+note it's kept automatically whenever a run fails partway. `--chunk-pages
+0` disables chunking for a PDF small enough to convert in one request.
 
 **Verify before moving on:** open the `.dclg` file and confirm it has real
 content and a page count > 0 (`grep -c '<heading' sources/<CODE>_docling.dclg`

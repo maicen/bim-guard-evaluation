@@ -56,5 +56,9 @@ research/label_studio/data/
 # Generated knowledge-graph exports (kg/build_kg.py) — large, regeneratable
 research/kg/
 
+# Resumable per-chunk cache from scripts/pdf_to_dclg.py -- deleted automatically
+# on a successful run, kept on failure so a re-run can resume; never committed
+sources/*.chunks/
+
 .DS_Store
 .vscode/
