@@ -149,7 +149,10 @@ def _convert_chunk(client: DoclingServiceClient, plan: ChunkPlan, options: Conve
     the page count on success, None on failure (caller decides whether to
     retry)."""
     for result in client.convert_all(source=[plan.pdf_path], options=options):
-        if result.document:
+        # A truthy but empty result.document (0 pages) is still a failure --
+        # this bit the first robust run: it silently produced a 34-byte
+        # empty .dclg because only `result.document is None` was checked.
+        if result.document and len(result.document.pages) > 0:
             result.document.save_as_doclang(plan.dclg_path)
             return len(result.document.pages)
         return None

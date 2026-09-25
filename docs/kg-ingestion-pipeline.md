@@ -36,9 +36,34 @@ onto the existing OBC graph.
     always going to run well past whatever is timing it out. Fixed by
     chunking (`--chunk-pages`, default 40) with a per-chunk on-disk cache
     and per-chunk retry — see the Step 1 section above.
-  - If you're resuming this and a run stopped partway: just re-run
+  - **Second bug, found from the docling-serve container's own server
+    log (2026-09-25 ~19:00-21:00 local):** `_convert_chunk` only checked
+    `if result.document:` -- a truthy-but-*empty* `DoclingDocument` (0
+    pages) passed that check, so the first "successful" chunked run
+    silently wrote an empty 34-byte `.dclg` (10 chunks each converted to
+    nothing, concatenated into nothing). Fixed: now requires
+    `len(result.document.pages) > 0` too.
+  - **Third, an operational one, not a code bug:** `/v1/convert/file/async`
+    is fire-and-forget server-side -- killing the local client process
+    (e.g. Ctrl-C, or this session's own `kill` during debugging) does
+    **not** cancel the job on docling-serve. Multiple debugging attempts
+    in this session each submitted their own conversion of the same PDF
+    to the same server, and those jobs kept running and queueing up
+    server-side even after the client was killed. The server has a
+    small worker pool (`Worker 0` / `Worker 1` in its logs) and is
+    CPU-only (`Accelerator device: 'cpu'`, no GPU) — a single 40-page
+    chunk that takes ~5 minutes in isolation was measured taking
+    1000-2600+ seconds once queued behind several duplicate submissions.
+    **Before retrying:** check the docling-serve container's own logs
+    (not just `/health`) for a still-draining backlog of `Worker N
+    processing task ...` lines before submitting anything new, or
+    restart the container to clear stuck jobs, then re-run
     `uv run python scripts/pdf_to_dclg.py --input sources/SBC-201-2007.pdf`
-    — cached chunks in `sources/SBC-201-2007_docling.chunks/` are skipped.
+    exactly once and let it finish uninterrupted (cached chunks in
+    `sources/SBC-201-2007_docling.chunks/` are skipped if some already
+    completed cleanly). Don't run a second instance in parallel or kill
+    and re-launch it repeatedly -- that's exactly what produced the
+    backlog.
 - **Not yet run: Steps 2–4** (`kg.build_kg`, `kg.correct_graph`,
   `kg.merge_graphs`) — blocked on Step 1. Step 3 spends real OpenRouter
   money; always run its dry run first and confirm the call count/model
