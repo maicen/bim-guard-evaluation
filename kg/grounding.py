@@ -17,6 +17,22 @@ llm_verdict/llm_confidence/llm_reason) into two research artifacts:
        as a confident lexical hit and left alone).
    llm_verdict="incorrect" and "uncertain" edges are always excluded.
 
+   Each clause entry also carries two signals already computed by
+   `clause_builder.build_clauses`/`build_clause_edges` and stored on the
+   graph, so bim-guard's extraction prompt can be *informed* by them
+   instead of only being corrected after the fact:
+     - "deontic": the clause's own rule-based modality (from
+       `nlp_annotation.deontic_extractor`), reused instead of paying for a
+       second, LLM-based deontic-detection call per clause. Only exposed
+       for a single, one-word, non-negated operator (SHALL/MUST/SHOULD/
+       MAY) -- a clause with a "SHALL NOT" or multiple conflicting
+       operators is left for the LLM, since bim-guard's DeonticStatement
+       modality enum has no prohibited/mixed case to map either into.
+     - "dependencies": the clause's outgoing cross_ref/depends_on edges to
+       other clauses in the same document (e.g. a sprinkler exception
+       overriding a base threshold), each resolved to the target clause's
+       own text so the relationship doesn't have to be re-inferred blind.
+
 2. An uncertain-edge review queue: every llm_verdict="uncertain" edge,
    sorted by llm_confidence ascending (most ambiguous first) so a human
    reviewer works through the hardest calls first. Each row carries the
@@ -32,7 +48,6 @@ from __future__ import annotations
 
 import csv
 import json
-from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -43,8 +58,55 @@ from kg.llm_correction import CANDIDATE_KINDS, load_graph_json
 GroundingIndex = dict[str, dict[str, Any]]  # {clause_node_id: {"ref": str, "classes": [...], "properties": [...]}}
 
 
+_DEONTIC_MODALITY_PRIORITY = ("SHALL", "MUST", "SHOULD", "MAY")
+
+
+def _deontic_hint(clause_attrs: dict[str, Any]) -> dict[str, str] | None:
+    """The clause's single clearest modality, reused from clause_builder's rule-based pass.
+
+    `deontic_operators` is the sorted *set* of canonical operator strings
+    graph_builder.py recorded on the clause node (see
+    `nlp_annotation.deontic_extractor.DeonticExtractor`), e.g. {"SHALL",
+    "SHALL NOT"}. Only a bare, single-word, non-negated operator maps
+    cleanly onto bim-guard's DeonticStatement.modality enum ("shall",
+    "must", "should", "may") -- a negated form ("SHALL NOT") or a clause
+    mixing multiple operators is left to the LLM rather than guessed at.
+    """
+    operators = set(clause_attrs.get("deontic_operators") or [])
+    if len(operators) != 1:
+        return None
+    (operator,) = operators
+    if operator not in _DEONTIC_MODALITY_PRIORITY:
+        return None
+    return {"modality": operator.lower(), "text": clause_attrs.get("text_excerpt", "")}
+
+
+def _dependencies_for(graph: nx.MultiDiGraph, clause_node: str) -> list[dict[str, Any]]:
+    """This clause's outgoing cross_ref/depends_on edges, resolved to the target's own text.
+
+    Lets a prompt say "this clause is subject to an exception in clause X:
+    '<X's text>'" instead of asking the LLM to infer that structure blind
+    from ref numbers alone.
+    """
+    deps: list[dict[str, Any]] = []
+    for _source, target_node, attrs in graph.out_edges(clause_node, data=True):
+        kind = attrs.get("kind", "")
+        if kind != "cross_ref" and not kind.startswith("depends_on:"):
+            continue
+        target = graph.nodes.get(target_node, {})
+        deps.append(
+            {
+                "edge_type": kind,
+                "label": attrs.get("label", ""),
+                "target_ref": target.get("ref", target_node),
+                "target_text_excerpt": target.get("text_excerpt", ""),
+            }
+        )
+    return deps
+
+
 def build_grounding_index(graph: nx.MultiDiGraph, *, score_high: float = 0.45) -> GroundingIndex:
-    """Returns {clause_node_id: {"classes": [...], "properties": [...]}} for trusted candidate edges.
+    """Returns {clause_node_id: {"classes": [...], "properties": [...], ...}} for every clause.
 
     Keyed by the graph node id (e.g. "clause::4.4.1", or
     "sbc_201::clause::4.4.1" in a kg.merge_graphs-combined multi-code
@@ -54,12 +116,30 @@ def build_grounding_index(graph: nx.MultiDiGraph, *, score_high: float = 0.45) -
     number" placeholder), so keying by bare ref would silently collide
     two different documents' clauses into the same entry, discarding one
     of them. The clause's own "ref" field is still available on each
-    entry's source clause node for display."""
-    index: GroundingIndex = defaultdict(lambda: {"ref": None, "classes": [], "properties": []})
+    entry's source clause node for display.
+
+    Every clause node gets an entry (even one with no trusted bSDD
+    candidate at all), because "deontic"/"dependencies" are useful prompt
+    signal on their own; only "classes"/"properties" require a trusted
+    candidate edge to populate.
+    """
+    index: GroundingIndex = {}
+    for clause_node, attrs in graph.nodes(data=True):
+        if attrs.get("kind") != "clause":
+            continue
+        index[clause_node] = {
+            "ref": attrs.get("ref", clause_node),
+            "classes": [],
+            "properties": [],
+            "deontic": _deontic_hint(attrs),
+            "dependencies": _dependencies_for(graph, clause_node),
+        }
 
     for clause_node, term_node, _key, attrs in graph.edges(keys=True, data=True):
         kind = attrs.get("kind")
         if kind not in CANDIDATE_KINDS:
+            continue
+        if clause_node not in index:
             continue
 
         verdict = attrs.get("llm_verdict")
@@ -80,7 +160,6 @@ def build_grounding_index(graph: nx.MultiDiGraph, *, score_high: float = 0.45) -
             continue
 
         term = graph.nodes[term_node]
-        clause = graph.nodes[clause_node]
         entry = {
             "uri": term.get("uri"),
             "name": term.get("name"),
@@ -90,15 +169,13 @@ def build_grounding_index(graph: nx.MultiDiGraph, *, score_high: float = 0.45) -
             "llm_confidence": attrs.get("llm_confidence"),
         }
         bucket = "classes" if kind == "candidate_class_match" else "properties"
-        entries = index[clause_node]
-        entries["ref"] = clause.get("ref", clause_node)
-        entries[bucket].append(entry)
+        index[clause_node][bucket].append(entry)
 
     for entries in index.values():
         for bucket_key in ("classes", "properties"):
             entries[bucket_key].sort(key=lambda e: -e["score"])
 
-    return dict(index)
+    return index
 
 
 def uncertain_review_queue(graph: nx.MultiDiGraph) -> list[dict[str, Any]]:

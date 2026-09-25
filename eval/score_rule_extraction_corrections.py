@@ -58,6 +58,7 @@ import os
 import sys
 import time
 from pathlib import Path
+from typing import Any
 
 EVAL_DIR = Path(__file__).resolve().parent
 if str(EVAL_DIR) not in sys.path:
@@ -134,13 +135,24 @@ def diff_draft(draft: dict) -> dict:
         "field_diffs": field_diffs,
         "field_correct": len(unchanged),
         "field_total": len(STRUCTURAL_FIELDS),
+        # Set only when the extraction prompt was shown KG-grounded candidates
+        # for this clause and the LLM picked one (see
+        # app.modules.rule_builder.llamaindex_rule_generator's
+        # _LLMRuleCandidate.kg_candidate_used) -- lets the split below answer
+        # "did showing the model a trusted candidate actually reduce reviewer
+        # corrections", not just "how often does the model get it right".
+        "kg_candidate_used": bool((original.get("kg_candidate_used") or "").strip()),
     }
 
 
+def _field_accuracy(diffs: list[dict]) -> tuple[int, int, float]:
+    correct = sum(d["field_correct"] for d in diffs)
+    total = sum(d["field_total"] for d in diffs)
+    return correct, total, (correct / total if total else 0.0)
+
+
 def score(diffs: list[dict]) -> dict:
-    field_correct = sum(d["field_correct"] for d in diffs)
-    field_total = sum(d["field_total"] for d in diffs)
-    field_accuracy = field_correct / field_total if field_total else 0.0
+    field_correct, field_total, field_accuracy = _field_accuracy(diffs)
 
     drafts_with_no_structural_change = sum(1 for d in diffs if not d["changed_fields"])
 
@@ -156,6 +168,21 @@ def score(diffs: list[dict]) -> dict:
         for field, count in field_change_counts.most_common(10):
             print(f"       - {field:24s} corrected in {count}/{len(diffs)} drafts")
 
+    # KG-grounded vs. blind split -- only meaningful once the extraction
+    # prompt actually shows clause-grounded candidates (see
+    # llamaindex_rule_generator.py); before that, every draft's
+    # kg_candidate_used is False and this split is a no-op.
+    kg_split: dict[str, dict[str, Any]] = {}
+    for label, subset in (("kg_grounded", [d for d in diffs if d["kg_candidate_used"]]),
+                           ("blind", [d for d in diffs if not d["kg_candidate_used"]])):
+        correct, total, accuracy = _field_accuracy(subset)
+        kg_split[label] = {"drafts": len(subset), "field_correct": correct, "field_total": total, "field_accuracy": accuracy}
+    if kg_split["kg_grounded"]["drafts"] and kg_split["blind"]["drafts"]:
+        print("     KG-grounded vs. blind extraction field accuracy:")
+        for label in ("kg_grounded", "blind"):
+            s = kg_split[label]
+            print(f"       - {label:12s} {s['field_correct']}/{s['field_total']} ({s['field_accuracy']:.0%}) over {s['drafts']} drafts")
+
     return {
         "edited_drafts": len(diffs),
         "field_correct": field_correct,
@@ -163,6 +190,7 @@ def score(diffs: list[dict]) -> dict:
         "field_accuracy": field_accuracy,
         "drafts_with_no_structural_change": drafts_with_no_structural_change,
         "field_change_counts": dict(field_change_counts),
+        "kg_grounding_split": kg_split,
         "diffs": diffs,
     }
 
