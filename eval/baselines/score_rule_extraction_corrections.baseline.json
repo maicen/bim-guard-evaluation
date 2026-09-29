@@ -1,0 +1,252 @@
+{
+  "eval_id": "score_rule_extraction_corrections",
+  "tier": 2,
+  "status": "FAIL",
+  "passed": 95,
+  "failed": 5,
+  "total": 100,
+  "score": 0.95,
+  "duration_s": 0.009278791025280952,
+  "bimguard_commit": "bebc308",
+  "eval_commit": "d1f8851",
+  "details": {
+    "edited_drafts": 5,
+    "field_correct": 95,
+    "field_total": 100,
+    "field_accuracy": 0.95,
+    "drafts_with_no_structural_change": 2,
+    "field_change_counts": {
+      "target_ifc_class": 1,
+      "check_value": 3,
+      "operator": 1
+    },
+    "kg_grounding_split": {
+      "kg_grounded": {
+        "drafts": 3,
+        "field_correct": 59,
+        "field_total": 60,
+        "field_accuracy": 0.9833333333333333
+      },
+      "blind": {
+        "drafts": 2,
+        "field_correct": 36,
+        "field_total": 40,
+        "field_accuracy": 0.9
+      }
+    },
+    "diffs": [
+      {
+        "draft_id": 101,
+        "source_document_id": 1,
+        "extraction_method": "llamaindex",
+        "rule_id": "OBC-9.8.2.1-WIDTH",
+        "changed_fields": [
+          "target_ifc_class",
+          "check_value"
+        ],
+        "unchanged_fields": [
+          "property_set",
+          "property_name",
+          "operator",
+          "value_min_offset",
+          "value_min",
+          "value_max_offset",
+          "value_max",
+          "value_min_property",
+          "value_max_property",
+          "compare_property",
+          "name_pattern",
+          "uniqueness_scope",
+          "unit",
+          "severity",
+          "category",
+          "rule_category",
+          "mechanism",
+          "applies_when"
+        ],
+        "narrative_changed_fields": [
+          "description"
+        ],
+        "field_diffs": [
+          {
+            "field": "target_ifc_class",
+            "original": "IfcBuildingElementProxy",
+            "corrected": "IfcStair"
+          },
+          {
+            "field": "check_value",
+            "original": 800.0,
+            "corrected": 860.0
+          }
+        ],
+        "field_correct": 18,
+        "field_total": 20,
+        "kg_candidate_used": false
+      },
+      {
+        "draft_id": 102,
+        "source_document_id": 1,
+        "extraction_method": "llamaindex",
+        "rule_id": "OBC-9.8.4.1-RISER",
+        "changed_fields": [],
+        "unchanged_fields": [
+          "target_ifc_class",
+          "property_set",
+          "property_name",
+          "operator",
+          "value_min_offset",
+          "value_min",
+          "value_max_offset",
+          "check_value",
+          "value_max",
+          "value_min_property",
+          "value_max_property",
+          "compare_property",
+          "name_pattern",
+          "uniqueness_scope",
+          "unit",
+          "severity",
+          "category",
+          "rule_category",
+          "mechanism",
+          "applies_when"
+        ],
+        "narrative_changed_fields": [
+          "description"
+        ],
+        "field_diffs": [],
+        "field_correct": 20,
+        "field_total": 20,
+        "kg_candidate_used": true
+      },
+      {
+        "draft_id": 103,
+        "source_document_id": 1,
+        "extraction_method": "llamaindex",
+        "rule_id": "OBC-9.8.4.2-TREAD",
+        "changed_fields": [
+          "operator",
+          "check_value"
+        ],
+        "unchanged_fields": [
+          "target_ifc_class",
+          "property_set",
+          "property_name",
+          "value_min_offset",
+          "value_min",
+          "value_max_offset",
+          "value_max",
+          "value_min_property",
+          "value_max_property",
+          "compare_property",
+          "name_pattern",
+          "uniqueness_scope",
+          "unit",
+          "severity",
+          "category",
+          "rule_category",
+          "mechanism",
+          "applies_when"
+        ],
+        "narrative_changed_fields": [
+          "description"
+        ],
+        "field_diffs": [
+          {
+            "field": "operator",
+            "original": ">",
+            "corrected": ">="
+          },
+          {
+            "field": "check_value",
+            "original": 250.0,
+            "corrected": 255.0
+          }
+        ],
+        "field_correct": 18,
+        "field_total": 20,
+        "kg_candidate_used": false
+      },
+      {
+        "draft_id": 104,
+        "source_document_id": 1,
+        "extraction_method": "llamaindex",
+        "rule_id": "OBC-9.9.10.1-TRAVEL",
+        "changed_fields": [
+          "check_value"
+        ],
+        "unchanged_fields": [
+          "target_ifc_class",
+          "property_set",
+          "property_name",
+          "operator",
+          "value_min_offset",
+          "value_min",
+          "value_max_offset",
+          "value_max",
+          "value_min_property",
+          "value_max_property",
+          "compare_property",
+          "name_pattern",
+          "uniqueness_scope",
+          "unit",
+          "severity",
+          "category",
+          "rule_category",
+          "mechanism",
+          "applies_when"
+        ],
+        "narrative_changed_fields": [
+          "description"
+        ],
+        "field_diffs": [
+          {
+            "field": "check_value",
+            "original": 30.0,
+            "corrected": 25.0
+          }
+        ],
+        "field_correct": 19,
+        "field_total": 20,
+        "kg_candidate_used": true
+      },
+      {
+        "draft_id": 105,
+        "source_document_id": 1,
+        "extraction_method": "llamaindex",
+        "rule_id": "OBC-9.7.2.3-GLAZING",
+        "changed_fields": [],
+        "unchanged_fields": [
+          "target_ifc_class",
+          "property_set",
+          "property_name",
+          "operator",
+          "value_min_offset",
+          "value_min",
+          "value_max_offset",
+          "check_value",
+          "value_max",
+          "value_min_property",
+          "value_max_property",
+          "compare_property",
+          "name_pattern",
+          "uniqueness_scope",
+          "unit",
+          "severity",
+          "category",
+          "rule_category",
+          "mechanism",
+          "applies_when"
+        ],
+        "narrative_changed_fields": [
+          "description"
+        ],
+        "field_diffs": [],
+        "field_correct": 20,
+        "field_total": 20,
+        "kg_candidate_used": true
+      }
+    ]
+  },
+  "baseline_created": "2026-09-29T08:04:03.458840+00:00"
+}

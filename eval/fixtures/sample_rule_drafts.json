@@ -1,0 +1,167 @@
+[
+  {
+    "id": 101,
+    "source_document_id": 1,
+    "status": "edited",
+    "extraction_method": "llamaindex",
+    "original_proposed_rule": {
+      "rule_id": "OBC-9.8.2.1-WIDTH",
+      "target_ifc_class": "IfcBuildingElementProxy",
+      "property_set": "Pset_StairCommon",
+      "property_name": "ClearWidth",
+      "operator": ">=",
+      "check_value": 800.0,
+      "unit": "mm",
+      "severity": "Critical",
+      "category": "Arch",
+      "rule_category": "Egress",
+      "description": "Stair width requirement.",
+      "kg_candidate_used": ""
+    },
+    "proposed_rule": {
+      "rule_id": "OBC-9.8.2.1-WIDTH",
+      "target_ifc_class": "IfcStair",
+      "property_set": "Pset_StairCommon",
+      "property_name": "ClearWidth",
+      "operator": ">=",
+      "check_value": 860.0,
+      "unit": "mm",
+      "severity": "Critical",
+      "category": "Arch",
+      "rule_category": "Egress",
+      "description": "Every exit stair shall have a clear width of not less than 860 mm per OBC 9.8.2.1."
+    }
+  },
+  {
+    "id": 102,
+    "source_document_id": 1,
+    "status": "edited",
+    "extraction_method": "llamaindex",
+    "original_proposed_rule": {
+      "rule_id": "OBC-9.8.4.1-RISER",
+      "target_ifc_class": "IfcStairFlight",
+      "property_set": "Pset_StairFlightCommon",
+      "property_name": "RiserHeight",
+      "operator": "<=",
+      "check_value": 200.0,
+      "unit": "mm",
+      "severity": "Major",
+      "category": "Arch",
+      "rule_category": "Egress",
+      "description": "Max riser height 200mm.",
+      "kg_candidate_used": "IfcStairFlight.RiserHeight"
+    },
+    "proposed_rule": {
+      "rule_id": "OBC-9.8.4.1-RISER",
+      "target_ifc_class": "IfcStairFlight",
+      "property_set": "Pset_StairFlightCommon",
+      "property_name": "RiserHeight",
+      "operator": "<=",
+      "check_value": 200.0,
+      "unit": "mm",
+      "severity": "Major",
+      "category": "Arch",
+      "rule_category": "Egress",
+      "description": "The riser height in residential stairs shall not be more than 200 mm per OBC 9.8.4.1."
+    }
+  },
+  {
+    "id": 103,
+    "source_document_id": 1,
+    "status": "edited",
+    "extraction_method": "llamaindex",
+    "original_proposed_rule": {
+      "rule_id": "OBC-9.8.4.2-TREAD",
+      "target_ifc_class": "IfcStairFlight",
+      "property_set": "Pset_StairFlightCommon",
+      "property_name": "TreadLength",
+      "operator": ">",
+      "check_value": 250.0,
+      "unit": "mm",
+      "severity": "Major",
+      "category": "Arch",
+      "rule_category": "Egress",
+      "description": "Tread run min.",
+      "kg_candidate_used": ""
+    },
+    "proposed_rule": {
+      "rule_id": "OBC-9.8.4.2-TREAD",
+      "target_ifc_class": "IfcStairFlight",
+      "property_set": "Pset_StairFlightCommon",
+      "property_name": "TreadLength",
+      "operator": ">=",
+      "check_value": 255.0,
+      "unit": "mm",
+      "severity": "Major",
+      "category": "Arch",
+      "rule_category": "Egress",
+      "description": "The tread run shall not be less than 255 mm per OBC 9.8.4.2."
+    }
+  },
+  {
+    "id": 104,
+    "source_document_id": 1,
+    "status": "edited",
+    "extraction_method": "llamaindex",
+    "original_proposed_rule": {
+      "rule_id": "OBC-9.9.10.1-TRAVEL",
+      "target_ifc_class": "IfcSpace",
+      "property_set": "Pset_SpaceCommon",
+      "property_name": "TravelDistance",
+      "operator": "<=",
+      "check_value": 30.0,
+      "unit": "m",
+      "severity": "Critical",
+      "category": "Arch",
+      "rule_category": "Egress",
+      "description": "Travel distance limit.",
+      "kg_candidate_used": "IfcSpace.TravelDistance"
+    },
+    "proposed_rule": {
+      "rule_id": "OBC-9.9.10.1-TRAVEL",
+      "target_ifc_class": "IfcSpace",
+      "property_set": "Pset_SpaceCommon",
+      "property_name": "TravelDistance",
+      "operator": "<=",
+      "check_value": 25.0,
+      "unit": "m",
+      "severity": "Critical",
+      "category": "Arch",
+      "rule_category": "Egress",
+      "description": "The maximum egress travel distance from any point on a floor area to an exit shall not exceed 25 m per OBC 9.9.10.1."
+    }
+  },
+  {
+    "id": 105,
+    "source_document_id": 1,
+    "status": "edited",
+    "extraction_method": "llamaindex",
+    "original_proposed_rule": {
+      "rule_id": "OBC-9.7.2.3-GLAZING",
+      "target_ifc_class": "IfcSpace",
+      "property_set": "Pset_SpaceCommon",
+      "property_name": "DaylightRatio",
+      "operator": ">=",
+      "check_value": 0.10,
+      "unit": "ratio",
+      "severity": "Moderate",
+      "category": "Arch",
+      "rule_category": "Daylighting",
+      "description": "Daylight ratio min 10%.",
+      "kg_candidate_used": "IfcSpace.DaylightRatio"
+    },
+    "proposed_rule": {
+      "rule_id": "OBC-9.7.2.3-GLAZING",
+      "target_ifc_class": "IfcSpace",
+      "property_set": "Pset_SpaceCommon",
+      "property_name": "DaylightRatio",
+      "operator": ">=",
+      "check_value": 0.08,
+      "unit": "ratio",
+      "severity": "Moderate",
+      "category": "Arch",
+      "rule_category": "Daylighting",
+      "description": "Unobstructed glazed window area in bedrooms shall not be less than 8% (0.08) of the floor area per OBC 9.7.2.3."
+    }
+  }
+]

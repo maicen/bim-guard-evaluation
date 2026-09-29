@@ -55,6 +55,8 @@ from eval_config import (
 SCRIPTS: list[tuple[str, str, int, bool, bool]] = [
     ("score_nlp_annotation", "score_nlp_annotation.py", 0, True, False),
     ("eval_gold_code_9_8_stairs", "eval_gold_code_9_8_stairs.py", 1, False, False),
+    ("score_rule_extraction_corrections", "score_rule_extraction_corrections.py", 1, True, False),
+    ("score_arch_engines", "score_arch_engines.py", 1, True, False),
     ("score_rule_extraction", "score_rule_extraction.py", 2, True, False),
     ("test_api_endpoints", "check_api_endpoints.py", 2, True, True),
     ("eval_harness", "eval_harness.py", 3, False, False),

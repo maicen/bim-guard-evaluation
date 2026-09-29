@@ -6,9 +6,9 @@
   "failed": 0,
   "total": 60,
   "score": 1.0,
-  "duration_s": 0.08031710000068415,
-  "bimguard_commit": "ffe484a",
-  "eval_commit": "12a248d",
+  "duration_s": 0.05553758307360113,
+  "bimguard_commit": "bebc308",
+  "eval_commit": "d1f8851",
   "details": [],
-  "baseline_created": "2026-09-11T12:46:05.758688+00:00"
+  "baseline_created": "2026-09-29T08:04:03.377865+00:00"
 }

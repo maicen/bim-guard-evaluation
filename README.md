@@ -36,10 +36,12 @@ This repository isolates academic and empirical validation from core application
    - `score_nlp_annotation.py`: Automated scoring test suite verifying 60 linguistic and DocLang test cases across all capabilities.
    - `label_studio_bridge.py`: Bidirectional converter between Label Studio tasks, DocLang XML, ParagraphAnnotation, and GOLD_RULES.
    - `score_rule_extraction.py`: Structural diagnostics (heading detection, skip leakage, table coverage, regex baseline) and LLM-based rule extraction accuracy against hand-annotated gold standards.
-   - `score_rule_extraction_corrections.py`: Field-level rule extraction correction accuracy scored against real human reviewer edits from bim-guard's live `rule_extraction_drafts` table (Mode A), complementing the gold-PDF pipeline above. See [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md).
+   - `score_rule_extraction_corrections.py`: Field-level rule extraction correction accuracy scored against real human reviewer edits from bim-guard's live `rule_extraction_drafts` table (Mode A) or committed offline fixtures. See [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md).
+   - `score_arch_engines.py`: Empirical confusion-matrix evaluation for active architectural compute engines (`ARCH-EGRESS-001`, `ARCH-SPATIAL-001`) with Wilson score 95% confidence intervals across egress travel distances, storey exits, emergency escape windows, daylight glazing ratios, and fire separation ratings.
    - `eval_gold_code_9_8_stairs.py`: Hand-annotated ground-truth dataset for Part 9 code requirements.
    - `eval_harness.py`: LLM-as-judge evaluation harness tracking correctness, completeness, and executability.
    - `score_iaa.py`: Inter-annotator agreement scoring (Cohen's/Fleiss' kappa, span-IoU F1) — implemented and tested, not yet run against real multi-annotator data; see `LIMITATIONS.md`.
+   - `stats_util.py`: Statistical rigor toolkit providing Wilson score intervals for binomial proportions and non-parametric bootstrap resampling.
 
 3. **Knowledge Graph Pipeline (`kg/`)**
    Links code clauses to the bSDD ontology (classes/properties) into a `networkx` graph, then layers an LLM-verification and human-review pass on top of the lexical candidate matches. `docs/kg-ingestion-pipeline.md` documents the standardized, repeatable end-to-end process — PDF → DocLang → per-code graph → LLM correction/filter → merge into the combined multi-code graph — used to onboard each new code (OBC, then SBC-201-2007, and any future code).
@@ -70,7 +72,10 @@ bim-guard-evaluation/
 │   ├── label_studio_bridge.py      # Bidirectional Label Studio & DocLang bridge
 │   ├── score_iaa.py                # Inter-annotator agreement scoring
 │   ├── score_rule_extraction.py    # Rule extraction accuracy scoring (gold PDF)
-│   ├── score_rule_extraction_corrections.py # Rule extraction correction accuracy (live reviewer edits)
+│   ├── score_rule_extraction_corrections.py # Rule extraction correction accuracy (live reviewer edits / fixtures)
+│   ├── score_arch_engines.py       # Architecture compute engines benchmark (ARCH-001)
+│   ├── generate_arch_test_models.py # Procedural architectural test scenario generator
+│   ├── stats_util.py               # Statistical rigor: Wilson score & bootstrap 95% CIs
 │   ├── eval_gold_code_9_8_stairs.py # Hand-annotated ground-truth answer key
 │   ├── eval_harness.py             # LLM-as-judge scoring harness
 │   ├── run_all.py                  # Tier-ordered orchestrator with baseline comparison
@@ -150,12 +155,15 @@ python eval/score_rule_extraction.py
 
 ### 2b. Rule Extraction Correction Accuracy
 Scores extraction accuracy against real human reviewer edits pulled live from
-bim-guard's `rule_extraction_drafts` table (Mode A — no bim-guard import
-needed). See [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md)
-for the scoring method, auth setup, and how this complements the gold-PDF
-pipeline above:
+bim-guard's `rule_extraction_drafts` table (Mode A) or committed offline fixtures:
 ```bash
-python eval/score_rule_extraction_corrections.py --live
+python eval/score_rule_extraction_corrections.py
+```
+
+### 2c. Architectural Compliance Engine Benchmark
+Evaluates bim-guard's active architecture compute engines (`ARCH-EGRESS-001`, `ARCH-SPATIAL-001`) with complete confusion matrix, precision/recall, and Wilson score 95% confidence intervals:
+```bash
+python eval/score_arch_engines.py
 ```
 
 ### 3. LLM-as-Judge Rule Generation Quality

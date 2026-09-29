@@ -1,0 +1,368 @@
+{
+  "eval_id": "score_arch_engines",
+  "tier": 2,
+  "status": "PASS",
+  "passed": 22,
+  "failed": 0,
+  "total": 22,
+  "score": 1.0,
+  "duration_s": 0.18512695794925094,
+  "bimguard_commit": "bebc308",
+  "eval_commit": "d1f8851",
+  "details": {
+    "total_cases": 22,
+    "passed_cases": 22,
+    "failed_cases": 0,
+    "classification_metrics": {
+      "confusion_matrix": {
+        "tp": 13,
+        "fp": 0,
+        "fn": 0,
+        "tn": 9,
+        "total": 22,
+        "actual_positives": 13,
+        "actual_negatives": 9
+      },
+      "accuracy": {
+        "point": 1.0,
+        "ci_lower": 0.8513,
+        "ci_upper": 1.0,
+        "formatted": "100.0% [95% CI: 85.1% \u2013 100.0%]"
+      },
+      "recall_sensitivity": {
+        "point": 1.0,
+        "ci_lower": 0.7719,
+        "ci_upper": 1.0,
+        "formatted": "100.0% [95% CI: 77.2% \u2013 100.0%]"
+      },
+      "precision": {
+        "point": 1.0,
+        "ci_lower": 0.7719,
+        "ci_upper": 1.0,
+        "formatted": "100.0% [95% CI: 77.2% \u2013 100.0%]"
+      },
+      "specificity": {
+        "point": 1.0,
+        "ci_lower": 0.7009,
+        "ci_upper": 1.0,
+        "formatted": "100.0% [95% CI: 70.1% \u2013 100.0%]"
+      },
+      "f1_score": {
+        "point": 1.0,
+        "ci_lower": 0.7719,
+        "ci_upper": 1.0,
+        "formatted": "100.0% [95% CI: 77.2% \u2013 100.0%]"
+      },
+      "balanced_accuracy": {
+        "point": 1.0,
+        "ci_lower": 0.7364,
+        "ci_upper": 1.0,
+        "formatted": "100.0% [95% CI: 73.6% \u2013 100.0%]"
+      }
+    },
+    "by_check_type": {
+      "travel_distance": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "total": 5
+      },
+      "exit_count": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "total": 4
+      },
+      "egress_window": {
+        "tp": 4,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "total": 5
+      },
+      "daylight_ratio": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "total": 4
+      },
+      "fire_separation": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "total": 4
+      }
+    },
+    "details": [
+      {
+        "id": "egress_travel_short",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "travel_distance",
+        "expected_status": "PASS",
+        "predicted_status": "PASS",
+        "score": 0.142,
+        "band": "Low",
+        "action": "Compliant",
+        "outcome": "TN (Correct Compliant)",
+        "correct": true
+      },
+      {
+        "id": "egress_travel_boundary_pass",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "travel_distance",
+        "expected_status": "PASS",
+        "predicted_status": "PASS",
+        "score": 0.248,
+        "band": "Low",
+        "action": "Compliant",
+        "outcome": "TN (Correct Compliant)",
+        "correct": true
+      },
+      {
+        "id": "egress_travel_boundary_fail",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "travel_distance",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.516,
+        "band": "High",
+        "action": "Travel distance (25.4 m) exceeds maximum allowable limit (25.0 m)",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "egress_travel_excessive",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "travel_distance",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 1.0,
+        "band": "High",
+        "action": "Travel distance (38.6 m) exceeds maximum allowable limit (25.0 m)",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "egress_travel_isolated_room",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "travel_distance",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 1.0,
+        "band": "Critical",
+        "action": "No path from space to exterior exit; verify door boundaries and egress corridors",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "egress_exits_adequate_two",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "exit_count",
+        "expected_status": "PASS",
+        "predicted_status": "PASS",
+        "score": 0.0,
+        "band": "Low",
+        "action": "Compliant",
+        "outcome": "TN (Correct Compliant)",
+        "correct": true
+      },
+      {
+        "id": "egress_exits_adequate_three",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "exit_count",
+        "expected_status": "PASS",
+        "predicted_status": "PASS",
+        "score": 0.0,
+        "band": "Low",
+        "action": "Compliant",
+        "outcome": "TN (Correct Compliant)",
+        "correct": true
+      },
+      {
+        "id": "egress_exits_insufficient_single",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "exit_count",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.8,
+        "band": "High",
+        "action": "Provide at least one compliant exterior exit",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "egress_exits_zero",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "exit_count",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.8,
+        "band": "High",
+        "action": "Provide at least one compliant exterior exit",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "egress_window_fully_compliant",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "egress_window",
+        "expected_status": "PASS",
+        "predicted_status": "PASS",
+        "score": 0.1,
+        "band": "Low",
+        "action": "Compliant",
+        "outcome": "TN (Correct Compliant)",
+        "correct": true
+      },
+      {
+        "id": "egress_window_area_too_small",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "egress_window",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.8,
+        "band": "High",
+        "action": "Egress window opening fails: clear_area below required minimum",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "egress_window_width_too_narrow",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "egress_window",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.8,
+        "band": "High",
+        "action": "Egress window opening fails: clear_width below required minimum",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "egress_window_sill_too_high",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "egress_window",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.8,
+        "band": "High",
+        "action": "Egress window opening fails: sill_height below required minimum",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "egress_window_missing_in_bedroom",
+        "engine": "ARCH-EGRESS-001",
+        "check_type": "egress_window",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.8,
+        "band": "High",
+        "action": "No window found in this sleeping room; provide a compliant emergency escape and rescue opening",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "spatial_daylight_generous",
+        "engine": "ARCH-SPATIAL-001",
+        "check_type": "daylight_ratio",
+        "expected_status": "PASS",
+        "predicted_status": "PASS",
+        "score": 0.1,
+        "band": "Low",
+        "action": "Compliant",
+        "outcome": "TN (Correct Compliant)",
+        "correct": true
+      },
+      {
+        "id": "spatial_daylight_boundary_pass",
+        "engine": "ARCH-SPATIAL-001",
+        "check_type": "daylight_ratio",
+        "expected_status": "PASS",
+        "predicted_status": "PASS",
+        "score": 0.1,
+        "band": "Low",
+        "action": "Compliant",
+        "outcome": "TN (Correct Compliant)",
+        "correct": true
+      },
+      {
+        "id": "spatial_daylight_deficient",
+        "engine": "ARCH-SPATIAL-001",
+        "check_type": "daylight_ratio",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.575,
+        "band": "Medium",
+        "action": "Daylight ratio (0.045) below required minimum 1/12 (0.08)",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "spatial_daylight_windowless",
+        "engine": "ARCH-SPATIAL-001",
+        "check_type": "daylight_ratio",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.8,
+        "band": "Medium",
+        "action": "Daylight ratio (0.000) below required minimum 1/12 (0.08)",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "spatial_fire_compliant_one_hour",
+        "engine": "ARCH-SPATIAL-001",
+        "check_type": "fire_separation",
+        "expected_status": "PASS",
+        "predicted_status": "PASS",
+        "score": 0.0,
+        "band": "Low",
+        "action": "Compliant",
+        "outcome": "TN (Correct Compliant)",
+        "correct": true
+      },
+      {
+        "id": "spatial_fire_boundary_pass",
+        "engine": "ARCH-SPATIAL-001",
+        "check_type": "fire_separation",
+        "expected_status": "PASS",
+        "predicted_status": "PASS",
+        "score": 0.0,
+        "band": "Low",
+        "action": "Compliant",
+        "outcome": "TN (Correct Compliant)",
+        "correct": true
+      },
+      {
+        "id": "spatial_fire_substandard",
+        "engine": "ARCH-SPATIAL-001",
+        "check_type": "fire_separation",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.75,
+        "band": "High",
+        "action": "Party wall fire rating (30.0 min) below 45.0 min",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      },
+      {
+        "id": "spatial_fire_unrated_missing",
+        "engine": "ARCH-SPATIAL-001",
+        "check_type": "fire_separation",
+        "expected_status": "FAIL",
+        "predicted_status": "FAIL",
+        "score": 0.75,
+        "band": "High",
+        "action": "Declare FireRating property on party wall",
+        "outcome": "TP (Correct Violation)",
+        "correct": true
+      }
+    ]
+  },
+  "baseline_created": "2026-09-29T08:04:03.722584+00:00"
+}

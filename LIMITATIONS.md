@@ -81,10 +81,13 @@ the corresponding claim-by-claim evidence ledger.
   `research/CLAIMS.md` §1-2. This is listed here for completeness, not as an
   open item: there is nothing to resolve against a capability that no longer
   exists by design.
-- **No committed validation of the current architecture-only engines
-  (ARCH-EGRESS-001, ARCH-SPATIAL-001) exists in this repository yet.** This
-  is genuinely open, unstarted work, not a retired one — distinct from the
-  point above.
+- **Validation of the active architecture-only engines (ARCH-EGRESS-001,
+  ARCH-SPATIAL-001) is now implemented in `eval/score_arch_engines.py`**
+  (22 grounded scenarios covering travel distance, storey exit count,
+  emergency escape windows, daylight glazing ratio, and fire separation rating,
+  reporting Wilson score 95% confidence intervals). Open work remains on expanding
+  this suite to large-scale multi-storey whole-building IFC files with complex
+  circulation graphs.
 
 ## Scope
 

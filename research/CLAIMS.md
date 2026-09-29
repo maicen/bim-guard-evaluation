@@ -27,11 +27,11 @@ bim-guard permanently retired its Piping/Corrosion and Seismic domains on
 2026-09-21 (see the `retired-domain` note above). The claims below that
 describe that domain (§1, §2) are historical record, not current capability.
 **The claims currently verifiable against the live product** are §4 (NLP
-annotation, 60/60, fully reproducible) and, with the caveats stated in §3 and
-§5, the rule-extraction and LLM-judge harnesses. There is currently no
-committed validation of the architecture-only engines (ARCH-EGRESS-001,
-ARCH-SPATIAL-001) from this repository — that is open work, not yet started
-here, and should not be implied as covered until it exists.
+annotation, 60/60, fully reproducible), §7 (Architectural compliance engines
+benchmark, 22/22, fully reproducible with Wilson score 95% CIs), and, with the
+caveats stated in §3 and §5, the rule-extraction and LLM-judge harnesses.
+Validation of the architecture-only engines (ARCH-EGRESS-001, ARCH-SPATIAL-001)
+is now committed and tracked in §7.
 
 ---
 
@@ -170,6 +170,17 @@ see `LIMITATIONS.md` for what it does not tell you.
 |---|---|
 | **Claim** | None currently made in README/thesis prose, but `eval/score_iaa.py` implements Cohen's κ, Fleiss' κ, and span-IoU F1, which could be read as implying IAA has been measured. |
 | **Status** | **`not-verified`** — **no IAA has actually been computed on real multi-annotator data.** The only Label Studio data committed is `research/label_studio/sample_tasks.json`, 2 synthetic tasks with `completed_by: 1` (a single annotator, not an agreement pair). The gold set in claim 3 above is also single-annotator. `score_iaa.py`'s implementations are correct and tested (`eval/tests/`), but they have never been run against real independent annotations. Stated plainly in `LIMITATIONS.md`. |
+
+---
+
+## 7. Architectural compliance engines benchmark (ARCH-EGRESS-001, ARCH-SPATIAL-001)
+
+| | |
+|---|---|
+| **Claim** | 22-case grounded benchmark evaluating the active architecture compliance engines across egress travel distances, storey exit counts, emergency escape windows, daylight glazing ratios, and fire separation ratings, reporting 100% accuracy (13 TP, 9 TN, 0 FP, 0 FN) with Wilson score 95% confidence intervals. |
+| **Producing script** | `eval/score_arch_engines.py` (supported by `eval/generate_arch_test_models.py` and `eval/stats_util.py`) |
+| **Baseline** | [`eval/baselines/score_arch_engines.baseline.json`](../eval/baselines/score_arch_engines.baseline.json) |
+| **Status** | **`reproduced`** — deterministic, hermetic, pure-Python benchmark over active bim-guard compute kernels with zero external dependencies. |
 
 ---
 

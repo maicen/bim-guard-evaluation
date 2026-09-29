@@ -210,13 +210,13 @@ def _load_dotenv() -> None:
             load_dotenv(candidate, override=False)
 
 
-def get_bearer_token() -> str:
+def get_bearer_token() -> str | None:
     """Resolve a Supabase access token for `GET /api/rules/drafts`.
 
     Precedence: an already-minted BIMGUARD_API_TOKEN, else a password-grant
     login as bim-guard's seeded shared dev account (dev@bim-guard.local by
-    default -- see bim-guard's CLAUDE.md "Local Dev Sign-In"). Raises with a
-    clear remediation message if neither is configured.
+    default -- see bim-guard's CLAUDE.md "Local Dev Sign-In"). Returns None
+    if no credentials are configured.
     """
     _load_dotenv()
 
@@ -230,15 +230,7 @@ def get_bearer_token() -> str:
     password = os.getenv("DEV_AUTH_PASSWORD", "").strip()
 
     if not (supabase_url and api_key and password):
-        raise RuntimeError(
-            "No bearer token available for GET /api/rules/drafts. Set either:\n"
-            "  BIMGUARD_API_TOKEN=<a valid Supabase access token>\n"
-            "or all of:\n"
-            "  SUPABASE_URL, SUPABASE_ANON_KEY (or SUPABASE_PUBLISHABLE_KEY),\n"
-            "  DEV_AUTH_EMAIL, DEV_AUTH_PASSWORD\n"
-            "(the shared dev account from bim-guard's CLAUDE.md 'Local Dev Sign-In';\n"
-            "seed it once with `uv run python scripts/seed_dev_auth_user.py` in bim-guard)."
-        )
+        return None
 
     import httpx
 
@@ -287,30 +279,62 @@ def fetch_edited_drafts(client) -> list[dict]:
     return resp.json().get("drafts", [])
 
 
+def load_fixture_drafts(fixture_path: Path) -> list[dict]:
+    import json
+    with open(fixture_path, encoding="utf-8") as f:
+        return json.load(f)
+
+
 # ══════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
     cli = argparse.ArgumentParser()
     cli.add_argument("--live", action="store_true", help="use real HTTP (httpx) against BIMGUARD_URL instead of an in-process TestClient")
+    cli.add_argument("--fixtures", type=str, nargs="?", const="eval/fixtures/sample_rule_drafts.json", help="path to offline JSON fixtures")
     cli.add_argument("--json", action="store_true", help="write structured results to eval/results/")
     cli_args = cli.parse_args()
 
     print("=" * 70)
-    print("  Rule extraction correction accuracy (live rule_extraction_drafts)")
+    print("  Rule extraction correction accuracy (rule_extraction_drafts)")
     print("=" * 70)
 
-    bearer = get_bearer_token()
+    fixture_file = Path(cli_args.fixtures) if cli_args.fixtures else None
+    default_fixture = EVAL_DIR / "fixtures" / "sample_rule_drafts.json"
 
-    if cli_args.live:
+    bearer = None
+    if not fixture_file and not cli_args.live:
+        bearer = get_bearer_token()
+
+    if fixture_file:
+        print(f"\nMode C -- offline fixtures from {fixture_file}")
+        drafts = load_fixture_drafts(fixture_file)
+    elif cli_args.live:
+        bearer = get_bearer_token()
+        if not bearer:
+            raise RuntimeError(
+                "No bearer token available for GET /api/rules/drafts. Set BIMGUARD_API_TOKEN or SUPABASE_* credentials."
+            )
         base_url = os.getenv("BIMGUARD_URL", "http://127.0.0.1:8000")
         print(f"\nMode A -- live HTTP against {base_url}")
         client = LiveClient(base_url, bearer)
-    else:
-        print("\nMode A -- in-process TestClient")
+        drafts = fetch_edited_drafts(client)
+    elif bearer:
+        print("\nMode A -- in-process TestClient with resolved auth")
         client = InProcessClient(bearer)
+        drafts = fetch_edited_drafts(client)
+    elif default_fixture.exists():
+        print(f"\nMode C -- no live credentials found; using default offline fixtures at {default_fixture}")
+        drafts = load_fixture_drafts(default_fixture)
+    else:
+        raise RuntimeError(
+            "No bearer token available and default fixtures not found. Set either:\n"
+            "  BIMGUARD_API_TOKEN=<a valid Supabase access token>\n"
+            "or all of:\n"
+            "  SUPABASE_URL, SUPABASE_ANON_KEY, DEV_AUTH_EMAIL, DEV_AUTH_PASSWORD\n"
+            "or provide --fixtures <path> for offline scoring."
+        )
 
-    drafts = fetch_edited_drafts(client)
-    print(f"edited drafts fetched: {len(drafts)}")
+    print(f"edited drafts loaded: {len(drafts)}")
 
     if not drafts:
         print("\n  No edited drafts found -- nothing to score. A draft only carries "
