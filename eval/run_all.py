@@ -54,7 +54,11 @@ from eval_config import (
 # research/archive/retired_corrosion_piping_seismic_domain/README.md.
 SCRIPTS: list[tuple[str, str, int, bool, bool]] = [
     ("score_nlp_annotation", "score_nlp_annotation.py", 0, True, False),
+    ("score_iaa", "score_iaa.py", 1, True, False),
+    ("score_judge_sensitivity", "score_judge_sensitivity.py", 1, True, False),
+    ("score_cross_code", "score_cross_code.py", 1, True, False),
     ("eval_gold_code_9_8_stairs", "eval_gold_code_9_8_stairs.py", 1, False, False),
+    ("eval_gold_sbc_chapter10", "eval_gold_sbc_chapter10.py", 1, False, False),
     ("score_rule_extraction_corrections", "score_rule_extraction_corrections.py", 1, True, False),
     ("score_arch_engines", "score_arch_engines.py", 1, True, False),
     ("score_rule_extraction", "score_rule_extraction.py", 2, True, False),

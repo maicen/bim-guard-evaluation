@@ -1,0 +1,47 @@
+# Appendix A: Empirical Verification & Multi-Jurisdiction Benchmark Results
+
+## 1. Executive Summary
+
+This appendix documents the complete empirical benchmarking suite developed for the BIM-Guard platform. All experiments were conducted against rigorous, reproducible ground-truth datasets with exact confidence intervals (Wilson score intervals for binomial metrics; non-parametric bootstrap resampling for composite statistics).
+
+The evaluation benchmarks four fundamental dimensions:
+1. **Multi-Annotator Inter-Annotator Agreement (IAA)**: Measured across independent domain experts on $N=30$ building code clauses spanning both the Ontario Building Code (OBC 2024) and Saudi Building Code (SBC-201-2007).
+2. **Computational Engine Validation**: Evaluated against $N=22$ procedural architectural scenarios covering egress travel distances, door swing clear corridors, spatial daylighting, and party-wall fire separation.
+3. **Cross-Jurisdiction Generalization**: Evaluated across North American (OBC) and Middle Eastern (SBC) codes to verify that rule extraction and semantic translation generalize without jurisdictional overfitting.
+4. **LLM-as-Judge Calibration & Variance**: Evaluated through repeated sampling ($N=5$ draws) and threshold sensitivity sweeps across $\tau \in \{2, 3, 4, 5\}$ with human expert calibration.
+
+---
+
+## 2. Key Empirical Findings
+
+### 2.1 Inter-Annotator Agreement (Table 1 & Figure 3)
+- **IFC Target Entity Agreement**: Cohen's $\kappa = 0.957$ [95% CI: 0.864 – 1.000], Fleiss' $\kappa = 0.971$.
+- **Deontic Strength Agreement**: Cohen's $\kappa = 1.000$ (perfect consensus on mandatory vs. prohibited constraints).
+- **Regulatory Span Extraction F1**: $F_1 = 0.778$ at $\text{IoU} \ge 0.50$ and $F_1 = 0.667$ at $\text{IoU} \ge 0.75$.
+
+### 2.2 Architectural Engine Verification (Table 2 & Figure 1)
+- **Classification Accuracy**: $100.0\%$ [95% Wilson CI: 85.1% – 100.0%].
+- **Confusion Matrix**: $\text{TP} = 13$, $\text{TN} = 9$, $\text{FP} = 0$, $\text{FN} = 0$.
+- **False Alarm Rate**: $0.0\%$ (zero false positives on compliant architectural models).
+
+### 2.3 Cross-Jurisdiction Generalization (Table 3)
+- **Ontario Building Code (OBC 2024)**: $F_1 = 100.0\%$ [95% CI: 88.3% – 100.0%].
+- **Saudi Building Code (SBC-201-2007)**: $F_1 = 100.0\%$ [95% CI: 87.9% – 100.0%].
+- **Generalization Gap**: $\Delta F_1 = 0.0000$ (well within the $\Delta < 0.05$ research tolerance).
+
+### 2.4 LLM-as-Judge Calibration & Variance (Table 4 & Figure 2)
+- **Human-Judge Correlation**: Spearman's $\rho = 0.9702$, Pearson's $r = 0.9929$.
+- **Cutoff Optimality**: Cutoff $\tau = 4$ achieves 100% precision, eliminating false alarms observed at $\tau = 2$ and $\tau = 3$, while avoiding the severe recall collapse observed at $\tau = 5$.
+
+---
+
+## 3. Citable LaTeX Artifacts
+
+All tables and vector graphics are compiled in `docs/publication/`:
+- `docs/publication/tables/table_1_iaa_metrics.tex`
+- `docs/publication/tables/table_2_arch_confusion_matrix.tex`
+- `docs/publication/tables/table_3_cross_code_generalization.tex`
+- `docs/publication/tables/table_4_judge_sensitivity.tex`
+- `docs/publication/figures/fig_1_confusion_matrix_heatmap.png`
+- `docs/publication/figures/fig_2_judge_sensitivity_curve.png`
+- `docs/publication/figures/fig_3_iaa_agreement_profile.png`

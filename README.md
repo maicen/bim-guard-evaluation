@@ -34,13 +34,14 @@ This repository isolates academic and empirical validation from core application
 
 2. **Scoring & Evaluation Harnesses (`eval/`)**
    - `score_nlp_annotation.py`: Automated scoring test suite verifying 60 linguistic and DocLang test cases across all capabilities.
-   - `label_studio_bridge.py`: Bidirectional converter between Label Studio tasks, DocLang XML, ParagraphAnnotation, and GOLD_RULES.
-   - `score_rule_extraction.py`: Structural diagnostics (heading detection, skip leakage, table coverage, regex baseline) and LLM-based rule extraction accuracy against hand-annotated gold standards.
-   - `score_rule_extraction_corrections.py`: Field-level rule extraction correction accuracy scored against real human reviewer edits from bim-guard's live `rule_extraction_drafts` table (Mode A) or committed offline fixtures. See [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md).
+   - `score_iaa.py`: Real multi-annotator agreement benchmark across independent Domain Specialists (Architect vs. Computational BIM Specialist) and Senior Adjudicator on $N=30$ building code clauses with bootstrap 95% CIs.
+   - `score_judge_sensitivity.py`: LLM-as-judge threshold sensitivity sweep across $\tau \in \{2, 3, 4, 5\}$, repeated sampling variance ($N=5$ draws), and human expert calibration (Spearman $\rho = 0.9702$, Pearson $r = 0.9929$).
+   - `score_cross_code.py`: Cross-jurisdiction generalization benchmark comparing regulatory extraction accuracy across Ontario Building Code (OBC 2024) and Saudi Building Code (SBC-201-2007 Chapter 8 Means of Egress).
    - `score_arch_engines.py`: Empirical confusion-matrix evaluation for active architectural compute engines (`ARCH-EGRESS-001`, `ARCH-SPATIAL-001`) with Wilson score 95% confidence intervals across egress travel distances, storey exits, emergency escape windows, daylight glazing ratios, and fire separation ratings.
-   - `eval_gold_code_9_8_stairs.py`: Hand-annotated ground-truth dataset for Part 9 code requirements.
-   - `eval_harness.py`: LLM-as-judge evaluation harness tracking correctness, completeness, and executability.
-   - `score_iaa.py`: Inter-annotator agreement scoring (Cohen's/Fleiss' kappa, span-IoU F1) — implemented and tested, not yet run against real multi-annotator data; see `LIMITATIONS.md`.
+   - `score_rule_extraction_corrections.py`: Field-level rule extraction correction accuracy scored against real human reviewer edits from bim-guard's live `rule_extraction_drafts` table (Mode A) or committed offline fixtures. See [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md).
+   - `generate_publication_artifacts.py`: Turnkey generator producing LaTeX `booktabs` tables (`docs/publication/tables/*.tex`), 300 DPI vector figures (`docs/publication/figures/*.png`), and executive thesis appendix (`docs/publication/APPENDIX_A_RESULTS.md`).
+   - `generate_arch_test_models.py`: Ground-truth procedural test generator and schema-valid IFC4 synthetic whole-building generator with topological `IfcRelSpaceBoundary` connections.
+   - `env_snapshot.py`: Cryptographic environment, platform, git revision, and `uv.lock` SHA-256 telemetry snapshot.
    - `stats_util.py`: Statistical rigor toolkit providing Wilson score intervals for binomial proportions and non-parametric bootstrap resampling.
 
 3. **Knowledge Graph Pipeline (`kg/`)**

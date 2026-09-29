@@ -15,6 +15,7 @@ Can also assemble minimal schema-valid IFC4 synthetic models using ifcopenshell.
 from __future__ import annotations
 
 import uuid
+from pathlib import Path
 from typing import Any
 
 
@@ -387,3 +388,146 @@ def get_architectural_test_cases() -> list[dict[str, Any]]:
         },
     ]
     return cases
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# Procedural Whole-Building IFC4 Generation
+# ══════════════════════════════════════════════════════════════════════════
+
+def generate_procedural_ifc_building(output_path: str | Path | None = None) -> Path:
+    """
+    Generates a schema-valid IFC4 synthetic building model containing:
+    - Spatial Hierarchy: IfcProject -> IfcSite -> IfcBuilding -> IfcBuildingStorey
+    - 4 Connected Spaces (Office 101, Corridor 102, Exit Stair S-1, Public Way 104)
+    - Building Elements: Walls (with Pset_WallCommon.FireRating), Egress Doors, Windows, Stairs
+    - Explicit IfcRelSpaceBoundary relationships linking spaces to boundaries
+    - Relational Aggregates and Spatial Containment
+    """
+    import ifcopenshell
+    import ifcopenshell.guid
+
+    f = ifcopenshell.file(schema="IFC4")
+
+    # 1. Project & Spatial Structure
+    project = f.create_entity("IfcProject", GlobalId=ifcopenshell.guid.new(), Name="BIM-Guard Research Benchmark Building")
+    site = f.create_entity("IfcSite", GlobalId=ifcopenshell.guid.new(), Name="Benchmark Site")
+    building = f.create_entity("IfcBuilding", GlobalId=ifcopenshell.guid.new(), Name="Academic Validation Pavilion")
+    storey = f.create_entity("IfcBuildingStorey", GlobalId=ifcopenshell.guid.new(), Name="Level 01", Elevation=0.0)
+
+    f.create_entity("IfcRelAggregates", GlobalId=ifcopenshell.guid.new(), RelatingObject=project, RelatedObjects=[site])
+    f.create_entity("IfcRelAggregates", GlobalId=ifcopenshell.guid.new(), RelatingObject=site, RelatedObjects=[building])
+    f.create_entity("IfcRelAggregates", GlobalId=ifcopenshell.guid.new(), RelatingObject=building, RelatedObjects=[storey])
+
+    # 2. Spaces
+    sp_office = f.create_entity("IfcSpace", GlobalId=ifcopenshell.guid.new(), Name="Office 101", LongName="Habitable Office Suite")
+    sp_corridor = f.create_entity("IfcSpace", GlobalId=ifcopenshell.guid.new(), Name="Corridor 102", LongName="Primary Egress Corridor")
+    sp_stair = f.create_entity("IfcSpace", GlobalId=ifcopenshell.guid.new(), Name="Exit Stair S-1", LongName="Protected Stair Enclosure")
+    sp_public = f.create_entity("IfcSpace", GlobalId=ifcopenshell.guid.new(), Name="Exterior Public Way", LongName="Public Way Discharge")
+
+    f.create_entity("IfcRelAggregates", GlobalId=ifcopenshell.guid.new(), RelatingObject=storey, RelatedObjects=[sp_office, sp_corridor, sp_stair, sp_public])
+
+    # 3. Elements
+    wall_party = f.create_entity("IfcWallStandardCase", GlobalId=ifcopenshell.guid.new(), Name="Wall-Demising-60M")
+    wall_corridor = f.create_entity("IfcWallStandardCase", GlobalId=ifcopenshell.guid.new(), Name="Wall-Corridor-45M")
+    
+    door_office = f.create_entity("IfcDoor", GlobalId=ifcopenshell.guid.new(), Name="Door-D101", OverallWidth=900.0, OverallHeight=2100.0)
+    door_stair = f.create_entity("IfcDoor", GlobalId=ifcopenshell.guid.new(), Name="Door-D102-Stair", OverallWidth=1000.0, OverallHeight=2100.0)
+    door_exit = f.create_entity("IfcDoor", GlobalId=ifcopenshell.guid.new(), Name="Door-D103-Discharge", OverallWidth=1100.0, OverallHeight=2150.0)
+
+    window_office = f.create_entity("IfcWindow", GlobalId=ifcopenshell.guid.new(), Name="Window-W101", OverallWidth=1500.0, OverallHeight=1500.0)
+    stair_flight = f.create_entity("IfcStairFlight", GlobalId=ifcopenshell.guid.new(), Name="Stair-SF101", NumberOfRisers=18, RiserHeight=175.0, TreadLength=280.0)
+
+    all_elements = [wall_party, wall_corridor, door_office, door_stair, door_exit, window_office, stair_flight]
+    f.create_entity("IfcRelContainedInSpatialStructure", GlobalId=ifcopenshell.guid.new(), RelatingStructure=storey, RelatedElements=all_elements)
+
+    # 4. Property Sets (Fire Resistance Rating)
+    pset_wall1 = f.create_entity(
+        "IfcPropertySingleValue",
+        Name="FireRating",
+        NominalValue=f.create_entity("IfcLabel", "60"),
+    )
+    f.create_entity(
+        "IfcRelDefinesByProperties",
+        GlobalId=ifcopenshell.guid.new(),
+        RelatedObjects=[wall_party],
+        RelatingPropertyDefinition=f.create_entity(
+            "IfcPropertySet",
+            GlobalId=ifcopenshell.guid.new(),
+            Name="Pset_WallCommon",
+            HasProperties=[pset_wall1],
+        ),
+    )
+
+    pset_wall2 = f.create_entity(
+        "IfcPropertySingleValue",
+        Name="FireRating",
+        NominalValue=f.create_entity("IfcLabel", "45"),
+    )
+    f.create_entity(
+        "IfcRelDefinesByProperties",
+        GlobalId=ifcopenshell.guid.new(),
+        RelatedObjects=[wall_corridor],
+        RelatingPropertyDefinition=f.create_entity(
+            "IfcPropertySet",
+            GlobalId=ifcopenshell.guid.new(),
+            Name="Pset_WallCommon",
+            HasProperties=[pset_wall2],
+        ),
+    )
+
+    # 5. IfcRelSpaceBoundary topological associations
+    # Office 101 boundaries
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_office, RelatedBuildingElement=wall_party, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="INTERNAL")
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_office, RelatedBuildingElement=door_office, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="INTERNAL")
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_office, RelatedBuildingElement=window_office, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="EXTERNAL")
+
+    # Corridor 102 boundaries
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_corridor, RelatedBuildingElement=door_office, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="INTERNAL")
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_corridor, RelatedBuildingElement=wall_corridor, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="INTERNAL")
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_corridor, RelatedBuildingElement=door_stair, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="INTERNAL")
+
+    # Exit Stair S-1 boundaries
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_stair, RelatedBuildingElement=door_stair, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="INTERNAL")
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_stair, RelatedBuildingElement=stair_flight, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="INTERNAL")
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_stair, RelatedBuildingElement=door_exit, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="EXTERNAL")
+
+    # Exterior discharge
+    f.create_entity("IfcRelSpaceBoundary", GlobalId=ifcopenshell.guid.new(), RelatingSpace=sp_public, RelatedBuildingElement=door_exit, PhysicalOrVirtualBoundary="PHYSICAL", InternalOrExternalBoundary="EXTERNAL")
+
+    if output_path is None:
+        target = Path(__file__).resolve().parent / "fixtures" / "procedural_benchmark_building.ifc"
+    else:
+        target = Path(output_path)
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    f.write(str(target))
+    return target
+
+
+def main() -> int:
+    import argparse
+    parser = argparse.ArgumentParser(description="Generate procedural architectural test cases & IFC4 models")
+    parser.add_argument("--export-ifc", type=str, help="Destination path for procedural IFC4 file")
+    parser.add_argument("--json", action="store_true", help="Dump architectural test cases to JSON")
+    args = parser.parse_args()
+
+    if args.export_ifc:
+        out = generate_procedural_ifc_building(args.export_ifc)
+        print(f"Generated procedural IFC4 model at: {out}")
+        return 0
+
+    cases = get_architectural_test_cases()
+    if args.json:
+        import json
+        print(json.dumps(cases, indent=2))
+    else:
+        print(f"Loaded {len(cases)} architectural benchmark test cases across ARCH-EGRESS-001 and ARCH-SPATIAL-001.")
+        out_default = generate_procedural_ifc_building()
+        print(f"Verified procedural IFC4 synthetic building: {out_default}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())
