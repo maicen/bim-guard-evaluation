@@ -153,11 +153,11 @@ adjudication, no IAA — see `LIMITATIONS.md`).
 
 | Run | Drafts | Clause TP/FP/FN/TN | Lenient P / R / F1 | Normalized F1 | Strict F1 |
 |---|---|---|---|---|---|
-| run 1 (`run1_browser`, UI by hand; model not recorded) | 104 | 37 / 0 / 13 / 67 | 98.3 / 64.0 / 77.6 | 57.1 | 23.1 |
-| run 2 (`run2_playwright`; model not recorded) | 48 | 11 / 3 / 39 / 64 | 65.5 / 21.3 / 32.2 | 20.3 | 11.9 |
+| run 1 (`run1_browser`, UI by hand; GPT-6.1 Sol Pro, as reported by the annotator, not recorded in the output) | 104 | 37 / 0 / 13 / 67 | 98.3 / 64.0 / 77.6 | 57.1 | 23.1 |
+| run 2 (`run2_playwright`; GPT-6.1 Sol Pro, as reported, not recorded in the output) | 48 | 11 / 3 / 39 / 64 | 65.5 / 21.3 / 32.2 | 20.3 | 11.9 |
 | run 3 (`run3_variance_a`, `openai/gpt-5.6-luna-pro`, 2026-10-02 22:01 UTC, **after an app rebuild at 21:50 UTC**) | 53 | 13 / 4 / 37 / 63 | 65.2 / 16.9 / 26.8 | 8.9 | 8.9 |
 
-Runs 2 and 3 agree with each other; run 1 produced about twice as many drafts and much higher recall. The cause is **unknown** (run 1 predates the model pin, so a different model is the leading hypothesis; the extraction call also accepts no seed). Run 3 also post-dates a rebuild of the BIM-Guard app, so run 3 vs. runs 1-2 mixes a possible code change with randomness.
+Runs 1 and 2 used the **same model** (GPT-6.1 Sol Pro) yet gave 104 vs 48 drafts and lenient F1 77.6% vs 32.2%, so run-to-run variance for one model is already large (the extraction call accepts no seed or temperature; cause unexplained). Run 3 used a different, cheaper model *and* post-dates a rebuild of the BIM-Guard app, so it cannot isolate the effect of either. Per-run metadata: `eval/results/e2e/README.md`.
 
 **Gold-set caveats (disclosed, not hidden):**
 - Single annotator, no adjudication, no IAA; dimensional rules only.

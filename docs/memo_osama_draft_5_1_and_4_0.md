@@ -47,23 +47,21 @@ says 20260909052852.]**
 **Provenance.** Figures are from one extraction run on 2 October 2026 through the live BIM-Guard
 interface, scored against the human-annotated gold set for OBC 2023 §9.8 (117 clauses, 89 gold
 rules, single annotator, no adjudication). The run produced 104 draft rules, 58 of them
-dimensional (numeric checks, the scope of the gold set). Model: **[CONFIRM — not recorded in the
-run output; the runner now pins openai/gpt-5.6-luna-pro]**. This is one draw: the extraction call
+dimensional (numeric checks, the scope of the gold set). Models: GPT-6.1 Sol Pro for runs 1 and 2 (as reported; not recorded in the run output) and openai/gpt-5.6-luna-pro for run 3. This is one draw: the extraction call
 accepts no temperature or seed, so run-to-run variance is not controlled **[CONFIRM: add the second
 run (48 drafts, clause F1 34%, lenient rule recall 21%) as variance, or explain it]**.
 
 **(a) Information-extraction metrics.** Table 4 reports both levels.
 
-*Table 4. Extraction accuracy against the human gold set, OBC §9.8.*
+*Table 4. Extraction accuracy against the human gold set, OBC §9.8, three runs.*
 
-| Level | TP | FP | FN | TN | Precision | Recall | F1 |
-|---|---|---|---|---|---|---|---|
-| Clause (does it yield a rule?) | 37 | 0 | 13 | 67 | 100% | 74.0% | 85.1% |
-| Rule, lenient (clause, operator, value) | 57 | 1 | 32 | n/a | 98.3% | 64.0% | 77.6% |
-| Rule, normalized (+ IFC target/property synonyms) | 42 | 16 | 47 | n/a | 72.4% | 47.2% | 57.1% |
-| Rule, strict (exact target and property) | 17 | 41 | 72 | n/a | 29.3% | 19.1% | 23.1% |
+| Run (model) | Drafts | Clause TP / FP / FN / TN | Lenient P / R / F1 | Normalized F1 | Strict F1 |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| 1 (GPT-6.1 Sol Pro) | 104 | 37 / 0 / 13 / 67 | 98.3% / 64.0% / 77.6% | 57.1% | 23.1% |
+| 2 (GPT-6.1 Sol Pro) | 48 | 11 / 3 / 39 / 64 | 65.5% / 21.3% / 32.2% | 20.3% | 11.9% |
+| 3 (GPT-5.6 Luna Pro, after an app rebuild) | 53 | 13 / 4 / 37 / 63 | 65.2% / 16.9% / 26.8% | 8.9% | 8.9% |
 
-At clause level accuracy is 88.9% (95% Wilson CI 81.9–93.4) and specificity 100% (94.6–100): the
+Runs 1 and 2 used the same model and still differ widely (lenient F1 77.6% vs 32.2%); run 3 used a cheaper model after an application rebuild. Report the range, not run 1 alone. For run 1, clause-level accuracy is 88.9% (95% Wilson CI 81.9–93.4) and specificity 100% (94.6–100): the
 pipeline did not invent a rule for any clause that has none. The gap between lenient and strict
 shows where the error is. The model usually finds the right clause, operator and number, but it
 often names the IFC class or property differently from the canonical vocabulary, which is why

@@ -169,18 +169,19 @@ Evaluation uses the human-annotated OBC 2023 Section 9.8 gold set (117 clauses, 
 
 **(a) Information-extraction metrics** (95% Wilson CIs in the source file):
 
-| Level | TP | FP | FN | TN | Precision | Recall | F1 |
-| :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| Clause (does it yield a rule?) | 37 | 0 | 13 | 67 | 100% | 74.0% | 85.1% |
-| Rule, lenient (clause, operator, value) | 57 | 1 | 32 | n/a | 98.3% | 64.0% | 77.6% |
-| Rule, normalized (+ IFC target/property synonyms) | 42 | 16 | 47 | n/a | 72.4% | 47.2% | 57.1% |
-| Rule, strict (exact target and property) | 17 | 41 | 72 | n/a | 29.3% | 19.1% | 23.1% |
+| Run (model) | Drafts | Clause TP / FP / FN / TN | Lenient P / R / F1 | Normalized F1 | Strict F1 |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| 1 (GPT-6.1 Sol Pro) | 104 | 37 / 0 / 13 / 67 | 98.3% / 64.0% / 77.6% | 57.1% | 23.1% |
+| 2 (GPT-6.1 Sol Pro) | 48 | 11 / 3 / 39 / 64 | 65.5% / 21.3% / 32.2% | 20.3% | 11.9% |
+| 3 (GPT-5.6 Luna Pro, after an app rebuild) | 53 | 13 / 4 / 37 / 63 | 65.2% / 16.9% / 26.8% | 8.9% | 8.9% |
+
+Three runs on the same 89-rule gold; clause and rule-level confusion matrices are in `eval/results/e2e/run*/confusion.md`. Runs 1 and 2 used the same model yet differ widely, so run-to-run variance is large; quote the range, never one run.
 
 **(b) Confusion matrices.** See `docs/publication/figures/fig_extraction_confusion_run1.png`: clause-level TP/FN/FP/TN and operator agreement (54 of 55 operators correct).
 
 **(c) Not measured.** Inter-annotator agreement on this gold set, cross-jurisdiction generalization and LLM-judge calibration have not been measured with real data (see `research/CLAIMS.md` §5, §6, §8). Earlier versions of this table reported 100% / 92.9% figures and agreement values from simulated scripts; they were removed on 2026-10-03.
 
-A second run through the same interface produced far fewer drafts and lower recall; the model used is not recorded in either run, so run-to-run variance is unquantified.
+Models are as reported by the annotator for runs 1-2 and recorded for run 3 (`eval/results/e2e/README.md`). The gold set is not public.
 
 **(e) Architectural audit & human-validation matrix.** On the reference models and procedural benchmark buildings (procedural_benchmark_building.ifc; 4 connected spaces, 7 physical elements, 10 authored `IfcRelSpaceBoundary` topological connections), the comparator engine achieved 100.0% classification accuracy (TP=13, TN=9, FP=0, FN=0, 95% Wilson CI: [85.1%, 100.0%]). When audited against the 38-sample human-in-the-loop expert validation matrix (doors, stairs, guards, egress corridors, fire-rated walls), exact agreement between tool and expert reached 97.4% (TP=18, TN=19, FP=1, FN=0), with Cohen's $\kappa = 0.947$ [95% CI: 0.838 – 1.000], sensitivity/recall of 100.0%, precision of 94.7%, and F1 of 97.3% (figures from the in-app Validation Matrix; not reproducible from this repository, and the labels are largely AI-assigned). Independent of the synthetic models, eval/score\_rule\_extraction\_corrections.py diffs every reviewer-edited row in production's rule\_extraction\_drafts field-by-field against original\_proposed\_rule, returning 95% field-level accuracy on live production audits.
 
