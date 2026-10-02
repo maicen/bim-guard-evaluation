@@ -9,7 +9,8 @@ write the confusion matrices.
 Steps (all through the UI, like a user would):
   1. Open /#/extract (Rule Extraction Studio) with a saved signed-in session.
   2. Reuse the clause document if it is already in the library, otherwise upload
-     it via "Add / Upload Document" (file input, doc type Specification).
+     it via "Add / Upload Document" (file input, doc type Specification), then
+     convert it to DocLang from the Documents page if it is not converted yet.
   3. Optionally pick the extraction model, click "Extract Compliance Rules" and
      wait for the extract-drafts stream to finish.
   4. Read the drafts this run created (GET /api/documents/{id}/rules/drafts,
@@ -180,6 +181,20 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
             doc_select.select_option(label=option_label)
             doc_id = doc_select.input_value()
             print(f"Document id {doc_id}: {option_label}")
+
+            # The upload dialog stores the file without text (generate_doclang=false);
+            # extraction needs DocLang, so convert it from the Documents page if needed.
+            page.goto(f"{args.base_url}/#/documents")
+            row = page.locator("tr", has_text=upload_file.name)
+            expect(row).to_be_visible(timeout=60_000)
+            convert = row.get_by_role("button", name=re.compile(r"^Not converted"))
+            if convert.count():
+                print("Converting to DocLang ...")
+                convert.click()
+                page.get_by_role("button", name="Convert to DocLang").click()
+                expect(row.get_by_title(re.compile(r"DocLang XML ready"))).to_be_visible(timeout=10 * 60 * 1000)
+            page.goto(f"{args.base_url}/#/extract?doc_id={doc_id}")
+            expect(page.locator("#rule-doc-source")).to_have_value(doc_id, timeout=60_000)
 
             if args.model:
                 model_select = page.locator("#rule-ai-model")
