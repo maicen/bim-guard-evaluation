@@ -9,37 +9,27 @@ the corresponding claim-by-claim evidence ledger.
 
 ## Statistical rigor
 
-- **Confidence intervals, bootstrap estimates, and significance tests (RESOLVED 2026-09-29).**
-  Exact Wilson score 95% confidence intervals have been implemented in [`eval/stats_util.py`](eval/stats_util.py)
-  and are reported across all classification metrics in [`eval/score_arch_engines.py`](eval/score_arch_engines.py),
-  [`eval/score_cross_code.py`](eval/score_cross_code.py), and [`eval/score_judge_sensitivity.py`](eval/score_judge_sensitivity.py).
-  Non-parametric bootstrap resampling (1,000 resamples) provides 95% confidence intervals on Cohen's $\kappa$,
-  Fleiss' $\kappa$, and span-IoU F1 in [`eval/score_iaa.py`](eval/score_iaa.py).
-- **LLM Judge repeated sampling & variance (RESOLVED 2026-09-29).**
-  [`eval/score_judge_sensitivity.py`](eval/score_judge_sensitivity.py) executes repeated draws ($N=5$)
-  to quantify score variance ($\sigma = 0.3354$, $CV = 0.1133$) and pairwise self-consistency ($70.0\%$).
-- **`CORRECT_THRESHOLD = 4` sensitivity sweep (RESOLVED 2026-09-29).**
-  An empirical sweep across $\tau \in \{2, 3, 4, 5\}$ in [`eval/score_judge_sensitivity.py`](eval/score_judge_sensitivity.py)
-  demonstrates why $\tau = 4$ is the globally optimal binarization cutoff: $\tau = 2$ and $\tau = 3$ yield false
-  positives on invalid rules, while $\tau = 5$ collapses recall to $23.1\%$. Cutoff $\tau = 4$ maximizes F1 ($87.0\%$)
-  and specificity ($100.0\%$).
-- **Human-LLM Judge Calibration (RESOLVED 2026-09-29).**
-  LLM judge ratings have been calibrated against human expert ground truth on benchmark rule extractions,
-  yielding Spearman's $\rho = 0.9702$, Pearson's $r = 0.9929$, $\text{MAE} = 0.1500$, and $\text{RMSE} = 0.1732$.
+- **Confidence intervals (done for real data only).** Wilson 95% intervals in
+  [`eval/stats_util.py`](eval/stats_util.py) are applied to the architecture benchmark
+  and to the e2e extraction run (`eval/results/e2e/`). Bootstrap CIs exist in `score_iaa.py`.
+- **LLM-judge sweep, variance and human calibration: NOT DONE (corrected 2026-10-03).**
+  An earlier version of this file called these RESOLVED. `eval/score_judge_sensitivity.py`
+  scores hard-coded, simulated judge ratings, so its Spearman/Pearson figures and the claim
+  that τ = 4 is optimal are not evidence. `CORRECT_THRESHOLD = 4` remains an unvalidated
+  design choice until a live judge is run on the gold cases and compared to human ratings.
 
 ## Reproducibility & Ground Truth
 
-- **Real Multi-Annotator Inter-Annotator Agreement (RESOLVED 2026-09-29).**
-  A 30-task multi-annotator dataset with consensus adjudication has been established in
-  [`research/annotations/dual_annotator_corpus.json`](research/annotations/dual_annotator_corpus.json).
-  Evaluated in [`eval/score_iaa.py`](eval/score_iaa.py), Annotator 1 (Architectural Specialist) vs.
-  Annotator 2 (Computational BIM Specialist) achieves Cohen's $\kappa = 0.957$ on target IFC entities,
-  $\kappa = 0.683$ on property names, $\kappa = 1.000$ on deontic modalities, and Fleiss' $\kappa = 0.9710$ across all 3 evaluators.
-- **Cross-Jurisdiction Generalization Benchmark (RESOLVED 2026-09-29).**
-  A hand-annotated 28-rule ground truth for the Saudi Building Code (SBC-201-2007 Chapter 8 Means of Egress)
-  has been established in [`eval/eval_gold_sbc_chapter10.py`](eval/eval_gold_sbc_chapter10.py).
-  Evaluated in [`eval/score_cross_code.py`](eval/score_cross_code.py), the cross-standard generalization gap is
-  $\Delta F_1 = 0.0000$, demonstrating that BIM-Guard's extraction pipeline transfers internationally without jurisdictional overfitting.
+- **Inter-annotator agreement: NOT DONE (corrected 2026-10-03).** The 30-task
+  `research/annotations/dual_annotator_corpus.json` is produced by
+  `research/annotations/generate_corpus.py` (hard-coded labels for both "annotators"), so the
+  κ values derived from it are not measurements of human agreement. The real ground truth, the
+  Label Studio set for OBC 9.8, has a single annotator and no adjudication. A two-person
+  annotation of a subset is still needed.
+- **Cross-jurisdiction generalization: NOT DONE (corrected 2026-10-03).**
+  `eval/score_cross_code.py` simulates extraction from the gold rules themselves, so the
+  reported F1 = 100% and ΔF1 = 0 carry no information. The SBC-201 gold rule set is real and
+  is available for a genuine run.
 - **Cryptographic Environment & Hardware Provenance Snapshot (RESOLVED 2026-09-29).**
   [`eval/env_snapshot.py`](eval/env_snapshot.py) captures platform architecture, OS kernel versions, CPU core counts,
   memory, git commit revisions, dirty statuses, and the SHA-256 hash of `uv.lock` into every benchmark execution manifest.

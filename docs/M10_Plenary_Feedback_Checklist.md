@@ -19,7 +19,7 @@ Action items distilled from the panel review transcripts [`M10_Plenary2G5.txt`](
 
 - [x] **LLM-as-a-judge table** — `eval`
   Reviewer: *"you still need to put some effort on it"* re. extraction precision / LLM-as-judge (Plenary3 L57).
-  **Done:** [`eval/eval_harness.py`](../eval/eval_harness.py) reduces judge scores to a binary TP/FP/FN/TN table, including hallucination detection on "needs_review" cases.
+  **Done (code only — no live judge run committed; judge sensitivity/calibration figures were simulated, see `research/CLAIMS.md` §5):** [`eval/eval_harness.py`](../eval/eval_harness.py) reduces judge scores to a binary TP/FP/FN/TN table, including hallucination detection on "needs_review" cases.
 
 - [x] **Corrosion validation relies on a small synthetic dataset — needs a stronger/more solid test set** — `eval`
   Reviewer: *"the corro[sion] validations... relies on a small, uh, synthetic data set"*, *"need a more stronger assumption validation here"*, *"more test, the different... IFC exposure"*, *"more solid... test in here"* (Plenary3 L61-L62, L65-L66).
