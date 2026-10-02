@@ -4,11 +4,11 @@ Source of every number below: `eval/results/e2e/run1_browser/confusion.md` / `co
 (BIM-Guard extraction run through the live UI at bim-guard.xyz on 2026-10-02, scored by
 `eval/score_extraction_vs_human.py` against the human Label Studio gold set for OBC 2023 §9.8).
 
-Items in **[CONFIRM]** need a fact only the team can supply.
+Items in **[CONFIRM]** need a fact only the author can supply.
 
 ---
 
-## 4.0 Development Process — add under "Experiments" (replaces the one-line "Confusion matrix (20 Sep)" bullet) and "Technical challenges"
+## 4.0 Development Process — add under "Experiments" (replaces the one-line "Confusion matrix (20 Sep)" bullet)
 
 **Evaluation development: from recall-only to a confusion matrix.** The first extraction scorer
 reported recall against a 29-rule gold set for OBC §9.8.2–9.8.4.7. After the plenary feedback that
@@ -26,19 +26,6 @@ First, matching is reported in three modes (lenient, normalized, strict), becaus
 hid whether errors were in the clause, the value or only the property naming. Second, the
 clause-level matrix has a true-negative cell (clauses where no checkable rule exists), which the
 rule-level matrix cannot, since the number of possible wrong rules is open-ended.
-
-**Supabase-MCP integration.** The Supabase MCP server was registered on 2 May, when rules moved to
-Supabase. **[CONFIRM — wording inferred from the memo]** It was used to inspect tables and run SQL against the hosted project while the
-schema was designed (documents, `rule_extraction_drafts`, `rules`) and to check row-level security.
-One column, `original_proposed_rule`, was added later so the model's pre-edit output is kept next
-to the reviewer's correction; this is what lets the evaluation repository compute a correction rate
-from the public draft endpoint alone. **[CONFIRM: any other uses, e.g. advisors, logs, generating
-types — Osama.]** The integration also caused the schema-history drift described under
-technical challenges: migrations applied through MCP were recorded with apply-time versions, so
-local and remote histories diverged. The rule since then is that the migration file is the version
-of record, MCP SQL is read-only, and versions are compared before every push.
-**[CONFIRM migration filename/date: memo says 20260908214813, `docs/rule-extraction-corrections.md`
-says 20260909052852.]**
 
 ---
 
