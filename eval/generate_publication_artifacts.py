@@ -268,13 +268,16 @@ def generate_appendix_markdown(output_file: Path) -> None:
 
 ## 1. Executive Summary
 
-This appendix documents the complete empirical benchmarking suite developed for the BIM-Guard platform. All experiments were conducted against rigorous, reproducible ground-truth datasets with exact confidence intervals (Wilson score intervals for binomial metrics; non-parametric bootstrap resampling for composite statistics).
+This appendix collects the evaluation harnesses developed for the BIM-Guard platform and states, for each, whether its result is a measurement or a simulation. Only one harness (architecture engines, §2.2) is a real deterministic measurement; it carries Wilson score 95% confidence intervals for binomial metrics. The other three are scaffolding that currently runs on simulated inputs; their numbers are reproduced below for transparency, not as findings. See `research/CLAIMS.md` for the claim-by-claim evidence ledger.
 
-The evaluation benchmarks four fundamental dimensions:
-1. **Multi-Annotator Inter-Annotator Agreement (IAA)**: Measured across independent domain experts on $N=30$ building code clauses spanning both the Ontario Building Code (OBC 2024) and Saudi Building Code (SBC-201-2007).
-2. **Computational Engine Validation**: Evaluated against $N=22$ procedural architectural scenarios covering egress travel distances, door swing clear corridors, spatial daylighting, and party-wall fire separation.
-3. **Cross-Jurisdiction Generalization**: Evaluated across North American (OBC) and Middle Eastern (SBC) codes to verify that rule extraction and semantic translation generalize without jurisdictional overfitting.
-4. **LLM-as-Judge Calibration & Variance**: Evaluated through repeated sampling ($N=5$ draws) and threshold sensitivity sweeps across $\\tau \\in \\{2, 3, 4, 5\\}$ with human expert calibration.
+| Dimension | What it evaluates | Status |
+|---|---|---|
+| Computational engine validation (§2.2) | $N=22$ procedural architectural scenarios: egress travel distances, door swing clear corridors, spatial daylighting, party-wall fire separation. Ground truth comes from the generator, not human labelling. | Real, reproducible measurement |
+| Inter-annotator agreement (§2.1) | $N=30$ building code clauses (OBC 2024 and SBC-201-2007). Both "annotators" are hard-coded by `generate_corpus.py`. | Simulated; not human agreement |
+| Cross-jurisdiction generalization (§2.3) | OBC vs. SBC. The harness perturbs gold rules instead of running an extractor, so F1 = 100% holds by construction. | Simulated; not a generalization result |
+| LLM-as-judge calibration (§2.4) | Threshold sweep $\\tau \\in \\{2, 3, 4, 5\\}$ over hard-coded judge ratings. | Simulated; does not show $\\tau = 4$ is optimal |
+
+Replacing the simulated inputs with real annotators, a real extractor and a live judge is tracked in `LIMITATIONS.md`.
 
 ---
 
