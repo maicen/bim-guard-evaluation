@@ -16,8 +16,8 @@ reported recall against a 29-rule gold set for OBC §9.8.2–9.8.4.7. After the 
 `score_rule_extraction.py` gained TP/FP/FN counts and precision, recall and F1, and a confidently
 hallucinated rule was counted as a false positive rather than ignored. (2) The LLM-as-judge harness
 (`eval_harness.py`) was binarised at a judge score of 4 on correctness and completeness, with
-"no rule should fire" cases flipping the pairing to FP/TN. A threshold sweep over 2–5 (N=5 draws)
-showed 4 is the best cutoff, and the judge agreed closely with human ratings (Spearman 0.97).
+"no rule should fire" cases flipping the pairing to FP/TN. The cutoff of 4 is a design choice that
+has not yet been validated on live judge output **[CONFIRM: run eval_harness.py before claiming a sweep]**.
 (3) On 2 Oct the gold set was replaced by a larger human-annotated one: 117 clauses and 89 rules
 of OBC §9.8, annotated in Label Studio from the DocLang conversion of the code. Extraction is now
 run through the real web interface with a Playwright script, so the scored drafts are exactly what
@@ -46,8 +46,7 @@ says 20260909052852.]**
 
 **Provenance.** Figures are from one extraction run on 2 October 2026 through the live BIM-Guard
 interface, scored against the human-annotated gold set for OBC 2023 §9.8 (117 clauses, 89 gold
-rules, single annotator for this set; inter-annotator agreement was measured separately on a
-30-task corpus, κ = 0.96 for target entity). The run produced 104 draft rules, 58 of them
+rules, single annotator, no adjudication). The run produced 104 draft rules, 58 of them
 dimensional (numeric checks, the scope of the gold set). Model: **[CONFIRM — not recorded in the
 run output; the runner now pins openai/gpt-5.6-luna-pro]**. This is one draw: the extraction call
 accepts no temperature or seed, so run-to-run variance is not controlled **[CONFIRM: add the second
@@ -104,10 +103,9 @@ requirements (for example "continuously graspable" or material lists) are outsid
 are not scored.
 
 (2a) **Single-annotator ground truth.** The 89-rule set was annotated by one person with no
-adjudication. Agreement between annotators was measured separately, on a different 30-task
-corpus (Cohen's κ 0.96 for target entity, 0.68 for property name), so the property-naming
-disagreement that dominates our strict-match errors may partly reflect real ambiguity in the
-gold, not only model error.
+adjudication. No inter-annotator agreement has been measured on this set, so the
+property-naming disagreement that dominates our strict-match errors may partly reflect ambiguity
+in the gold, not only model error.
 
 (2b) **One extraction run, uncontrolled variance.** Table 4 is a single draw. The extraction call
 used by the evaluation accepts no temperature or seed, so repeated runs differ; a second run
@@ -132,8 +130,7 @@ those cases; it is not a measure of accuracy on real project models.
 was conservative (no false-positive clauses) but missed about a quarter of rule-bearing clauses
 and a third of rules even under lenient matching, concentrated in table-structured and relative
 clauses. Human review is therefore a requirement of the design, not an optional safeguard. The
-LLM-as-judge scores were calibrated against human ratings on a small benchmark and share the
-single-run limitation above.
+LLM-as-judge cutoff has not been validated on live judge output.
 
 ---
 
@@ -157,7 +154,7 @@ evidence without a second table, and extraction accuracy can be tracked through 
 without access to production code.
 
 *A transferable evaluation pipeline.* Evaluation lives in a separate repository, with a
-hand-annotated gold set, dual-annotator agreement, a calibrated LLM judge and a multi-model
+hand-annotated gold set, an LLM judge harness and a multi-model
 comparison harness. Another jurisdiction's code can be loaded, annotated and scored with the same
 tools, and the annotation workflow converts a DocLang document into pre-annotated tasks.
 
