@@ -49,6 +49,132 @@ def test_extract_numeric_value_range():
     assert val_max == 200.0
 
 
+def test_extract_numeric_value_to_range():
+    assert extract_numeric_value("865 mm to 1 070 mm") == (None, "mm", 865.0, 1070.0)
+    assert extract_numeric_value("30-45 degrees") == (None, "degrees", 30.0, 45.0)
+
+
+def test_extract_numeric_value_slope_ratio():
+    assert extract_numeric_value("not exceed 1 in 50") == (0.02, "ratio", None, None)
+    assert extract_numeric_value("1 in 8") == (0.125, "ratio", None, None)
+
+
+def test_extract_numeric_value_load_units():
+    assert extract_numeric_value("not less than 0.7 kN/m") == (0.7, "kN/m", None, None)
+    assert extract_numeric_value("1.9 kPa") == (1.9, "kPa", None, None)
+    # The first quantity with a unit is the constrained one, not the trailing dimension.
+    val, unit, _, _ = extract_numeric_value("0.5 kN applied over a maximum width of 300 mm")
+    assert (val, unit) == (0.5, "kN")
+
+
+def test_extract_numeric_value_counts_and_rates():
+    assert extract_numeric_value("at least three risers") == (3.0, None, None, None)
+    assert extract_numeric_value("no fewer than two No. 8 wood screws") == (2.0, None, None, None)
+    assert extract_numeric_value("8 mm per person") == (8.0, "mm/person", None, None)
+
+
+def _span(text, sub, label, nth=1):
+    start = -1
+    for _ in range(nth):
+        start = text.index(sub, start + 1)
+    return {"type": "labels", "from_name": "linguistic_labels", "to_name": "text",
+            "value": {"start": start, "end": start + len(sub), "text": sub, "labels": [label]}}
+
+
+def _choice(name, value):
+    return {"type": "choices", "from_name": name, "to_name": "text", "value": {"choices": [value]}}
+
+
+def _task(ref, text, result):
+    return {"data": {"section_ref": ref, "text": text}, "annotations": [{"result": result}]}
+
+
+def test_gold_rules_one_per_dimension_with_bound_conditions():
+    text = ("The clear height over ramps shall be not less than, (a) 1 950 mm for ramps serving a "
+            "house or an individual dwelling unit , and (b) 2 050 mm for ramps not serving a house "
+            "or an individual dwelling unit .")
+    task = _task("9.8.5.3.(1)", text, [
+        _span(text, "shall", "MANDATORY"),
+        _span(text, "1 950 mm", "DIM_MIN"),
+        _span(text, "for ramps serving a house or an individual dwelling unit", "APPLICABILITY"),
+        _span(text, "2 050 mm", "DIM_MIN"),
+        _span(text, "for ramps not serving a house or an individual dwelling unit", "APPLICABILITY"),
+        _choice("ifc_entity", "IfcRampFlight"),
+        _choice("property_name", "RequiredHeadroom"),
+        _choice("unit", "mm"),
+    ])
+    rules = LabelStudioBridge.export_annotations_to_gold_rules([task])
+    assert [(r["value"], r["applies_when"]["building_use"]) for r in rules] == [
+        (1950.0, "dwelling_unit"),
+        (2050.0, "non_dwelling_unit"),
+    ]
+    assert rules[1]["conditions"] == ["for ramps not serving a house or an individual dwelling unit"]
+
+
+def test_gold_rules_preamble_scope_applies_to_every_dimension():
+    text = ("Stair treads within dwelling units shall be not less than 25 mm actual thickness, except "
+            "that if open risers are used, the treads shall be not less than 38 mm actual thickness.")
+    task = _task("9.8.9.5.(1)", text, [
+        _span(text, "within dwelling units", "APPLICABILITY"),
+        _span(text, "not less than 25 mm", "DIM_MIN"),
+        _span(text, "except that if open risers are used", "EXCEPTION"),
+        _span(text, "not less than 38 mm", "DIM_MIN"),
+        _choice("property_name", "TreadThickness"),
+    ])
+    r25, r38 = LabelStudioBridge.parse_task_to_gold_rules(task)
+    assert r25["applies_when"] == r38["applies_when"] == {"building_use": "dwelling_unit"}
+    assert r25["exceptions"] == ["except that if open risers are used"]
+    assert "exceptions" not in r38
+
+
+def test_gold_rules_negated_residential_scope():
+    text = "Public stairs serving buildings of other than residential occupancy shall be not less than 900 mm wide."
+    task = _task("9.8.2.1.(3)", text, [
+        _span(text, "serving buildings of other than residential occupancy", "APPLICABILITY"),
+        _span(text, "not less than 900 mm", "DIM_MIN"),
+    ])
+    (rule,) = LabelStudioBridge.parse_task_to_gold_rules(task)
+    assert rule["applies_when"] == {"building_use": "non_residential"}
+
+
+def test_gold_rules_range_and_relative_bounds():
+    rng_text = "Handrails shall be 865 mm to 1 070 mm high."
+    (rng,) = LabelStudioBridge.parse_task_to_gold_rules(
+        _task("9.8.7.4.(2)", rng_text, [_span(rng_text, "865 mm to 1 070 mm", "DIM_RANGE")]))
+    assert (rng["operator"], rng["value_min"], rng["value_max"]) == ("between", 865.0, 1070.0)
+
+    rel_text = "The depth of a rectangular tread shall be not less than its run and not more than its run plus 25 mm."
+    (rel,) = LabelStudioBridge.parse_task_to_gold_rules(_task("9.8.4.2.(2)", rel_text, [
+        _span(rel_text, "not less than its run", "DIM_MIN"),
+        _span(rel_text, "not more than its run plus 25 mm", "DIM_MAX"),
+        _choice("property_name", "TreadLength"),
+    ]))
+    assert rel["operator"] == "between"
+    assert (rel["value_min_property"], rel["value_min_offset"]) == ("Run", 0)
+    assert (rel["value_max_property"], rel["value_max_offset"]) == ("Run", 25.0)
+    assert "value" not in rel
+
+
+def test_gold_rules_table_row_labels_bind_forward():
+    text = ("Guards within dwelling units 0.5 kN/m or concentrated load of 1.0 kN "
+            "All other guards 0.75 kN/m or concentrated load of 1.0 kN")
+    task = _task("Table under 9.8.8.2", text, [
+        _span(text, "Guards within dwelling units", "APPLICABILITY"),
+        _span(text, "0.5 kN/m", "DIM_MIN"),
+        _span(text, "1.0 kN", "DIM_MIN", 1),
+        _span(text, "All other guards", "APPLICABILITY"),
+        _span(text, "0.75 kN/m", "DIM_MIN"),
+        _span(text, "1.0 kN", "DIM_MIN", 2),
+    ])
+    rules = LabelStudioBridge.parse_task_to_gold_rules(task)
+    assert [(r["value"], r["unit"], r["conditions"][0]) for r in rules] == [
+        (0.5, "kN/m", "Guards within dwelling units"),
+        (1.0, "kN", "Guards within dwelling units"),
+        (0.75, "kN/m", "All other guards"),
+        (1.0, "kN", "All other guards"),
+    ]
+
+
 def test_normalize_cross_ref():
     ref_type, norm = normalize_cross_ref("Article 9.8.4.5A.")
     assert ref_type == "article"

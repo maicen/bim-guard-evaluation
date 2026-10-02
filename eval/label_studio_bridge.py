@@ -11,6 +11,7 @@ evaluation formats:
 from __future__ import annotations
 
 import argparse
+import bisect
 import json
 import re
 from pathlib import Path
@@ -32,57 +33,88 @@ from nlp_annotation.doclang_annotator import (
     _strip_ns,
 )
 
+# A number with optional SI-style space thousands separators ("2 050", "1 070.5").
+_NUM = r"\d{1,3}(?: \d{3})+(?:\.\d+)?|\d+(?:\.\d+)?"
+# Longest alternatives first so "kN/m" wins over "kN" and "mm" over "m".
+_UNIT = r"(kN/m|kN|kPa|mm|m|°|degrees?|deg|persons?|%)(?![A-Za-z/])"
+_UNIT_CANON = {
+    "kn/m": "kN/m", "kn": "kN", "kpa": "kPa", "mm": "mm", "m": "m",
+    "°": "degrees", "degree": "degrees", "degrees": "degrees", "deg": "degrees",
+    "person": "persons", "persons": "persons", "%": "%",
+}
+_NUMBER_WORDS = {
+    "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+    "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+}
+
+
+# List-item markers inside a clause: "(a) ", "(b) ", "(iii) ".
+_LIST_MARKER = re.compile(r"\((?:[a-z]|[ivx]+)\)\s")
+_NEGATION = re.compile(r"\b(?:other than|not|except|excluding)\b")
+# Bound relative to another property of the same element: "not more than its run plus 25 mm".
+_RELATIVE = re.compile(rf"\bits\s+([a-z]+)(?:\s+plus)?(?:\s+({_NUM})\s*(?:{_UNIT})?)?", re.IGNORECASE)
+
+_COUNT_WORD = re.compile(rf"\b(?:{'|'.join(_NUMBER_WORDS)})\b", re.IGNORECASE)
+
+
+def _to_float(raw: str) -> float:
+    return float(raw.replace(" ", ""))
+
+
+def _canon_unit(raw: str | None) -> str | None:
+    return _UNIT_CANON.get(raw.lower()) if raw else None
+
 
 def extract_numeric_value(text: str) -> tuple[float | None, str | None, float | None, float | None]:
     """
     Extracts numeric value(s) and unit from span text (e.g., 'not less than 2 050 mm').
-    Handles spaces within numbers (e.g. '2 050').
+
+    Returns (value, unit, value_min, value_max). Handles:
+    - space thousands separators ('2 050 mm')
+    - ranges: 'between 125 and 200 mm', '865 mm to 1 070 mm', '30-45 degrees'
+    - slopes: '1 in 50' -> 0.02 with unit 'ratio'
+    - load units: kN, kN/m, kPa
+    - counts written as words: 'at least three risers' -> 3 (unit None)
+    When a span holds several quantities ('0.5 kN applied over ... 300 mm'), the first
+    quantity carrying a unit is the constrained value.
     """
-    # Clean up commas or non-breaking spaces
-    cleaned = text.replace("\u00a0", " ")
-    
-    # Check for range: 'between X and Y'
-    range_match = re.search(r"between\s+([\d\s]+(?:[\.,]\d+)?)\s*(?:and|-|to)\s*([\d\s]+(?:[\.,]\d+)?)\s*([a-zA-Z]+)?", cleaned, re.IGNORECASE)
+    cleaned = text.replace(" ", " ")
+
+    ratio = re.search(rf"\b({_NUM})\s+in\s+({_NUM})\b", cleaned)
+    if ratio:
+        denom = _to_float(ratio.group(2))
+        if denom:
+            return round(_to_float(ratio.group(1)) / denom, 6), "ratio", None, None
+
+    range_match = re.search(
+        rf"(?:\bbetween\s+({_NUM})\s*(?:{_UNIT})?\s*and"
+        rf"|({_NUM})\s*(?:{_UNIT})?\s*(?:to|-|–))\s*({_NUM})\s*(?:{_UNIT})?",
+        cleaned,
+        re.IGNORECASE,
+    )
     if range_match:
-        val1_str = range_match.group(1).replace(" ", "").replace(",", ".")
-        val2_str = range_match.group(2).replace(" ", "").replace(",", ".")
-        unit_str = range_match.group(3) or "mm"
-        try:
-            val1 = float(val1_str)
-            val2 = float(val2_str)
-            return None, unit_str.strip().lower(), min(val1, val2), max(val1, val2)
-        except ValueError:
-            pass
+        g = range_match.groups()
+        lo_raw, lo_unit = (g[0], g[1]) if g[0] else (g[2], g[3])
+        v1, v2 = _to_float(lo_raw), _to_float(g[4])
+        unit = _canon_unit(g[5]) or _canon_unit(lo_unit) or "mm"
+        return None, unit, min(v1, v2), max(v1, v2)
 
-    # Single number: find digits with optional thousand separators
-    matches = list(re.finditer(r"(\d+(?:[\s\.]\d+)?)\s*([a-zA-Z°]+)?", cleaned))
-    if not matches:
-        return None, None, None, None
+    with_unit = re.search(rf"({_NUM})\s*{_UNIT}(\s+per\s+person)?", cleaned, re.IGNORECASE)
+    if with_unit:
+        unit = _canon_unit(with_unit.group(2))
+        if with_unit.group(3):
+            unit = f"{unit}/person"  # occupant-load rate, e.g. '8 mm per person'
+        return _to_float(with_unit.group(1)), unit, None, None
 
-    # Pick the last or most prominent number
-    last_m = matches[-1]
-    raw_num = last_m.group(1).replace(" ", "").replace(",", ".")
-    raw_unit = last_m.group(2)
+    word = _COUNT_WORD.search(cleaned)
+    if word:
+        return float(_NUMBER_WORDS[word.group(0).lower()]), None, None, None
 
-    try:
-        val = float(raw_num)
-    except ValueError:
-        val = None
+    bare = list(re.finditer(_NUM, cleaned))
+    if bare:
+        return _to_float(bare[-1].group(0)), None, None, None
 
-    unit = raw_unit.strip().lower() if raw_unit else None
-    if unit in ("mm", "m", "degrees", "deg", "%", "persons", "person"):
-        if unit in ("deg", "degrees"):
-            unit = "degrees"
-        elif unit in ("person", "persons"):
-            unit = "persons"
-    else:
-        # Check if unit appears anywhere else in text
-        for u in ("mm", "m", "degrees", "persons"):
-            if re.search(rf"\b{u}\b", cleaned, re.IGNORECASE):
-                unit = u
-                break
-
-    return val, unit, None, None
+    return None, None, None, None
 
 
 def normalize_cross_ref(raw_ref: str) -> tuple[str, str]:
@@ -250,90 +282,201 @@ class LabelStudioBridge:
         )
 
     @staticmethod
-    def parse_task_to_gold_rule(task: dict[str, Any]) -> dict[str, Any] | None:
+    def _building_use(span_text: str) -> str | None:
+        """Map a scope span to a building_use tag, honouring negation.
+
+        'serving a house or an individual dwelling unit' -> 'dwelling_unit'
+        'for ramps not serving a house ...'              -> 'non_dwelling_unit'
+        'buildings of other than residential occupancy'  -> 'non_residential'
         """
-        Extracts a discrete GOLD_RULE dictionary from a Label Studio annotated task.
-        Returns None if the clause does not contain a checkable constraint.
+        low = span_text.lower()
+        for keyword, use in (("residential", "residential"), ("dwelling unit", "dwelling_unit"),
+                             ("house", "dwelling_unit")):
+            pos = low.find(keyword)
+            if pos >= 0:
+                return f"non_{use}" if _NEGATION.search(low[:pos]) else use
+        return None
+
+    @staticmethod
+    def _bind_conditions(
+        text: str,
+        dim_starts: list[int],
+        cond_starts: list[int],
+        rows_lead: bool,
+    ) -> tuple[list[int], dict[int, list[int]]]:
+        """Decide which dimension each condition span qualifies.
+
+        Returns (global condition indices, {dim index: [condition indices]}).
+
+        Prose clauses: the text is split into list items at '(a) ', '(b) ', '(i) '...
+        A condition in the preamble before the first dimension applies to every
+        dimension; a condition in an item with no dimensions also applies to every
+        dimension (it is one of the clause's alternative triggers). Otherwise a
+        condition binds to the closest preceding dimension in its item ('1 950 mm for
+        ramps serving a house'), or the next one if none precedes it.
+
+        Tables (rows_lead=True): a row/column label precedes its values, so a condition
+        binds to every dimension between it and the next condition.
+        """
+        bound: dict[int, list[int]] = {i: [] for i in range(len(dim_starts))}
+        global_conds: list[int] = []
+        if not dim_starts:
+            return list(range(len(cond_starts))), bound
+
+        if rows_lead:
+            ordered = sorted(range(len(cond_starts)), key=lambda c: cond_starts[c])
+            for n, c in enumerate(ordered):
+                stop = cond_starts[ordered[n + 1]] if n + 1 < len(ordered) else len(text) + 1
+                hits = [d for d, s in enumerate(dim_starts) if cond_starts[c] < s < stop]
+                if not hits:
+                    global_conds.append(c)
+                for d in hits:
+                    bound[d].append(c)
+            return global_conds, bound
+
+        markers = [m.start() for m in _LIST_MARKER.finditer(text)]
+        seg = lambda pos: bisect.bisect_right(markers, pos)  # noqa: E731
+        first_dim = min(dim_starts)
+        for c, c_start in enumerate(cond_starts):
+            same = [d for d, s in enumerate(dim_starts) if seg(s) == seg(c_start)]
+            if not same or (seg(c_start) == 0 and c_start < first_dim):
+                global_conds.append(c)
+                continue
+            before = [d for d in same if dim_starts[d] < c_start]
+            target = (max(before, key=lambda d: dim_starts[d]) if before
+                      else min(same, key=lambda d: dim_starts[d]))
+            bound[target].append(c)
+        return global_conds, bound
+
+    @classmethod
+    def parse_task_to_gold_rules(cls, task: dict[str, Any]) -> list[dict[str, Any]]:
+        """
+        Extracts GOLD_RULE dictionaries from a Label Studio annotated task: one rule
+        per DIM_* span, each carrying the conditions that qualify that value.
+        Returns [] if the clause does not contain a checkable constraint.
         """
         data = task.get("data", {})
         section_ref = data.get("section_ref", "unknown")
         text = data.get("text", "")
         annotations = task.get("annotations", [])
-
-        results = []
-        if annotations:
-            latest = annotations[-1]
-            results = latest.get("result", [])
+        results = annotations[-1].get("result", []) if annotations else []
 
         ifc_target = "IfcStairFlight"
         property_name = None
-        unit = "mm"
-        dim_constraint = None
-        dim_span = ""
-        applies_when = {}
+        unit_choice: str | None = None
+        dims: list[tuple[int, str, str]] = []    # (start, label, span text)
+        conds: list[tuple[int, str, str]] = []   # (start, label, span text)
 
         for item in results:
-            from_name = item.get("from_name")
             value = item.get("value", {})
-            item_type = item.get("type")
-
-            if item_type == "choices":
+            if item.get("type") == "choices":
                 choices = value.get("choices", [])
-                if choices:
-                    if from_name == "ifc_entity":
-                        ifc_target = choices[0]
-                    elif from_name == "property_name":
-                        property_name = choices[0]
-                    elif from_name == "unit":
-                        unit = choices[0] if choices[0] != "none" else None
-
-            elif item_type == "labels":
-                labels = value.get("labels", [])
+                if not choices:
+                    continue
+                from_name = item.get("from_name")
+                if from_name == "ifc_entity":
+                    ifc_target = choices[0]
+                elif from_name == "property_name":
+                    property_name = choices[0]
+                elif from_name == "unit":
+                    unit_choice = choices[0] if choices[0] != "none" else None
+            elif item.get("type") == "labels":
                 span_text = value.get("text", "")
-                for lbl in labels:
+                start = value.get("start", text.find(span_text))
+                for lbl in value.get("labels", []):
                     if lbl.startswith("DIM_"):
-                        dim_constraint = lbl
-                        dim_span = span_text
-                    elif lbl == "APPLICABILITY":
-                        if "residential" in span_text.lower():
-                            applies_when["building_use"] = "residential"
-                        elif "house" in span_text.lower() or "dwelling unit" in span_text.lower():
-                            applies_when["building_use"] = "dwelling_unit"
+                        dims.append((start, lbl, span_text))
+                    elif lbl in ("APPLICABILITY", "QUALIFICATION", "EXCEPTION"):
+                        conds.append((start, lbl, span_text))
 
-        if not dim_constraint or not dim_span:
-            return None
+        dims.sort()
+        conds.sort()
+        global_conds, bound = cls._bind_conditions(
+            text,
+            [d[0] for d in dims],
+            [c[0] for c in conds],
+            rows_lead=section_ref.lower().startswith("table"),
+        )
 
-        val, extracted_unit, val_min, val_max = extract_numeric_value(dim_span)
-        if extracted_unit and unit == "mm":
-            unit = extracted_unit
+        op_map = {"DIM_MIN": ">=", "DIM_MAX": "<=", "DIM_EXACT": "==", "DIM_RANGE": "between"}
+        desc = text[:120].strip() + ("..." if len(text) > 120 else "")
+        rules: list[dict[str, Any]] = []
 
-        op_map = {
-            "DIM_MIN": ">=",
-            "DIM_MAX": "<=",
-            "DIM_EXACT": "==",
-            "DIM_RANGE": "between",
-        }
-        operator = op_map.get(dim_constraint, ">=")
+        for d, (_, label, span_text) in enumerate(dims):
+            operator = op_map[label]
+            rule: dict[str, Any] = {
+                "ref": section_ref,
+                "target": ifc_target,
+                "property_name": property_name or "Width",
+                "operator": operator,
+            }
 
-        rule: dict[str, Any] = {
-            "ref": section_ref,
-            "target": ifc_target,
-            "property_name": property_name or "Width",
-            "operator": operator,
-            "unit": unit,
-            "desc": text[:120].strip() + ("..." if len(text) > 120 else ""),
-        }
+            relative = _RELATIVE.search(span_text)
+            if relative:
+                side = "min" if operator == ">=" else "max"
+                offset = _to_float(relative.group(2)) if relative.group(2) else 0
+                rule[f"value_{side}_property"] = relative.group(1).capitalize()
+                rule[f"value_{side}_offset"] = offset
+                rule["unit"] = _canon_unit(relative.group(3)) or unit_choice
+            else:
+                val, unit, val_min, val_max = extract_numeric_value(span_text)
+                if operator == "between":
+                    if val_min is None:
+                        continue
+                    rule["value_min"], rule["value_max"] = val_min, val_max
+                else:
+                    if val is None:
+                        continue  # e.g. 'at least as wide as the stair' — not machine-checkable
+                    rule["value"] = val
+                # A count written in words ('at least three risers', 'two No. 8 screws')
+                # has no unit, so the task-level unit choice doesn't apply to it.
+                rule["unit"] = unit or (None if _COUNT_WORD.search(span_text) else unit_choice)
+            rule["desc"] = desc
 
-        if operator == "between":
-            rule["value_min"] = val_min
-            rule["value_max"] = val_max
-        else:
-            rule["value"] = val
+            applies = [conds[c] for c in global_conds + bound[d]]
+            applies_when = {}
+            for _, lbl, c_text in applies:
+                use = cls._building_use(c_text) if lbl == "APPLICABILITY" else None
+                if use and "building_use" not in applies_when:
+                    applies_when["building_use"] = use
+            if applies_when:
+                rule["applies_when"] = applies_when
+            conditions = [c_text for _, lbl, c_text in applies if lbl != "EXCEPTION"]
+            exceptions = [c_text for _, lbl, c_text in applies if lbl == "EXCEPTION"]
+            if conditions:
+                rule["conditions"] = conditions
+            if exceptions:
+                rule["exceptions"] = exceptions
+            rules.append(rule)
 
-        if applies_when:
-            rule["applies_when"] = applies_when
+        return cls._merge_relative_bounds(rules)
 
-        return rule
+    @staticmethod
+    def _merge_relative_bounds(rules: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Fold a relative >= / <= pair on the same property ('not less than its run and
+        not more than its run plus 25 mm') into one 'between' rule, matching the
+        GOLD_RULES convention for 9.8.4.2.(2) / 9.8.4.3.(3)."""
+        mins = [r for r in rules if "value_min_property" in r]
+        maxs = [r for r in rules if "value_max_property" in r]
+        if len(mins) != 1 or len(maxs) != 1:
+            return rules
+        lo, hi = mins[0], maxs[0]
+        if (lo["target"], lo["property_name"]) != (hi["target"], hi["property_name"]):
+            return rules
+        merged = {**lo, **hi, "operator": "between"}
+        merged["value_min_property"] = lo["value_min_property"]
+        merged["value_min_offset"] = lo["value_min_offset"]
+        merged["unit"] = hi.get("unit") or lo.get("unit")
+        return [merged if r is lo else r for r in rules if r is not hi]
+
+    @classmethod
+    def parse_task_to_gold_rule(cls, task: dict[str, Any]) -> dict[str, Any] | None:
+        """
+        Backward-compatible single-rule accessor: the first rule from
+        parse_task_to_gold_rules, or None if the clause has no checkable constraint.
+        """
+        rules = cls.parse_task_to_gold_rules(task)
+        return rules[0] if rules else None
 
     @classmethod
     def export_annotations_to_nlp(cls, tasks: list[dict[str, Any]]) -> list[ParagraphAnnotation]:
@@ -345,9 +488,7 @@ class LabelStudioBridge:
         """Convert a list of Label Studio tasks to GOLD_RULES list."""
         rules = []
         for t in tasks:
-            rule = cls.parse_task_to_gold_rule(t)
-            if rule:
-                rules.append(rule)
+            rules.extend(cls.parse_task_to_gold_rules(t))
         return rules
 
     @staticmethod
