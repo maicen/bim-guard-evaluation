@@ -62,6 +62,7 @@
       <Choice value="StringerThickness" />
       <Choice value="CurbHeight" />
       <Choice value="HandrailLoad" />
+      <Choice value="HandrailCount" />
       <Choice value="Other" />
     </Choices>
   </View>
@@ -111,6 +112,7 @@
         <Choice value="StringerThickness" />
         <Choice value="CurbHeight" />
         <Choice value="HandrailLoad" />
+        <Choice value="HandrailCount" />
         <Choice value="Other" />
       </Choices>
     </View>
