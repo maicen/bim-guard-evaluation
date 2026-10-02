@@ -45,7 +45,7 @@ import os
 import re
 import shutil
 import sys
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -78,7 +78,9 @@ def _words(s: str) -> set[str]:
     return set(re.findall(r"[a-z0-9]+", s.lower()))
 
 
-_SENTENCE_ID = re.compile(r"^(\d+(?:\.\d+)+[A-Z]?)\.?-(\d+)[a-z]?$")
+# "9.8.2.1-2", "9.8.6.2-1a", "9.8.9.5(1b)", "9.8.9.4(1d)-other": article + sentence
+# number, optionally a clause letter and a named suffix (both styles occur run to run).
+_SENTENCE_ID = re.compile(r"^(\d+(?:\.\d+)+[A-Z]?)\.?(?:-(\d+)[a-z]?|\((\d+)[a-z]?\))(?:-[\w-]+)?$")
 _STOP = {"the", "a", "an", "of", "and", "or", "to", "in", "for", "be", "shall", "not", "than", "with", "at", "on"}
 
 
@@ -133,7 +135,7 @@ def resolve_clause(draft: dict[str, Any], index: list[tuple[str, str]]) -> str |
         # The extractor numbers list items with the same suffix (9.8.5.4-3 is item (c)
         # of Sentence 9.8.5.4.(1)), so keep the suffix-derived sentence only when it
         # exists and its text fits the rule about as well as any clause in the article.
-        guess = f"{m.group(1)}.({m.group(2)})"
+        guess = f"{m.group(1)}.({m.group(2) or m.group(3)})"
         words = _words(str(rule.get("description") or "")) - _STOP
         values = _value_strings(rule)
         in_article = [(ref, text) for ref, text in index if normalize_ref(ref).startswith(m.group(1))]
@@ -172,6 +174,18 @@ def drafts_to_rules(drafts: list[dict[str, Any]], index: list[tuple[str, str]]) 
         r["_snippet"] = d.get("source_snippet")
         rules.append(r)
     return rules
+
+
+def _created_after(draft: dict[str, Any], started: datetime) -> bool:
+    """True when the draft was created by the run that started at *started* (UTC)."""
+    raw = str(draft.get("created_at") or "")
+    try:
+        created = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        return True  # no timestamp: fall back to newest_run's ruleset filter
+    if created.tzinfo is None:
+        created = created.replace(tzinfo=UTC)
+    return created >= started - timedelta(seconds=30)
 
 
 def newest_run(drafts: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -269,17 +283,25 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
             page.goto(f"{args.base_url}/#/extract?doc_id={doc_id}")
             expect(page.locator("#rule-doc-source")).to_have_value(doc_id, timeout=60_000)
 
-            if args.model:
-                model_select = page.locator("#rule-ai-model")
-                label = next((o for o in model_select.locator("option").all_inner_texts() if args.model.lower() in o.lower()), None)
-                if not label:
-                    sys.exit(f"No extraction model matching {args.model!r}")
-                model_select.select_option(label=label)
+            # Always pin the model: the page's default is simply the first catalogue entry
+            # (alphabetical), which can be an expensive model.
+            model_select = page.locator("#rule-ai-model")
+            expect(model_select.locator("option").first).to_be_attached(timeout=60_000)
+            options = model_select.locator("option").evaluate_all("os => os.map(o => [o.value, o.textContent.trim()])")
+            wanted = args.model.lower()
+            choice = next((v for v, _ in options if v.lower().endswith(wanted)), None) or next(
+                (v for v, label in options if wanted in label.lower()), None)
+            if not choice:
+                sys.exit(f"No extraction model matching {args.model!r}")
+            model_select.select_option(value=choice)
             print(f"Model: {page.locator('#rule-ai-model option:checked').inner_text()}")
 
-            extract_btn = page.get_by_role("button", name="Extract Compliance Rules")
+            # The button's label sits in a role=status span, which gives the button no
+            # accessible name, so select it by text rather than by role name.
+            extract_btn = page.locator("button", has_text="Extract Compliance Rules")
             expect(extract_btn).to_be_enabled(timeout=60_000)
             print("Extracting (this can take several minutes) ...")
+            started = datetime.now(UTC)
             with page.expect_response(lambda r: "/rules/extract-drafts" in r.url and r.request.method == "POST",
                                       timeout=EXTRACT_TIMEOUT_MS) as resp_info:
                 extract_btn.click()
@@ -287,7 +309,7 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
             if not resp.ok:
                 sys.exit(f"extract-drafts failed: HTTP {resp.status} {resp.text()[:300]}")
             expect(page.get_by_text(re.compile(r"Extracting Rules via AI"))).to_have_count(0, timeout=EXTRACT_TIMEOUT_MS)
-            expect(page.get_by_text(re.compile(r"Draft Review \(\d+ drafts?\)"))).to_be_visible(timeout=120_000)
+            page.wait_for_timeout(2000)
             page.screenshot(path=str(out_dir / "draft_review.png"), full_page=True)
 
             drafts_resp = page.request.get(f"{args.base_url}/api/documents/{doc_id}/rules/drafts", headers=api_headers)
@@ -295,6 +317,11 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
                 sys.exit(f"Could not read drafts: HTTP {drafts_resp.status}")
             payload = drafts_resp.json()
             drafts = payload.get("drafts", payload) if isinstance(payload, dict) else payload
+            drafts = [d for d in drafts if _created_after(d, started)]
+            if not drafts:
+                banner = page.locator("div.border-rose-800 span")
+                reason = banner.first.inner_text() if banner.count() else "no drafts were created"
+                sys.exit(f"Extraction produced no drafts: {reason}")
         finally:
             context.tracing.stop(path=str(out_dir / "trace.zip"))
             browser.close()
@@ -311,7 +338,9 @@ def main() -> None:
     ap.add_argument("--human", type=Path, help="Label Studio JSON export (gold)")
     ap.add_argument("--clauses", type=Path, help="clause text file uploaded for extraction")
     ap.add_argument("--doc-title", default=DEFAULT_TITLE)
-    ap.add_argument("--model", help="substring of the extraction model option to select (default: site default)")
+    ap.add_argument("--model", default="openai/gpt-5.6-luna-pro",
+                    help="extraction model: id suffix (e.g. openai/gpt-5.6-luna-pro) or label substring. "
+                         "Always set explicitly -- the page default is the first, possibly expensive, catalogue entry")
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--out-dir", type=Path)
     ap.add_argument("--rescore", type=Path, help="score an existing drafts.json instead of running the UI")
