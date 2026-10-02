@@ -138,7 +138,8 @@ have no extractable spans, e.g. "Reserved" placeholder clauses).
 
 ## Limitations
 
-- **Heading format must be `N.N.N. Name`** (number first, trailing period) for
+- **Heading format must be `N.N.N. Name`** (number first, trailing period;
+  a lettered article such as `9.8.4.5A.` is fine) for
   `extract_section.py` to track which article a `<list>` belongs to. OBC
   follows this; not every source does (e.g. `SECTION 2.4` / `BUSINESS GROUP B`
   as separate headings, no trailing period) — those won't extract cleanly with
