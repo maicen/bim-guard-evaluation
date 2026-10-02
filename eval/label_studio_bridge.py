@@ -57,6 +57,36 @@ _RELATIVE = re.compile(rf"\bits\s+([a-z]+)(?:\s+plus)?(?:\s+({_NUM})\s*(?:{_UNIT
 _COUNT_WORD = re.compile(rf"\b(?:{'|'.join(_NUMBER_WORDS)})\b", re.IGNORECASE)
 
 
+# Per-region Choices (config.xml section 1b) naming the property one DIM_* span constrains.
+DIM_PROPERTY_FIELD = "dim_property"
+
+
+def _dim_properties(results: list[dict[str, Any]]) -> dict[Any, str]:
+    """Collect per-region dim_property choices, keyed by region id and by (start, end).
+
+    Label Studio stores a perRegion choice as a separate result item sharing the region's
+    `id`; the offsets are a fallback for results assembled without ids.
+    """
+    props: dict[Any, str] = {}
+    for item in results:
+        if item.get("from_name") != DIM_PROPERTY_FIELD:
+            continue
+        value = item.get("value", {})
+        choices = value.get("choices", [])
+        if not choices:
+            continue
+        if item.get("id"):
+            props[item["id"]] = choices[0]
+        if "start" in value and "end" in value:
+            props[(value["start"], value["end"])] = choices[0]
+    return props
+
+
+def _region_property(item: dict[str, Any], dim_props: dict[Any, str]) -> str | None:
+    value = item.get("value", {})
+    return dim_props.get(item.get("id")) or dim_props.get((value.get("start"), value.get("end")))
+
+
 def _to_float(raw: str) -> float:
     return float(raw.replace(" ", ""))
 
@@ -160,6 +190,7 @@ class LabelStudioBridge:
             results = latest.get("result", [])
         elif task.get("predictions"):
             results = task["predictions"][-1].get("result", [])
+        dim_props = _dim_properties(results)
 
         deontics: list[DeonticAnnotation] = []
         conditions: list[ConditionAnnotation] = []
@@ -227,16 +258,18 @@ class LabelStudioBridge:
                         }
                         constraint = constraint_map.get(lbl_upper, "exact")
                         val, unit, val_min, val_max = extract_numeric_value(span_text)
-                        dimensions.append(
-                            DimensionAnnotation(
-                                value=val if val is not None else 0.0,
-                                unit=unit or "mm",
-                                constraint=constraint,
-                                value_min=val_min,
-                                value_max=val_max,
-                                span=span_text,
-                            )
+                        dim = DimensionAnnotation(
+                            value=val if val is not None else 0.0,
+                            unit=unit or "mm",
+                            constraint=constraint,
+                            value_min=val_min,
+                            value_max=val_max,
+                            span=span_text,
                         )
+                        dim_property = _region_property(item, dim_props)
+                        if dim_property:
+                            dim["property_name"] = dim_property
+                        dimensions.append(dim)
                     elif lbl_upper in ("CROSS_REF", "REFERENCE"):
                         ref_type, norm = normalize_cross_ref(span_text)
                         cross_refs.append(
@@ -364,8 +397,9 @@ class LabelStudioBridge:
         ifc_target = "IfcStairFlight"
         property_name = None
         unit_choice: str | None = None
-        dims: list[tuple[int, str, str]] = []    # (start, label, span text)
-        conds: list[tuple[int, str, str]] = []   # (start, label, span text)
+        dims: list[tuple[int, str, str, str | None]] = []  # (start, label, span, property)
+        conds: list[tuple[int, str, str]] = []             # (start, label, span text)
+        dim_props = _dim_properties(results)
 
         for item in results:
             value = item.get("value", {})
@@ -374,6 +408,8 @@ class LabelStudioBridge:
                 if not choices:
                     continue
                 from_name = item.get("from_name")
+                if from_name == DIM_PROPERTY_FIELD:
+                    continue
                 if from_name == "ifc_entity":
                     ifc_target = choices[0]
                 elif from_name == "property_name":
@@ -385,7 +421,7 @@ class LabelStudioBridge:
                 start = value.get("start", text.find(span_text))
                 for lbl in value.get("labels", []):
                     if lbl.startswith("DIM_"):
-                        dims.append((start, lbl, span_text))
+                        dims.append((start, lbl, span_text, _region_property(item, dim_props)))
                     elif lbl in ("APPLICABILITY", "QUALIFICATION", "EXCEPTION"):
                         conds.append((start, lbl, span_text))
 
@@ -402,12 +438,12 @@ class LabelStudioBridge:
         desc = text[:120].strip() + ("..." if len(text) > 120 else "")
         rules: list[dict[str, Any]] = []
 
-        for d, (_, label, span_text) in enumerate(dims):
+        for d, (_, label, span_text, dim_property) in enumerate(dims):
             operator = op_map[label]
             rule: dict[str, Any] = {
                 "ref": section_ref,
                 "target": ifc_target,
-                "property_name": property_name or "Width",
+                "property_name": dim_property or property_name or "Width",
                 "operator": operator,
             }
 
@@ -547,17 +583,20 @@ class LabelStudioBridge:
             dim_str = f"{val} {unit}".strip() if val is not None else ""
             if dim_str and dim_str in text:
                 start = text.find(dim_str)
+                span_value = {"start": start, "end": start + len(dim_str), "text": dim_str}
                 result.append({
                     "id": f"span_dim_{idx}",
                     "from_name": "linguistic_labels",
                     "to_name": "text",
                     "type": "labels",
-                    "value": {
-                        "start": start,
-                        "end": start + len(dim_str),
-                        "text": dim_str,
-                        "labels": [dim_label],
-                    },
+                    "value": {**span_value, "labels": [dim_label]},
+                })
+                result.append({
+                    "id": f"span_dim_{idx}",
+                    "from_name": DIM_PROPERTY_FIELD,
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {**span_value, "choices": [prop]},
                 })
 
             task = {

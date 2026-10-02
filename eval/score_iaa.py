@@ -172,7 +172,9 @@ class IAACalculator:
                         for lbl in labels:
                             spans.append((start, end, lbl))
 
-                    elif r_type == "choices":
+                    elif r_type == "choices" and "start" not in val:
+                        # Per-region choices (e.g. dim_property) carry span offsets and
+                        # describe one span, not the task; keep them out of task choices.
                         ch = val.get("choices", [])
                         if ch:
                             choices[from_name] = ch[0]

@@ -5,7 +5,7 @@ TypedDict definitions for the per-paragraph NLP annotation produced by Module 1-
 These feed into the filtered_text preamble that Module 3 / OpenAI receives.
 """
 
-from typing import TypedDict
+from typing import NotRequired, TypedDict
 
 
 class DeonticAnnotation(TypedDict):
@@ -35,6 +35,7 @@ class DimensionAnnotation(TypedDict):
     value_min: float | None
     value_max: float | None
     span: str           # full phrase, e.g. "not less than 900 mm"
+    property_name: NotRequired[str]  # property this value constrains, when annotated per value
 
 
 class DependencyAnnotation(TypedDict):

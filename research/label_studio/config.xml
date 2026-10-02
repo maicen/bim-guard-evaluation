@@ -32,6 +32,40 @@
     </Labels>
   </View>
 
+  <!-- 1b. Per-dimension property: select a DIM_* span, then pick the property that value
+       constrains. Overrides section 3's task-level Target Property for that value only, so a
+       clause like 9.8.4.5A.(1) can carry handrail height, clear width, riser height, tread
+       depth and headroom in one task. Leave unset when the task-level property is right. -->
+  <View visibleWhen="region-selected" whenTagName="linguistic_labels"
+        whenLabelValue="DIM_MIN,DIM_MAX,DIM_EXACT,DIM_RANGE"
+        style="margin-top: 10px; padding: 8px; border: 1px dashed #94a3b8; border-radius: 6px;">
+    <Header value="1b. Property of Selected Dimension" size="5" />
+    <Choices name="dim_property" toName="text" perRegion="true" choice="single" showInline="true">
+      <Choice value="Width" />
+      <Choice value="RiserHeight" />
+      <Choice value="TreadLength" />
+      <Choice value="RequiredHeadroom" />
+      <Choice value="FlightHeight" />
+      <Choice value="NumberOfRiser" />
+      <Choice value="HandrailHeight" />
+      <Choice value="ClearWidth" />
+      <Choice value="FireRating" />
+      <Choice value="GuardHeight" />
+      <Choice value="GuardLoad" />
+      <Choice value="GuardOpeningSize" />
+      <Choice value="RampSlope" />
+      <Choice value="LandingDimension" />
+      <Choice value="HandrailClearance" />
+      <Choice value="StringerSpacing" />
+      <Choice value="TreadThickness" />
+      <Choice value="StringerDepth" />
+      <Choice value="StringerThickness" />
+      <Choice value="CurbHeight" />
+      <Choice value="HandrailLoad" />
+      <Choice value="Other" />
+    </Choices>
+  </View>
+
   <!-- 2. IFC Target Entity -->
   <View style="margin-top: 15px;">
     <Header value="2. IFC Target Entity Class" size="5" />
@@ -44,6 +78,7 @@
       <Choice value="IfcWall" />
       <Choice value="IfcCovering" />
       <Choice value="IfcSpace" />
+      <Choice value="IfcSlab" />
       <Choice value="Other" />
     </Choices>
   </View>
@@ -62,6 +97,20 @@
         <Choice value="HandrailHeight" />
         <Choice value="ClearWidth" />
         <Choice value="FireRating" />
+        <!-- Added for Section 9.8 Guards/Ramps/Landings coverage -->
+        <Choice value="GuardHeight" />
+        <Choice value="GuardLoad" />
+        <Choice value="GuardOpeningSize" />
+        <Choice value="RampSlope" />
+        <Choice value="LandingDimension" />
+        <Choice value="HandrailClearance" />
+        <Choice value="StringerSpacing" />
+        <Choice value="TreadThickness" />
+        <!-- Added: per-value properties in multi-value clauses (9.8.7.7, 9.8.8.4, 9.8.9.4) -->
+        <Choice value="StringerDepth" />
+        <Choice value="StringerThickness" />
+        <Choice value="CurbHeight" />
+        <Choice value="HandrailLoad" />
         <Choice value="Other" />
       </Choices>
     </View>
@@ -73,6 +122,11 @@
         <Choice value="m" />
         <Choice value="degrees" />
         <Choice value="persons" />
+        <!-- Added: load/slope units seen in Guards and Ramps clauses -->
+        <Choice value="kN" />
+        <Choice value="kN/m" />
+        <Choice value="kPa" />
+        <Choice value="ratio" />
         <Choice value="none" />
       </Choices>
     </View>

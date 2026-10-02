@@ -175,6 +175,60 @@ def test_gold_rules_table_row_labels_bind_forward():
     ]
 
 
+def _dim_prop(span_item, prop, with_id=True):
+    item = {"type": "choices", "from_name": "dim_property", "to_name": "text",
+            "value": {**{k: span_item["value"][k] for k in ("start", "end", "text")}, "choices": [prop]}}
+    if with_id:
+        item["id"] = span_item["id"]
+    return item
+
+
+def test_gold_rules_per_dimension_property_overrides_task_property():
+    text = ("Spiral stairs shall have, (a) handrails on both sides, the outer handrail being not less "
+            "than 1 070 mm high, (b) a clear width not less than 660 mm between handrails, (c) risers "
+            "that are not more than 240 mm high.")
+    handrail = {**_span(text, "not less than 1 070 mm", "DIM_MIN"), "id": "r1"}
+    width = {**_span(text, "not less than 660 mm", "DIM_MIN"), "id": "r2"}
+    riser = {**_span(text, "not more than 240 mm", "DIM_MAX"), "id": "r3"}
+    task = _task("9.8.4.5A.(1)", text, [
+        handrail, width, riser,
+        _dim_prop(handrail, "HandrailHeight"),
+        _dim_prop(riser, "RiserHeight", with_id=False),  # offsets-only fallback
+        _choice("property_name", "ClearWidth"),
+    ])
+    rules = LabelStudioBridge.parse_task_to_gold_rules(task)
+    assert [(r["property_name"], r["value"]) for r in rules] == [
+        ("HandrailHeight", 1070.0),
+        ("ClearWidth", 660.0),  # no per-dimension choice -> task-level property
+        ("RiserHeight", 240.0),
+    ]
+
+    nlp = LabelStudioBridge.parse_task_to_nlp_annotation(task)
+    assert [d.get("property_name") for d in nlp["dimensions"]] == ["HandrailHeight", None, "RiserHeight"]
+
+
+def test_gold_rules_roundtrip_keeps_dimension_property():
+    gold = [{"ref": "9.8.9.4.(1)", "target": "IfcStairFlight", "property_name": "StringerDepth",
+             "operator": ">=", "value": 235, "unit": "mm"}]
+    tasks = LabelStudioBridge.gold_rules_to_preannotated_tasks(
+        gold, clause_texts={"9.8.9.4.(1)": "an overall depth of not less than 235 mm"})
+    (rule,) = LabelStudioBridge.export_annotations_to_gold_rules(tasks)
+    assert (rule["property_name"], rule["value"]) == ("StringerDepth", 235.0)
+
+
+def test_iaa_ignores_per_region_choices_at_task_level():
+    task = {"id": "t1", "data": {"text": "not less than 900 mm"}, "annotations": [{
+        "completed_by": 1,
+        "result": [
+            _choice("property_name", "Width"),
+            {"type": "choices", "from_name": "dim_property", "id": "r1",
+             "value": {"start": 0, "end": 20, "text": "not less than 900 mm", "choices": ["GuardHeight"]}},
+        ],
+    }]}
+    ratings = IAACalculator([task]).extract_annotator_ratings()
+    assert ratings[1]["t1"]["choices"] == {"property_name": "Width"}
+
+
 def test_normalize_cross_ref():
     ref_type, norm = normalize_cross_ref("Article 9.8.4.5A.")
     assert ref_type == "article"
