@@ -155,13 +155,17 @@ TEMPLATE = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} · BIM-Guard Evaluation</title>
 <meta name="description" content="Evaluation harnesses and claims-to-evidence ledger for BIM-Guard.">
+<meta name="theme-color" content="#090d16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top">
+<header class="top"><div class="top-inner">
   <a class="brand" href="index.html">BIM-Guard <span>Evaluation</span></a>
   <nav>{nav}</nav>
-</header>
+</div></header>
 <main>
 {body}
 </main>
@@ -197,6 +201,8 @@ def main() -> None:
     commit = git_commit()
     for slug, title, src, repo_src in PAGES:
         md = expand_placeholders(src.read_text())
+        # GitHub renders a list directly after a paragraph; python-markdown needs a blank line.
+        md = re.sub(r"^((?![-*] )[^\n\d>|#\s][^\n]*)\n(?=[-*] )", r"\1\n\n", md, flags=re.M)
         body = markdown.markdown(md, extensions=["tables", "fenced_code", "toc", "sane_lists", "md_in_html"])
         body = badge_statuses(rewrite_links(body, repo_src))
         if repo_src:
