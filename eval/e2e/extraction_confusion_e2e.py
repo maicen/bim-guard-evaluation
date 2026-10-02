@@ -53,7 +53,7 @@ REPO = Path(__file__).resolve().parents[2]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
-from eval.score_extraction_vs_human import score, to_markdown  # noqa: E402
+from eval.score_extraction_vs_human import normalize_ref, score, to_markdown  # noqa: E402
 
 DEFAULT_BASE_URL = "https://bim-guard.xyz"
 DEFAULT_STATE = REPO / ".auth" / "bimguard_storage_state.json"
@@ -78,26 +78,86 @@ def _words(s: str) -> set[str]:
     return set(re.findall(r"[a-z0-9]+", s.lower()))
 
 
+_SENTENCE_ID = re.compile(r"^(\d+(?:\.\d+)+[A-Z]?)\.?-(\d+)[a-z]?$")
+_STOP = {"the", "a", "an", "of", "and", "or", "to", "in", "for", "be", "shall", "not", "than", "with", "at", "on"}
+
+
+def _value_strings(rule: dict[str, Any]) -> list[str]:
+    """How the rule's numeric value(s) would be written in OBC text: '2 050 mm' and '2050 mm'."""
+    out = []
+    for key in ("check_value", "value", "value_min", "value_max"):
+        v = rule.get(key)
+        if isinstance(v, str):
+            try:
+                v = float(v)
+            except ValueError:
+                continue
+        if isinstance(v, (int, float)) and not isinstance(v, bool) and v >= 1:
+            n = f"{v:g}"
+            spaced = f"{int(v):,}".replace(",", " ") if float(v).is_integer() else n
+            out += [f"{spaced} ", f"{n} "] if spaced != n else [f"{n} "]
+    return out
+
+
+def _best_clause(text: str, index: list[tuple[str, str]], article: str | None = None) -> str | None:
+    """Clause whose text shares the most content words with *text* (ties prefer *article*)."""
+    words = _words(text) - _STOP
+    if not words:
+        return None
+
+    def rank(rt: tuple[str, str]) -> tuple[int, bool]:
+        return len(words & _words(rt[1])), bool(article and article in rt[0])
+
+    best = max(index, key=rank, default=None)
+    return best[0] if best and rank(best)[0] >= 3 else None
+
+
 def resolve_clause(draft: dict[str, Any], index: list[tuple[str, str]]) -> str | None:
-    """Which annotated clause a draft came from: clause_id, else a code ref in rule_id /
-    description, else the clause whose text best contains the draft's source snippet."""
+    """Which annotated clause a draft came from.
+
+    1. ``clause.clause_id`` when DocLang chunking set it.
+    2. A ``rule_id`` of the form ``<article>-<sentence>[letter]`` (``9.8.2.1-2`` ->
+       Sentence 9.8.2.1.(2)), the convention BIM-Guard's extractor uses.
+    3. Otherwise (named suffixes such as ``9.8.4.1-spiral-width``, or no ref): the
+       clause whose text best matches the source snippet -- when it is clause-sized,
+       not the whole document -- or the rule description.
+    """
     clause = draft.get("clause") or {}
     rule = draft.get("proposed_rule") or {}
-    for candidate in (clause.get("clause_id"), rule.get("rule_id"), rule.get("description")):
-        if candidate and re.search(r"\d+\.\d+\.\d+", str(candidate)):
-            return str(candidate)
-    snippet = (draft.get("source_snippet") or "").strip()
-    if not snippet:
-        return None
-    flat = re.sub(r"\s+", " ", snippet)
-    for ref, text in index:
-        if flat in text:
-            return ref
-    sw = _words(snippet)
-    best = max(index, key=lambda rt: len(sw & _words(rt[1])) / (len(sw) or 1), default=None)
-    if best and len(sw & _words(best[1])) >= max(3, 0.6 * len(sw)):
-        return best[0]
-    return None
+    if clause.get("clause_id"):
+        return str(clause["clause_id"])
+    rule_id = str(rule.get("rule_id") or "")
+    article = (re.match(r"\d+(?:\.\d+)+", rule_id) or [None])[0]
+    m = _SENTENCE_ID.match(rule_id)
+    if m:
+        # The extractor numbers list items with the same suffix (9.8.5.4-3 is item (c)
+        # of Sentence 9.8.5.4.(1)), so keep the suffix-derived sentence only when it
+        # exists and its text fits the rule about as well as any clause in the article.
+        guess = f"{m.group(1)}.({m.group(2)})"
+        words = _words(str(rule.get("description") or "")) - _STOP
+        values = _value_strings(rule)
+        in_article = [(ref, text) for ref, text in index if normalize_ref(ref).startswith(m.group(1))]
+        # A clause quoting the rule's own number ("2 050 mm") is a far stronger signal
+        # than shared words, which "not serving a house ..." phrasing easily fools.
+        overlap = {
+            normalize_ref(ref): len(words & _words(text)) + (10 if any(v in text for v in values) else 0)
+            for ref, text in in_article
+        }
+        best = max(overlap.values(), default=0)
+        if overlap.get(guess, -1) >= 0.6 * best:
+            return guess
+        if in_article:
+            return max(in_article, key=lambda rt: overlap[normalize_ref(rt[0])])[0]
+        return guess
+    snippet = re.sub(r"\s+", " ", draft.get("source_snippet") or "").strip()
+    if snippet and len(snippet) < 1000:
+        for ref, text in index:
+            if snippet in text:
+                return ref
+        hit = _best_clause(snippet, index, article)
+        if hit:
+            return hit
+    return _best_clause(str(rule.get("description") or ""), index, article) or (rule_id or None)
 
 
 def drafts_to_rules(drafts: list[dict[str, Any]], index: list[tuple[str, str]]) -> list[dict[str, Any]]:

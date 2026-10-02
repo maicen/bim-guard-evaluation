@@ -117,6 +117,29 @@ def to_base(value: Any, unit: Any) -> tuple[float | None, str | None]:
     return v * scale, fam
 
 
+# "normalized" mode: vocabulary differences that name the same IFC concept. Kept
+# explicit and small so the mode stays auditable; strict mode ignores it.
+_TARGET_EQUIV = [{"ifcstair", "ifcstairflight"}, {"ifcramp", "ifcrampflight"}]
+_PROPERTY_EQUIV = [
+    {"width", "clearwidth"},
+    {"clearwidth", "clearwidthbetweenhandrails"},
+    {"requiredheadroom", "clearheight", "headroom"},
+    {"rampslope", "slope"},
+    {"guardopeningsize", "maximumopening"},
+    {"handrailclearance", "clearancefromwall"},
+    {"guardheight", "height"},
+    {"handrailheight", "height"},
+    {"treadlength", "treaddepth", "taperedtreaddepth"},
+    {"stringerdepth", "stringereffectivedepth", "stringeroveralldepth"},
+    {"handrailload", "concentratedloadcapacity", "uniformloadcapacity"},
+]
+
+
+def _equiv(a: Any, b: Any, groups: list[set[str]]) -> bool:
+    a, b = str(a or "").strip().lower(), str(b or "").strip().lower()
+    return bool(a) and (a == b or any(a in g and b in g for g in groups))
+
+
 def same_property(a: Any, b: Any) -> bool:
     a, b = str(a or "").strip().lower(), str(b or "").strip().lower()
     if not a or not b:
@@ -133,9 +156,15 @@ def _close(a: float | None, b: float | None) -> bool:
 def rule_values(rule: dict[str, Any]) -> tuple[Any, ...]:
     """Comparable value signature in base units (relative bounds compared by property)."""
     unit = rule.get("unit")
-    if "value_min_property" in rule or "value_max_property" in rule:
-        return ("rel", str(rule.get("value_min_property") or "").lower(),
-                str(rule.get("value_max_property") or "").lower())
+    if rule.get("value_min_property") or rule.get("value_max_property"):
+        # Relative bounds ("not more than its run plus 25 mm") are compared by which
+        # sides are bounded and by their offsets, not by property name: the human gold
+        # says "Run" where an extractor may say "TaperedTreadRun" for the same bound.
+        def side(prop: str, off: str) -> float | None:
+            if not rule.get(prop):
+                return None
+            return to_base(rule.get(off) or 0, unit)[0] or 0.0
+        return ("rel", side("value_min_property", "value_min_offset"), side("value_max_property", "value_max_offset"))
     if normalize_op(rule.get("operator")) == "between":
         return (to_base(rule.get("value_min"), unit)[0], to_base(rule.get("value_max"), unit)[0])
     value = rule.get("value", rule.get("check_value"))
@@ -145,7 +174,9 @@ def rule_values(rule: dict[str, Any]) -> tuple[Any, ...]:
 def values_agree(a: dict[str, Any], b: dict[str, Any]) -> bool:
     va, vb = rule_values(a), rule_values(b)
     if va and va[0] == "rel" or vb and vb[0] == "rel":
-        return va == vb
+        if not (va and vb and va[0] == vb[0] == "rel"):
+            return False
+        return all((x is None) == (y is None) and (x is None or _close(x, y)) for x, y in zip(va[1:], vb[1:]))
     if len(va) != len(vb):
         return False
     return all(_close(x, y) for x, y in zip(va, vb))
@@ -200,8 +231,12 @@ def load_human(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
 
 # ── scoring ──────────────────────────────────────────────────────────────────
 
-def match_rules(human: list[dict], extracted: list[dict], strict: bool) -> tuple[list, list, list]:
-    """Greedy one-to-one matching. Returns (pairs, unmatched_human, unmatched_extracted)."""
+def match_rules(human: list[dict], extracted: list[dict], strict: bool, normalized: bool = False) -> tuple[list, list, list]:
+    """Greedy one-to-one matching. Returns (pairs, unmatched_human, unmatched_extracted).
+
+    strict: also require IFC target and property to agree (exactly / alias table);
+    normalized: like strict, but through the _TARGET_EQUIV / _PROPERTY_EQUIV synonyms.
+    """
     used: set[int] = set()
     pairs, missed = [], []
     for h in human:
@@ -214,6 +249,10 @@ def match_rules(human: list[dict], extracted: list[dict], strict: bool) -> tuple
                 continue
             if strict and not (str(e.get("target", "")).lower() == h["target"].lower()
                                and same_property(e.get("property_name"), h["property_name"])):
+                continue
+            if normalized and not (_equiv(e.get("target"), h["target"], _TARGET_EQUIV)
+                                   and (same_property(e.get("property_name"), h["property_name"])
+                                        or _equiv(e.get("property_name"), h["property_name"], _PROPERTY_EQUIV))):
                 continue
             hit = i
             break
@@ -283,8 +322,8 @@ def score(human_path: Path, extracted_path: Path) -> dict[str, Any]:
     clause["metrics"] = confusion_matrix_metrics(clause["tp"], clause["fp"], clause["fn"], clause["tn"])
 
     rule_level = {}
-    for mode in ("lenient", "strict"):
-        pairs, missed, fps = match_rules(human, extracted, strict=(mode == "strict"))
+    for mode in ("lenient", "normalized", "strict"):
+        pairs, missed, fps = match_rules(human, extracted, strict=(mode == "strict"), normalized=(mode == "normalized"))
         tp, fn, fp = len(pairs), len(missed), len(fps)
         p = tp / (tp + fp) if tp + fp else 0.0
         r = tp / (tp + fn) if tp + fn else 0.0
@@ -347,8 +386,10 @@ def to_markdown(res: dict[str, Any]) -> str:
     for mode, r in res["rule_level"].items():
         lines.append(f"| {mode} | {r['tp']} | {r['fp']} | {r['fn']} | {r['precision']:.1%} | "
                      f"{r['recall']:.1%} | {r['f1']:.1%} |")
-    lines += ["", "Lenient = same clause + operator + value. Strict additionally requires IFC target "
-              "and property (alias-aware).", "", "## 3. Operator confusion (pairs agreeing on clause and value)",
+    lines += ["", "Lenient = same clause + operator + value. Normalized additionally requires IFC target "
+              "and property to agree up to a small synonym table (IfcRamp~IfcRampFlight, ClearHeight~"
+              "RequiredHeadroom, ...; see _PROPERTY_EQUIV). Strict requires exact target and property "
+              "(bim-guard alias table only).", "", "## 3. Operator confusion (pairs agreeing on clause and value)",
               "", "| Human \\ Extracted | " + " | ".join(OPERATORS) + " |", "|---|" + "---|" * len(OPERATORS)]
     for h_op in OPERATORS:
         row = res["operator_confusion"].get(h_op, {})
