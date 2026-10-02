@@ -23,6 +23,8 @@ Outputs (in --out-dir, default eval/results/e2e/<UTC timestamp>/):
 
 One-time sign-in (opens a browser; sign in by hand, the session is saved):
   uv run python eval/e2e/extraction_confusion_e2e.py --login
+or unattended, with credentials from the environment (never commit them):
+  BIMGUARD_EMAIL=... BIMGUARD_PASSWORD=... uv run python eval/e2e/extraction_confusion_e2e.py --login
 
 Run:
   uv run python eval/e2e/extraction_confusion_e2e.py \\
@@ -39,6 +41,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 import sys
@@ -127,12 +130,22 @@ def login(base_url: str, state_path: Path) -> None:
     from playwright.sync_api import sync_playwright
 
     state_path.parent.mkdir(parents=True, exist_ok=True)
+    # Unattended sign-in when BIMGUARD_EMAIL / BIMGUARD_PASSWORD are set (e.g. the
+    # shared dev account from bim-guard's frontend/.env.example); otherwise a
+    # visible browser opens and you sign in by hand.
+    email, password = os.environ.get("BIMGUARD_EMAIL"), os.environ.get("BIMGUARD_PASSWORD")
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(headless=bool(email and password))
         context = browser.new_context()
         page = context.new_page()
         page.goto(f"{base_url}/#/login")
-        print("Sign in in the opened browser window; waiting for the dashboard...")
+        if email and password:
+            page.locator("#login-email").fill(email)
+            page.locator("#login-password").fill(password)
+            page.locator('button[type="submit"]').click()
+            print(f"Signing in as {email} ...")
+        else:
+            print("Sign in in the opened browser window; waiting for the dashboard...")
         page.wait_for_url(re.compile(r"#/(dashboard|projects|extract)"), timeout=10 * 60 * 1000)
         page.wait_for_timeout(2000)
         context.storage_state(path=str(state_path))
