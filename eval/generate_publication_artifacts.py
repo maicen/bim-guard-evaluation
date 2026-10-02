@@ -184,7 +184,7 @@ def generate_publication_figures(
         [cm["fp"], cm["tn"]],
     ])
 
-    fig, ax = plt.subplots(figsize=(5.5, 4.5), dpi=300)
+    fig, ax = plt.subplots(figsize=(6.0, 4.8), dpi=300)
     cax = ax.matshow(matrix, cmap="Blues", alpha=0.85)
 
     for i in range(2):
@@ -195,7 +195,7 @@ def generate_publication_figures(
 
     ax.set_xticks([0, 1])
     ax.set_yticks([0, 1])
-    ax.set_xticklabels(["Predicted Violation (Pos)", "Predicted Compliant (Neg)"], fontsize=10)
+    ax.set_xticklabels(["Predicted\nViolation (Pos)", "Predicted\nCompliant (Neg)"], fontsize=10)
     ax.set_yticklabels(["Actual Violation (Pos)", "Actual Compliant (Neg)"], fontsize=10)
     ax.set_title("Architectural Compliance Matrix (ARCH-001)\n$N=22$ Ground-Truth Test Scenarios", fontsize=11, pad=15, fontweight="bold")
     fig.colorbar(cax, shrink=0.8)
