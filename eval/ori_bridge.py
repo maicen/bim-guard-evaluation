@@ -9,14 +9,14 @@ Ori Eval (openrouter.ai/docs/guides/ori/eval) runs *.eval.ts files under
 coding-agent harnesses (Claude Code, Codex, ...) driven by tool calls in a
 working directory. BIM-Guard's rule extractor is not that: it's a single
 non-agentic structured-output LLM call
-(app.modules.rule_builder.llamaindex_rule_generator.LlamaIndexRuleGenerator),
+(app.modules.rule_builder.adk_rule_generator.AdkRuleGenerator),
 written and owned by bim-guard, not this repo. So the eval files don't
 reimplement that prompt/pipeline in TypeScript — they shell out to this
 script, which calls the real Python code, and only use Ori for what it's
 built for: OpenRouter's live model catalog (candidateModels) and LLM-as-judge
 scoring (setupJudge). Every "model" the eval files iterate is a litellm model
 string ("openrouter/<vendor>/<slug>", e.g. "openrouter/openai/gpt-4o-mini")
-passed straight through as the `model` override LlamaIndexRuleGenerator
+passed straight through as the `model` override AdkRuleGenerator
 already accepts per-call (the same override the live Rule Extraction UI's
 model selector uses) — litellm resolves it against OPENROUTER_API_KEY.
 
@@ -28,41 +28,43 @@ dependencies of this eval repo). Run it with bim-guard's interpreter, e.g.:
 evals/rule-extraction/lib/bridge.ts resolves that interpreter automatically
 (BIMGUARD_PYTHON env var, else `<BIMGUARD_PATH>/.venv/{Scripts,bin}/python*`).
 
-Deliberately imports only `app.modules.rule_builder.llamaindex_rule_generator`
-and `app.modules.document_parsing.*` — NOT `app.services` or `app.main`.
-Importing `app.services` runs `app/services/__init__.py`, which pulls in
-`analysis_runner` -> ruleset seeding that hits bim-guard's LIVE Supabase
-project at import time (observed while wiring this up). This bridge must
-never do that, so it stays scoped to the pure `app.modules.*` extraction
-code, which has no such side effect.
+Imports `app.modules.rule_builder.adk_rule_generator` and
+`app.modules.document_parsing.*`. `app.services` is imported only because
+bim-guard's ingestor depends on it (and must load first, or it hits a
+circular import); never `app.main`. History: `app/services/__init__.py`
+once pulled in `analysis_runner` -> ruleset seeding against bim-guard's LIVE
+Supabase project at import time. It now loads `analysis_runner` lazily, and
+importing it was re-checked (2026-10-03) to make no DB/network calls. If that
+ever regresses, this bridge would hit live Supabase on every run -- recheck
+before bumping bim-guard.
 
 Two subcommands, one JSON object on stdout each (errors -> {"error": ...},
 exit 1; success -> exit 0). No print()s besides that single JSON document —
 the TS side parses stdout directly.
 
   case  --case-id <id> --model <litellm-model-string>
-      Runs LlamaIndexRuleGenerator.extract_rules_from_text() — the live app's
-      current single rule-extraction entrypoint — against one of
-      eval_harness.EVAL_CASES's hand-authored golden sentences.
+      Runs AdkRuleGenerator.generate_drafts_from_node() — the live app's
+      per-clause generator — over one of eval_harness.EVAL_CASES's
+      hand-authored golden sentences wrapped as a single node.
       Output: {"generated": <rule dict or null>, "duration_s": ...}
 
   gold  --model <litellm-model-string> [--limit N]
-      Runs the same extractor over the real gold PDF, chunked the same way
-      RuleExtractionService.extract_rules_from_text() currently does
-      (SectionChunker, falling back to one whole-text chunk — see
-      _extract_gold's comment for why this isn't score_rule_extraction.py's
-      own chunking), then scores recovered rules against GOLD_RULES using a
-      same-repo copy of score_rule_extraction.match_gold_to_extracted's exact
-      matching logic (see the "Gold-rule matching" comment below for why it's
-      copied rather than imported). Output: {"hits": N, "total_gold": N,
-      "recall": 0..1, "extracted_total": N, "missed": [...], "duration_s": ...}
+      Mirrors bim-guard's RuleExtractionService.extract_rule_drafts over the
+      real gold PDF: Docling text (needs a docling-serve at DOCLING_LOCAL_URL,
+      default http://localhost:5001; cached by PDF hash) -> LlamaIndexIngestor
+      clause nodes -> AdkRuleGenerator per node. Skipped on purpose: the
+      deontic pass (uses bim-guard's default model, not the candidate), bSDD
+      grounding / check-category mapping, and persistence. Rules are scored
+      against GOLD_RULES with a same-repo copy of
+      score_rule_extraction.match_gold_to_extracted's matching logic (see the
+      "Gold-rule matching" comment below). Output: {"hits": N, "total_gold":
+      N, "recall": 0..1, "extracted_total": N, "missed": [...],
+      "duration_s": ...}
 
-      Caveat inherited from the live extractor's dict adapter (see
-      LlamaIndexRuleGenerator.extract_rules_from_text): it does not surface
-      value_min_property/value_max_property, so GOLD_RULES entries expressing
-      a relative bound (e.g. OBC 9.8.4.3.(3) "Run to Run+25mm") can never
-      match and always land in "missed" — a real production gap, not a bug
-      in this bridge.
+      Cost/latency note: AdkRuleGenerator is a writer/critic/refiner loop
+      (several LLM calls per node, with retries); one node took ~13 min on
+      deepseek-v4-flash-0731 (2026-10-03). Ori cannot price these calls --
+      they bypass its SDK -- so `--pilot` reports no extraction cost.
 
 Usage (called by the TS evals via bridge.ts, or directly for debugging):
     BIMGUARD_PATH=../bim-guard <bimguard-python> eval/ori_bridge.py case --case-id stair_width --model openrouter/openai/gpt-4o-mini
@@ -106,9 +108,12 @@ def _emit(payload: dict) -> None:
 
 
 def _rule_generator():
-    from app.modules.rule_builder.llamaindex_rule_generator import LlamaIndexRuleGenerator
+    """bim-guard's live per-clause generator (RuleExtractionService's default)."""
+    import app.services  # noqa: F401 -- must load before the ingestor/generator modules (circular-import order); import-safe, see module docstring
 
-    return LlamaIndexRuleGenerator()
+    from app.modules.rule_builder.adk_rule_generator import AdkRuleGenerator
+
+    return AdkRuleGenerator()
 
 
 def cmd_case(case_id: str, model: str) -> dict:
@@ -121,14 +126,22 @@ def cmd_case(case_id: str, model: str) -> dict:
     t0 = time.perf_counter()
     extraction_error: str | None = None
     try:
-        # NOTE (reproducibility): LlamaIndexRuleGenerator.extract_rules_from_text
-        # (bim-guard: app/modules/rule_builder/llamaindex_rule_generator.py)
+        # NOTE (reproducibility): AdkRuleGenerator.generate_drafts_from_node
+        # (bim-guard: app/modules/rule_builder/adk_rule_generator.py)
         # takes only `model` -- no temperature/seed parameter exists to pin.
         # This call is therefore an unrepeated, unparameterized draw whatever
         # this repo does; the constraint is upstream, not fixable here without
         # a bim-guard change (out of this repo's scope per CLAUDE.md). See
         # LIMITATIONS.md.
-        rules = asyncio.run(_rule_generator().extract_rules_from_text(case["source_text"], model=model))
+        from app.modules.contracts import ClauseMetadata, DocumentNodeContract
+
+        node = DocumentNodeContract(
+            node_id=f"case-{case_id}",
+            text=case["source_text"],
+            metadata=ClauseMetadata(node_type="paragraph", source_document_id=0),
+        )
+        drafts = asyncio.run(_rule_generator().generate_drafts_from_node(node, model=model))
+        rules = [d.proposed_rule.model_dump(exclude_none=True) for d in drafts]
     except Exception as exc:
         # A malformed field in one model's reply (observed: openai/gpt-4o-mini
         # occasionally returns "" instead of [] for applies_when_materials,
@@ -205,6 +218,35 @@ def _match_gold_to_extracted(gold: dict, extracted: list[dict], alias_groups: li
     return None
 
 
+def _docling_text(pdf_path: str, pdf_bytes: bytes) -> str:
+    """Extract PDF text the way bim-guard does (Docling via extract_document_text).
+
+    Uses a self-hosted docling-serve (DOCLING_LOCAL_URL, default
+    http://localhost:5001). The result is cached on disk by content hash so a
+    multi-model sweep parses the PDF once, not once per model.
+    """
+    import hashlib
+    import tempfile
+
+    cache = Path(tempfile.gettempdir()) / f"ori_bridge_docling_{hashlib.sha256(pdf_bytes).hexdigest()[:16]}.txt"
+    if cache.exists():
+        return cache.read_text(encoding="utf-8")
+
+    from app.modules.document_parsing.document_extractor import extract_document_text
+
+    instance = {
+        "name": "ori-bridge-docling-local",
+        "kind": "docling-local",
+        "api_url": os.environ.get("DOCLING_LOCAL_URL", "http://localhost:5001"),
+        "api_key": "",
+    }
+    text, _tables, _pages = extract_document_text(Path(pdf_path).name, pdf_bytes, instance=instance)
+    tmp = cache.with_suffix(f".{os.getpid()}.tmp")
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(cache)
+    return text
+
+
 async def _extract_gold(model: str, limit: int | None) -> dict:
     import glob
 
@@ -214,8 +256,6 @@ async def _extract_gold(model: str, limit: int | None) -> dict:
     if modules_path not in sys.path:
         sys.path.insert(0, modules_path)  # document_parsing/ifc_reader are top-level packages under here
 
-    from document_parsing import DocumentReader
-    from document_parsing.section_chunker import SectionChunker
     from ifc_reader import _PROPERTY_ALIASES
 
     try:
@@ -227,37 +267,53 @@ async def _extract_gold(model: str, limit: int | None) -> dict:
 
     pdf_path = glob.glob("data/uploads/*pdf_stairs_mock.pdf")[0]
     pdf_bytes = open(pdf_path, "rb").read()
-    pypdf_text = DocumentReader().parse_pdf(pdf_bytes)
+    text = _docling_text(pdf_path, pdf_bytes)
 
-    # Mirrors app.services.rule_extraction_service.RuleExtractionService's
-    # CURRENT chunking exactly (SectionChunker, fall back to one whole-text
-    # chunk) — the legacy KeywordFilter/DependencyParser/ConfidenceScorer
-    # stages this repo's score_rule_extraction.py replicated no longer exist
-    # in the live pipeline either, so matching the current one is the more
-    # faithful choice, not just the available one.
-    structured_chunks = SectionChunker().chunk(pypdf_text)
-    chunks = structured_chunks or [{"text": pypdf_text}]
+    # Mirrors bim-guard's live extraction path (RuleExtractionService
+    # .extract_rule_drafts): Docling text -> LlamaIndexIngestor clause nodes
+    # -> AdkRuleGenerator.generate_drafts_from_node per node. Deliberate
+    # departures, each model-independent or DB/network-bound:
+    #   - no deontic-statement pass (its LLM call uses bim-guard's default
+    #     model, not the candidate, so it can't differentiate candidates);
+    #   - no clause-grounding / bSDD / check-category post-processing
+    #     (needs app.services, which this bridge must not import -- see the
+    #     module docstring -- and bSDD/DB lookups);
+    #   - no persistence (RuleDraftService.save_drafts).
+    generator = _rule_generator()  # imports app.services first (circular-import order)
+    from app.modules.document_parsing.llamaindex_ingestor import LlamaIndexIngestor
+
+    nodes = LlamaIndexIngestor().nodes_from_text(text, source_document_id=0)
     if limit:
-        chunks = chunks[:limit]
+        nodes = nodes[:limit]
 
-    generator = _rule_generator()
     llm_rules: list[dict] = []
     failed_chunks = 0
-    for chunk in chunks:
-        text = chunk.get("text", "").strip()
-        if not text:
+    for node in nodes:
+        if not node.text.strip():
             continue
         try:
-            rules = await generator.extract_rules_from_text(text, model=model)
+            drafts = await generator.generate_drafts_from_node(node, model=model)
         except Exception:
-            # A single chunk's malformed LLM reply (e.g. a field the model
-            # returned as the wrong JSON type) must not sink the whole
-            # model's recall score to "crashed" — score it as 0 rules for
-            # that chunk instead, same principle as score_rule_extraction.py's
-            # StripThinkingClient.unparseable counter.
+            # One node's malformed/failed LLM run scores as 0 rules for it,
+            # same as the live service tolerating a lone failing node.
             failed_chunks += 1
             continue
-        llm_rules.extend(rules)
+        for draft in drafts:
+            rule = draft.proposed_rule
+            llm_rules.append(
+                {
+                    "ref": rule.rule_id,
+                    "target": rule.target_ifc_class or "Unspecified",
+                    "property_name": rule.property_name or "",
+                    "operator": rule.operator,
+                    "check_value": rule.check_value,
+                    "value_min": rule.value_min,
+                    "value_max": rule.value_max,
+                    "value_min_property": rule.value_min_property,
+                    "value_max_property": rule.value_max_property,
+                }
+            )
+    chunks = nodes
 
     hits, misses = [], []
     for gold in GOLD_RULES:
