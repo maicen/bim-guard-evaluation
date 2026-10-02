@@ -261,6 +261,11 @@ def generate_appendix_markdown(output_file: Path) -> None:
     """Writes the comprehensive academic thesis appendix."""
     content = """# Appendix A: Empirical Verification & Multi-Jurisdiction Benchmark Results
 
+> **Correction (2026-10-03):** the IAA (§2.1), cross-jurisdiction (§2.3) and LLM-judge calibration (§2.4) results below come from scripts that
+> simulate their inputs (see `research/CLAIMS.md` §5, §6, §8). They must not be cited as empirical results. Real extraction evidence is
+> `eval/results/e2e/` (Section 9.8 gold set). Only the architecture benchmark (§2.2) is a real deterministic measurement.
+> This banner is part of the generator template, so regenerating this file preserves it.
+
 ## 1. Executive Summary
 
 This appendix documents the complete empirical benchmarking suite developed for the BIM-Guard platform. All experiments were conducted against rigorous, reproducible ground-truth datasets with exact confidence intervals (Wilson score intervals for binomial metrics; non-parametric bootstrap resampling for composite statistics).
