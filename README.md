@@ -1,5 +1,12 @@
 # BIM-Guard Evaluation & Research Analysis
 
+[![Docs site](https://img.shields.io/badge/site-maicen.github.io%2Fbim--guard--evaluation-2ea44f?logo=github)](https://maicen.github.io/bim-guard-evaluation/)
+[![BIM-Guard](https://img.shields.io/badge/platform-bim--guard.xyz-0a66c2)](https://bim-guard.xyz)
+[![Deploy site](https://github.com/maicen/bim-guard-evaluation/actions/workflows/pages.yml/badge.svg)](https://github.com/maicen/bim-guard-evaluation/actions/workflows/pages.yml)
+[![Core repo](https://img.shields.io/badge/core%20repo-maicen%2Fbim--guard-181717?logo=github)](https://github.com/maicen/bim-guard)
+[![Python](https://img.shields.io/badge/python-%E2%89%A53.11-3776ab?logo=python&logoColor=white)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+
 Evaluation harnesses, NLP annotation capabilities, accuracy scoring, and empirical research validation analysis for the BIM-Guard platform.
 
 > [!NOTE]
