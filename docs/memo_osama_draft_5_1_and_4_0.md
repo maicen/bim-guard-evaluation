@@ -53,7 +53,7 @@ often names the IFC class or property differently from the canonical vocabulary,
 precision falls from 98% to 29%. This is a naming problem, not a hallucination problem, and the
 reviewer-correction step is where it is caught.
 
-**(b) Confusion matrix and failure pattern.** *(Figure 3: `docs/publication/figures/fig_extraction_confusion_run1.png` — (a) clause-level TP/FN/FP/TN heatmap, (b) operator agreement.)* Of 55 pairs agreeing on clause and value, the
+**(b) Confusion matrix and failure pattern.** *(Figure 3: `docs/publication/figures/fig_extraction_confusion_run1.png` — (a) clause-level TP/FN/FP/TN heatmap, (b) operator agreement. Drive copy: https://drive.google.com/drive/folders/1S8I1YnYlaTj8976IZcmq9e2Ct2JQ1Ywv (Figure3_extraction_confusion_run1.png).)* Of 55 pairs agreeing on clause and value, the
 operator was correct in 54: 37 ≥, 16 ≤ and 1 range were right, and one ≥ was read as =. The
 32 missed rules are concentrated, not random: 11 are guard-load table rows, 8 land on an
 unspecific "Other" property, 6 are landing-dimension and headroom rules, and 4 are relative
