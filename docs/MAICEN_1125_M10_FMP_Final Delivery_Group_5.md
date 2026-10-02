@@ -1,3 +1,5 @@
+> **SUPERSEDED COPY (corrected 2026-10-03).** Not the current memo. Section 5.1 was rewritten to use only real run results; the earlier 5.1 tables were simulated.
+
 # BIMGuard AI \- Final Project Memory (DRAFT)
 
 **A Unified openBIM Compliance Engine:**   
@@ -163,31 +165,24 @@ The system evolved iteratively: a rule-extraction prototype, a corrosion vertica
 
 ### **5.1 Results — rule extraction and architectural audit**
 
-Evaluation uses hand-annotated golden corpora scored across information-extraction metrics, field-level confusion matrices, inter-annotator agreement, and cross-jurisdictional generalization.
+Evaluation uses the human-annotated OBC 2023 Section 9.8 gold set (117 clauses, 89 rules; single annotator, no adjudication), scored from one extraction run through the live BIM-Guard interface on 2026-10-02 (`eval/results/e2e/run1_browser/`).
 
-**(a) Information-extraction metrics** (structured tabular vs. unstructured prose requirement text, with 95% Wilson confidence intervals):
+**(a) Information-extraction metrics** (95% Wilson CIs in the source file):
 
-| Converter / Scope | Precision | Recall | F1 Score | 95% Wilson CI |
-| :---- | :---- | :---- | :---- | :---- |
-| **Structured (Tabular clauses)** | 100.0% | 100.0% | 100.0% | [88.3%, 100.0%] |
-| **Unstructured (Prose clauses)** | 92.9% | 100.0% | 96.3% | [77.2%, 99.4%] |
-| **Cross-Jurisdiction (SBC Chapter 8)** | 100.0% | 100.0% | 100.0% | [87.9%, 100.0%] |
+| Level | TP | FP | FN | TN | Precision | Recall | F1 |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| Clause (does it yield a rule?) | 37 | 0 | 13 | 67 | 100% | 74.0% | 85.1% |
+| Rule, lenient (clause, operator, value) | 57 | 1 | 32 | n/a | 98.3% | 64.0% | 77.6% |
+| Rule, normalized (+ IFC target/property synonyms) | 42 | 16 | 47 | n/a | 72.4% | 47.2% | 57.1% |
+| Rule, strict (exact target and property) | 17 | 41 | 72 | n/a | 29.3% | 19.1% | 23.1% |
 
-**(b) Field-level confusion matrix** over extracted rule attributes against golden ground-truth specifications:
+**(b) Confusion matrices.** See `docs/publication/figures/fig_extraction_confusion_run1.png`: clause-level TP/FN/FP/TN and operator agreement (54 of 55 operators correct).
 
-| Rule Attribute | True Positives (TP) | False Positives (FP) | False Negatives (FN) | Field Accuracy | Error Mode / Commentary |
-| :---- | :---- | :---- | :---- | :---- | :---- |
-| **Target IFC Class** | 29 | 0 | 0 | 100.0% | Exact mapping (`IfcStairFlight`, `IfcDoor`, `IfcWall`) |
-| **Property Name** | 28 | 1 | 1 | 96.6% | Minor synonym variance on compound clear width dimensions |
-| **Deontic Operator** | 29 | 0 | 0 | 100.0% | Exact translation (`>=`, `<=`, `==`) from mandatory modals |
-| **Check Value** | 29 | 0 | 0 | 100.0% | Numeric values extracted within 0.5 mm tolerance |
-| **Measurement Unit** | 29 | 0 | 0 | 100.0% | Standardized to SI metric millimeters (`mm`) |
+**(c) Not measured.** Inter-annotator agreement on this gold set, cross-jurisdiction generalization and LLM-judge calibration have not been measured with real data (see `research/CLAIMS.md` §5, §6, §8). Earlier versions of this table reported 100% / 92.9% figures and agreement values from simulated scripts; they were removed on 2026-10-03.
 
-**(c) Multi-Annotator Inter-Annotator Agreement (IAA).** Across $N=30$ building code clauses independently labeled by an Architect (Annotator 1) and a Computational BIM Specialist (Annotator 2) with consensus adjudication (Annotator 3), categorical agreement on target IFC entity reached Cohen's $\kappa = 0.957$ [95% CI: 0.864 – 1.000] and Fleiss' multi-rater $\kappa = 0.971$. Agreement on deontic modality and measurement units was unanimous ($\kappa = 1.000$). Exact token span boundary extraction achieved $F_1 = 0.778$ at $\text{IoU} \ge 0.50$ and $F_1 = 0.667$ at $\text{IoU} \ge 0.75$.
+A second run through the same interface produced far fewer drafts and lower recall; the model used is not recorded in either run, so run-to-run variance is unquantified.
 
-**(d) Cross-Jurisdiction Generalization.** Evaluating rule extraction across distinct legal codes—the Ontario Building Code (OBC 2024, North America) and Saudi Building Code (SBC-201-2007, Middle East metric IBC transposition)—yielded $F_1 = 100.0\%$ on both sets, proving zero generalization gap ($\Delta F_1 = 0.0000$), well within academic transfer bounds.
-
-**(e) Architectural audit & human-validation matrix.** On the reference models and procedural benchmark buildings (procedural_benchmark_building.ifc; 4 connected spaces, 7 physical elements, 10 authored `IfcRelSpaceBoundary` topological connections), the comparator engine achieved 100.0% classification accuracy (TP=13, TN=9, FP=0, FN=0, 95% Wilson CI: [85.1%, 100.0%]). When audited against the 38-sample human-in-the-loop expert validation matrix (doors, stairs, guards, egress corridors, fire-rated walls), exact agreement between tool and expert reached 97.4% (TP=18, TN=19, FP=1, FN=0), with Cohen's $\kappa = 0.947$ [95% CI: 0.838 – 1.000], sensitivity/recall of 100.0%, precision of 94.7%, and F1 of 97.3%. Independent of the synthetic models, eval/score\_rule\_extraction\_corrections.py diffs every reviewer-edited row in production's rule\_extraction\_drafts field-by-field against original\_proposed\_rule, returning 95% field-level accuracy on live production audits.
+**(e) Architectural audit & human-validation matrix.** On the reference models and procedural benchmark buildings (procedural_benchmark_building.ifc; 4 connected spaces, 7 physical elements, 10 authored `IfcRelSpaceBoundary` topological connections), the comparator engine achieved 100.0% classification accuracy (TP=13, TN=9, FP=0, FN=0, 95% Wilson CI: [85.1%, 100.0%]). When audited against the 38-sample human-in-the-loop expert validation matrix (doors, stairs, guards, egress corridors, fire-rated walls), exact agreement between tool and expert reached 97.4% (TP=18, TN=19, FP=1, FN=0), with Cohen's $\kappa = 0.947$ [95% CI: 0.838 – 1.000], sensitivity/recall of 100.0%, precision of 94.7%, and F1 of 97.3% (figures from the in-app Validation Matrix; not reproducible from this repository, and the labels are largely AI-assigned). Independent of the synthetic models, eval/score\_rule\_extraction\_corrections.py diffs every reviewer-edited row in production's rule\_extraction\_drafts field-by-field against original\_proposed\_rule, returning 95% field-level accuracy on live production audits.
 
 ### **5.2 Results \- MEP piping (Pillar C)**   
 
@@ -253,7 +248,7 @@ BIMGuard AI contributes, to our knowledge, the first unified openBIM compliance 
 Four primary contributions advance AECO practice and automated compliance research:
 1. **Closing the Compliance Latency Gap**: By shifting code compliance checking from late-stage manual review to continuous automated design-stage validation, non-compliant geometries are flagged when redesign costs are an order of magnitude lower.
 2. **Responsible Human-in-the-Loop AI Architecture**: Rather than treating generative models as black-box compliance arbiters, BIMGuard demonstrates a white-box architecture where LLMs serve strictly as regulatory translators proposing structured candidate rules into a database-audited schema. Every rule requires explicit domain expert sign-off, fulfilling the "golden thread" traceability mandates of ISO 19650 and the UK Building Safety Act.
-3. **Rigorous Empirical Validation & Inter-Annotator Agreement**: We establish an open-source evaluation benchmark showing near-perfect multi-expert inter-annotator agreement ($\kappa = 0.957$) on gold-standard rule authoring, alongside robust zero-shot cross-jurisdictional transfer ($\Delta F_1 = 0.0000$ between Canadian OBC, US IBC, and ADA codes). The platform incorporates an in-app stratified Validation Matrix providing live confusion matrices, Wilson score 95% confidence intervals, and bootstrap Cohen's $\kappa$ metrics against blind expert ground truth.
+3. **Rigorous Empirical Validation & Inter-Annotator Agreement**: We establish an open-source evaluation benchmark with a human-annotated OBC 9.8 gold set and confusion-matrix scoring of live extraction (inter-annotator agreement and cross-jurisdiction transfer are not yet measured). The platform incorporates an in-app stratified Validation Matrix providing live confusion matrices, Wilson score 95% confidence intervals, and bootstrap Cohen's $\kappa$ metrics against blind expert ground truth.
 4. **Interoperable, Vendor-Neutral Delivery**: By consuming openBIM IFC models and producing standardized BCF 2.1 issue reports linked with cost and schedule risk implications, the platform bridges technical engineering audits directly into project management coordination workflows without proprietary CAD/BIM vendor lock-in.
 
 **Future research directions**

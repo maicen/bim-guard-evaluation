@@ -5,7 +5,7 @@
 **Group**: Group 5  
 **Delivery Date**: September 2026  
 **Format**: 10-Minute Timed Defense Presentation + Oral Jury Examination (30% of Final Grade)  
-**Artifact Link**: [DEFENCE_PRESENTATION_DECK.md](file:///Users/sam/coding/bim-guard-evaluation/docs/presentation/DEFENCE_PRESENTATION_DECK.md)
+**Artifact Link**: [DEFENCE_PRESENTATION_DECK.md](DEFENCE_PRESENTATION_DECK.md)
 
 ---
 
@@ -75,18 +75,18 @@
   > "Building regulations are dense, hierarchical documents. We integrate Docling and DocLang to parse regulatory PDFs into structured document trees, preserving tables and section hierarchies. Our extraction pipeline leverages large language models guided by strict Pydantic contracts (`RuleExtractionDraft`). Rather than giving the LLM autonomous execution power, the model acts strictly as a translator, extracting target IFC entities, property paths, comparison operators, and threshold values with cited clause numbers. Every candidate rule enters a draft status: architects review the proposed logic side-by-side with the source regulatory text, edit thresholds if needed, and confirm activation. On our multi-expert annotation benchmark, we achieved an Inter-Annotator Agreement Cohen's kappa of 0.957, proving that our regulatory schema aligns with professional consensus."
 - **Key Takeaways**:
   - Strict Pydantic contracts eliminate hallucinated parameters.
-  - Multi-expert agreement: $\kappa = 0.957$ (near-perfect inter-annotator reliability).
+  - Inter-annotator agreement: not yet measured (single annotator for the OBC 9.8 gold set); do not quote a κ.
 
 ---
 
 ### Slide 6: Deterministic Audit Engines & Zero-Shot Generalization (6:30 – 7:45)
-- **Visuals**: Flowchart of architectural compliance engine (`ARCH-EGRESS-001`, `ARCH-SPATIAL-001`); table of zero-shot cross-jurisdictional transfer metrics across Ontario Building Code (OBC 2012/2024), International Building Code (IBC 2021), and ADA Standards (ADA 2010).
+- **Visuals**: Flowchart of architectural compliance engine (`ARCH-EGRESS-001`, `ARCH-SPATIAL-001`); table of the real OBC 9.8 extraction confusion matrix (`docs/publication/figures/fig_extraction_confusion_run1.png`).
 - **Presenter**: Shane
 - **Speaker Notes**:
-  > "Once approved, rules execute within deterministic compute engines — never inside an LLM. Rules are loaded dynamically from the database via `RuleService`, guaranteeing zero hardcoded cutoffs. Our architectural engine evaluates spatial containment, door opening clearances, corridor widths, and vertical stair geometries. To test domain transferability, we evaluated our rule extraction schema across multiple jurisdictions. Moving zero-shot from the Canadian Ontario Building Code to US IBC 2021 and ADA 2010 accessibility standards, the extraction pipeline maintained perfect transfer performance with $\Delta F_1 = 0.0000$, validating that our structured rule representation generalizes across international building standards."
+  > "Once approved, rules execute within deterministic compute engines — never inside an LLM. Rules are loaded dynamically from the database via `RuleService`, guaranteeing zero hardcoded cutoffs. Our architectural engine evaluates spatial containment, door opening clearances, corridor widths, and vertical stair geometries. We measured extraction against a human-annotated gold set for OBC 9.8: the pipeline invents no rules for clauses without one, but misses about a quarter of rule-bearing clauses, which is why every rule goes through human review. Transfer to other jurisdictions is future work."
 - **Key Takeaways**:
   - Database-driven: zero hardcoded constants in Python compute kernels.
-  - Generalization: $\Delta F_1 = 0.0000$ cross-jurisdiction transfer across OBC, IBC, and ADA.
+  - Generalization: not yet measured; the earlier ΔF1 = 0 came from a simulated script.
 
 ---
 
@@ -96,8 +96,8 @@
 - **Speaker Notes**:
   > "To address the mentor's explicit request for empirical proof of where the tool is right and where it is wrong, we implemented an in-platform Tool-versus-Expert Validation Matrix. Findings are sampled using a stratified, reproducible round-robin algorithm across severity bands and rules. Domain experts review sampled findings blind — with the tool's classification hidden. On our 38-sample architectural ground-truth test suite, BIMGuard achieved 97.4% accuracy, 94.7% precision, 100% recall, and an empirical Cohen's kappa of 0.947 with an expert agreement rate of 97.4%. At the actionable severity threshold, the tool produced zero false negatives — meaning no safety-critical egress violation went undetected — while maintaining a 95% true negative rate. The system exports these metrics directly as SVG, PNG, and CSV for formal compliance filings."
 - **Key Takeaways**:
-  - Recall: 100.0% (zero missed safety-critical non-compliances).
-  - Agreement: $\kappa = 0.947$ (almost perfect agreement with blind expert evaluation).
+  - Recall: 100.0% on the sampled findings only (only flagged elements were sampled, so true recall cannot be estimated).
+  - Agreement: $\kappa = 0.947$ on the in-app Validation Matrix (labels largely AI-assigned; indicative only).
   - Built-in validation: live matrix embedded directly in the web client.
 
 ---
@@ -128,7 +128,7 @@
 - **Defense Response**:
   > "In building compliance auditing, severity datasets are heavily imbalanced — typical models may contain hundreds of compliant elements or low-level warnings and only a handful of critical non-compliances. A naive classifier that blindly assigns 'Compliant' to every element could achieve 95% raw accuracy while having zero clinical or safety utility. Cohen's kappa ($\kappa$) factors out chance agreement:
   > $$\kappa = \frac{p_o - p_e}{1 - p_e}$$
-  > Our empirical score of $\kappa = 0.947$ (and multi-annotator agreement $\kappa = 0.957$) demonstrates that the tool's classification reflects genuine consensus rather than baseline distribution skew."
+  > Our in-app Validation Matrix score of $\kappa = 0.947$ (labels largely AI-assigned; not reproducible from this repository) suggests that the tool's classification reflects genuine consensus rather than baseline distribution skew."
 
 ### Question 3: "How does the platform align with ISO 19650 Common Data Environment (CDE) standards?"
 - **Primary Respondent**: Leticia / Osama
