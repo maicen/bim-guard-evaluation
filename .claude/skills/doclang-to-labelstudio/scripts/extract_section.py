@@ -35,7 +35,7 @@ import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-HEADING_NUM = re.compile(r"^(\d+(?:\.\d+)*\.)\s*(.*)$")
+HEADING_NUM = re.compile(r"^(\d+(?:\.\d+)*[A-Z]?\.)\s*(.*)$")
 
 
 def strip_ns(tag: str) -> str:
