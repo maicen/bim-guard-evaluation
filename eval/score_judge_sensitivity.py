@@ -1,4 +1,7 @@
 """
+WARNING (2026-10-03): the judge ratings are hard-coded constants (CALIBRATION_CASES), so its sweep and correlations are NOT evidence about a real judge.
+See research/CLAIMS.md.
+
 eval/score_judge_sensitivity.py
 ---------------------------------------------
 Empirical sensitivity, variance, and calibration benchmark for LLM-as-Judge evaluation.

@@ -54,9 +54,6 @@ from eval_config import (
 # research/archive/retired_corrosion_piping_seismic_domain/README.md.
 SCRIPTS: list[tuple[str, str, int, bool, bool]] = [
     ("score_nlp_annotation", "score_nlp_annotation.py", 0, True, False),
-    ("score_iaa", "score_iaa.py", 1, True, False),
-    ("score_judge_sensitivity", "score_judge_sensitivity.py", 1, True, False),
-    ("score_cross_code", "score_cross_code.py", 1, True, False),
     ("eval_gold_code_9_8_stairs", "eval_gold_code_9_8_stairs.py", 1, False, False),
     ("eval_gold_sbc_chapter10", "eval_gold_sbc_chapter10.py", 1, False, False),
     ("score_rule_extraction_corrections", "score_rule_extraction_corrections.py", 1, True, False),
@@ -65,6 +62,16 @@ SCRIPTS: list[tuple[str, str, int, bool, bool]] = [
     ("score_rule_extraction", "score_rule_extraction.py", 2, True, True),
     ("test_api_endpoints", "check_api_endpoints.py", 2, True, True),
     ("eval_harness", "eval_harness.py", 3, False, False),
+]
+
+
+# Harnesses whose inputs are simulated (see research/CLAIMS.md §5, §6, §8). They
+# run only with --include-simulated, so a green tier-1 pass is never counted
+# toward evidence from them.
+SIMULATED_SCRIPTS: list[tuple[str, str, int, bool, bool]] = [
+    ("score_iaa", "score_iaa.py", 1, True, False),
+    ("score_judge_sensitivity", "score_judge_sensitivity.py", 1, True, False),
+    ("score_cross_code", "score_cross_code.py", 1, True, False),
 ]
 
 
@@ -119,12 +126,13 @@ def main() -> int:
     parser.add_argument("--tier", type=int, default=2, help="run up to this tier (default: 2)")
     parser.add_argument("--smoke", action="store_true", help="fast subsets per script, where supported")
     parser.add_argument("--json", action="store_true", help="request --json on scripts that support it")
+    parser.add_argument("--include-simulated", action="store_true", help="also run the harnesses with simulated inputs (not evidence)")
     parser.add_argument("--compare-baseline", action="store_true", help="compare results to stored baselines, exit 1 on regression")
     parser.add_argument("--update-baseline", action="store_true", help="promote current results to baselines")
     args = parser.parse_args()
 
     run_id = new_run_id()
-    to_run = [s for s in SCRIPTS if s[2] <= args.tier]
+    to_run = [s for s in SCRIPTS + (SIMULATED_SCRIPTS if args.include_simulated else []) if s[2] <= args.tier]
 
     print(f"run_all.py — run_id={run_id}  tier<={args.tier}  {len(to_run)} script(s)")
     manifest = []

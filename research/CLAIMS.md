@@ -142,6 +142,18 @@ adjudication, no IAA — see `LIMITATIONS.md`).
 
 ---
 
+## 3a. Rule extraction vs. human gold set — OBC 2023 §9.8 (end to end)
+
+| | |
+|---|---|
+| **Claim** | Through the live BIM-Guard UI, extraction on the human-annotated §9.8 clauses scores: clause level TP 37 / FP 0 / FN 13 / TN 67 (precision 100%, recall 74.0%, F1 85.1%); rule level (lenient: clause + operator + value) 57 TP / 1 FP / 32 FN (P 98.3%, R 64.0%, F1 77.6%); normalized F1 57.1%; strict F1 23.1%. Operator agreement 54 of 55. |
+| **Producing script** | `eval/e2e/extraction_confusion_e2e.py` → `eval/score_extraction_vs_human.py` |
+| **Artifacts** | `eval/results/e2e/run1_browser/` (confusion.json/.md, drafts.json); figure `docs/publication/figures/fig_extraction_confusion_run1.png` (`eval/plot_extraction_confusion.py`) |
+| **Gold set** | `research/label_studio/data/export/project1_human_2026-10-02.json`: 117 clauses, 89 rules, **single annotator, no adjudication, no IAA**. Dimensional rules only. |
+| **Status** | **`single-run`**. Run 1 (104 drafts) and run 2 (`run2_playwright/`, 48 drafts) differ widely — run 2 clause F1 34.4%, lenient rule F1 32.2%. Neither run records the model (the runner now pins `openai/gpt-5.6-luna-pro`), and the extraction call accepts no seed or temperature, so run-to-run variance is unquantified. Report run 1 with run 2 as variance. |
+
+---
+
 ## 4. NLP annotation test suite — 60/60
 
 | | |

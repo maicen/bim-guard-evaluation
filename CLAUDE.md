@@ -36,8 +36,9 @@ This file provides guidance for AI coding agents working in the `bim-guard-evalu
 - Run Label Studio DocLang bridge: `uv run python eval/label_studio_bridge.py --mode doclang-to-tasks --input <doc.xml> -o <tasks.json>`
 - Run rule extraction scoring (gold PDF): `uv run python eval/score_rule_extraction.py`
 - Run rule extraction correction accuracy (live reviewer edits, Mode A): `uv run python eval/score_rule_extraction_corrections.py` — see [docs/rule-extraction-corrections.md](docs/rule-extraction-corrections.md)
+- Run extraction through the live UI and score against the human OBC 9.8 gold set (needs `uv sync --extra e2e`): `uv run python eval/e2e/extraction_confusion_e2e.py --human research/label_studio/data/export/project1_human_2026-10-02.json --clauses research/label_studio/data/export/obc_9_8_clauses.txt` — outputs to `eval/results/e2e/<ts>/`; plot with `eval/plot_extraction_confusion.py`
 - Run LLM-as-judge rule-generation scoring: `uv run python eval/eval_harness.py`
-- Run the orchestrated tier-1 pass with baseline comparison: `uv run python eval/run_all.py --tier 1 --json --compare-baseline`
+- Run the orchestrated tier-1 pass with baseline comparison: `uv run python eval/run_all.py --tier 1 --json --compare-baseline` (simulated harnesses `score_iaa` / `score_judge_sensitivity` / `score_cross_code` need `--include-simulated` and are not evidence — see `research/CLAIMS.md`)
 
 When running against an adjacent checkout of `bim-guard`:
 - macOS/Linux: `export BIMGUARD_PATH="/path/to/bim-guard"`

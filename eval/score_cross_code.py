@@ -1,4 +1,7 @@
 """
+WARNING (2026-10-03): extraction is SIMULATED from the gold rules, so its F1 = 100% is guaranteed by construction and is NOT a generalization result.
+See research/CLAIMS.md.
+
 eval/score_cross_code.py
 ---------------------------------------------
 Cross-Jurisdiction Generalization Benchmark:
