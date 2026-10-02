@@ -62,3 +62,6 @@ sources/*.chunks/
 
 .DS_Store
 .vscode/
+
+# Local Claude Code plan files (kept at the bg workspace level, not per-repo)
+plans/
