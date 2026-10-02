@@ -146,11 +146,23 @@ adjudication, no IAA — see `LIMITATIONS.md`).
 
 | | |
 |---|---|
-| **Claim** | Through the live BIM-Guard UI, extraction on the human-annotated §9.8 clauses scores: clause level TP 37 / FP 0 / FN 13 / TN 67 (precision 100%, recall 74.0%, F1 85.1%); rule level (lenient: clause + operator + value) 57 TP / 1 FP / 32 FN (P 98.3%, R 64.0%, F1 77.6%); normalized F1 57.1%; strict F1 23.1%. Operator agreement 54 of 55. |
+| **Claim** | Through the live BIM-Guard UI, extraction on the human-annotated §9.8 clauses (89 gold rules, 117 clauses), scored on `project1_human_2026-10-02b.json`: see the three runs below. |
 | **Producing script** | `eval/e2e/extraction_confusion_e2e.py` → `eval/score_extraction_vs_human.py` |
-| **Artifacts** | `eval/results/e2e/run1_browser/` (confusion.json/.md, drafts.json); figure `docs/publication/figures/fig_extraction_confusion_run1.png` (`eval/plot_extraction_confusion.py`) |
-| **Gold set** | `research/label_studio/data/export/project1_human_2026-10-02.json`: 117 clauses, 89 rules, **single annotator, no adjudication, no IAA**. Dimensional rules only. |
-| **Status** | **`single-run`**. Run 1 (104 drafts) and run 2 (`run2_playwright/`, 48 drafts) differ widely — run 2 clause F1 34.4%, lenient rule F1 32.2%. Neither run records the model (the runner now pins `openai/gpt-5.6-luna-pro`), and the extraction call accepts no seed or temperature, so run-to-run variance is unquantified. Report run 1 with run 2 as variance. |
+| **Artifacts** | `eval/results/e2e/run1_browser/`, `run2_playwright/`, `run3_variance_a/` (confusion.json/.md, drafts.json); figure `docs/publication/figures/fig_extraction_confusion_run1.png` (`eval/plot_extraction_confusion.py`) |
+| **Status** | **`single-run`, high variance**: run 1 is an outlier (see below). Do not quote run 1 alone. |
+
+| Run | Drafts | Clause TP/FP/FN/TN | Lenient P / R / F1 | Normalized F1 | Strict F1 |
+|---|---|---|---|---|---|
+| run 1 (`run1_browser`, UI by hand; model not recorded) | 104 | 37 / 0 / 13 / 67 | 98.3 / 64.0 / 77.6 | 57.1 | 23.1 |
+| run 2 (`run2_playwright`; model not recorded) | 48 | 11 / 3 / 39 / 64 | 65.5 / 21.3 / 32.2 | 20.3 | 11.9 |
+| run 3 (`run3_variance_a`, `openai/gpt-5.6-luna-pro`, 2026-10-02 22:01 UTC, **after an app rebuild at 21:50 UTC**) | 53 | 13 / 4 / 37 / 63 | 65.2 / 16.9 / 26.8 | 8.9 | 8.9 |
+
+Runs 2 and 3 agree with each other; run 1 produced about twice as many drafts and much higher recall. The cause is **unknown** (run 1 predates the model pin, so a different model is the leading hypothesis; the extraction call also accepts no seed). Run 3 also post-dates a rebuild of the BIM-Guard app, so run 3 vs. runs 1-2 mixes a possible code change with randomness.
+
+**Gold-set caveats (disclosed, not hidden):**
+- Single annotator, no adjudication, no IAA; dimensional rules only.
+- The gold changed after run 1: `project1_human_2026-10-02.json` (86 rules) was superseded by `…02b.json` (89 rules) after the Label Studio config gained a `HandrailCount` property (commit `bead618`). Scored on the earlier file, run 1 gives clause 34/2/14/67 and lenient F1 69.4%, not 77.6%. All figures in the table use 02b. Because the revision happened after the results were seen, treat the gain as unverified until the annotation change is independently justified.
+- **The gold files and clause text are gitignored (`research/label_studio/data/`; licensing of the OBC text), so the scoring cannot be reproduced from the public repo.** A rules-only derived gold (ref, target, property, operator, value; no code text) would fix this and needs a licensing decision.
 
 ---
 

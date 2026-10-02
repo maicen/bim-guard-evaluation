@@ -1,0 +1,960 @@
+{
+  "human_rules": 89,
+  "extracted_rules": 58,
+  "extracted_rules_total": 104,
+  "non_dimensional_extracted": [
+    "9.8.1.1.(1) IfcStair.SectionApplicability matches interior_or_exterior_stair_step_ramp_landing_handrail_guard",
+    "9.8.1.2.(1) IfcStair.DwellingUnitGarageCompliance matches dwelling_unit_requirements",
+    "9.8.1.3.(1) IfcStair.ExitSectionCompliance exists Sections_9_9_and_9_10_compliant",
+    "9.8.1.4.(1) IfcTransportElement.Part3Compliance exists true",
+    "9.8.2.1.(3) IfcStairFlight.ClearWidth >= max(900,8*OccupantLoad)",
+    "9.8.3.1.(1) IfcStair.StairType matches straight|curved|spiral",
+    "9.8.3.1.(2) IfcStairFlight.TreadConfiguration matches rectangular_with_permitted_winders|rectangular_and_tapered_same_turn_direction",
+    "9.8.3.1.(3) IfcStairFlight.CurvedExitCompliance exists 3.4.6.9.2_compliant",
+    "9.8.3.1.(4) IfcStair.SpiralStairCompliance exists 9.8.4.5A_compliant",
+    "9.8.4.5A.(1) IfcStairFlight.TreadUniformity matches consistent_angle_uniform_dimension_same_turn_direction",
+    "9.8.4.5A.(2) IfcStair.OnlyMeansOfEgress matches permitted",
+    "9.8.4.5A.(3) IfcStair.ServesAsExit == false",
+    "9.8.4.2.(1) IfcStairFlight.TreadRun matches Table_9.8.4.1_rectangular_tread_run",
+    "9.8.4.3 IfcStairFlight.TaperedTreadExitCompliance exists 3.4.6.9_compliant_at_any_point",
+    "9.8.6.2.(2) IfcSlab.Length >= min(RequiredStairOrRampWidth,1100)",
+    "9.8.6.2.(2a) IfcDoor.LandingOmissionQualification matches permitted",
+    "9.8.6.2.(3a) IfcDoor.LandingOmissionQualification matches permitted",
+    "9.8.6.2.(3) IfcSlab.LandingLengthMeasurement matches perpendicular_from_narrow_edge_at_half_required_length",
+    "9.8.6.2.(4) IfcSlab.Width matches adjacent_width_rule_compliant",
+    "9.8.6.2.(5) IfcDoor.SwingClearanceOverLanding exists true",
+    "9.8.7.1.(1) IfcRailing.HandrailCount >= table_9.8.7.1_required_sides",
+    "9.8.7.1.(3) IfcStairFlight.HandrailRequired == false",
+    "9.8.7.2.(1) IfcRailing.IsContinuous exists true",
+    "9.8.7.2.(2) IfcRailing.IsContinuous exists true",
+    "9.8.7.3.(1) IfcRailing.SafeTermination exists true",
+    "9.8.7.5.(2) IfcRailing.ContinuouslyGraspable exists true",
+    "9.8.8.1.(1) IfcSlab.UnprotectedEdgeGuardCount >= UnprotectedSideCount",
+    "9.8.8.1.(4) IfcDoor.GuardOrOpeningControl matches guard_or_controlled_opening_<=100mm",
+    "table:9.8.8.2 IfcRailing.GuardDesignLoad matches horizontal_0.5_kN_per_m_or_1.0_kN_concentrated;outward_0.5_kN_over_300x300_mm;vertical_1.5_kN_per_m",
+    "table:9.8.8.2 IfcRailing.GuardDesignLoad matches horizontal_concentrated_1.0_kN;outward_0.5_kN_over_100x100_mm;vertical_1.5_kN_per_m",
+    "table:9.8.8.2 IfcRailing.GuardDesignLoad matches horizontal_0.75_kN_per_m_or_1.0_kN_concentrated;outward_0.5_kN_over_100x100_mm;vertical_1.5_kN_per_m",
+    "9.8.8.4.(2) IfcRailing.VehicleGuardrailDesignLoad matches 4.1.5.15.1",
+    "9.8.8.5.(3) IfcRailing.MaximumOpening matches permits_200_mm_sphere",
+    "9.8.8.7.(1) IfcRailing.GlassType matches laminated_safety_glass|tempered_safety_glass|wired_safety_glass",
+    "9.8.9.2.(1) IfcStair.SupportSystem matches masonry_or_concrete_support_>=150mm|cantilevered_from_main_foundation_wall",
+    "9.8.9.2.(3) IfcStair.FoundationDepthCompliance exists Section_9.12_compliant",
+    "9.8.9.3.(1) IfcStair.WoodPreservativeTreatment exists true",
+    "9.8.9.4.(1) IfcStairFlight.StringerEndSupport exists top_and_bottom_secured",
+    "9.8.9.5.(2) IfcStairFlight.TreadFaceOrientation matches perpendicular_to_stringers",
+    "9.8.9.6.(1) IfcStairFlight.FinishPerformance matches wear_resistant;slip_resistant;smooth_even;free_from_open_defects",
+    "9.8.9.6.(2) IfcStairFlight.FinishMaterial matches hardwood|vertical_grain_softwood|resilient_flooring|low_pile_carpet|mat_finish_ceramic_tile|concrete|plywood_for_unfinished_basement_or_garage",
+    "9.8.9.6.(3) IfcStairFlight.VisualDemarcation matches colour_contrast_or_distinctive_visual_pattern_at_tread_edges_landing_edges_ramp_ends",
+    "9.8.9.6.(4) IfcBuildingElementProxy.TactileAttentionIndicatorCompliance exists Article_3.8.3.18_compliant",
+    "9.8.9.6.(5) IfcStairFlight.SlipResistantFinish exists true",
+    "9.8.10.1.(1) IfcStair.CantileverStepLoadDesign exists true",
+    "9.8.10.3.(1) IfcStair.FreezeUpliftProtection exists true"
+  ],
+  "clauses": 117,
+  "clause_level": {
+    "tp": 37,
+    "fp": 0,
+    "fn": 13,
+    "tn": 67,
+    "clauses": [
+      {
+        "ref": "9.8.1.1.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.1.2.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.1.3.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.1.4.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.10.1.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.10.2.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.10.3.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.2.1.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.2.1.(2)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.2.1.(3)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.2.1.(4)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.2.2.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.2.2.(2)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.2.2.(3)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.3.1.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.3.1.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.3.1.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.3.1.(4)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.3.2.(1)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.3.3.(1)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.1.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.1.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.1.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.1.(4)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.2.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.2.(2)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.3",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.3.(3)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.4.4.(5)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.5A.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.4.5A.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.5A.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.6.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.4.7.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.5.1.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.5.1.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.5.2.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.5.2.(2)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.5.3.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.5.4",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.5.4.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.6.1.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.1.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.1.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.2",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.2.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.6.2.(2)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.2.(2a)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.2.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.2.(3a)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.2.(4)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.2.(5)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.6.2.(6)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.6.2.(7)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.6.4.(1)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.7.1.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.7.1.(2)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.7.1.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.7.1.(4)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.7.1.(5)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.7.2.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.7.2.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.7.3.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.7.3.(2)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.7.4.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.7.4.(2)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.7.4.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.7.5.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.7.5.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.7.7.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.7.7.(2)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.1.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.1.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.1.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.1.(4)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.1.(5)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.1.(6)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.1.(7)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.1.(8)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.1.(9)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.2.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.2.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.2.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.2.(4)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.2.(5)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.3.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.8.3.(2)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.8.3.(3)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.8.3.(4)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.8.3.(5)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.3.(6)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.8.3.(7)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.4.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.8.4.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.8.5.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.8.5.(2)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.8.5.(3)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.8.7.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.1.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.9.2.(1)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.2.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.2.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.3.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.4.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.9.4.(2)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.9.5.(1)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "9.8.9.5.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.6",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.6.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.6.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.6.(3)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.6.(4)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.9.6.(5)",
+        "human": true,
+        "extracted": true
+      },
+      {
+        "ref": "note:9.8.4.1.(1)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "table:9.8.4.1",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "table:9.8.7.1",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "table:9.8.8.2",
+        "human": true,
+        "extracted": false
+      }
+    ],
+    "unmapped_extracted_refs": [],
+    "metrics": {
+      "confusion_matrix": {
+        "tp": 37,
+        "fp": 0,
+        "fn": 13,
+        "tn": 67,
+        "total": 117,
+        "actual_positives": 50,
+        "actual_negatives": 67
+      },
+      "accuracy": {
+        "point": 0.8889,
+        "ci_lower": 0.8191,
+        "ci_upper": 0.9339,
+        "formatted": "88.9% [95% CI: 81.9% \u2013 93.4%]"
+      },
+      "recall_sensitivity": {
+        "point": 0.74,
+        "ci_lower": 0.6045,
+        "ci_upper": 0.8413,
+        "formatted": "74.0% [95% CI: 60.5% \u2013 84.1%]"
+      },
+      "precision": {
+        "point": 1.0,
+        "ci_lower": 0.9059,
+        "ci_upper": 1.0,
+        "formatted": "100.0% [95% CI: 90.6% \u2013 100.0%]"
+      },
+      "specificity": {
+        "point": 1.0,
+        "ci_lower": 0.9458,
+        "ci_upper": 1.0,
+        "formatted": "100.0% [95% CI: 94.6% \u2013 100.0%]"
+      },
+      "f1_score": {
+        "point": 0.8506,
+        "ci_lower": 0.7251,
+        "ci_upper": 0.9138,
+        "formatted": "85.1% [95% CI: 72.5% \u2013 91.4%]"
+      },
+      "balanced_accuracy": {
+        "point": 0.87,
+        "ci_lower": 0.7752,
+        "ci_upper": 0.9206,
+        "formatted": "87.0% [95% CI: 77.5% \u2013 92.1%]"
+      }
+    }
+  },
+  "rule_level": {
+    "lenient": {
+      "tp": 57,
+      "fp": 1,
+      "fn": 32,
+      "precision": 0.9827586206896551,
+      "recall": 0.6404494382022472,
+      "f1": 0.7755102040816326,
+      "missed": [
+        "9.8.2.1.(3) IfcStairFlight.Width >= 900.0 (base units)",
+        "9.8.2.1.(3) IfcStairFlight.Width >= 8.0 (base units)",
+        "9.8.3.3.(1) IfcStairFlight.FlightHeight <= 3700.0 (base units)",
+        "9.8.3.2.(1) IfcStairFlight.NumberOfRiser >= 3.0 (base units)",
+        "9.8.4.2.(2) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
+        "9.8.6.2.(2) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(2) IfcSlab.LandingDimension >= 1100.0 (base units)",
+        "9.8.6.2.(4) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(4) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 1950.0 (base units)",
+        "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 2050.0 (base units)",
+        "9.8.7.1.(4) IfcRailing.HandrailCount >= 1.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other <= 1200.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other <= 300.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other >= 2.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other >= 32.0 (base units)",
+        "9.8.8.1.(4) IfcDoor.Other <= 100.0 (base units)",
+        "9.8.8.1.(5) IfcWindow.Other <= 100.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.75 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)",
+        "9.8.8.5.(3) IfcRailing.GuardOpeningSize >= 200.0 (base units)",
+        "9.8.9.2.(1) IfcStairFlight.Other >= 150.0 (base units)",
+        "9.8.4.4.(5) IfcStairFlight.Other <= 0.02 (base units)"
+      ],
+      "false_positives": [
+        "9.8.7.1.(4) IfcRailing.HandrailCount == 1.0 (base units)"
+      ]
+    },
+    "normalized": {
+      "tp": 42,
+      "fp": 16,
+      "fn": 47,
+      "precision": 0.7241379310344828,
+      "recall": 0.47191011235955055,
+      "f1": 0.5714285714285714,
+      "missed": [
+        "9.8.2.1.(3) IfcStairFlight.Width >= 900.0 (base units)",
+        "9.8.2.1.(3) IfcStairFlight.Width >= 8.0 (base units)",
+        "9.8.3.3.(1) IfcStairFlight.FlightHeight <= 3700.0 (base units)",
+        "9.8.3.2.(1) IfcStairFlight.NumberOfRiser >= 3.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailCount >= 2.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)",
+        "9.8.4.2.(2) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
+        "9.8.4.6.(1) IfcStairFlight.Other <= 15.0 (base units)",
+        "9.8.4.6.(1) IfcStairFlight.Other <= 25.0 (base units)",
+        "9.8.6.2.(1) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(1) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(2) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(2) IfcSlab.LandingDimension >= 1100.0 (base units)",
+        "9.8.6.2.(4) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(4) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(6) IfcSlab.Other <= 0.02 (base units)",
+        "9.8.6.2.(7) IfcSlab.LandingDimension >= 300.0 (base units)",
+        "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 1950.0 (base units)",
+        "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 2050.0 (base units)",
+        "9.8.7.1.(2) IfcRailing.Other <= 825.0 (base units)",
+        "9.8.7.1.(4) IfcRailing.HandrailCount >= 1.0 (base units)",
+        "9.8.7.3.(2) IfcRailing.Other >= 300.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other <= 1200.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other <= 300.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other >= 2.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other >= 32.0 (base units)",
+        "9.8.8.1.(4) IfcDoor.Other <= 100.0 (base units)",
+        "9.8.8.1.(5) IfcWindow.Other <= 100.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.75 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)",
+        "9.8.8.4.(1) IfcRailing.CurbHeight >= 140.0 (base units)",
+        "9.8.8.5.(3) IfcRailing.GuardOpeningSize >= 200.0 (base units)",
+        "9.8.9.2.(1) IfcStairFlight.Other >= 150.0 (base units)",
+        "9.8.9.1.(1) IfcStairFlight.Other >= 1.9 (base units)",
+        "9.8.9.1.(1) IfcStairFlight.Other >= 4.8 (base units)",
+        "9.8.10.2.(1) IfcWall.Other >= 200.0 (base units)",
+        "9.8.9.6.(5) IfcCovering.Other <= 1.0 (base units)",
+        "9.8.4.4.(5) IfcStairFlight.Other <= 0.02 (base units)"
+      ],
+      "false_positives": [
+        "9.8.4.5A.(1) IfcRailing.HandrailCount >= 2.0 (base units)",
+        "9.8.4.5A.(1) IfcRailing.Height >= 1070.0 (base units)",
+        "9.8.4.6.(1) IfcStairFlight.LeadingEdgeDepthReduction <= 15.0 (base units)",
+        "9.8.4.6.(1) IfcStairFlight.LeadingEdgeProjection <= 25.0 (base units)",
+        "9.8.6.2.(1) IfcSlab.Width >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(1) IfcSlab.Length >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(6) IfcSlab.Slope <= 0.02 (base units)",
+        "9.8.6.2.(7) IfcSlab.SideExtension >= 300.0 (base units)",
+        "9.8.7.1.(2) IfcRailing.MaximumDistanceToHandrail <= 825.0 (base units)",
+        "9.8.7.1.(4) IfcRailing.HandrailCount == 1.0 (base units)",
+        "9.8.7.3.(2) IfcRailing.HorizontalExtension >= 300.0 (base units)",
+        "9.8.8.4.(1) IfcSlab.CurbHeight >= 140.0 (base units)",
+        "9.8.9.1.(1) IfcStair.UniformLoadCapacity >= 1.9 (base units)",
+        "9.8.9.1.(1) IfcStair.UniformLoadCapacity >= 4.8 (base units)",
+        "9.8.9.6.(5) IfcStairFlight.SlipResistantStripProjection <= 1.0 (base units)",
+        "9.8.10.2.(1) IfcStair.FoundationWallThickness >= 200.0 (base units)"
+      ]
+    },
+    "strict": {
+      "tp": 17,
+      "fp": 41,
+      "fn": 72,
+      "precision": 0.29310344827586204,
+      "recall": 0.19101123595505617,
+      "f1": 0.23129251700680273,
+      "missed": [
+        "9.8.2.1.(3) IfcStairFlight.Width >= 900.0 (base units)",
+        "9.8.2.1.(3) IfcStairFlight.Width >= 8.0 (base units)",
+        "9.8.3.3.(1) IfcStairFlight.FlightHeight <= 3700.0 (base units)",
+        "9.8.3.2.(1) IfcStairFlight.NumberOfRiser >= 3.0 (base units)",
+        "9.8.4.3.(3) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailCount >= 2.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.ClearWidth >= 660.0 (base units)",
+        "9.8.4.2.(2) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
+        "9.8.4.6.(1) IfcStairFlight.Other <= 15.0 (base units)",
+        "9.8.4.6.(1) IfcStairFlight.Other <= 25.0 (base units)",
+        "9.8.5.3.(1) IfcRampFlight.RequiredHeadroom >= 1950.0 (base units)",
+        "9.8.5.3.(1) IfcRampFlight.RequiredHeadroom >= 2050.0 (base units)",
+        "9.8.5.2.(2) IfcRampFlight.Width >= 860.0 (base units)",
+        "9.8.5.2.(1) IfcRampFlight.Width >= 1100.0 (base units)",
+        "9.8.5.4.(1) IfcRampFlight.RampSlope <= 0.1 (base units)",
+        "9.8.5.4.(1) IfcRampFlight.RampSlope <= 0.1 (base units)",
+        "9.8.5.4.(1) IfcRampFlight.RampSlope <= 0.166667 (base units)",
+        "9.8.5.4.(1) IfcRampFlight.RampSlope <= 0.125 (base units)",
+        "9.8.6.2.(1) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(1) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(2) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(2) IfcSlab.LandingDimension >= 1100.0 (base units)",
+        "9.8.6.2.(4) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(4) IfcSlab.LandingDimension >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(6) IfcSlab.Other <= 0.02 (base units)",
+        "9.8.6.2.(7) IfcSlab.LandingDimension >= 300.0 (base units)",
+        "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 1950.0 (base units)",
+        "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 2050.0 (base units)",
+        "9.8.7.1.(2) IfcRailing.Other <= 825.0 (base units)",
+        "9.8.7.1.(4) IfcRailing.HandrailCount >= 1.0 (base units)",
+        "9.8.7.3.(2) IfcRailing.Other >= 300.0 (base units)",
+        "9.8.7.5.(1) IfcRailing.HandrailClearance >= 60.0 (base units)",
+        "9.8.7.5.(1) IfcRailing.HandrailClearance >= 50.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other <= 1200.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other <= 300.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other >= 2.0 (base units)",
+        "9.8.7.7.(2) IfcRailing.Other >= 32.0 (base units)",
+        "9.8.7.7.(1) IfcRailing.HandrailLoad >= 0.9 (base units)",
+        "9.8.7.7.(1) IfcRailing.HandrailLoad >= 0.7 (base units)",
+        "9.8.8.1.(4) IfcDoor.Other <= 100.0 (base units)",
+        "9.8.8.1.(5) IfcWindow.Other <= 100.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.75 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)",
+        "table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)",
+        "9.8.8.3.(1) IfcRailing.GuardHeight >= 1070.0 (base units)",
+        "9.8.8.3.(2) IfcRailing.GuardHeight >= 900.0 (base units)",
+        "9.8.8.3.(3) IfcRailing.GuardHeight >= 900.0 (base units)",
+        "9.8.8.4.(1) IfcRailing.CurbHeight >= 140.0 (base units)",
+        "9.8.8.4.(1) IfcRailing.GuardHeight >= 1070.0 (base units)",
+        "9.8.8.5.(1) IfcRailing.GuardOpeningSize <= 100.0 (base units)",
+        "9.8.8.3.(4) IfcRailing.GuardHeight >= 900.0 (base units)",
+        "9.8.8.3.(6) IfcRailing.GuardHeight >= 1500.0 (base units)",
+        "9.8.8.5.(2) IfcRailing.GuardOpeningSize <= 535.0 (base units)",
+        "9.8.8.5.(3) IfcRailing.GuardOpeningSize <= 100.0 (base units)",
+        "9.8.8.5.(3) IfcRailing.GuardOpeningSize >= 200.0 (base units)",
+        "9.8.9.2.(1) IfcStairFlight.Other >= 150.0 (base units)",
+        "9.8.9.4.(1) IfcStairFlight.StringerDepth >= 90.0 (base units)",
+        "9.8.9.4.(1) IfcStairFlight.StringerDepth >= 235.0 (base units)",
+        "9.8.9.1.(1) IfcStairFlight.Other >= 1.9 (base units)",
+        "9.8.9.1.(1) IfcStairFlight.Other >= 4.8 (base units)",
+        "9.8.10.2.(1) IfcWall.Other >= 200.0 (base units)",
+        "9.8.9.6.(5) IfcCovering.Other <= 1.0 (base units)",
+        "9.8.4.4.(5) IfcStairFlight.Other <= 0.02 (base units)"
+      ],
+      "false_positives": [
+        "9.8.4.5A.(1) IfcRailing.HandrailCount >= 2.0 (base units)",
+        "9.8.4.5A.(1) IfcRailing.Height >= 1070.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.ClearWidthBetweenHandrails >= 660.0 (base units)",
+        "9.8.4.3.(3) IfcStairFlight.TaperedTreadDepth between ('rel', 0.0, 25.0) (base units)",
+        "9.8.4.6.(1) IfcStairFlight.LeadingEdgeDepthReduction <= 15.0 (base units)",
+        "9.8.4.6.(1) IfcStairFlight.LeadingEdgeProjection <= 25.0 (base units)",
+        "9.8.5.2.(1) IfcRamp.ClearWidth >= 1100.0 (base units)",
+        "9.8.5.2.(2) IfcRamp.ClearWidth >= 860.0 (base units)",
+        "9.8.5.3.(1) IfcRamp.ClearHeight >= 1950.0 (base units)",
+        "9.8.5.3.(1) IfcRamp.ClearHeight >= 2050.0 (base units)",
+        "9.8.5.4.(1) IfcRamp.Slope <= 0.1 (base units)",
+        "9.8.5.4.(1) IfcRamp.Slope <= 0.1 (base units)",
+        "9.8.5.4.(1) IfcRamp.Slope <= 0.1666667 (base units)",
+        "9.8.5.4.(1) IfcRamp.Slope <= 0.125 (base units)",
+        "9.8.6.2.(1) IfcSlab.Width >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(1) IfcSlab.Length >= ('rel', 0.0, None) (base units)",
+        "9.8.6.2.(6) IfcSlab.Slope <= 0.02 (base units)",
+        "9.8.6.2.(7) IfcSlab.SideExtension >= 300.0 (base units)",
+        "9.8.7.1.(2) IfcRailing.MaximumDistanceToHandrail <= 825.0 (base units)",
+        "9.8.7.1.(4) IfcRailing.HandrailCount == 1.0 (base units)",
+        "9.8.7.3.(2) IfcRailing.HorizontalExtension >= 300.0 (base units)",
+        "9.8.7.5.(1) IfcRailing.ClearanceFromWall >= 60.0 (base units)",
+        "9.8.7.5.(1) IfcRailing.ClearanceFromWall >= 50.0 (base units)",
+        "9.8.7.7.(1) IfcRailing.ConcentratedLoadCapacity >= 0.9 (base units)",
+        "9.8.7.7.(1) IfcRailing.UniformLoadCapacity >= 0.7 (base units)",
+        "9.8.8.3.(1) IfcRailing.Height >= 1070.0 (base units)",
+        "9.8.8.3.(2) IfcRailing.Height >= 900.0 (base units)",
+        "9.8.8.3.(3) IfcRailing.Height >= 900.0 (base units)",
+        "9.8.8.3.(4) IfcRailing.Height >= 900.0 (base units)",
+        "9.8.8.3.(6) IfcRailing.Height >= 1500.0 (base units)",
+        "9.8.8.4.(1) IfcSlab.CurbHeight >= 140.0 (base units)",
+        "9.8.8.4.(1) IfcRailing.Height >= 1070.0 (base units)",
+        "9.8.8.5.(1) IfcRailing.MaximumOpening <= 100.0 (base units)",
+        "9.8.8.5.(2) IfcRailing.MaximumOpening <= 535.0 (base units)",
+        "9.8.8.5.(3) IfcRailing.MaximumOpening <= 100.0 (base units)",
+        "9.8.9.1.(1) IfcStair.UniformLoadCapacity >= 1.9 (base units)",
+        "9.8.9.1.(1) IfcStair.UniformLoadCapacity >= 4.8 (base units)",
+        "9.8.9.4.(1) IfcStairFlight.StringerEffectiveDepth >= 90.0 (base units)",
+        "9.8.9.4.(1) IfcStairFlight.StringerOverallDepth >= 235.0 (base units)",
+        "9.8.9.6.(5) IfcStairFlight.SlipResistantStripProjection <= 1.0 (base units)",
+        "9.8.10.2.(1) IfcStair.FoundationWallThickness >= 200.0 (base units)"
+      ]
+    }
+  },
+  "operator_confusion": {
+    ">=": {
+      ">=": 37,
+      "==": 1
+    },
+    "<=": {
+      "<=": 16
+    },
+    "between": {
+      "between": 1
+    }
+  },
+  "run": {
+    "base_url": "https://bim-guard.xyz",
+    "drafts": 104,
+    "unmapped_drafts": 0,
+    "out_dir": "eval/results/e2e/run1_browser"
+  }
+}

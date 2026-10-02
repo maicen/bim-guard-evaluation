@@ -228,6 +228,30 @@ def login(base_url: str, state_path: Path) -> None:
     print(f"Saved signed-in session to {state_path} (keep it private; it is gitignored).")
 
 
+def _options(page, button_name: str) -> list[tuple[str, str]]:
+    """Open a custom dropdown (the page no longer uses native <select>) and list (value, label)."""
+    from playwright.sync_api import expect
+    page.get_by_role("button", name=button_name).click()
+    expect(page.get_by_role("option").first).to_be_attached(timeout=60_000)
+    return page.get_by_role("option").evaluate_all(
+        "os => os.map(o => [o.dataset.value || '', o.textContent.trim()])")
+
+
+def _pick(page, button_name: str, match, *, attempts: int = 6) -> str | None:
+    """Select the first option whose (value, label) satisfies `match`; return its value.
+
+    The library loads asynchronously, so retry before concluding the option is absent."""
+    for attempt in range(attempts):
+        opts = _options(page, button_name)
+        for i, (value, label) in enumerate(opts):
+            if match(value, label):
+                page.get_by_role("option").nth(i).click()
+                return value
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(2000)
+    return None
+
+
 def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, Any]]:
     from playwright.sync_api import expect, sync_playwright
 
@@ -239,6 +263,8 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
     digest = hashlib.sha256(args.clauses.read_bytes()).hexdigest()[:8]
     upload_file = out_dir / f"{args.doc_title}_{digest}.txt"
     shutil.copyfile(args.clauses, upload_file)
+    if args.existing_doc:  # reuse an already-uploaded, already-converted library document
+        upload_file = Path(args.existing_doc)
     option_label = f"{upload_file.name} (Specification)"
     api_headers: dict[str, str] = {}
 
@@ -261,16 +287,23 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
             if "login" in page.url:
                 sys.exit("Saved session has expired. Run with --login again.")
 
-            doc_select = page.locator("#rule-doc-source")
-            expect(doc_select).to_be_visible()
-            if page.locator("#rule-doc-source option", has_text=option_label).count() == 0:
+            expect(page.get_by_role("button", name="Source document")).to_be_visible(timeout=60_000)
+            if _pick(page, "Source document", lambda v, l: option_label in l) is None:
                 print(f"Uploading {upload_file.name} ...")
                 page.get_by_text("Add / Upload Document", exact=True).first.click()
                 page.locator('input[type="file"]').set_input_files(str(upload_file))
                 page.get_by_role("button", name=re.compile(r"^(Upload|Add) Document$")).click()
-                expect(page.locator("#rule-doc-source option", has_text=option_label)).to_have_count(1, timeout=180_000)
-            doc_select.select_option(label=option_label)
-            doc_id = doc_select.input_value()
+                for _ in range(90):
+                    page.wait_for_timeout(2000)
+                    if any(option_label in l for _, l in _options(page, "Source document")):
+                        break
+                    page.keyboard.press("Escape")
+                else:
+                    sys.exit("Uploaded document never appeared in the library")
+                page.keyboard.press("Escape")
+                _pick(page, "Source document", lambda v, l: option_label in l)
+            doc_id = next(v for v, l in _options(page, "Source document") if option_label in l)
+            page.keyboard.press("Escape")
             print(f"Document id {doc_id}: {option_label}")
 
             # The upload dialog stores the file without text (generate_doclang=false);
@@ -285,47 +318,57 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
                 page.get_by_role("button", name="Convert to DocLang").click()
                 expect(row.get_by_title(re.compile(r"DocLang XML ready"))).to_be_visible(timeout=10 * 60 * 1000)
             page.goto(f"{args.base_url}/#/extract?doc_id={doc_id}")
-            expect(page.locator("#rule-doc-source")).to_have_value(doc_id, timeout=60_000)
+            expect(page.get_by_role("button", name="Source document")).to_contain_text(upload_file.name, timeout=60_000)
 
             # Always pin the model: the page's default is simply the first catalogue entry
             # (alphabetical), which can be an expensive model.
-            model_select = page.locator("#rule-ai-model")
-            expect(model_select.locator("option").first).to_be_attached(timeout=60_000)
-            options = model_select.locator("option").evaluate_all("os => os.map(o => [o.value, o.textContent.trim()])")
             wanted = args.model.lower()
-            choice = next((v for v, _ in options if v.lower().endswith(wanted)), None) or next(
-                (v for v, label in options if wanted in label.lower()), None)
-            if not choice:
+            chosen = _pick(page, "LLM model", lambda v, l: v.lower().endswith("/" + wanted) or v.lower() == wanted)
+            if not chosen:
                 sys.exit(f"No extraction model matching {args.model!r}")
-            model_select.select_option(value=choice)
-            print(f"Model: {page.locator('#rule-ai-model option:checked').inner_text()}")
+            print(f"Model: {chosen}")
 
             # The button's label sits in a role=status span, which gives the button no
             # accessible name, so select it by text rather than by role name.
             extract_btn = page.locator("button", has_text="Extract Compliance Rules")
-            expect(extract_btn).to_be_enabled(timeout=60_000)
-            print("Extracting (this can take several minutes) ...")
-            started = datetime.now(UTC)
-            with page.expect_response(lambda r: "/rules/extract-drafts" in r.url and r.request.method == "POST",
-                                      timeout=EXTRACT_TIMEOUT_MS) as resp_info:
-                extract_btn.click()
-            resp = resp_info.value
-            if not resp.ok:
-                sys.exit(f"extract-drafts failed: HTTP {resp.status} {resp.text()[:300]}")
-            expect(page.get_by_text(re.compile(r"Extracting Rules via AI"))).to_have_count(0, timeout=EXTRACT_TIMEOUT_MS)
-            page.wait_for_timeout(2000)
-            page.screenshot(path=str(out_dir / "draft_review.png"), full_page=True)
-
-            drafts_resp = page.request.get(f"{args.base_url}/api/documents/{doc_id}/rules/drafts", headers=api_headers)
-            if not drafts_resp.ok:
-                sys.exit(f"Could not read drafts: HTTP {drafts_resp.status}")
-            payload = drafts_resp.json()
-            drafts = payload.get("drafts", payload) if isinstance(payload, dict) else payload
-            drafts = [d for d in drafts if _created_after(d, started)]
+            drafts = []
+            last_error = "no drafts were created"
+            for attempt in range(1, args.attempts + 1):
+                expect(extract_btn).to_be_enabled(timeout=60_000)
+                print(f"Extracting, attempt {attempt}/{args.attempts} (this can take several minutes) ...")
+                started = datetime.now(UTC)
+                with page.expect_response(lambda r: "/rules/extract-drafts" in r.url and r.request.method == "POST",
+                                          timeout=EXTRACT_TIMEOUT_MS) as resp_info:
+                    extract_btn.click()
+                resp = resp_info.value
+                if not resp.ok:
+                    last_error = f"extract-drafts HTTP {resp.status}"
+                else:
+                    expect(page.get_by_text(re.compile(r"Extracting Rules via AI"))).to_have_count(0, timeout=EXTRACT_TIMEOUT_MS)
+                    page.wait_for_timeout(2000)
+                    banner = page.locator("div.border-rose-800 span")
+                    if banner.count():  # e.g. "network error": the stream was cut, extraction did not complete
+                        last_error = banner.first.inner_text()
+                    else:
+                        last_error = "no drafts were created"
+                    page.screenshot(path=str(out_dir / "draft_review.png"), full_page=True)
+                    # The gateway can return 5xx for a moment after a long stream; retry the read.
+                    for _ in range(8):
+                        drafts_resp = page.request.get(f"{args.base_url}/api/documents/{doc_id}/rules/drafts", headers=api_headers)
+                        if drafts_resp.ok:
+                            payload = drafts_resp.json()
+                            found = payload.get("drafts", payload) if isinstance(payload, dict) else payload
+                            drafts = [d for d in found if _created_after(d, started)]
+                            break
+                        last_error = f"reading drafts: HTTP {drafts_resp.status}"
+                        page.wait_for_timeout(10_000)
+                if drafts:
+                    break
+                print(f"  attempt {attempt} produced no drafts ({last_error}); retrying in 30 s" if attempt < args.attempts
+                      else f"  attempt {attempt} produced no drafts ({last_error})")
+                page.wait_for_timeout(30_000)
             if not drafts:
-                banner = page.locator("div.border-rose-800 span")
-                reason = banner.first.inner_text() if banner.count() else "no drafts were created"
-                sys.exit(f"Extraction produced no drafts: {reason}")
+                sys.exit(f"Extraction produced no drafts after {args.attempts} attempt(s): {last_error}")
         finally:
             context.tracing.stop(path=str(out_dir / "trace.zip"))
             browser.close()
@@ -341,6 +384,8 @@ def main() -> None:
     ap.add_argument("--login", action="store_true", help="sign in by hand once and save the session")
     ap.add_argument("--human", type=Path, help="Label Studio JSON export (gold)")
     ap.add_argument("--clauses", type=Path, help="clause text file uploaded for extraction")
+    ap.add_argument("--attempts", type=int, default=3, help="retries when the extraction stream drops or yields no drafts")
+    ap.add_argument("--existing-doc", help="exact library file name to reuse instead of uploading (must match the clause text)")
     ap.add_argument("--doc-title", default=DEFAULT_TITLE,
                     help="document title prefix; a short hash of --clauses is appended")
     ap.add_argument("--model", default="openai/gpt-5.6-luna-pro",
@@ -373,7 +418,7 @@ def main() -> None:
     unmapped = [r for r in rules if not re.search(r"\d+\.\d+\.\d+", str(r.get("ref") or ""))]
 
     res = score(args.human, extracted_path)
-    res["run"] = {"base_url": args.base_url, "drafts": len(drafts), "unmapped_drafts": len(unmapped),
+    res["run"] = {"base_url": args.base_url, "model": args.model, "run_at": datetime.now(UTC).isoformat(timespec="seconds"), "drafts": len(drafts), "unmapped_drafts": len(unmapped),
                   "out_dir": str(out_dir)}
     md = to_markdown(res)
     if unmapped:
