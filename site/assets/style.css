@@ -1,0 +1,68 @@
+:root {
+  --bg: #fbfaf8; --fg: #1d1d1b; --muted: #6a6a64; --line: #e2dfd8; --card: #fff;
+  --accent: #1f5f8b; --code-bg: #f1eee8;
+  --ok: #1a7f4b; --ok-bg: #e3f4ea;
+  --warn: #9a5b00; --warn-bg: #fdf0d9;
+  --bad: #a3321f; --bad-bg: #fbe6e1;
+  --neutral: #4b5563; --neutral-bg: #eceef1;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15161a; --fg: #e8e6e1; --muted: #9a998f; --line: #2c2e35; --card: #1c1e24;
+    --accent: #7db7e0; --code-bg: #24262d;
+    --ok: #6fd59c; --ok-bg: #173526;
+    --warn: #f0b95a; --warn-bg: #3a2c12;
+    --bad: #f08a77; --bad-bg: #3d1f1a;
+    --neutral: #b4bac4; --neutral-bg: #2a2d34;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+a { color: var(--accent); }
+.top {
+  display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center;
+  padding: 14px 16px; border-bottom: 1px solid var(--line);
+  max-width: 960px; margin: 0 auto;
+}
+.brand { font-weight: 700; color: var(--fg); text-decoration: none; }
+.brand span { font-weight: 400; color: var(--muted); }
+nav { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; }
+nav a { color: var(--muted); text-decoration: none; padding: 2px 0; border-bottom: 2px solid transparent; }
+nav a:hover, nav a[aria-current] { color: var(--fg); border-bottom-color: var(--accent); }
+main, footer { max-width: 960px; margin: 0 auto; padding: 8px 16px 32px; }
+footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); margin-top: 24px; padding-top: 16px; }
+h1 { font-size: 2rem; line-height: 1.2; margin: 1.2em 0 .4em; }
+h2 { font-size: 1.4rem; margin: 2em 0 .5em; padding-top: .4em; border-top: 1px solid var(--line); }
+h3 { font-size: 1.1rem; margin: 1.6em 0 .4em; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: .88em; word-break: break-word; }
+pre { background: var(--code-bg); padding: 12px 14px; border-radius: 8px; overflow-x: auto; }
+pre code { background: none; padding: 0; word-break: normal; }
+blockquote { margin: 1em 0; padding: 4px 16px; border-left: 3px solid var(--line); color: var(--muted); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 1em 0; }
+caption { text-align: left; font-weight: 600; padding: 0 0 8px; color: var(--fg); }
+th, td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { background: var(--code-bg); }
+main > table, .table-wrap { display: block; overflow-x: auto; }
+.src, .src-note { color: var(--muted); font-size: 13.5px; }
+figure { margin: 1.2em 0; }
+figure img { max-width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+figcaption { color: var(--muted); font-size: 14px; margin-top: 6px; }
+.badge { font-weight: 600; white-space: nowrap; }
+.badge.reproduced { background: var(--ok-bg); color: var(--ok); }
+.badge.archived-artifact, .badge.single-run { background: var(--warn-bg); color: var(--warn); }
+.badge.not-verified, .badge.simulated { background: var(--bad-bg); color: var(--bad); }
+.badge.retired-domain { background: var(--neutral-bg); color: var(--neutral); }
+.callout { border: 1px solid var(--line); border-left-width: 4px; border-radius: 8px; background: var(--card); padding: 10px 16px; margin: 1.2em 0; }
+.callout.warn { border-left-color: var(--bad); background: var(--bad-bg); }
+.callout.ok { border-left-color: var(--ok); }
+.callout p { margin: .4em 0; }
+details { border: 1px solid var(--line); border-radius: 8px; padding: 4px 14px; margin: 1em 0; background: var(--card); }
+summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin: 1.2em 0; }
+.card { border: 1px solid var(--line); border-radius: 10px; background: var(--card); padding: 12px 16px; }
+.card .big { font-size: 1.7rem; font-weight: 700; line-height: 1.2; }
+.card .lbl { color: var(--muted); font-size: 14px; }

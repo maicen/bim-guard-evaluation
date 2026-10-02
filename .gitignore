@@ -68,3 +68,6 @@ plans/
 
 # Playwright signed-in session for eval/e2e (contains auth tokens)
 .auth/
+
+# Generated static site
+site/dist/
