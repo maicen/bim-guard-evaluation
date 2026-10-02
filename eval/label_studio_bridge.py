@@ -45,6 +45,7 @@ _UNIT_CANON = {
 _NUMBER_WORDS = {
     "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
     "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+    "both": 2,  # "handrails on both sides"
 }
 
 
@@ -53,6 +54,25 @@ _LIST_MARKER = re.compile(r"\((?:[a-z]|[ivx]+)\)\s")
 _NEGATION = re.compile(r"\b(?:other than|not|except|excluding)\b")
 # Bound relative to another property of the same element: "not more than its run plus 25 mm".
 _RELATIVE = re.compile(rf"\bits\s+([a-z]+)(?:\s+plus)?(?:\s+({_NUM})\s*(?:{_UNIT})?)?", re.IGNORECASE)
+# Bound relative to a dimension of another element, with no number: "at least as wide as
+# the width of the stair or ramp", "the required width of the stair or ramp",
+# "not less than the greater required stair or ramp width".
+_OTHER_DIM = re.compile(r"\b(width|length|height|depth|run|rise)\b", re.IGNORECASE)
+_OTHER_ELEMENTS = ("stair", "ramp", "landing", "flight", "tread", "riser", "guard", "handrail", "door", "wall")
+_OTHER_QUALIFIERS = ("greater", "lesser", "required", "actual", "adjacent")
+
+
+def _other_element_property(span: str) -> str | None:
+    """'the required width of the stair or ramp' -> 'RequiredStairOrRampWidth', else None."""
+    if re.search(r"\d", span) or _COUNT_WORD.search(span):
+        return None
+    dim = _OTHER_DIM.search(span)
+    low = span.lower()
+    elements = [e for e in _OTHER_ELEMENTS if re.search(rf"\b{e}s?\b", low)]
+    if not dim or not elements:
+        return None
+    qualifiers = [q for q in _OTHER_QUALIFIERS if re.search(rf"\b{q}\b", low)]
+    return "".join(q.capitalize() for q in qualifiers) + "Or".join(e.capitalize() for e in elements) + dim.group(1).capitalize()
 
 _COUNT_WORD = re.compile(rf"\b(?:{'|'.join(_NUMBER_WORDS)})\b", re.IGNORECASE)
 
@@ -448,12 +468,18 @@ class LabelStudioBridge:
             }
 
             relative = _RELATIVE.search(span_text)
+            other_property = None if relative else _other_element_property(span_text)
             if relative:
                 side = "min" if operator == ">=" else "max"
                 offset = _to_float(relative.group(2)) if relative.group(2) else 0
                 rule[f"value_{side}_property"] = relative.group(1).capitalize()
                 rule[f"value_{side}_offset"] = offset
                 rule["unit"] = _canon_unit(relative.group(3)) or unit_choice
+            elif other_property and operator in (">=", "<="):
+                side = "min" if operator == ">=" else "max"
+                rule[f"value_{side}_property"] = other_property
+                rule[f"value_{side}_offset"] = 0
+                rule["unit"] = unit_choice
             else:
                 val, unit, val_min, val_max = extract_numeric_value(span_text)
                 if operator == "between":

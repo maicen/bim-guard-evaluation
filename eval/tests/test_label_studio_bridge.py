@@ -385,3 +385,36 @@ def test_multi_annotator_iaa_calculator():
     report = calc.print_summary_report()
     assert "# Inter-Annotator Agreement (IAA) Report" in report
     assert "Annotator 1 vs 2" in report
+
+
+def test_gold_rules_bound_relative_to_another_element():
+    text = ("Landings shall be, (a) at least as wide as the width of the stair or ramp in which they occur, "
+            "and (b) at least as long as the width of the stair or ramp in which they occur.")
+    task = _task("9.8.6.2.(1)", text, [
+        _span(text, "at least as wide as the width of the stair or ramp in which they occur", "DIM_MIN"),
+        _span(text, "at least as long as the width of the stair or ramp in which they occur", "DIM_MIN"),
+        _choice("ifc_entity", "IfcSlab"),
+        _choice("property_name", "LandingDimension"),
+    ])
+    rules = LabelStudioBridge.parse_task_to_gold_rules(task)
+    assert [(r["operator"], r["value_min_property"], r["value_min_offset"]) for r in rules] == [
+        (">=", "StairOrRampWidth", 0),
+        (">=", "StairOrRampWidth", 0),
+    ]
+    assert all("value" not in r for r in rules)
+
+
+def test_gold_rules_handrail_count_from_words():
+    text = "Spiral stairs shall have, (a) handrails on both sides, the outer handrail being not less than 1 070 mm high."
+    task = _task("9.8.4.5A.(1)", text, [
+        {**_span(text, "handrails on both sides", "DIM_MIN"), "id": "c1"},
+        _span(text, "not less than 1 070 mm", "DIM_MIN"),
+        {"id": "c1", "type": "choices", "from_name": "dim_property", "to_name": "text",
+         "value": {"start": text.index("handrails on both sides"), "end": text.index("handrails on both sides") + 23,
+                   "choices": ["HandrailCount"]}},
+        _choice("property_name", "HandrailHeight"),
+        _choice("unit", "mm"),
+    ])
+    count, height = LabelStudioBridge.parse_task_to_gold_rules(task)
+    assert (count["property_name"], count["value"], count["unit"]) == ("HandrailCount", 2.0, None)
+    assert (height["property_name"], height["value"]) == ("HandrailHeight", 1070.0)
