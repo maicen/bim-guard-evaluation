@@ -40,6 +40,7 @@ Requires the `e2e` extra: `uv sync --extra e2e && uv run playwright install chro
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -233,7 +234,10 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
     if not args.storage_state.exists():
         sys.exit(f"No saved session at {args.storage_state}. Run with --login first.")
 
-    upload_file = out_dir / f"{args.doc_title}.txt"
+    # The content hash in the title makes an edited clause file upload as a new document
+    # instead of silently reusing a stale one with the same name.
+    digest = hashlib.sha256(args.clauses.read_bytes()).hexdigest()[:8]
+    upload_file = out_dir / f"{args.doc_title}_{digest}.txt"
     shutil.copyfile(args.clauses, upload_file)
     option_label = f"{upload_file.name} (Specification)"
     api_headers: dict[str, str] = {}
@@ -337,7 +341,8 @@ def main() -> None:
     ap.add_argument("--login", action="store_true", help="sign in by hand once and save the session")
     ap.add_argument("--human", type=Path, help="Label Studio JSON export (gold)")
     ap.add_argument("--clauses", type=Path, help="clause text file uploaded for extraction")
-    ap.add_argument("--doc-title", default=DEFAULT_TITLE)
+    ap.add_argument("--doc-title", default=DEFAULT_TITLE,
+                    help="document title prefix; a short hash of --clauses is appended")
     ap.add_argument("--model", default="openai/gpt-5.6-luna-pro",
                     help="extraction model: id suffix (e.g. openai/gpt-5.6-luna-pro) or label substring. "
                          "Always set explicitly -- the page default is the first, possibly expensive, catalogue entry")
