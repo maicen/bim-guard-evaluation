@@ -215,13 +215,13 @@ _Source: `docs\validation/table7b_schema_twins.csv`_
 
 ## Figures
 
-![Figure B.1](figB1_clash_severity.png)
+![Figure B.1](appendix_b/run_20260918/figB1_clash_severity.png)
 
-![Figure B.2](figB2_material_heatmap.png)
+![Figure B.2](appendix_b/run_20260918/figB2_material_heatmap.png)
 
-![Figure B.3](figB3_engine_radar.png)
+![Figure B.3](appendix_b/run_20260918/figB3_engine_radar.png)
 
-![Figure B.4](figB4_schema_scatter.png)
+![Figure B.4](appendix_b/run_20260918/figB4_schema_scatter.png)
 
 ## B.8 Threats to validity
 

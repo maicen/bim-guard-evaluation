@@ -7,7 +7,7 @@ result. It was produced on **2026-09-18**, committed the same week, then
 [`750ae73`](https://github.com/maicen/bim-guard-evaluation/commit/750ae73c235aee334e53ae6a2b98f8394d3e6158)
 ("Remove obsolete research tables and test results", 2026-09-21) during an
 unrelated cleanup pass. It was restored from `750ae73^` on 2026-09-24 — see
-[`research/CLAIMS.md`](../CLAIMS.md) for the full claims-to-evidence ledger and
+[`research/CLAIMS.md`](../../../../CLAIMS.md) for the full claims-to-evidence ledger and
 the supersession note on the pre-submission audit that (correctly, at the time)
 flagged this data as unverifiable from the repo.
 
@@ -26,7 +26,7 @@ flagged this data as unverifiable from the repo.
   reproducibility gaps tracked in `LIMITATIONS.md`.
 - **Wall time:** 3593.7 s (`totals.seconds`) for the full 38-model sweep.
 - **Dataset:** the 38 IFC models catalogued in
-  [`research/BIMGUARD AI Validation Dataset — Verified Downloadable IFC Models.md`](../BIMGUARD%20AI%20Validation%20Dataset%20—%20Verified%20Downloadable%20IFC%20Models.md).
+  [`research/BIMGUARD AI Validation Dataset — Verified Downloadable IFC Models.md`](../../BIMGUARD%20AI%20Validation%20Dataset%20—%20Verified%20Downloadable%20IFC%20Models.md).
   The local copies of these files no longer exist on disk and were never
   hashed at acquisition time — the dataset is **not currently re-verifiable
   byte-for-byte**. A hash-pinned manifest with a documented fetch/verify

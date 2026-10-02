@@ -1,3 +1,5 @@
+> Vendored copy of the upstream DocLang 0.7 specification. Its example images and `examples/` pages are not included in this repository, so those image links do not resolve here.
+
 ---
 permalink: https://github.com/doclang-project/doclang/blob/663e9f59a5bb0e7e5c5be962fd942a4b3976c171/spec.md
 date: 2026-09-11
