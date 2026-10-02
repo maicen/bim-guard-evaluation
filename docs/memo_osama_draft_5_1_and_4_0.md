@@ -46,10 +46,8 @@ says 20260909052852.]**
 
 **Provenance.** Figures are from one extraction run on 2 October 2026 through the live BIM-Guard
 interface, scored against the human-annotated gold set for OBC 2023 §9.8 (117 clauses, 89 gold
-rules, single annotator, no adjudication). The run produced 104 draft rules, 58 of them
-dimensional (numeric checks, the scope of the gold set). Models: GPT-6.1 Sol Pro for runs 1 and 2 (as reported; not recorded in the run output) and openai/gpt-5.6-luna-pro for run 3. This is one draw: the extraction call
-accepts no temperature or seed, so run-to-run variance is not controlled **[CONFIRM: add the second
-run (48 drafts, clause F1 34%, lenient rule recall 21%) as variance, or explain it]**.
+rules, single annotator, no adjudication). Three runs produced 104, 48 and 53 draft rules. Models: GPT-6.1 Sol Pro for runs 1 and 2 (as reported; not recorded in the run output) and openai/gpt-5.6-luna-pro for run 3. The extraction call accepts no temperature or
+seed, so run-to-run variance is not controlled; runs 1 and 2 share a model and still differ widely.
 
 **(a) Information-extraction metrics.** Table 4 reports both levels.
 
@@ -105,10 +103,10 @@ adjudication. No inter-annotator agreement has been measured on this set, so the
 property-naming disagreement that dominates our strict-match errors may partly reflect ambiguity
 in the gold, not only model error.
 
-(2b) **One extraction run, uncontrolled variance.** Table 4 is a single draw. The extraction call
-used by the evaluation accepts no temperature or seed, so repeated runs differ; a second run
-through the same interface produced far fewer drafts and lower recall **[CONFIRM and report
-run 2]**. Differences of a few points between runs should not be read as real.
+(2b) **Three runs, large uncontrolled variance.** The extraction call accepts no temperature or
+seed. Runs 1 and 2 used the same model yet gave lenient rule F1 of 77.6% and 32.2%; run 3 (a cheaper
+model, after an application rebuild) gave 26.8%. Results are reported as a range, and the cause of the
+run-1 outlier is unexplained.
 
 (2c) **Scoring choices change the headline.** Lenient, normalized and strict matching give F1 of
 78%, 57% and 23% on the same drafts. We report all three; lenient depends on a hand-written
