@@ -65,3 +65,6 @@ sources/*.chunks/
 
 # Local Claude Code plan files (kept at the bg workspace level, not per-repo)
 plans/
+
+# Playwright signed-in session for eval/e2e (contains auth tokens)
+.auth/
