@@ -1,0 +1,5701 @@
+[
+  {
+    "id": 1,
+    "data": {
+      "text": "Stairways, handrails and guards in a means of egress shall conform to the requirements in Section 9.8. as well as to the requirements in this Section.",
+      "section_ref": "9.9.1.1.(1)",
+      "meta": {
+        "article_name": "Application"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_1_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 53,
+              "end": 58,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_1_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 90,
+              "end": 101,
+              "text": "Section 9.8",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_1",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "data": {
+      "text": "In addition to the fire protection requirements provided in Subsection 9.9.4., flame-spread ratings , fire-resistance ratings and fire-protection ratings for means of egress shall conform to Section 9.10.",
+      "section_ref": "9.9.1.2.(1)",
+      "meta": {
+        "article_name": "Fire Protection"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_2_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 174,
+              "end": 179,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_2_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 60,
+              "end": 76,
+              "text": "Subsection 9.9.4",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_2_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 191,
+              "end": 203,
+              "text": "Section 9.10",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_2_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 15,
+              "end": 203,
+              "text": "the fire protection requirements provided in Subsection 9.9.4., flame-spread ratings , fire-resistance ratings and fire-protection ratings for means of egress shall conform to Section 9.10",
+              "labels": [
+                "APPLICABILITY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_2",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "data": {
+      "text": "The occupant load of a floor area or part of a floor area , or of a building or part of a building not having a floor area , shall be based on, (a) two persons per sleeping room or sleeping area in a dwelling unit or suite , and (b) for occupancies other than as described in Clause (a), the number of persons, (i) for which the area is designed, or (ii) determined from Table 3.1.17.1.",
+      "section_ref": "9.9.1.3.(1)",
+      "meta": {
+        "article_name": "Occupant Load"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_3_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 125,
+              "end": 130,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_3_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 371,
+              "end": 385,
+              "text": "Table 3.1.17.1",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_3_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 260,
+              "end": 385,
+              "text": "as described in Clause (a), the number of persons, (i) for which the area is designed, or (ii) determined from Table 3.1.17.1",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_3",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcSlab"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "data": {
+      "text": "Except as otherwise provided in this Section, an exit from any floor area shall be one of the following used singly or in combination: (a) an exterior doorway, (b) an exterior passageway, (c) an exterior ramp, (d) an exterior stairway, (e) a fire escape (as described in Subsection 3.4.7.), (f) a horizontal exit , (g) an interior passageway, (h) an interior ramp, or (i) an interior stairway.",
+      "section_ref": "9.9.2.1.(1)",
+      "meta": {
+        "article_name": "Types of Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_4_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 74,
+              "end": 79,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_4_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 271,
+              "end": 287,
+              "text": "Subsection 3.4.7",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_4_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 392,
+              "text": "otherwise provided in this Section, an exit from any floor area shall be one of the following used singly or in combination: (a) an exterior doorway, (b) an exterior passageway, (c) an exterior ramp, (d) an exterior stairway, (e) a fire escape (as described in Subsection 3.4.7.), (f) a horizontal exit , (g) an interior passageway, (h) an interior ramp, or (i) an interior stairway",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_4",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "data": {
+      "text": "Fire escapes are permitted to be used as exits on existing buildings provided they are designed and installed in conformance with Subsection 3.4.7.",
+      "section_ref": "9.9.2.1.(2)",
+      "meta": {
+        "article_name": "Types of Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_5_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 13,
+              "end": 29,
+              "text": "are permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_5_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 13,
+              "end": 26,
+              "text": "are permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "xref_5_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 130,
+              "end": 146,
+              "text": "Subsection 3.4.7",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_5",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "data": {
+      "text": "Fire escapes shall not be installed on any new building .",
+      "section_ref": "9.9.2.1.(3)",
+      "meta": {
+        "article_name": "Types of Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_6_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 13,
+              "end": 22,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_6_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 13,
+              "end": 18,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "data": {
+      "text": "Where a horizontal exit is used, it shall conform to Sentence 3.4.1.6.(1) and Article 3.4.6.10.",
+      "section_ref": "9.9.2.1.(4)",
+      "meta": {
+        "article_name": "Types of Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_7_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 36,
+              "end": 41,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_7_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 53,
+              "end": 73,
+              "text": "Sentence 3.4.1.6.(1)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_7_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 78,
+              "end": 94,
+              "text": "Article 3.4.6.10",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_7_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 6,
+              "end": 31,
+              "text": "a horizontal exit is used",
+              "labels": [
+                "APPLICABILITY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_7",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "data": {
+      "text": "An exit shall be designed for no purpose other than for exiting, except that an exit may also serve as an access to a floor area .",
+      "section_ref": "9.9.2.2.(1)",
+      "meta": {
+        "article_name": "Purpose of Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_8_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 8,
+              "end": 13,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_8_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 85,
+              "end": 88,
+              "text": "may",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "cond_8_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 52,
+              "end": 129,
+              "text": "for exiting, except that an exit may also serve as an access to a floor area ",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_8",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "data": {
+      "text": "Elevators, slide escapes or windows shall not be considered as part of a required means of egress .",
+      "section_ref": "9.9.2.3.(1)",
+      "meta": {
+        "article_name": "Elevators, Slide Escapes and Windows as Means of Egress"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_9_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 36,
+              "end": 45,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_9_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 36,
+              "end": 41,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_9",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "data": {
+      "text": "Except for floor areas of mercantile occupancy , casement windows not less than 1 060 mm high, 560 mm wide, with a sill height not more than 900 mm above the inside floor, are permitted to be considered part of a required means of egress to provide access to fire escapes, when fire escapes are permitted.",
+      "section_ref": "9.9.2.3.(2)",
+      "meta": {
+        "article_name": "Elevators, Slide Escapes and Windows as Means of Egress"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_10_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 172,
+              "end": 188,
+              "text": "are permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_10_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 172,
+              "end": 185,
+              "text": "are permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_10_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 172,
+              "end": 185,
+              "text": "are permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "dim_10_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 127,
+              "end": 147,
+              "text": "not more than 900 mm",
+              "labels": [
+                "DIM_MAX"
+              ]
+            }
+          },
+          {
+            "id": "dim_10_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 82,
+              "end": 88,
+              "text": "060 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_10_6",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 95,
+              "end": 101,
+              "text": "560 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_10",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_10",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "data": {
+      "text": "Except for doors serving a house or an individual dwelling unit , at least one door at every principal entrance to a building providing access from the exterior at ground level shall be designed in accordance with the requirements for exits . r6",
+      "section_ref": "9.9.2.4.(1)",
+      "meta": {
+        "article_name": "Principal Entrances"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_11_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 177,
+              "end": 182,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_11",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "data": {
+      "text": "Except for curved stairs, the front edge of stair treads in exits and access to exits shall be at right angles to the direction of exit travel.",
+      "section_ref": "9.9.2.5.(1)",
+      "meta": {
+        "article_name": "Front Edge of Stair Treads"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_12_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 86,
+              "end": 91,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_12",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcStairFlight"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "data": {
+      "text": "Treads and landings of exterior exit stairs that serve a hotel shall be designed to be free from ice and snow accumulation.",
+      "section_ref": "9.9.2.6.(1)",
+      "meta": {
+        "article_name": "Exterior Exit Stairs That Serve a Hotel"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_13_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 63,
+              "end": 68,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_13",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcStairFlight"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "data": {
+      "text": "This Subsection applies to every means of egress except, r6 (a) exits that serve a house or an individual dwelling unit , and (b) access to exits within a house or an individual dwelling unit .",
+      "section_ref": "9.9.3.1.(1)",
+      "meta": {
+        "article_name": "Application"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "ifc_14",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "data": {
+      "text": "Except for doors and corridors, the width of every exit facility shall be not less than 900 mm.",
+      "section_ref": "9.9.3.2.(1)",
+      "meta": {
+        "article_name": "Exit Width"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_15_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 65,
+              "end": 70,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_15_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 74,
+              "end": 94,
+              "text": "not less than 900 mm",
+              "labels": [
+                "DIM_MIN"
+              ]
+            }
+          },
+          {
+            "id": "ifc_15",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_15",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "data": {
+      "text": "The width of every public corridor , corridor used by the public, and exit corridor shall be not less than 1 100 mm.",
+      "section_ref": "9.9.3.3.(1)",
+      "meta": {
+        "article_name": "Width of Corridors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_16_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 84,
+              "end": 89,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_16_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 109,
+              "end": 115,
+              "text": "100 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_16",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_16",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "data": {
+      "text": "Except for stairways, doorways and storage garages , the minimum clear height in exits and access to exits shall be 2 100 mm.",
+      "section_ref": "9.9.3.4.(1)",
+      "meta": {
+        "article_name": "Clear Height"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_17_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 107,
+              "end": 112,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_17_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 118,
+              "end": 124,
+              "text": "100 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_17",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_17",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "data": {
+      "text": "The clear height in exits and access to exits in a storage garage shall be not less than 2 000 mm.",
+      "section_ref": "9.9.3.4.(2)",
+      "meta": {
+        "article_name": "Clear Height"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_18_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 66,
+              "end": 71,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_18_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 91,
+              "end": 97,
+              "text": "000 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_18",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_18",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "data": {
+      "text": "Except as provided in Articles 9.9.4.4. and 9.9.4.6., this Subsection applies to the fire protection of all exits except exits serving an individual dwelling unit . r6",
+      "section_ref": "9.9.4.1.(1)",
+      "meta": {
+        "article_name": "Application"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "xref_19_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 31,
+              "end": 38,
+              "text": "9.9.4.4",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_19_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 44,
+              "end": 51,
+              "text": "9.9.4.6",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_19_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 167,
+              "text": "provided in Articles 9.9.4.4. and 9.9.4.6., this Subsection applies to the fire protection of all exits except exits serving an individual dwelling unit . r6",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_19",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "data": {
+      "text": "Except as provided in Sentence (5) and Article 9.9.8.5., every exit other than an exit doorway shall be separated from each adjacent floor area or from another exit by a fire separation having a fire-resistance rating not less than that required for the floor assembly above the floor area .",
+      "section_ref": "9.9.4.2.(1)",
+      "meta": {
+        "article_name": "Fire Separation for Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_20_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 95,
+              "end": 100,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_20_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 39,
+              "end": 54,
+              "text": "Article 9.9.8.5",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_20_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 290,
+              "text": "provided in Sentence (5) and Article 9.9.8.5., every exit other than an exit doorway shall be separated from each adjacent floor area or from another exit by a fire separation having a fire-resistance rating not less than that required for the floor assembly above the floor area ",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_20",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "data": {
+      "text": "r6",
+      "section_ref": "9.9.4.2",
+      "meta": {
+        "article_name": "Fire Separation for Exits"
+      }
+    }
+  },
+  {
+    "id": 22,
+    "data": {
+      "text": "shall be protected with wired glass in fixed steel frames or glass block installed in accordance with Articles 9.10.13.5. and 9.10.13.7., where, (a) the exit enclosure has exterior walls that intersect the exterior walls of the building at an angle of less than 135\u00b0 measured on the outside of the building , and (b) the openings in the exterior walls of the building are within 3 m horizontally and less than 2 m above the openings in the exterior walls of the exit .",
+      "section_ref": "9.9.4.5",
+      "meta": {
+        "article_name": "Openings in Exterior Walls of Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_22_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 0,
+              "end": 5,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_22_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 262,
+              "end": 266,
+              "text": "135\u00b0",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_22_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 379,
+              "end": 382,
+              "text": "3 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_22_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 410,
+              "end": 413,
+              "text": "2 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "xref_22_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 111,
+              "end": 120,
+              "text": "9.10.13.5",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_22_6",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 126,
+              "end": 135,
+              "text": "9.10.13.7",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_22",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_22",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "deg"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "data": {
+      "text": "Notwithstanding the requirements of Sentences 9.9.4.2.(1), 9.9.8.2.(1) and Article 9.10.9.5., where a suite of Group D or E occupancy is located partly on the first storey and partly on the second storey or partly on the second storey and partly on the third storey , stairways serving that suite need not be constructed as exit stairs, provided, (a) the building is not greater than three storeys in building height, (b) the suite is separated from other occupancies by a fire separation having a fire-resistance rating of not less than 45 min, (c) the area occupied by the suite is not greater than 100 m\u00b2 per storey , other than the exit level storey , (d) the maximum travel distance from any point in the suite to an exterior exit is not greater than 25 m, (e) the floor assemblies have a fire-resistance rating of not less than 45 min or are of noncombustible construction , (f) the basement and first storey are separated by a fire separation having a fire-resistance rating of not less than 45 min, and (g) a smoke alarm is installed on each floor of the suite , including the basement , in accordance with Subsection 9.10.19.",
+      "section_ref": "9.9.4.7.(1)",
+      "meta": {
+        "article_name": "Stairways in Group D or E Buildings"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "dim_23_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 524,
+              "end": 544,
+              "text": "not less than 45 min",
+              "labels": [
+                "DIM_MIN"
+              ]
+            }
+          },
+          {
+            "id": "dim_23_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 524,
+              "end": 544,
+              "text": "not less than 45 min",
+              "labels": [
+                "DIM_MIN"
+              ]
+            }
+          },
+          {
+            "id": "dim_23_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 524,
+              "end": 544,
+              "text": "not less than 45 min",
+              "labels": [
+                "DIM_MIN"
+              ]
+            }
+          },
+          {
+            "id": "dim_23_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 584,
+              "end": 607,
+              "text": "not greater than 100 m\u00b2",
+              "labels": [
+                "DIM_MAX"
+              ]
+            }
+          },
+          {
+            "id": "dim_23_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 739,
+              "end": 760,
+              "text": "not greater than 25 m",
+              "labels": [
+                "DIM_MAX"
+              ]
+            }
+          },
+          {
+            "id": "xref_23_6",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 75,
+              "end": 91,
+              "text": "Article 9.10.9.5",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_23_7",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 1115,
+              "end": 1133,
+              "text": "Subsection 9.10.19",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_23_8",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 46,
+              "end": 57,
+              "text": "9.9.4.2.(1)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_23_9",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 59,
+              "end": 70,
+              "text": "9.9.8.2.(1)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_23_10",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 632,
+              "end": 1133,
+              "text": "the exit level storey , (d) the maximum travel distance from any point in the suite to an exterior exit is not greater than 25 m, (e) the floor assemblies have a fire-resistance rating of not less than 45 min or are of noncombustible construction , (f) the basement and first storey are separated by a fire separation having a fire-resistance rating of not less than 45 min, and (g) a smoke alarm is installed on each floor of the suite , including the basement , in accordance with Subsection 9.10.19",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_23",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcStairFlight"
+              ]
+            }
+          },
+          {
+            "id": "unit_23",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "min"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "data": {
+      "text": "Reserved. r5",
+      "section_ref": "9.9.4.7.(2)",
+      "meta": {
+        "article_name": "Stairways in Group D or E Buildings"
+      }
+    }
+  },
+  {
+    "id": 25,
+    "data": {
+      "text": "This Subsection applies to obstructions and hazards in every means of egress except those within or serving an individual dwelling unit . r6",
+      "section_ref": "9.9.5.1.(1)",
+      "meta": {
+        "article_name": "Application"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "ifc_25",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "data": {
+      "text": "Where a corridor contains an occupancy , the occupancy shall not reduce the unobstructed width of the corridor to less than the required width of the corridor.",
+      "section_ref": "9.9.5.2.(1)",
+      "meta": {
+        "article_name": "Occupancies in Corridors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_26_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 55,
+              "end": 64,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_26_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 55,
+              "end": 60,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "cond_26_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 6,
+              "end": 38,
+              "text": "a corridor contains an occupancy",
+              "labels": [
+                "APPLICABILITY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_26",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcSpace"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "data": {
+      "text": "Except as permitted in Sentence (2), obstructions located within 1 980 mm of the floor shall not project horizontally more than 100 mm into exit passageways, corridors used by the public or public corridors in a manner that would create a hazard for persons with no or low vision travelling adjacent to walls.",
+      "section_ref": "9.9.5.3.(1)",
+      "meta": {
+        "article_name": "Obstructions in Public Corridors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_27_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 87,
+              "end": 96,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_27_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 87,
+              "end": 92,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_27_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 67,
+              "end": 73,
+              "text": "980 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_27_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 128,
+              "end": 134,
+              "text": "100 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "cond_27_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 308,
+              "text": "permitted in Sentence (2), obstructions located within 1 980 mm of the floor shall not project horizontally more than 100 mm into exit passageways, corridors used by the public or public corridors in a manner that would create a hazard for persons with no or low vision travelling adjacent to walls",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_27",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_27",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "data": {
+      "text": "The horizontal projection of an obstruction in Sentence (1) is permitted to exceed 100 mm where the obstruction extends to less than 680 mm above the floor.",
+      "section_ref": "9.9.5.3.(2)",
+      "meta": {
+        "article_name": "Obstructions in Public Corridors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_28_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 60,
+              "end": 75,
+              "text": "is permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_28_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 60,
+              "end": 72,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "dim_28_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 83,
+              "end": 89,
+              "text": "100 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_28_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 133,
+              "end": 139,
+              "text": "680 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_28",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcSlab"
+              ]
+            }
+          },
+          {
+            "id": "unit_28",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "data": {
+      "text": "Except as permitted in Subsection 9.9.6. and Article 9.8.7.6., no fixture, turnstile or construction shall project within the required width of an exit .",
+      "section_ref": "9.9.5.4.(1)",
+      "meta": {
+        "article_name": "Obstructions in Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_29_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 101,
+              "end": 106,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_29_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 23,
+              "end": 39,
+              "text": "Subsection 9.9.6",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_29_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 45,
+              "end": 60,
+              "text": "Article 9.8.7.6",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_29_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 152,
+              "text": "permitted in Subsection 9.9.6. and Article 9.8.7.6., no fixture, turnstile or construction shall project within the required width of an exit ",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_29",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "data": {
+      "text": "Except as provided in Sentence (4), swinging doors in their swing shall conform to Sentences (2) and (3), (a) at exit doors, (b) at doors that open into or are located within a public corridor , and (c) at doors that open into or are located within another facility that provides access to exit from a suite .",
+      "section_ref": "9.9.6.1.(1)",
+      "meta": {
+        "article_name": "Obstructions by Doors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_30_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 66,
+              "end": 71,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "cond_30_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 308,
+              "text": "provided in Sentence (4), swinging doors in their swing shall conform to Sentences (2) and (3), (a) at exit doors, (b) at doors that open into or are located within a public corridor , and (c) at doors that open into or are located within another facility that provides access to exit from a suite ",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_30",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "data": {
+      "text": "When fully open, doors described in Sentence (1) shall not decrease the required exit width by more than, (a) 100 mm in exit corridors, and (b) 50 mm for other exit facilities.",
+      "section_ref": "9.9.6.1.(2)",
+      "meta": {
+        "article_name": "Obstructions by Doors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_31_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 49,
+              "end": 58,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_31_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 49,
+              "end": 54,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_31_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 110,
+              "end": 116,
+              "text": "100 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_31_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 144,
+              "end": 149,
+              "text": "50 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "cond_31_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 5,
+              "end": 15,
+              "text": "fully open",
+              "labels": [
+                "APPLICABILITY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_31",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_31",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "data": {
+      "text": "The swing of doors described in Sentence (1) shall not reduce the width of the path of travel to less than, (a) the required exit width in exit corridors and passageways, and (b) 750 mm on exit stairs or landings.",
+      "section_ref": "9.9.6.1.(3)",
+      "meta": {
+        "article_name": "Obstructions by Doors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_32_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 45,
+              "end": 54,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_32_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 45,
+              "end": 50,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_32_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 179,
+              "end": 185,
+              "text": "750 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_32",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcStairFlight"
+              ]
+            }
+          },
+          {
+            "id": "unit_32",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "data": {
+      "text": "Doors serving a house or an individual dwelling unit need not comply with Sentences (2) and (3). r6",
+      "section_ref": "9.9.6.1.(4)",
+      "meta": {
+        "article_name": "Obstructions by Doors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "ifc_33",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "data": {
+      "text": "Except as provided in Sentences (2) and (3), the clear opening height of doorways shall be not less than 2 030 mm high at, (a) exit doors,",
+      "section_ref": "9.9.6.2.(1)",
+      "meta": {
+        "article_name": "Clear Opening Height at Doorways"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_34_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 82,
+              "end": 87,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_34_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 107,
+              "end": 113,
+              "text": "030 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "cond_34_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 138,
+              "text": "provided in Sentences (2) and (3), the clear opening height of doorways shall be not less than 2 030 mm high at, (a) exit doors,",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_34",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_34",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "data": {
+      "text": "Except as provided in Sentence (4), the clear opening width of doorways shall comply with Sentence (2) at, (a) exit doors, and (b) doors that open into or are located, (i) within a public corridor , or (ii) within another facility that provides access to exit from a suite .",
+      "section_ref": "9.9.6.3.(1)",
+      "meta": {
+        "article_name": "Clear Opening Width at Doorways"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_35_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 72,
+              "end": 77,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "cond_35_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 273,
+              "text": "provided in Sentence (4), the clear opening width of doorways shall comply with Sentence (2) at, (a) exit doors, and (b) doors that open into or are located, (i) within a public corridor , or (ii) within another facility that provides access to exit from a suite ",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_35",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "data": {
+      "text": "Doorways described in Sentence (1) shall be not less than, (a) 800 mm wide where there is only one door leaf, (b) 800 mm wide where multiple-leaf doors are installed with only one active leaf with a latching mechanism described in Article 9.9.6.7., and (c) 1 210 mm wide where multiple-leaf doors are installed with two active leaves.",
+      "section_ref": "9.9.6.3.(2)",
+      "meta": {
+        "article_name": "Clear Opening Width at Doorways"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_36_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 35,
+              "end": 40,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_36_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 63,
+              "end": 69,
+              "text": "800 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_36_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 63,
+              "end": 69,
+              "text": "800 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_36_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 259,
+              "end": 265,
+              "text": "210 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "xref_36_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 231,
+              "end": 246,
+              "text": "Article 9.9.6.7",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_36",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_36",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "data": {
+      "text": "In doorways described in Sentence (1) that have multiple-leaf doors installed, (a) no active leaf shall be less than 810 mm wide where only one leaf is active, and (b) no single leaf shall be less than 610 mm wide where two leaves are active.",
+      "section_ref": "9.9.6.3.(3)",
+      "meta": {
+        "article_name": "Clear Opening Width at Doorways"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_37_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 98,
+              "end": 103,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_37_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 98,
+              "end": 103,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_37_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 117,
+              "end": 123,
+              "text": "810 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_37_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 202,
+              "end": 208,
+              "text": "610 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_37",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_37",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "data": {
+      "text": "Doorways serving a house or an individual dwelling unit need not comply with Sentence (2). r6",
+      "section_ref": "9.9.6.3.(4)",
+      "meta": {
+        "article_name": "Clear Opening Width at Doorways"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "ifc_38",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "data": {
+      "text": "(a) a room, suite or floor area having an occupant load of not more than 60 persons, or",
+      "section_ref": "9.9.6.5",
+      "meta": {
+        "article_name": "Direction of Door Swing"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "ifc_39",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcSlab"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "data": {
+      "text": "(b) as part of a means of egress from more than one floor area and the floor areas so served have a total occupant load of not more than 60 persons. (3) Doors that open onto a corridor or other facility that provides access to exit from a room or suite having an occupant load of more than 60 persons shall swing on the vertical axis in the direction of exit travel. (4) Doors that divide a corridor that is not wholly contained within a suite shall swing in the direction of exit travel. (5) Where a pair of doors is installed in a corridor that provides access to exit in both directions, the doors shall, (a) swing in opposite directions, with the door on the right hand side swinging in the direction of exit travel, or (b) swing in both directions.",
+      "section_ref": "9.9.6.5",
+      "meta": {
+        "article_name": "Direction of Door Swing"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_40_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 301,
+              "end": 306,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_40_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 301,
+              "end": 306,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_40_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 301,
+              "end": 306,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_40",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "data": {
+      "text": "r6",
+      "section_ref": "9.9.6.6.(1)",
+      "meta": {
+        "article_name": "Proximity of Doors to Stairs"
+      }
+    }
+  },
+  {
+    "id": 42,
+    "data": {
+      "text": "Where there is a danger of blockage from ice or snow, an exit door, including a door serving a house or an individual dwelling unit , may open onto not more than one step provided the riser of such step does not exceed 150 mm. r6",
+      "section_ref": "9.9.6.6.(2)",
+      "meta": {
+        "article_name": "Proximity of Doors to Stairs"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_42_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 134,
+              "end": 137,
+              "text": "may",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "dim_42_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 208,
+              "end": 225,
+              "text": "not exceed 150 mm",
+              "labels": [
+                "DIM_MAX"
+              ]
+            }
+          },
+          {
+            "id": "cond_42_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 6,
+              "end": 52,
+              "text": "there is a danger of blockage from ice or snow",
+              "labels": [
+                "APPLICABILITY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_42",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcStairFlight"
+              ]
+            }
+          },
+          {
+            "id": "unit_42",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "data": {
+      "text": "Principal entrance doors, exit doors and doors to suites , including exterior doors serving a house or an individual dwelling unit , and other doors in an access to exit shall, (a) be openable from the inside or in travelling to an exit without requiring keys, special devices or specialized knowledge of the door opening mechanism, or (b) be controlled by electromagnetic locking mechanisms in accordance with Sentence 3.4.6.16.(4). (2) Except for doors serving a house or an individual dwelling unit and except for doors to accessory buildings and to garages serving a house or an individual dwelling unit , door release hardware on doors in a means of egress shall be operable with one hand and the door shall be openable with not more than one releasing operation. (3) Door release hardware on doors in a means of egress shall be installed not more than 1 200 mm above the finished floor. shall be designed r6 r6 r11.1",
+      "section_ref": "9.9.6.7.(1)",
+      "meta": {
+        "article_name": "Door Latching, Locking and Opening Mechanisms"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_43_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 170,
+              "end": 175,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_43_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 170,
+              "end": 175,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_43_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 170,
+              "end": 175,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_43_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 170,
+              "end": 175,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_43_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 170,
+              "end": 175,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_43_6",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 860,
+              "end": 866,
+              "text": "200 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "xref_43_7",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 411,
+              "end": 432,
+              "text": "Sentence 3.4.6.16.(4)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_43",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_43",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "data": {
+      "text": "An access to exit shall be provided from every roof intended for occupancy and from every podium, terrace, platform or contained open space. r3",
+      "section_ref": "9.9.7.1.(1)",
+      "meta": {
+        "article_name": "Egress from Roof Area, Podiums, Terraces, Platforms and Contained Open Spaces"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_44_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 18,
+              "end": 23,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_44",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "data": {
+      "text": "Where a roof is intended for an occupant load of more than 60 persons, at least two separate means of egress shall be provided from the roof to stairs designed in conformance with the requirements for exit stairs and located remote from each other.",
+      "section_ref": "9.9.7.1.(2)",
+      "meta": {
+        "article_name": "Egress from Roof Area, Podiums, Terraces, Platforms and Contained Open Spaces"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_45_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 109,
+              "end": 114,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "cond_45_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 6,
+              "end": 69,
+              "text": "a roof is intended for an occupant load of more than 60 persons",
+              "labels": [
+                "APPLICABILITY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_45",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcStairFlight"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "data": {
+      "text": "Where a podium, terrace, platform or contained open space is provided, egress requirements shall conform to the appropriate requirements for rooms or suites in Article 9.9.7.4.",
+      "section_ref": "9.9.7.1.(3)",
+      "meta": {
+        "article_name": "Egress from Roof Area, Podiums, Terraces, Platforms and Contained Open Spaces"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_46_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 91,
+              "end": 96,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_46_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 160,
+              "end": 175,
+              "text": "Article 9.9.7.4",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_46_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 6,
+              "end": 14,
+              "text": "a podium",
+              "labels": [
+                "APPLICABILITY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_46",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "data": {
+      "text": "Except as required by Sentence 9.9.9.3.(1), each suite in a floor area occupied by more than one suite shall have, (a) an exterior exit doorway, (b) a doorway to a public corridor , or (c) a doorway to an exterior passageway.",
+      "section_ref": "9.9.7.2.(1)",
+      "meta": {
+        "article_name": "Means of Egress from Suites"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_47_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 103,
+              "end": 108,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_47_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 22,
+              "end": 42,
+              "text": "Sentence 9.9.9.3.(1)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_47_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 224,
+              "text": "required by Sentence 9.9.9.3.(1), each suite in a floor area occupied by more than one suite shall have, (a) an exterior exit doorway, (b) a doorway to a public corridor , or (c) a doorway to an exterior passageway",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_47",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "data": {
+      "text": "Except as provided in Sentences 9.9.7.3.(1) and 9.9.8.2.(2), from the point where a doorway described in Clause (1)(b) or (c) enters the public corridor or exterior passageway, it shall be possible to go in opposite directions to each of two separate exits .",
+      "section_ref": "9.9.7.2.(2)",
+      "meta": {
+        "article_name": "Means of Egress from Suites"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_48_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 180,
+              "end": 185,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_48_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 32,
+              "end": 43,
+              "text": "9.9.7.3.(1)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_48_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 48,
+              "end": 59,
+              "text": "9.9.8.2.(2)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_48_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 257,
+              "text": "provided in Sentences 9.9.7.3.(1) and 9.9.8.2.(2), from the point where a doorway described in Clause (1)(b) or (c) enters the public corridor or exterior passageway, it shall be possible to go in opposite directions to each of two separate exits ",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_48",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "data": {
+      "text": "A dead-end public corridor is permitted in an occupancy shown in Table 9.9.7.3., where, (a) the dead-end corridor, (i) does not exceed the distance of travel measured from the most remote point of the dead-end to a point where it is possible to go in opposite directions to each of two separate exits , and (ii) is provided with doors equipped with self-closing devices, or (b) there is a second and separate egress doorway from each room or suite not leading into the dead-end corridor.",
+      "section_ref": "9.9.7.3.(1)",
+      "meta": {
+        "article_name": "Dead-End Corridors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_49_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 27,
+              "end": 39,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "xref_49_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 65,
+              "end": 78,
+              "text": "Table 9.9.7.3",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_49",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "data": {
+      "text": "Dead-end public corridors in residential occupancies and business and personal services occupancies shall contain only suite door openings arranged so that not more than two such doors have to be passed to reach the nearest exit .",
+      "section_ref": "9.9.7.3.(2)",
+      "meta": {
+        "article_name": "Dead-End Corridors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_50_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 100,
+              "end": 105,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_50",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "data": {
+      "text": "The area of wired glass in doors required by Sentence (2) shall not exceed 645 cm\u00b2.",
+      "section_ref": "9.9.7.3.(3)",
+      "meta": {
+        "article_name": "Dead-End Corridors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_51_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 58,
+              "end": 67,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_51_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 58,
+              "end": 63,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_51_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 64,
+              "end": 81,
+              "text": "not exceed 645 cm",
+              "labels": [
+                "DIM_MAX"
+              ]
+            }
+          },
+          {
+            "id": "ifc_51",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_51",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "cm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "data": {
+      "text": "Occupancy Maximum Length of Dead-End Public Corridor, m Maximum Occupant Load or Suites Served by Dead-End Public Corridor Group C 6 4 suites Group D 6 30 Group E 9 30 Group F 9 30 Column 1 2 3",
+      "section_ref": "Table under 9.9.7.3",
+      "meta": {
+        "article_name": "Dead-End Corridors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "ifc_52",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcSpace"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "data": {
+      "text": "Except for dwelling units , at least two egress doors shall be provided where, (a) the area of a room or suite exceeds 200 m\u00b2 in a Group D, E, F2 and F3 occupancy , or 150 m\u00b2 in a Group C occupancy , or (b) the distance measured from any point within a room or suite to the nearest egress door exceeds 25 m.",
+      "section_ref": "9.9.7.4.(1)",
+      "meta": {
+        "article_name": "Number and Spacing of Egress Doors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_53_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 54,
+              "end": 59,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_53_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 119,
+              "end": 125,
+              "text": "200 m\u00b2",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_53_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 168,
+              "end": 174,
+              "text": "150 m\u00b2",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_53_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 302,
+              "end": 306,
+              "text": "25 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_53",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_53",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "m2"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "data": {
+      "text": "Doors required in Sentence (1) shall be spaced so that in the event one door is made inaccessible by a fire within such a room or suite , the other door will provide safe egress.",
+      "section_ref": "9.9.7.4.(2)",
+      "meta": {
+        "article_name": "Number and Spacing of Egress Doors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_54_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 31,
+              "end": 36,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_54",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "data": {
+      "text": "Required access to exit from suites shall not be through any other dwelling unit , service room or other occupancy .",
+      "section_ref": "9.9.7.5.(1)",
+      "meta": {
+        "article_name": "Independent Access to Exit"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_55_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 36,
+              "end": 45,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_55_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 36,
+              "end": 41,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_55",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "data": {
+      "text": "Except for dwelling units , the travel distance from any point within the room or suite to the nearest egress door shall not exceed the maximum travel distance in Article 9.9.8.2.",
+      "section_ref": "9.9.7.6.(1)",
+      "meta": {
+        "article_name": "Travel Distance Within Rooms and Suites"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_56_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 115,
+              "end": 124,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_56_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 115,
+              "end": 120,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_56_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 163,
+              "end": 178,
+              "text": "Article 9.9.8.2",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_56",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "data": {
+      "text": "Except as provided in Sentences (2) and (3), for the purposes of this Subsection, travel distance means the distance from any point in the floor area to an exit measured along the path of exit travel.",
+      "section_ref": "9.9.8.1.(1)",
+      "meta": {
+        "article_name": "Measurement of Travel Distance"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "cond_57_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 199,
+              "text": "provided in Sentences (2) and (3), for the purposes of this Subsection, travel distance means the distance from any point in the floor area to an exit measured along the path of exit travel",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_57",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "data": {
+      "text": "Where a room or suite is separated from the remainder of the floor area by a fire separation having a fire-resistance rating of at least 45 min, or in a sprinklered building , by a fire separation that is not required to have a fire-resistance rating , the travel distance is permitted to be measured from an egress door of the room or suite to the nearest exit .",
+      "section_ref": "9.9.8.1.(2)",
+      "meta": {
+        "article_name": "Measurement of Travel Distance"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_58_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 273,
+              "end": 288,
+              "text": "is permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_58_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 273,
+              "end": 285,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "dim_58_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 128,
+              "end": 143,
+              "text": "at least 45 min",
+              "labels": [
+                "DIM_MIN"
+              ]
+            }
+          },
+          {
+            "id": "ifc_58",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_58",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "min"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "data": {
+      "text": "Where a public corridor is not less than 9 m wide and conforms to Clause 3.4.2.5.(1)(d), the travel distance is permitted to be determined in accordance with that Clause.",
+      "section_ref": "9.9.8.1.(3)",
+      "meta": {
+        "article_name": "Measurement of Travel Distance"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_59_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 109,
+              "end": 124,
+              "text": "is permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_59_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 109,
+              "end": 121,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "dim_59_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 27,
+              "end": 44,
+              "text": "not less than 9 m",
+              "labels": [
+                "DIM_MIN"
+              ]
+            }
+          },
+          {
+            "id": "xref_59_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 66,
+              "end": 84,
+              "text": "Clause 3.4.2.5.(1)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_59",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcSpace"
+              ]
+            }
+          },
+          {
+            "id": "unit_59",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "m"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "data": {
+      "text": "Except as provided in Sentences (2) and (3) and Subsection 9.9.9., at least two exits shall be provided from every floor area , spaced so that the travel distance to the nearest exit is not more than, (a) 40 m in the case of business and personal services occupancies , (b) 45 m for all occupancies where the floor area is sprinklered , and (c) 30 m for all other occupancies .",
+      "section_ref": "9.9.8.2.(1)",
+      "meta": {
+        "article_name": "Number of Required Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_60_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 86,
+              "end": 91,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_60_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 205,
+              "end": 209,
+              "text": "40 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_60_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 274,
+              "end": 278,
+              "text": "45 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_60_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 345,
+              "end": 349,
+              "text": "30 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "xref_60_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 48,
+              "end": 64,
+              "text": "Subsection 9.9.9",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_60_6",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 376,
+              "text": "provided in Sentences (2) and (3) and Subsection 9.9.9., at least two exits shall be provided from every floor area , spaced so that the travel distance to the nearest exit is not more than, (a) 40 m in the case of business and personal services occupancies , (b) 45 m for all occupancies where the floor area is sprinklered , and (c) 30 m for all other occupancies ",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_60",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_60",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "m"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "data": {
+      "text": "Except as provided in Subsection 9.9.9., a single exit is permitted from each storey in buildings of 1 and 2 storeys in building height provided the floor area and travel distance requirements conform to those required in Article 9.9.7.4. and the total occupant load served by an exit facility does not exceed 60 persons.",
+      "section_ref": "9.9.8.2.(2)",
+      "meta": {
+        "article_name": "Number of Required Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_61_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 55,
+              "end": 67,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "dim_61_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 107,
+              "end": 116,
+              "text": "2 storeys",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "xref_61_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 22,
+              "end": 38,
+              "text": "Subsection 9.9.9",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_61_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 222,
+              "end": 237,
+              "text": "Article 9.9.7.4",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_61_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 320,
+              "text": "provided in Subsection 9.9.9., a single exit is permitted from each storey in buildings of 1 and 2 storeys in building height provided the floor area and travel distance requirements conform to those required in Article 9.9.7.4. and the total occupant load served by an exit facility does not exceed 60 persons",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_61",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_61",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "storeys"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "data": {
+      "text": "In boarding, lodging or rooming houses, (a) where sleeping accommodation is provided for not more than eight persons, a single exit is permitted from each floor area , or (b) where sleeping accommodation is not provided in the basement , a single exit is permitted from the basement floor area .",
+      "section_ref": "9.9.8.2.(3)",
+      "meta": {
+        "article_name": "Number of Required Exits"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_62_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 132,
+              "end": 144,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_62_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 132,
+              "end": 144,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "ifc_62",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "data": {
+      "text": "Where more than one exit is required from a floor area , each exit shall be considered as contributing not more than half the required exit width.",
+      "section_ref": "9.9.8.3.(1)",
+      "meta": {
+        "article_name": "Contribution of Each Exit"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_63_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 67,
+              "end": 72,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "cond_63_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 6,
+              "end": 54,
+              "text": "more than one exit is required from a floor area",
+              "labels": [
+                "APPLICABILITY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_63",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "data": {
+      "text": "Not more than one exit from a floor area is permitted to lead through a lobby.",
+      "section_ref": "9.9.8.5.(1)",
+      "meta": {
+        "article_name": "Exiting Through a Lobby"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_64_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 41,
+              "end": 56,
+              "text": "is permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_64_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 41,
+              "end": 53,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "ifc_64",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "data": {
+      "text": "The floor of the lobby referred to in Sentence (1) shall be not more than 4.5 m above grade , and the path of travel through the lobby to the outdoors shall not exceed 15 m.",
+      "section_ref": "9.9.8.5.(2)",
+      "meta": {
+        "article_name": "Exiting Through a Lobby"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_65_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 151,
+              "end": 160,
+              "text": "shall not",
+              "labels": [
+                "PROHIBITED"
+              ]
+            }
+          },
+          {
+            "id": "deon_65_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 51,
+              "end": 56,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_65_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 51,
+              "end": 56,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_65_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 60,
+              "end": 79,
+              "text": "not more than 4.5 m",
+              "labels": [
+                "DIM_MAX"
+              ]
+            }
+          },
+          {
+            "id": "dim_65_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 157,
+              "end": 172,
+              "text": "not exceed 15 m",
+              "labels": [
+                "DIM_MAX"
+              ]
+            }
+          },
+          {
+            "id": "ifc_65",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcSlab"
+              ]
+            }
+          },
+          {
+            "id": "unit_65",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "m"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "data": {
+      "text": "Except as provided in Sentence (6), an exit is permitted to lead through a lobby referred to in Sentence (1) provided the lobby is not located within an interconnected floor space other than as described in Sentence 3.2.8.2.(6).",
+      "section_ref": "9.9.8.5.(4)",
+      "meta": {
+        "article_name": "Exiting Through a Lobby"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_66_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 44,
+              "end": 59,
+              "text": "is permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_66_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 44,
+              "end": 56,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "xref_66_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 207,
+              "end": 227,
+              "text": "Sentence 3.2.8.2.(6)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_66_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 227,
+              "text": "provided in Sentence (6), an exit is permitted to lead through a lobby referred to in Sentence (1) provided the lobby is not located within an interconnected floor space other than as described in Sentence 3.2.8.2.(6)",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_66",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "data": {
+      "text": "Passenger elevators are permitted to open onto the lobby referred to in Sentence (1) provided the elevator doors are designed to remain closed except while loading and unloading.",
+      "section_ref": "9.9.8.5.(5)",
+      "meta": {
+        "article_name": "Exiting Through a Lobby"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_67_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 20,
+              "end": 36,
+              "text": "are permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_67_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 20,
+              "end": 33,
+              "text": "are permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "ifc_67",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "data": {
+      "text": "An exit that serves a hotel is permitted to lead through a lobby referred to in Sentence (1) provided the lobby is not located within an interconnected floor space .",
+      "section_ref": "9.9.8.5.(6)",
+      "meta": {
+        "article_name": "Exiting Through a Lobby"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_68_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 28,
+              "end": 43,
+              "text": "is permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_68_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 28,
+              "end": 40,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "ifc_68",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "data": {
+      "text": "Where the lobby referred to in Sentence (1) and adjacent occupancies that are permitted to open into the lobby are sprinklered , the fire separation between such occupancies and the lobby need not have a fire-resistance rating .",
+      "section_ref": "9.9.8.5.(7)",
+      "meta": {
+        "article_name": "Exiting Through a Lobby"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_69_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 74,
+              "end": 90,
+              "text": "are permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_69_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 74,
+              "end": 87,
+              "text": "are permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "ifc_69",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcWall"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "data": {
+      "text": "Except as provided by Sentences (2) and (3), the space above a mezzanine shall be served by at least two means of egress leading to exits accessible at the mezzanine level on the same basis as floor areas .",
+      "section_ref": "9.9.8.6.(1)",
+      "meta": {
+        "article_name": "Mezzanine Means of Egress"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_70_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 73,
+              "end": 78,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "cond_70_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 10,
+              "end": 205,
+              "text": "provided by Sentences (2) and (3), the space above a mezzanine shall be served by at least two means of egress leading to exits accessible at the mezzanine level on the same basis as floor areas ",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_70",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "data": {
+      "text": "One means of egress from a mezzanine is permitted, where, (a) the mezzanine is not required to terminate at a vertical fire separation , as permitted by Sentence 9.10.12.1.(2), (b) the occupant load of the mezzanine is not more than 60, (c) the area of the mezzanine does not exceed the area limits of Clause 9.9.7.4.(1)(a), and (d) the distance limits of Clause 9.9.7.4.(1)(b) measured along the path of travel, are not exceeded from any point on the mezzanine to, (i) an egress door serving the space that the mezzanine overlooks if the space is served by a single egress door, or (ii) an egress stairway leading to an access to exit in the space below if that space is required to be served by two or more egress doorways in conformance with Sentence 9.9.7.4.(1).",
+      "section_ref": "9.9.8.6.(2)",
+      "meta": {
+        "article_name": "Mezzanine Means of Egress"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_71_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 669,
+              "end": 683,
+              "text": "is required to",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "deon_71_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 37,
+              "end": 49,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "xref_71_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 153,
+              "end": 175,
+              "text": "Sentence 9.10.12.1.(2)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "xref_71_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 302,
+              "end": 320,
+              "text": "Clause 9.9.7.4.(1)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_71",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "data": {
+      "text": "(a) 40 m in a business and personal services occupancy , (b) 45 m in a floor area that is sprinklered provided it does not contain a high hazard industrial occupancy , or (c) 30 m in any floor area not referred to in Clause (a) or (b).",
+      "section_ref": "9.9.8.6",
+      "meta": {
+        "article_name": "Mezzanine Means of Egress"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "dim_72_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 4,
+              "end": 8,
+              "text": "40 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_72_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 61,
+              "end": 65,
+              "text": "45 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_72_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 175,
+              "end": 179,
+              "text": "30 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_72",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcSlab"
+              ]
+            }
+          },
+          {
+            "id": "unit_72",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "m"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "data": {
+      "text": "(a) an egress door to a public corridor , enclosed exit stair or exterior passageway, or (b) an exit doorway not more than 1 500 mm above adjacent ground level.",
+      "section_ref": "9.9.9.1",
+      "meta": {
+        "article_name": "Travel Limit to Exits or Egress Doors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "dim_73_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 125,
+              "end": 131,
+              "text": "500 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_73",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcStairFlight"
+              ]
+            }
+          },
+          {
+            "id": "unit_73",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "data": {
+      "text": "Where a dwelling unit is not located above or below another suite , the travel limit from a floor level in the dwelling unit to an exit or egress door is permitted to exceed 1 storey where that floor level is served by an openable window or door, (a) providing an unobstructed opening of not less than 1 000 mm in height and 550 mm in width, and (b) located so that the sill is not more than, (i) 1 000 mm above the floor, and (ii) 7 m above adjacent ground level.",
+      "section_ref": "9.9.9.1.(2)",
+      "meta": {
+        "article_name": "Travel Limit to Exits or Egress Doors"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_74_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 151,
+              "end": 166,
+              "text": "is permitted to",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "deon_74_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 151,
+              "end": 163,
+              "text": "is permitted",
+              "labels": [
+                "PERMITTED"
+              ]
+            }
+          },
+          {
+            "id": "dim_74_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 174,
+              "end": 182,
+              "text": "1 storey",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_74_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 304,
+              "end": 310,
+              "text": "000 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_74_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 325,
+              "end": 331,
+              "text": "550 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_74_6",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 304,
+              "end": 310,
+              "text": "000 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_74_7",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 432,
+              "end": 435,
+              "text": "7 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_74",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_74",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "storeys"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "data": {
+      "text": "(a) an exit stairway serving more than one suite , (b) a public corridor , (i) serving more than one suite , and (ii) served by a single exit , (c) an exterior passageway, (i) serving more than one suite , (ii) served by a single exit stairway or ramp, and (iii) more than 1.5 m above adjacent ground level, or (d) a balcony, (i) serving more than one suite , (ii) served by a single exit stairway or ramp, and (iii) more than 1.5 m above adjacent ground level.",
+      "section_ref": "9.9.9.3",
+      "meta": {
+        "article_name": "Shared Egress Facilities"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "dim_75_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 273,
+              "end": 278,
+              "text": "1.5 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_75_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 273,
+              "end": 278,
+              "text": "1.5 m",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_75",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          },
+          {
+            "id": "unit_75",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "m"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "data": {
+      "text": "(a) is openable from the inside without the use of tools, (b) provides an individual, unobstructed open portion having a minimum area of 0.35 m\u00b2 with no dimension less than 380 mm, and",
+      "section_ref": "9.9.10.1",
+      "meta": {
+        "article_name": "Egress Windows or Doors for Bedrooms"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "dim_76_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 137,
+              "end": 144,
+              "text": "0.35 m\u00b2",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_76_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 173,
+              "end": 179,
+              "text": "380 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "unit_76",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "m2"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "data": {
+      "text": "(i) E001 emergency exit left, (ii) E002 emergency exit right,",
+      "section_ref": "9.9.11.3",
+      "meta": {
+        "article_name": "Exit Signs"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "ifc_77",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "data": {
+      "text": "(iii) E005 90-degree directional arrow, and (iv) E006 45-degree directional arrow.",
+      "section_ref": "9.9.11.3",
+      "meta": {
+        "article_name": "Exit Signs"
+      }
+    }
+  },
+  {
+    "id": 79,
+    "data": {
+      "text": "Internally illuminated exit signs shall be continuously illuminated, and, (a) where illumination of the sign is powered by an electrical circuit, be constructed in conformance with CSA C22.2 No. 141, 'Emergency Lighting Equipment', or r11.1 (b) where illumination of the sign is not powered by an electrical circuit, be, r5",
+      "section_ref": "9.9.11.3.(3)",
+      "meta": {
+        "article_name": "Exit Signs"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_79_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 34,
+              "end": 39,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_79_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 181,
+              "end": 190,
+              "text": "CSA C22.2",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "ifc_79",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "data": {
+      "text": "(i) constructed in conformance with CAN/ULCS572, 'Photoluminescent and Self -Luminous Exit Signs and Path Marking Systems', and (ii) labelled in accordance with the time duration for which they have been tested and listed .",
+      "section_ref": "9.9.11.3",
+      "meta": {
+        "article_name": "Exit Signs"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "ifc_80",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "data": {
+      "text": "Externally illuminated exit signs shall be illuminated at all times by a light fixture supplied by an electrical circuit.",
+      "section_ref": "9.9.11.3.(4)",
+      "meta": {
+        "article_name": "Exit Signs"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_81_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 34,
+              "end": 39,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_81",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "data": {
+      "text": "The circuitry serving lighting for externally and internally illuminated exit signs shall, (a) serve no equipment other than emergency lighting in the area where the exit signs are installed, and (b) be connected to an emergency power supply as described in Sentences 9.9.12.3.(2), (3) and (7).",
+      "section_ref": "9.9.11.3.(5)",
+      "meta": {
+        "article_name": "Exit Signs"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_82_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 84,
+              "end": 89,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "xref_82_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 268,
+              "end": 280,
+              "text": "9.9.12.3.(2)",
+              "labels": [
+                "CROSS_REF"
+              ]
+            }
+          },
+          {
+            "id": "cond_82_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 125,
+              "end": 293,
+              "text": "emergency lighting in the area where the exit signs are installed, and (b) be connected to an emergency power supply as described in Sentences 9.9.12.3.(2), (3) and (7)",
+              "labels": [
+                "EXCEPTION"
+              ]
+            }
+          },
+          {
+            "id": "ifc_82",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "data": {
+      "text": "An exit sign conforming to Clauses (2)(b) and (c) with an arrow or other indicator pointing at the direction of egress shall be provided where no exit is visible from, (a) a public corridor , (b) a corridor used by the public, or (c) a principal route serving an open floor area having an occupant load of more than 150.",
+      "section_ref": "9.9.11.3.(6)",
+      "meta": {
+        "article_name": "Exit Signs"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_83_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 119,
+              "end": 124,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_83",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "data": {
+      "text": "Except for suite doors opening directly to the exterior, every exit serving a hotel shall have an exit sign placed over it or adjacent to it.",
+      "section_ref": "9.9.11.3.(7)",
+      "meta": {
+        "article_name": "Exit Signs"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_84_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 84,
+              "end": 89,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "ifc_84",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcDoor"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "data": {
+      "text": "Arabic numerals indicating the assigned floor number shall be, (a) except in hotels , mounted permanently on the stair side of the wall at the latch side of doors to exit stair shafts, (b) in hotels , mounted permanently on each side of the exit doors to the exit stair shaft, (c) not less than 60 mm high, raised approximately 0.8 mm above the surface, (d) located 1 500 mm from the finished floor and not more than 300 mm from the door, and (e) contrasting in colour with the surface on which they are applied.",
+      "section_ref": "9.9.11.5.(1)",
+      "meta": {
+        "article_name": "Floor Numbering"
+      }
+    },
+    "predictions": [
+      {
+        "model_version": "bim-guard-nlp-v1",
+        "result": [
+          {
+            "id": "deon_85_1",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 53,
+              "end": 58,
+              "text": "shall",
+              "labels": [
+                "MANDATORY"
+              ]
+            }
+          },
+          {
+            "id": "dim_85_2",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 281,
+              "end": 300,
+              "text": "not less than 60 mm",
+              "labels": [
+                "DIM_MIN"
+              ]
+            }
+          },
+          {
+            "id": "dim_85_3",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 403,
+              "end": 423,
+              "text": "not more than 300 mm",
+              "labels": [
+                "DIM_MAX"
+              ]
+            }
+          },
+          {
+            "id": "dim_85_4",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 328,
+              "end": 334,
+              "text": "0.8 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "dim_85_5",
+            "from_name": "linguistic_labels",
+            "to_name": "text",
+            "type": "labels",
+            "value": {
+              "start": 368,
+              "end": 374,
+              "text": "500 mm",
+              "labels": [
+                "DIM_EXACT"
+              ]
+            }
+          },
+          {
+            "id": "ifc_85",
+            "from_name": "ifc_entity",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "IfcStairFlight"
+              ]
+            }
+          },
+          {
+            "id": "unit_85",
+            "from_name": "unit",
+            "to_name": "text",
+            "type": "choices",
+            "value": {
+              "choices": [
+                "mm"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

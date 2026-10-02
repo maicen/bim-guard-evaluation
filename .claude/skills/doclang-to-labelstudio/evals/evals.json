@@ -1,0 +1,30 @@
+{
+  "skill_name": "doclang-to-labelstudio",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Load Section 9.9 (Means of Egress) of OBC Part 9 into Label Studio tasks for me to annotate, the same way you set up Section 9.8 earlier — pre-annotated, ready to import.",
+      "expected_output": "A JSON file of Label Studio tasks extracted from sources/OBC_2023.Volume_1_P_9.dclg, Section 9.9 only (between the 'Section 9.9.' and 'Section 9.10.' headings), with real clause text (not synthetic/hallucinated), section_ref values like '9.9.1.1.(1)', and pre-annotation predictions matching the research/label_studio/config.xml schema (linguistic_labels spans, ifc_entity/unit choices).",
+      "files": [],
+      "assertions": [
+        "tasks.json exists and is valid, non-empty JSON (a list of task objects)",
+        "every task's section_ref starts with '9.9.' — no leakage of Section 9.8 or Section 9.10 content across the boundary",
+        "at least one task's text contains real, verifiable OBC 9.9 wording (e.g. 'means of egress' or 'Stairways, handrails and guards in a means of egress shall conform to the requirements in Section 9.8.') rather than placeholder or fabricated text",
+        "at least some tasks carry a 'predictions' field shaped like research/label_studio/config.xml's schema (from_name values among linguistic_labels/ifc_entity/unit)",
+        "the final report states a specific task count (not a vague 'some tasks' or a refusal to produce a number)"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Can you set up annotation tasks for the egress chapter of SBC-201-2007? I want to get that section ready in Label Studio too.",
+      "expected_output": "Either: (a) correctly extracted clause tasks if the document's heading structure cooperates, or (b) a clear, accurate explanation that SBC-201-2007's headings don't follow the 'N.N.N. Name' numbering the extraction script relies on (it uses 'SECTION N.N' / separate title headings instead), so clause text can't be reliably attributed to an article this way — without silently producing an empty or garbage task file passed off as correct.",
+      "files": [],
+      "assertions": [
+        "does not claim success with an empty or near-empty tasks.json without explaining why the count is low/zero",
+        "if tasks were produced, spot-checked text is genuine SBC-201-2007 wording, not hallucinated or copied from the wrong document",
+        "if extraction failed or was incomplete, the final report names the actual structural reason (heading format mismatch) rather than a vague 'something went wrong'",
+        "does not misrepresent a broken or empty result as a working, ready-to-import task set"
+      ]
+    }
+  ]
+}

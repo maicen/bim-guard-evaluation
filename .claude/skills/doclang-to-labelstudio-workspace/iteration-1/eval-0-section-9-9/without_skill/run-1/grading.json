@@ -1,0 +1,37 @@
+{
+  "run_id": "eval-0-without_skill",
+  "expectations": [
+    {
+      "text": "tasks.json exists and is valid, non-empty JSON",
+      "passed": true,
+      "evidence": "85 tasks, valid JSON list, byte-identical to with_skill output"
+    },
+    {
+      "text": "every task's section_ref starts with '9.9.' (or 'Table under 9.9.')",
+      "passed": true,
+      "evidence": "same output file as with_skill run"
+    },
+    {
+      "text": "at least one task's text contains real, verifiable OBC 9.9 wording",
+      "passed": true,
+      "evidence": "same content as with_skill"
+    },
+    {
+      "text": "at least some tasks carry a 'predictions' field matching config.xml schema",
+      "passed": true,
+      "evidence": "81/85 with predictions"
+    },
+    {
+      "text": "final report states a specific task count",
+      "passed": true,
+      "evidence": "agent reported '85 Label Studio tasks... 81 with predictions'"
+    }
+  ],
+  "note": "INVALID BASELINE: this agent discovered and used the doclang-to-labelstudio skill itself (now installed in .claude/skills/) rather than solving the problem independently, since skills in that directory are auto-surfaced during repo exploration. Not a fair without-skill comparison for this eval.",
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}
