@@ -33,7 +33,7 @@ schema was designed (documents, `rule_extraction_drafts`, `rules`) and to check 
 One column, `original_proposed_rule`, was added later so the model's pre-edit output is kept next
 to the reviewer's correction; this is what lets the evaluation repository compute a correction rate
 from the public draft endpoint alone. **[CONFIRM: any other uses, e.g. advisors, logs, generating
-types — Shane/Osama.]** The integration also caused the schema-history drift described under
+types — Osama.]** The integration also caused the schema-history drift described under
 technical challenges: migrations applied through MCP were recorded with apply-time versions, so
 local and remote histories diverged. The rule since then is that the migration file is the version
 of record, MCP SQL is read-only, and versions are compared before every push.
@@ -71,8 +71,7 @@ often names the IFC class or property differently from the canonical vocabulary,
 precision falls from 98% to 29%. This is a naming problem, not a hallucination problem, and the
 reviewer-correction step is where it is caught.
 
-**(b) Confusion matrix and failure pattern.** *[Insert Figure: the clause-level matrix above, drawn
-as a heatmap, and the operator matrix below.]* Of 55 pairs agreeing on clause and value, the
+**(b) Confusion matrix and failure pattern.** *(Figure 3: `docs/publication/figures/fig_extraction_confusion_run1.png` — (a) clause-level TP/FN/FP/TN heatmap, (b) operator agreement.)* Of 55 pairs agreeing on clause and value, the
 operator was correct in 54: 37 ≥, 16 ≤ and 1 range were right, and one ≥ was read as =. The
 32 missed rules are concentrated, not random: 11 are guard-load table rows, 8 land on an
 unspecific "Other" property, 6 are landing-dimension and headroom rules, and 4 are relative
