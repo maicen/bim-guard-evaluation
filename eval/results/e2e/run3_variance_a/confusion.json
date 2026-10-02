@@ -1,5 +1,5 @@
 {
-  "human_rules": 86,
+  "human_rules": 89,
   "extracted_rules": 23,
   "extracted_rules_total": 53,
   "non_dimensional_extracted": [
@@ -38,8 +38,8 @@
   "clause_level": {
     "tp": 13,
     "fp": 4,
-    "fn": 35,
-    "tn": 65,
+    "fn": 37,
+    "tn": 63,
     "clauses": [
       {
         "ref": "9.8.1.1.(1)",
@@ -142,21 +142,6 @@
         "extracted": false
       },
       {
-        "ref": "9.8.4.(1)",
-        "human": true,
-        "extracted": false
-      },
-      {
-        "ref": "9.8.4.(2)",
-        "human": false,
-        "extracted": false
-      },
-      {
-        "ref": "9.8.4.(3)",
-        "human": false,
-        "extracted": false
-      },
-      {
         "ref": "9.8.4.1.(1)",
         "human": false,
         "extracted": true
@@ -199,6 +184,21 @@
       {
         "ref": "9.8.4.4.(5)",
         "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.5A.(1)",
+        "human": true,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.5A.(2)",
+        "human": false,
+        "extracted": false
+      },
+      {
+        "ref": "9.8.4.5A.(3)",
+        "human": false,
         "extracted": false
       },
       {
@@ -333,12 +333,12 @@
       },
       {
         "ref": "9.8.7.1.(4)",
-        "human": false,
+        "human": true,
         "extracted": false
       },
       {
         "ref": "9.8.7.1.(5)",
-        "human": false,
+        "human": true,
         "extracted": false
       },
       {
@@ -632,47 +632,47 @@
       "confusion_matrix": {
         "tp": 13,
         "fp": 4,
-        "fn": 35,
-        "tn": 65,
+        "fn": 37,
+        "tn": 63,
         "total": 117,
-        "actual_positives": 48,
-        "actual_negatives": 69
+        "actual_positives": 50,
+        "actual_negatives": 67
       },
       "accuracy": {
-        "point": 0.6667,
-        "ci_lower": 0.5772,
-        "ci_upper": 0.7456,
-        "formatted": "66.7% [95% CI: 57.7% \u2013 74.6%]"
+        "point": 0.6496,
+        "ci_lower": 0.5596,
+        "ci_upper": 0.73,
+        "formatted": "65.0% [95% CI: 56.0% – 73.0%]"
       },
       "recall_sensitivity": {
-        "point": 0.2708,
-        "ci_lower": 0.1657,
-        "ci_upper": 0.41,
-        "formatted": "27.1% [95% CI: 16.6% \u2013 41.0%]"
+        "point": 0.26,
+        "ci_lower": 0.1587,
+        "ci_upper": 0.3955,
+        "formatted": "26.0% [95% CI: 15.9% – 39.6%]"
       },
       "precision": {
         "point": 0.7647,
         "ci_lower": 0.5274,
         "ci_upper": 0.9044,
-        "formatted": "76.5% [95% CI: 52.7% \u2013 90.4%]"
+        "formatted": "76.5% [95% CI: 52.7% – 90.4%]"
       },
       "specificity": {
-        "point": 0.942,
-        "ci_lower": 0.8602,
-        "ci_upper": 0.9772,
-        "formatted": "94.2% [95% CI: 86.0% \u2013 97.7%]"
+        "point": 0.9403,
+        "ci_lower": 0.8563,
+        "ci_upper": 0.9765,
+        "formatted": "94.0% [95% CI: 85.6% – 97.7%]"
       },
       "f1_score": {
-        "point": 0.4,
-        "ci_lower": 0.2522,
-        "ci_upper": 0.5642,
-        "formatted": "40.0% [95% CI: 25.2% \u2013 56.4%]"
+        "point": 0.3881,
+        "ci_lower": 0.244,
+        "ci_upper": 0.5503,
+        "formatted": "38.8% [95% CI: 24.4% – 55.0%]"
       },
       "balanced_accuracy": {
-        "point": 0.6064,
-        "ci_lower": 0.513,
-        "ci_upper": 0.6936,
-        "formatted": "60.6% [95% CI: 51.3% \u2013 69.4%]"
+        "point": 0.6001,
+        "ci_lower": 0.5075,
+        "ci_upper": 0.686,
+        "formatted": "60.0% [95% CI: 50.7% – 68.6%]"
       }
     }
   },
@@ -680,10 +680,10 @@
     "lenient": {
       "tp": 15,
       "fp": 8,
-      "fn": 71,
+      "fn": 74,
       "precision": 0.6521739130434783,
-      "recall": 0.1744186046511628,
-      "f1": 0.27522935779816515,
+      "recall": 0.16853932584269662,
+      "f1": 0.26785714285714285,
       "missed": [
         "9.8.2.1.(1) IfcStairFlight.Width >= 900.0 (base units)",
         "9.8.2.1.(2) IfcStairFlight.Width >= 860.0 (base units)",
@@ -692,11 +692,12 @@
         "9.8.3.3.(1) IfcStairFlight.FlightHeight <= 3700.0 (base units)",
         "9.8.3.2.(1) IfcStairFlight.NumberOfRiser >= 3.0 (base units)",
         "9.8.4.3.(3) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
-        "9.8.4.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.ClearWidth >= 660.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.RiserHeight <= 240.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.TreadLength >= 190.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.RequiredHeadroom >= 1980.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailCount >= 2.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.ClearWidth >= 660.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.RiserHeight <= 240.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.TreadLength >= 190.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.RequiredHeadroom >= 1980.0 (base units)",
         "9.8.4.2.(2) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
         "9.8.4.6.(1) IfcStairFlight.Other <= 15.0 (base units)",
         "9.8.4.6.(1) IfcStairFlight.Other <= 25.0 (base units)",
@@ -715,7 +716,9 @@
         "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 1950.0 (base units)",
         "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 2050.0 (base units)",
         "9.8.7.1.(2) IfcRailing.Other <= 825.0 (base units)",
+        "9.8.7.1.(4) IfcRailing.HandrailCount >= 1.0 (base units)",
         "9.8.7.3.(2) IfcRailing.Other >= 300.0 (base units)",
+        "9.8.7.1.(5) IfcRailing.HandrailCount >= 1.0 (base units)",
         "9.8.7.5.(1) IfcRailing.HandrailClearance >= 60.0 (base units)",
         "9.8.7.5.(1) IfcRailing.HandrailClearance >= 50.0 (base units)",
         "9.8.7.7.(2) IfcRailing.Other <= 1200.0 (base units)",
@@ -771,10 +774,10 @@
     "normalized": {
       "tp": 5,
       "fp": 18,
-      "fn": 81,
+      "fn": 84,
       "precision": 0.21739130434782608,
-      "recall": 0.05813953488372093,
-      "f1": 0.09174311926605504,
+      "recall": 0.056179775280898875,
+      "f1": 0.08928571428571429,
       "missed": [
         "9.8.2.1.(1) IfcStairFlight.Width >= 900.0 (base units)",
         "9.8.2.1.(2) IfcStairFlight.Width >= 860.0 (base units)",
@@ -785,11 +788,12 @@
         "9.8.3.3.(1) IfcStairFlight.FlightHeight <= 3700.0 (base units)",
         "9.8.3.2.(1) IfcStairFlight.NumberOfRiser >= 3.0 (base units)",
         "9.8.4.3.(3) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
-        "9.8.4.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.ClearWidth >= 660.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.RiserHeight <= 240.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.TreadLength >= 190.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.RequiredHeadroom >= 1980.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailCount >= 2.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.ClearWidth >= 660.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.RiserHeight <= 240.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.TreadLength >= 190.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.RequiredHeadroom >= 1980.0 (base units)",
         "9.8.4.2.(2) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
         "9.8.4.6.(1) IfcStairFlight.Other <= 15.0 (base units)",
         "9.8.4.6.(1) IfcStairFlight.Other <= 25.0 (base units)",
@@ -812,7 +816,9 @@
         "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 1950.0 (base units)",
         "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 2050.0 (base units)",
         "9.8.7.1.(2) IfcRailing.Other <= 825.0 (base units)",
+        "9.8.7.1.(4) IfcRailing.HandrailCount >= 1.0 (base units)",
         "9.8.7.3.(2) IfcRailing.Other >= 300.0 (base units)",
+        "9.8.7.1.(5) IfcRailing.HandrailCount >= 1.0 (base units)",
         "9.8.7.5.(1) IfcRailing.HandrailClearance >= 60.0 (base units)",
         "9.8.7.5.(1) IfcRailing.HandrailClearance >= 50.0 (base units)",
         "9.8.7.7.(2) IfcRailing.Other <= 1200.0 (base units)",
@@ -882,10 +888,10 @@
     "strict": {
       "tp": 5,
       "fp": 18,
-      "fn": 81,
+      "fn": 84,
       "precision": 0.21739130434782608,
-      "recall": 0.05813953488372093,
-      "f1": 0.09174311926605504,
+      "recall": 0.056179775280898875,
+      "f1": 0.08928571428571429,
       "missed": [
         "9.8.2.1.(1) IfcStairFlight.Width >= 900.0 (base units)",
         "9.8.2.1.(2) IfcStairFlight.Width >= 860.0 (base units)",
@@ -896,11 +902,12 @@
         "9.8.3.3.(1) IfcStairFlight.FlightHeight <= 3700.0 (base units)",
         "9.8.3.2.(1) IfcStairFlight.NumberOfRiser >= 3.0 (base units)",
         "9.8.4.3.(3) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
-        "9.8.4.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.ClearWidth >= 660.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.RiserHeight <= 240.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.TreadLength >= 190.0 (base units)",
-        "9.8.4.(1) IfcStairFlight.RequiredHeadroom >= 1980.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailCount >= 2.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.ClearWidth >= 660.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.RiserHeight <= 240.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.TreadLength >= 190.0 (base units)",
+        "9.8.4.5A.(1) IfcStairFlight.RequiredHeadroom >= 1980.0 (base units)",
         "9.8.4.2.(2) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)",
         "9.8.4.6.(1) IfcStairFlight.Other <= 15.0 (base units)",
         "9.8.4.6.(1) IfcStairFlight.Other <= 25.0 (base units)",
@@ -923,7 +930,9 @@
         "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 1950.0 (base units)",
         "9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 2050.0 (base units)",
         "9.8.7.1.(2) IfcRailing.Other <= 825.0 (base units)",
+        "9.8.7.1.(4) IfcRailing.HandrailCount >= 1.0 (base units)",
         "9.8.7.3.(2) IfcRailing.Other >= 300.0 (base units)",
+        "9.8.7.1.(5) IfcRailing.HandrailCount >= 1.0 (base units)",
         "9.8.7.5.(1) IfcRailing.HandrailClearance >= 60.0 (base units)",
         "9.8.7.5.(1) IfcRailing.HandrailClearance >= 50.0 (base units)",
         "9.8.7.7.(2) IfcRailing.Other <= 1200.0 (base units)",
@@ -999,12 +1008,5 @@
       "between": 1
     }
   },
-  "run": {
-    "base_url": "https://bim-guard.xyz",
-    "model": "openai/gpt-5.6-luna-pro",
-    "run_at": "2026-10-02T22:01:29+00:00",
-    "drafts": 53,
-    "unmapped_drafts": 0,
-    "out_dir": "eval/results/e2e/run3_variance_a"
-  }
+  "run": null
 }

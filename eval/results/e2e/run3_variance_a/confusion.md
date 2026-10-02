@@ -1,30 +1,30 @@
 # BIM-Guard rule extraction vs. human annotation — OBC 2023 Section 9.8
 
-Human gold rules: **86** · Extracted dimensional rules: **23** (of 53 drafts) · Annotated clauses: **117**
+Human gold rules: **89** · Extracted dimensional rules: **23** (of 53 drafts) · Annotated clauses: **117**
 
 ## 1. Clause-level confusion matrix
 Positive = clause yields at least one checkable rule.
 
 | | Extracted: rule | Extracted: none |
 |---|---|---|
-| **Human: rule** | TP 13 | FN 35 |
-| **Human: none** | FP 4 | TN 65 |
+| **Human: rule** | TP 13 | FN 37 |
+| **Human: none** | FP 4 | TN 63 |
 
-- accuracy: 66.7% [95% CI: 57.7% – 74.6%]
+- accuracy: 65.0% [95% CI: 56.0% – 73.0%]
 - precision: 76.5% [95% CI: 52.7% – 90.4%]
-- recall_sensitivity: 27.1% [95% CI: 16.6% – 41.0%]
-- specificity: 94.2% [95% CI: 86.0% – 97.7%]
-- f1_score: 40.0% [95% CI: 25.2% – 56.4%]
-- balanced_accuracy: 60.6% [95% CI: 51.3% – 69.4%]
+- recall_sensitivity: 26.0% [95% CI: 15.9% – 39.6%]
+- specificity: 94.0% [95% CI: 85.6% – 97.7%]
+- f1_score: 38.8% [95% CI: 24.4% – 55.0%]
+- balanced_accuracy: 60.0% [95% CI: 50.7% – 68.6%]
 
 ## 2. Rule-level matching
 TN is undefined for open-ended extraction.
 
 | Mode | TP | FP | FN | Precision | Recall | F1 |
 |---|---|---|---|---|---|---|
-| lenient | 15 | 8 | 71 | 65.2% | 17.4% | 27.5% |
-| normalized | 5 | 18 | 81 | 21.7% | 5.8% | 9.2% |
-| strict | 5 | 18 | 81 | 21.7% | 5.8% | 9.2% |
+| lenient | 15 | 8 | 74 | 65.2% | 16.9% | 26.8% |
+| normalized | 5 | 18 | 84 | 21.7% | 5.6% | 8.9% |
+| strict | 5 | 18 | 84 | 21.7% | 5.6% | 8.9% |
 
 Lenient = same clause + operator + value. Normalized additionally requires IFC target and property to agree up to a small synonym table (IfcRamp~IfcRampFlight, ClearHeight~RequiredHeadroom, ...; see _PROPERTY_EQUIV). Strict requires exact target and property (bim-guard alias table only).
 
@@ -46,11 +46,12 @@ Lenient = same clause + operator + value. Normalized additionally requires IFC t
 - 9.8.3.3.(1) IfcStairFlight.FlightHeight <= 3700.0 (base units)
 - 9.8.3.2.(1) IfcStairFlight.NumberOfRiser >= 3.0 (base units)
 - 9.8.4.3.(3) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)
-- 9.8.4.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)
-- 9.8.4.(1) IfcStairFlight.ClearWidth >= 660.0 (base units)
-- 9.8.4.(1) IfcStairFlight.RiserHeight <= 240.0 (base units)
-- 9.8.4.(1) IfcStairFlight.TreadLength >= 190.0 (base units)
-- 9.8.4.(1) IfcStairFlight.RequiredHeadroom >= 1980.0 (base units)
+- 9.8.4.5A.(1) IfcStairFlight.HandrailCount >= 2.0 (base units)
+- 9.8.4.5A.(1) IfcStairFlight.HandrailHeight >= 1070.0 (base units)
+- 9.8.4.5A.(1) IfcStairFlight.ClearWidth >= 660.0 (base units)
+- 9.8.4.5A.(1) IfcStairFlight.RiserHeight <= 240.0 (base units)
+- 9.8.4.5A.(1) IfcStairFlight.TreadLength >= 190.0 (base units)
+- 9.8.4.5A.(1) IfcStairFlight.RequiredHeadroom >= 1980.0 (base units)
 - 9.8.4.2.(2) IfcStairFlight.TreadLength between ('rel', 0.0, 25.0) (base units)
 - 9.8.4.6.(1) IfcStairFlight.Other <= 15.0 (base units)
 - 9.8.4.6.(1) IfcStairFlight.Other <= 25.0 (base units)
@@ -69,7 +70,9 @@ Lenient = same clause + operator + value. Normalized additionally requires IFC t
 - 9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 1950.0 (base units)
 - 9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 2050.0 (base units)
 - 9.8.7.1.(2) IfcRailing.Other <= 825.0 (base units)
+- 9.8.7.1.(4) IfcRailing.HandrailCount >= 1.0 (base units)
 - 9.8.7.3.(2) IfcRailing.Other >= 300.0 (base units)
+- 9.8.7.1.(5) IfcRailing.HandrailCount >= 1.0 (base units)
 - 9.8.7.5.(1) IfcRailing.HandrailClearance >= 60.0 (base units)
 - 9.8.7.5.(1) IfcRailing.HandrailClearance >= 50.0 (base units)
 - 9.8.7.7.(2) IfcRailing.Other <= 1200.0 (base units)
