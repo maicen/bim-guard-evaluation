@@ -86,6 +86,28 @@ threshold logic, not the extraction of those values from an IFC model.
 - *BCF in viewer* — **[CONFIRM: screenshot to be captured by hand from the viewer; not in the
   repository]**.
 
+*Captions as placed in the memo (Section 5.2), 2026-10-03:*
+
+- **Figure 2.** Architectural audit results. (a) Egress and spatial modules on 22 synthetic
+  scenarios: TP 13, FN 0, FP 0, TN 9; the ground truth is set by the scenario generator.
+  (b) BIM-Guard verdicts for the window rule pack on a real model (28 windows), compared with the
+  raw IFC file: 252 of 280 checks agree; hatched bars mark disagreement.
+- **Figure 3.** BIM-Guard pipeline. Pillar A turns code text into reviewed rules; Pillar B audits
+  the IFC model against the approved rules and reports BCF issues.
+- **Figure 4.** Results view for the Windows & Glazing category: rule WR-001 (overall width at
+  least 800 mm) with the actual value, required value, status and confidence for each window.
+
+**Reading (Section 5.2).** Extraction is conservative at clause level in the best run (no
+false-positive clauses) but incomplete, and recall is unstable between runs (clause-level recall
+22–74%). This supports the design decision that no extracted rule is used without human review.
+For the audit, the egress and spatial modules returned the expected verdict in all 22 synthetic
+scenarios (Figure 2a), which shows the threshold logic is implemented as specified, not accuracy
+on real models. On a real model, nine of ten window rules agreed with the raw IFC file for every
+window (Figure 2b). The exception is sill height: the model does not export it, yet all 28 windows
+passed, so a pass on a low-reliability property is not evidence of compliance. The door rule pack
+agreed less often (786 of 3,725 checks). Inter-annotator agreement, cross-jurisdiction transfer
+and calibration of the LLM judge were not measured (Section 6.1).
+
 **Reading.** The precision/recall pair answers the plenary's request: extraction is conservative
 (few false positives) but incomplete (about one rule in three missed at best), so human review
 remains essential and the evaluation supports the human-in-the-loop design.
