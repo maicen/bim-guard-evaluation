@@ -119,16 +119,62 @@ def parse_otsl_table_text(elem: ET.Element) -> str:
     return re.sub(r"\s+", " ", "".join(elem.itertext())).strip()
 
 
+NOTES_HEADING = re.compile(r"^Notes? to (Table \d+(?:\.\d+)*[A-Z]?)\.?:?")
+# A sentence marker "(2) " that opens a new sentence: at the start of a chunk, or right
+# after a sentence end (". (2) Except ...") or a revision tag ("... r11.2 (3) ..."), but
+# not after words such as "Sentence (2)" / "Sentences (2), (4) and (5)".
+INLINE_MARKER = re.compile(r"\((\d+(?:\.\d+)?[a-z]?)\)\s")  # (2), (3.1), (2a)
+# Whitespace is required before the marker, so "A-9.8.7.2.(1)" is not a sentence start.
+_SENTENCE_END = re.compile(r"(?:[.;:]|\br\d+(?:\.\d+)?|\be\d+(?:\.\d+)?)\s+$")
+_REVISION_ONLY = re.compile(r"(?:[re]\d+(?:\.\d+)?\s*)+")
+
+
+def split_inline(text: str) -> list[tuple[str | None, str]]:
+    """Split a chunk at sentence markers; a leading unmarked part has marker None."""
+    cuts = [m for m in INLINE_MARKER.finditer(text) if m.start() == 0 or _SENTENCE_END.search(text[: m.start()])]
+    if not cuts:
+        return [(None, text)]
+    parts: list[tuple[str | None, str]] = []
+    if cuts[0].start() > 0:
+        parts.append((None, text[: cuts[0].start()].strip()))
+    for i, m in enumerate(cuts):
+        stop = cuts[i + 1].start() if i + 1 < len(cuts) else len(text)
+        parts.append((f"({m.group(1)})", text[m.end():stop].strip()))
+    return [(mk, t) for mk, t in parts if t]
+
+
 def extract(source: Path, start: str, end: str | None) -> list[dict]:
+    """Sentences and tables of one section, in document order.
+
+    Clause text arrives in three shapes in these DocLang files: <list> items with
+    <marker>(N)</marker>, bare <text> elements starting "(N) ...", and several sentences
+    run together in one element ("... flight . (2) Except ..."). Unmarked chunks (page
+    breaks, lettered continuations such as "(b) complies with ...") belong to the
+    previous sentence of the same article and are appended to it. Sentences under a
+    "Notes to Table X" heading are numbered "Note to Table X.(n)".
+    """
     tree = ET.parse(source)
     root = tree.getroot()
     children = list(root)
     start_idx, end_idx = find_bounds(children, start, end)
     sliced = children[start_idx:end_idx]
 
-    current_article_num: str | None = None
-    current_article_name: str | None = None
+    context_ref: str | None = None      # article number, or "Note to Table X"
+    context_name: str | None = None
+    last_sentence: dict | None = None   # task whose text a continuation extends
     tasks: list[dict] = []
+
+    def add_chunk(marker: str | None, text: str) -> None:
+        nonlocal last_sentence
+        text = re.sub(r"\s+", " ", text).strip()
+        if not text or context_ref is None or _REVISION_ONLY.fullmatch(text):
+            return
+        if marker is None and last_sentence is not None:
+            last_sentence["data"]["text"] = f"{last_sentence['data']['text']} {text}"
+            return
+        ref = f"{context_ref}.{marker}" if marker else context_ref
+        last_sentence = {"data": {"section_ref": ref, "article_name": context_name, "text": text}}
+        tasks.append(last_sentence)
 
     for elem in sliced:
         tag = strip_ns(elem.tag).lower()
@@ -136,40 +182,39 @@ def extract(source: Path, start: str, end: str | None) -> list[dict]:
         if tag == "heading":
             text = re.sub(r"\s+", " ", text_of(elem))
             m = HEADING_NUM.match(text)
+            notes = NOTES_HEADING.match(text)
             if m:
-                current_article_num = m.group(1).rstrip(".")
-                current_article_name = m.group(2).strip()
+                context_ref, context_name = m.group(1).rstrip("."), m.group(2).strip()
+                last_sentence = None
+            elif notes:
+                context_ref, context_name = f"Note to {notes.group(1)}", text
+                last_sentence = None
             continue
 
         if tag == "list":
-            if current_article_num is None:
-                continue
             for marker, text in flush_sentences(elem):
-                ref = f"{current_article_num}.{marker}" if marker else current_article_num
-                tasks.append(
-                    {
-                        "data": {
-                            "section_ref": ref,
-                            "article_name": current_article_name,
-                            "text": text,
-                        }
-                    }
-                )
+                for i, (inner_marker, inner_text) in enumerate(split_inline(text)):
+                    add_chunk(marker if i == 0 and inner_marker is None else inner_marker, inner_text)
+            continue
+
+        if tag in ("text", "paragraph"):
+            text = re.sub(r"\s+", " ", text_of(elem))
+            # Some article headings are tagged <text> ("9.8.6.3. Dimensions of Landings").
+            m = HEADING_NUM.match(text)
+            if m and m.group(2)[:1].isupper():
+                context_ref, context_name = m.group(1).rstrip("."), m.group(2).strip()
+                last_sentence = None
+                continue
+            for marker, chunk in split_inline(text):
+                add_chunk(marker, chunk)
             continue
 
         if tag == "table":
             text = parse_otsl_table_text(elem)[:2000]
             if text:
-                ref = f"Table under {current_article_num}" if current_article_num else "Table"
-                tasks.append(
-                    {
-                        "data": {
-                            "section_ref": ref,
-                            "article_name": current_article_name,
-                            "text": text,
-                        }
-                    }
-                )
+                ref = f"Table under {context_ref}" if context_ref else "Table"
+                tasks.append({"data": {"section_ref": ref, "article_name": context_name, "text": text}})
+            continue
 
     return tasks
 
@@ -190,7 +235,7 @@ def main() -> None:
     if not tasks:
         print(
             "Warning: extracted 0 clauses. The heading boundaries matched, but no "
-            "<list> or <table> elements were found in between — double-check this "
+            "<list>, <text> or <table> elements were found in between — double-check this "
             "is really where the clause text lives in this document.",
             file=sys.stderr,
         )
