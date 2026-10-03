@@ -1,0 +1,352 @@
+[
+ {
+  "reference": "DR-001",
+  "property_set": "Attributes",
+  "property_name": "GlobalId",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "DR-002",
+  "property_set": null,
+  "property_name": "IfcClass",
+  "level": "high",
+  "category": "ifc_class"
+ },
+ {
+  "reference": "DR-003",
+  "property_set": "Attributes",
+  "property_name": "Name",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "DR-004",
+  "property_set": null,
+  "property_name": "PredefinedType",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "DR-005",
+  "property_set": null,
+  "property_name": "StoreyGlobalId",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "DR-006",
+  "property_set": null,
+  "property_name": "StoreyName",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "DR-007",
+  "property_set": null,
+  "property_name": "PlacementMatrix",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "DR-008",
+  "property_set": null,
+  "property_name": "OpeningGlobalId",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "DR-009",
+  "property_set": null,
+  "property_name": "OpeningIfcClass",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "DR-010",
+  "property_set": null,
+  "property_name": "HostGlobalId",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "DR-011",
+  "property_set": null,
+  "property_name": "HostIfcClass",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "DR-012",
+  "property_set": "Attributes",
+  "property_name": "OverallWidth",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "DR-013",
+  "property_set": "Attributes",
+  "property_name": "OverallHeight",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "DR-014",
+  "property_set": "Qto_DoorBaseQuantities",
+  "property_name": "QtoWidth",
+  "level": "low",
+  "category": "not_in_set"
+ },
+ {
+  "reference": "DR-015",
+  "property_set": "Qto_DoorBaseQuantities",
+  "property_name": "QtoHeight",
+  "level": "low",
+  "category": "not_in_set"
+ },
+ {
+  "reference": "DR-016",
+  "property_set": "Qto_DoorBaseQuantities",
+  "property_name": "Perimeter",
+  "level": "high",
+  "category": "quantity"
+ },
+ {
+  "reference": "DR-017",
+  "property_set": "Qto_DoorBaseQuantities",
+  "property_name": "Area",
+  "level": "high",
+  "category": "quantity"
+ },
+ {
+  "reference": "DR-018",
+  "property_set": null,
+  "property_name": "RepresentationIds",
+  "level": "low",
+  "category": "unrecognised"
+ },
+ {
+  "reference": "DR-019",
+  "property_set": null,
+  "property_name": "OperationType",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "DR-020",
+  "property_set": null,
+  "property_name": "OpeningDirectionAxis",
+  "level": "low",
+  "category": "unrecognised"
+ },
+ {
+  "reference": "DR-021",
+  "property_set": "Attributes",
+  "property_name": "Tag",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "DR-022",
+  "property_set": null,
+  "property_name": "TypeGlobalId",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "DR-023",
+  "property_set": "Pset_DoorPanelProperties",
+  "property_name": "PanelOperation",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "DR-024",
+  "property_set": "Pset_DoorCommon",
+  "property_name": "FireRating",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "DR-025",
+  "property_set": "Pset_DoorCommon",
+  "property_name": "IsExternal",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "DR-026",
+  "property_set": "Pset_DoorCommon",
+  "property_name": "ThermalTransmittance",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "DR-027",
+  "property_set": "Pset_DoorCommon",
+  "property_name": "HandicapAccessible",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "DR-028",
+  "property_set": "Pset_DoorCommon",
+  "property_name": "FireExit",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "DR-029",
+  "property_set": "Pset_DoorCommon",
+  "property_name": "SelfClosing",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "DR-030",
+  "property_set": "Pset_DoorCommon",
+  "property_name": "SmokeStop",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "WR-001",
+  "property_set": "Attributes",
+  "property_name": "OverallWidth",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "WR-002",
+  "property_set": "Attributes",
+  "property_name": "OverallHeight",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "WR-005",
+  "property_set": "Qto_WindowBaseQuantities",
+  "property_name": "Area",
+  "level": "high",
+  "category": "quantity"
+ },
+ {
+  "reference": "WR-035",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "OpeningElement",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "WR-036",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "HostElement",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "WR-039",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "Storey",
+  "level": "low",
+  "category": "not_in_set"
+ },
+ {
+  "reference": "WR-068",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "FireRating",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "WR-063",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "ThermalTransmittance",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "WR-059",
+  "property_set": "Pset_DoorWindowGlazingType",
+  "property_name": "SolarHeatGainTransmittance",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "WR-065",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "Infiltration",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "WR-007",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "SillHeight",
+  "level": "low",
+  "category": "not_in_set"
+ },
+ {
+  "reference": "WR-012",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "ClearOpeningWidth",
+  "level": "low",
+  "category": "not_in_set"
+ },
+ {
+  "reference": "WR-013",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "ClearOpeningHeight",
+  "level": "low",
+  "category": "not_in_set"
+ },
+ {
+  "reference": "WR-014",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "ClearOpeningArea",
+  "level": "low",
+  "category": "not_in_set"
+ },
+ {
+  "reference": "WR-067",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "AcousticRating",
+  "level": "medium",
+  "category": "property_set"
+ },
+ {
+  "reference": "WR-057",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "IsSafetyGlass",
+  "level": "low",
+  "category": "not_in_set"
+ },
+ {
+  "reference": "WR-028",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "PredefinedType",
+  "level": "high",
+  "category": "schema_attribute"
+ },
+ {
+  "reference": "WR-030",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "WindowType",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "WR-032",
+  "property_set": "Pset_WindowCommon",
+  "property_name": "TypeAssignmentCount",
+  "level": "high",
+  "category": "relationship"
+ },
+ {
+  "reference": "WR-023",
+  "property_set": "Attributes",
+  "property_name": "GlobalId",
+  "level": "high",
+  "category": "schema_attribute"
+ }
+]
