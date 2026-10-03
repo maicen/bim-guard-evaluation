@@ -231,8 +231,10 @@ def load_human(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
 
 # ── scoring ──────────────────────────────────────────────────────────────────
 
-def match_rules(human: list[dict], extracted: list[dict], strict: bool, normalized: bool = False) -> tuple[list, list, list]:
-    """Greedy one-to-one matching. Returns (pairs, unmatched_human, unmatched_extracted).
+def match_rules(
+    human: list[dict], extracted: list[dict], strict: bool, normalized: bool = False
+) -> tuple[list, list, list, list]:
+    """Greedy one-to-one matching. Returns (pairs, missed_human, false_positives, redundant).
 
     strict: also require IFC target and property to agree (exactly / alias table);
     normalized: like strict, but through the _TARGET_EQUIV / _PROPERTY_EQUIV synonyms.
@@ -261,8 +263,21 @@ def match_rules(human: list[dict], extracted: list[dict], strict: bool, normaliz
         else:
             used.add(hit)
             pairs.append((h, extracted[hit]))
-    false_pos = [e for i, e in enumerate(extracted) if i not in used]
-    return pairs, missed, false_pos
+    # An unmatched extracted rule that restates an already-matched human rule (BIM-Guard
+    # often splits "stairs and ramps shall ..." into one rule per element) is redundant,
+    # not wrong; it is reported separately and not counted as a false positive.
+    matched_humans = [h for h, _ in pairs]
+    false_pos, redundant = [], []
+    for i, e in enumerate(extracted):
+        if i in used:
+            continue
+        restates = any(
+            refs_agree(normalize_ref(h["ref"]), normalize_ref(e.get("ref")))
+            and normalize_op(e.get("operator")) == normalize_op(h["operator"]) and values_agree(h, e)
+            for h in matched_humans
+        )
+        (redundant if restates else false_pos).append(e)
+    return pairs, missed, false_pos, redundant
 
 
 def operator_confusion(human: list[dict], extracted: list[dict]) -> dict[str, dict[str, int]]:
@@ -323,12 +338,14 @@ def score(human_path: Path, extracted_path: Path) -> dict[str, Any]:
 
     rule_level = {}
     for mode in ("lenient", "normalized", "strict"):
-        pairs, missed, fps = match_rules(human, extracted, strict=(mode == "strict"), normalized=(mode == "normalized"))
+        pairs, missed, fps, redundant = match_rules(
+            human, extracted, strict=(mode == "strict"), normalized=(mode == "normalized")
+        )
         tp, fn, fp = len(pairs), len(missed), len(fps)
         p = tp / (tp + fp) if tp + fp else 0.0
         r = tp / (tp + fn) if tp + fn else 0.0
         rule_level[mode] = {
-            "tp": tp, "fp": fp, "fn": fn,
+            "tp": tp, "fp": fp, "fn": fn, "redundant": len(redundant),
             "precision": p, "recall": r, "f1": 2 * p * r / (p + r) if p + r else 0.0,
             "missed": [_brief(h) for h in missed],
             "false_positives": [_brief(e) for e in fps],
@@ -382,11 +399,12 @@ def to_markdown(res: dict[str, Any]) -> str:
             v = m[k]
             lines.append(f"- {k}: {v.get('formatted', v) if isinstance(v, dict) else v}")
     lines += ["", "## 2. Rule-level matching", "TN is undefined for open-ended extraction.", "",
-              "| Mode | TP | FP | FN | Precision | Recall | F1 |", "|---|---|---|---|---|---|---|"]
+              "| Mode | TP | FP | FN | Redundant | Precision | Recall | F1 |", "|---|---|---|---|---|---|---|---|"]
     for mode, r in res["rule_level"].items():
-        lines.append(f"| {mode} | {r['tp']} | {r['fp']} | {r['fn']} | {r['precision']:.1%} | "
+        lines.append(f"| {mode} | {r['tp']} | {r['fp']} | {r['fn']} | {r.get('redundant', 0)} | {r['precision']:.1%} | "
                      f"{r['recall']:.1%} | {r['f1']:.1%} |")
-    lines += ["", "Lenient = same clause + operator + value. Normalized additionally requires IFC target "
+    lines += ["", "Redundant = extracted rules restating an already-matched human rule (e.g. one rule per "
+              "element for 'stairs and ramps'); neither TP nor FP.", "", "Lenient = same clause + operator + value. Normalized additionally requires IFC target "
               "and property to agree up to a small synonym table (IfcRamp~IfcRampFlight, ClearHeight~"
               "RequiredHeadroom, ...; see _PROPERTY_EQUIV). Strict requires exact target and property "
               "(bim-guard alias table only).", "", "## 3. Operator confusion (pairs agreeing on clause and value)",

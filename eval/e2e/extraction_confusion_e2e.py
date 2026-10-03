@@ -81,7 +81,9 @@ def _words(s: str) -> set[str]:
 
 # "9.8.2.1-2", "9.8.6.2-1a", "9.8.9.5(1b)", "9.8.9.4(1d)-other": article + sentence
 # number, optionally a clause letter and a named suffix (both styles occur run to run).
-_SENTENCE_ID = re.compile(r"^(\d+(?:\.\d+)+[A-Z]?)\.?(?:-(\d+)[a-z]?|\((\d+)[a-z]?\))(?:-[\w-]+)?$")
+_SENTENCE_ID = re.compile(
+    r"^(\d+(?:\.\d+)+[A-Z]?)\.?(?:-(\d+)[a-z]?|\((\d+)[a-z]?\)(?:\([a-z]+\))*)(?:-[\w-]+)?$"
+)  # also "9.8.9.4(1)(d)-house"
 _STOP = {"the", "a", "an", "of", "and", "or", "to", "in", "for", "be", "shall", "not", "than", "with", "at", "on"}
 
 
