@@ -68,7 +68,23 @@ as they are.
 
 **(d) Architectural audit.** On the 22-scenario benchmark the egress and spatial engines gave
 TP 13, TN 9, FP 0, FN 0 (Wilson 95% CI 85.1–100%), in 0.25 s. This is a small synthetic set and
-shows the engines behave on known cases, not in general.
+shows the engines behave on known cases, not in general. The scenarios supply each engine with
+ready-made values (a travel distance, an exit count, a fire rating), so the benchmark tests the
+threshold logic, not the extraction of those values from an IFC model.
+
+*Figures for this section (regenerate with `eval/plot_arch_benchmark.py` and
+`eval/plot_architecture_diagram.py`; all in `docs/publication/figures/`):*
+
+- *Architecture diagram* — `fig_architecture_pipeline.png`. Caption: "BIM-Guard pipeline. Pillar A
+  turns code text into reviewed rules; Pillar B audits the IFC model against the approved rules
+  and reports BCF issues."
+- *Confusion matrix* — `fig_1_confusion_matrix_heatmap.png`. Caption: "Architecture engine
+  benchmark, 22 synthetic scenarios (TP 13, FN 0, FP 0, TN 9). Ground truth is set by the scenario
+  generator."
+- *Verdict breakdown* — `fig_arch_verdict_breakdown.png`. Caption: "FAIL and PASS verdicts by
+  check type on the 22 synthetic scenarios; all 22 match the expected outcome."
+- *BCF in viewer* — **[CONFIRM: screenshot to be captured by hand from the viewer; not in the
+  repository]**.
 
 **Reading.** The precision/recall pair answers the plenary's request: extraction is conservative
 (few false positives) but incomplete (about one rule in three missed at best), so human review

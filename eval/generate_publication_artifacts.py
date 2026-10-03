@@ -19,9 +19,10 @@ logging.getLogger("PIL").setLevel(logging.WARNING)
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import numpy as np
 
 from eval.env_snapshot import get_environment_snapshot
+from eval.plot_arch_benchmark import draw_confusion as draw_arch_confusion
+from eval.plot_arch_benchmark import draw_verdicts as draw_arch_verdicts
 from eval.score_arch_engines import run_benchmark as run_arch_benchmark
 from eval.score_cross_code import run_cross_code_benchmark
 from eval.score_iaa import IAACalculator
@@ -178,30 +179,8 @@ def generate_publication_figures(
     plt.rcParams["axes.linewidth"] = 0.8
 
     # ── Figure 1: Architectural Confusion Matrix Heatmap ───────────────────
-    cm = arch_data["classification_metrics"]["confusion_matrix"]
-    matrix = np.array([
-        [cm["tp"], cm["fn"]],
-        [cm["fp"], cm["tn"]],
-    ])
-
-    fig, ax = plt.subplots(figsize=(6.0, 4.8), dpi=300)
-    cax = ax.matshow(matrix, cmap="Blues", alpha=0.85)
-
-    for i in range(2):
-        for j in range(2):
-            val = matrix[i, j]
-            color = "white" if val > 6 else "#111111"
-            ax.text(j, i, str(val), ha="center", va="center", fontsize=16, fontweight="bold", color=color)
-
-    ax.set_xticks([0, 1])
-    ax.set_yticks([0, 1])
-    ax.set_xticklabels(["Predicted\nViolation (Pos)", "Predicted\nCompliant (Neg)"], fontsize=10)
-    ax.set_yticklabels(["Actual Violation (Pos)", "Actual Compliant (Neg)"], fontsize=10)
-    ax.set_title("Architectural Compliance Matrix (ARCH-001)\n$N=22$ Ground-Truth Test Scenarios", fontsize=11, pad=15, fontweight="bold")
-    fig.colorbar(cax, shrink=0.8)
-    fig.tight_layout()
-    fig.savefig(output_dir / "fig_1_confusion_matrix_heatmap.png")
-    plt.close(fig)
+    draw_arch_confusion(arch_data["classification_metrics"], output_dir / "fig_1_confusion_matrix_heatmap.png")
+    draw_arch_verdicts(arch_data, output_dir / "fig_arch_verdict_breakdown.png")
 
     # ── Figure 2: Judge Threshold Sensitivity Curve ───────────────────────
     sweep = judge_data["threshold_sensitivity_sweep"]
