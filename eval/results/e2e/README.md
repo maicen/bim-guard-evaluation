@@ -6,12 +6,15 @@ human Label Studio gold set (`eval/score_extraction_vs_human.py`).
 
 | Run | Directory | Model | Source of model | Drafts | BIM-Guard build | Notes |
 |---|---|---|---|---|---|---|
-| 1 | `run1_browser/` | GPT-6.1 Sol Pro | reported by the annotator; **not recorded in the run output** | 104 | before the 2026-10-02 21:50 UTC rebuild | UI driven by hand before the runner existed |
-| 2 | `run2_playwright/` | GPT-6.1 Sol Pro | reported by the annotator; **not recorded in the run output** | 48 | before the rebuild | first automated run |
+| 1 | `run1_browser/` | `openai/gpt-5.6-luna-pro` (page default at the time) | observed by the operator in the extract-drafts request (`model=openrouter/openai/gpt-5.6-luna-pro`) and the backend LiteLLM log, 2026-10-02 18:17–18:27 UTC; **not recorded in the run output**, and the container logs were lost in the 21:50 rebuild | 104 | before the 2026-10-02 21:50 UTC rebuild | UI driven by hand before the runner existed |
+| 2 | `run2_playwright/` | `openai/gpt-5.6-luna-pro` | runner stdout, kept as `run2_playwright/run.log` ("Model: OpenAI: GPT-5.6 Luna Pro") | 48 | before the rebuild | first automated run |
 | 3 | `run3_variance_a/` | `openai/gpt-5.6-luna-pro` | recorded in `confusion.json` (`run.model`) | 53 | after the rebuild | pinned cheaper model; runner adapted to the new dropdown UI |
 
 All three are scored against `project1_human_2026-10-02b.json` (89 gold rules). That gold file is
 not in the repository (the OBC clause text is not redistributed; see `docs/DATA_LICENSING.md`).
+
+An earlier version of this table attributed runs 1 and 2 to "GPT-6.1 Sol Pro" as reported by the
+annotator; the evidence above shows both used `openai/gpt-5.6-luna-pro`, the same model as run 3.
 
 **Reading the runs.** Runs 1 and 2 used the same model yet differ widely (lenient rule F1 77.6% vs
 32.2%), so single-model run-to-run variance alone is large. Run 3 differs from both in model *and*

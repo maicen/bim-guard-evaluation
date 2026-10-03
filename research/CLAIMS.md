@@ -153,11 +153,11 @@ adjudication, no IAA — see `LIMITATIONS.md`).
 
 | Run | Drafts | Clause TP/FP/FN/TN | Lenient P / R / F1 | Normalized F1 | Strict F1 |
 |---|---|---|---|---|---|
-| run 1 (`run1_browser`, UI by hand; GPT-6.1 Sol Pro, as reported by the annotator, not recorded in the output) | 104 | 37 / 0 / 13 / 67 | 98.3 / 64.0 / 77.6 | 57.1 | 23.1 |
-| run 2 (`run2_playwright`; GPT-6.1 Sol Pro, as reported, not recorded in the output) | 48 | 11 / 3 / 39 / 64 | 65.5 / 21.3 / 32.2 | 20.3 | 11.9 |
+| run 1 (`run1_browser`, UI by hand; `openai/gpt-5.6-luna-pro`, observed in the request/backend log, not recorded in the output) | 104 | 37 / 0 / 13 / 67 | 98.3 / 64.0 / 77.6 | 57.1 | 23.1 |
+| run 2 (`run2_playwright`; `openai/gpt-5.6-luna-pro`, per `run2_playwright/run.log`) | 48 | 11 / 3 / 39 / 64 | 65.5 / 21.3 / 32.2 | 20.3 | 11.9 |
 | run 3 (`run3_variance_a`, `openai/gpt-5.6-luna-pro`, 2026-10-02 22:01 UTC, **after an app rebuild at 21:50 UTC**) | 53 | 13 / 4 / 37 / 63 | 65.2 / 16.9 / 26.8 | 8.9 | 8.9 |
 
-Runs 1 and 2 used the **same model** (GPT-6.1 Sol Pro) yet gave 104 vs 48 drafts and lenient F1 77.6% vs 32.2%, so run-to-run variance for one model is already large (the extraction call accepts no seed or temperature; cause unexplained). Run 3 used a different, cheaper model *and* post-dates a rebuild of the BIM-Guard app, so it cannot isolate the effect of either. Per-run metadata: `eval/results/e2e/README.md`.
+Runs 1 and 2 used the **same model** (`openai/gpt-5.6-luna-pro`; an earlier version of this section said GPT-6.1 Sol Pro, which the run evidence contradicts) yet gave 104 vs 48 drafts and lenient F1 77.6% vs 32.2%, so run-to-run variance for one model is already large (the extraction call accepts no seed or temperature; cause unexplained). Run 3 used the same model but post-dates a rebuild of the BIM-Guard app, so its difference from runs 1–2 may be build or variance. Per-run metadata: `eval/results/e2e/README.md`.
 
 **Gold-set caveats (disclosed, not hidden):**
 - Single annotator, no adjudication, no IAA; dimensional rules only.
