@@ -86,7 +86,7 @@ _STOP = {"the", "a", "an", "of", "and", "or", "to", "in", "for", "be", "shall", 
 
 
 def _value_strings(rule: dict[str, Any]) -> list[str]:
-    """How the rule's numeric value(s) would be written in OBC text: '2 050 mm' and '2050 mm'."""
+    """How the rule's numeric value(s) would be written in OBC text: '2 050', '2050', '0.75'."""
     out = []
     for key in ("check_value", "value", "value_min", "value_max"):
         v = rule.get(key)
@@ -95,11 +95,27 @@ def _value_strings(rule: dict[str, Any]) -> list[str]:
                 v = float(v)
             except ValueError:
                 continue
-        if isinstance(v, (int, float)) and not isinstance(v, bool) and v >= 1:
+        if isinstance(v, (int, float)) and not isinstance(v, bool) and v > 0:
             n = f"{v:g}"
-            spaced = f"{int(v):,}".replace(",", " ") if float(v).is_integer() else n
-            out += [f"{spaced} ", f"{n} "] if spaced != n else [f"{n} "]
+            out.append(n)
+            if float(v).is_integer() and v >= 1000:
+                out.append(f"{int(v):,}".replace(",", " "))
     return out
+
+
+_COUNT_WORDS = {"1": "one", "2": "two", "3": "three", "4": "four", "5": "five"}
+
+
+def _quotes_value(text: str, values: list[str]) -> bool:
+    """True when *text* contains one of *values* as a whole number (not '10.5' for '0.5'),
+    or spelled out for small counts ('Only one handrail')."""
+    for v in values:
+        if re.search(rf"(?<![\d.]){re.escape(v)}(?![\d.]|\s\d{{3}}\b)", text):
+            return True
+        word = _COUNT_WORDS.get(v)
+        if word and re.search(rf"\b{word}\b", text, re.IGNORECASE):
+            return True
+    return False
 
 
 def _best_clause(text: str, index: list[tuple[str, str]], article: str | None = None) -> str | None:
@@ -139,19 +155,28 @@ def resolve_clause(draft: dict[str, Any], index: list[tuple[str, str]]) -> str |
         guess = f"{m.group(1)}.({m.group(2) or m.group(3)})"
         words = _words(str(rule.get("description") or "")) - _STOP
         values = _value_strings(rule)
-        in_article = [(ref, text) for ref, text in index if normalize_ref(ref).startswith(m.group(1))]
-        # A clause quoting the rule's own number ("2 050 mm") is a far stronger signal
-        # than shared words, which "not serving a house ..." phrasing easily fools.
-        overlap = {
-            normalize_ref(ref): len(words & _words(text)) + (10 if any(v in text for v in values) else 0)
+        art = m.group(1)
+        # Candidates: the article's sentences plus its table and table notes (rules
+        # taken from "Table 9.8.8.2" often carry an id like 9.8.8.2-1a).
+        in_article = [
+            (ref, text) for ref, text in index
+            if normalize_ref(ref).startswith(art) or normalize_ref(ref) in (f"table:{art}",)
+            or normalize_ref(ref).startswith(f"note:{art}")
+        ]
+        if not in_article:
+            return guess
+        # A clause quoting the rule's own number ("2 050", "0.75") beats shared words,
+        # which "not serving a house ..." phrasing easily fools.
+        score = {
+            normalize_ref(ref): (_quotes_value(text, values), len(words & _words(text)))
             for ref, text in in_article
         }
-        best = max(overlap.values(), default=0)
-        if overlap.get(guess, -1) >= 0.6 * best:
+        best_ref, _ = max(in_article, key=lambda rt: score[normalize_ref(rt[0])])
+        best = score[normalize_ref(best_ref)]
+        g = score.get(guess)
+        if g is not None and g[0] >= best[0] and g[1] >= 0.6 * best[1]:
             return guess
-        if in_article:
-            return max(in_article, key=lambda rt: overlap[normalize_ref(rt[0])])[0]
-        return guess
+        return best_ref
     snippet = re.sub(r"\s+", " ", draft.get("source_snippet") or "").strip()
     if snippet and len(snippet) < 1000:
         for ref, text in index:

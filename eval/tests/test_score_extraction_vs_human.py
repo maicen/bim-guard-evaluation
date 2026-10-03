@@ -86,3 +86,20 @@ def test_resolve_clause_and_newest_run():
                              "unit": "m"}, "source_snippet": "height of a flight shall not exceed 3.7 m"}
     (rule,) = drafts_to_rules(newest_run([old, new]), index)
     assert rule["ref"] == "9.8.3.3.(1)" and rule["value"] == 3.7
+
+
+def test_resolve_clause_prefers_the_table_or_sentence_that_quotes_the_value():
+    index = [
+        ("9.8.8.2.(1)", "Except as provided in Sentences (2), (4) and (5), guards shall be designed to resist "
+                        "the specified loads prescribed in Table 9.8.8.2."),
+        ("Table under 9.8.8.2", "Minimum Specified Loads ... All other guards 0.75 kN/m or concentrated load of "
+                                "1.0 kN applied at any point ... 1.5 kN/m"),
+        ("9.8.7.1.(4)", "Only one handrail is required on exterior stairs having more than three risers."),
+        ("Table under 9.8.7.1", "Within a dwelling unit 1 1 1 1 2 All other locations 1 2 2 2 2"),
+    ]
+    table_rule = {"proposed_rule": {"rule_id": "9.8.8.2(1)-other-horizontal-distributed", "check_value": "0.75",
+                                    "description": "Other guards shall resist a horizontal load of 0.75 kN/m."}}
+    count_rule = {"proposed_rule": {"rule_id": "9.8.7.1-4", "check_value": 1,
+                                    "description": "Only one handrail is required on exterior stairs."}}
+    assert resolve_clause(table_rule, index) == "Table under 9.8.8.2"
+    assert resolve_clause(count_rule, index) == "9.8.7.1.(4)"
