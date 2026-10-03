@@ -310,7 +310,18 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
             # extraction needs DocLang, so convert it from the Documents page if needed.
             page.goto(f"{args.base_url}/#/documents")
             row = page.locator("tr", has_text=upload_file.name)
-            expect(row).to_be_visible(timeout=60_000)
+            # Filter by filename (the table paginates) and reload a few times: before
+            # bim-guard 1938d2b the list could be stale on other uvicorn workers.
+            for _ in range(5):
+                search = page.get_by_placeholder(re.compile(r"Filter documents", re.IGNORECASE))
+                if search.count():
+                    search.first.fill(upload_file.name)
+                try:
+                    expect(row).to_be_visible(timeout=15_000)
+                    break
+                except AssertionError:
+                    page.reload()
+            expect(row).to_be_visible(timeout=15_000)
             convert = row.get_by_role("button", name=re.compile(r"^Not converted"))
             if convert.count():
                 print("Converting to DocLang ...")
