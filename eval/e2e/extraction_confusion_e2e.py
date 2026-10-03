@@ -326,7 +326,8 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
             if convert.count():
                 print("Converting to DocLang ...")
                 convert.click()
-                page.get_by_role("button", name="Convert to DocLang").click()
+                # Row icon buttons share this label; click the one in the conversion dialog.
+                page.get_by_role("dialog").get_by_role("button", name="Convert to DocLang").click()
                 expect(row.get_by_title(re.compile(r"DocLang XML ready"))).to_be_visible(timeout=10 * 60 * 1000)
             page.goto(f"{args.base_url}/#/extract?doc_id={doc_id}")
             expect(page.get_by_role("button", name="Source document")).to_contain_text(upload_file.name, timeout=60_000)
