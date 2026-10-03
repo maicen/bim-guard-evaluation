@@ -169,8 +169,12 @@ def extract(source: Path, start: str, end: str | None) -> list[dict]:
         text = re.sub(r"\s+", " ", text).strip()
         if not text or context_ref is None or _REVISION_ONLY.fullmatch(text):
             return
-        if marker is None and last_sentence is not None:
-            last_sentence["data"]["text"] = f"{last_sentence['data']['text']} {text}"
+        if marker is None:
+            # Continuation of the open sentence; with no open sentence (right after a
+            # heading) it is caption/header residue such as "Forming Part of Sentence
+            # 9.8.7.1.(1)" and is dropped rather than emitted as a fragment task.
+            if last_sentence is not None:
+                last_sentence["data"]["text"] = f"{last_sentence['data']['text']} {text}"
             return
         ref = f"{context_ref}.{marker}" if marker else context_ref
         last_sentence = {"data": {"section_ref": ref, "article_name": context_name, "text": text}}
@@ -183,6 +187,7 @@ def extract(source: Path, start: str, end: str | None) -> list[dict]:
             text = re.sub(r"\s+", " ", text_of(elem))
             m = HEADING_NUM.match(text)
             notes = NOTES_HEADING.match(text)
+            last_sentence = None  # any heading (incl. "Table 9.8.7.1.") ends the sentence
             if m:
                 context_ref, context_name = m.group(1).rstrip("."), m.group(2).strip()
                 last_sentence = None
