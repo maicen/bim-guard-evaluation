@@ -20,11 +20,13 @@ Positive = clause yields at least one checkable rule.
 ## 2. Rule-level matching
 TN is undefined for open-ended extraction.
 
-| Mode | TP | FP | FN | Precision | Recall | F1 |
-|---|---|---|---|---|---|---|
-| lenient | 57 | 1 | 32 | 98.3% | 64.0% | 77.6% |
-| normalized | 42 | 16 | 47 | 72.4% | 47.2% | 57.1% |
-| strict | 17 | 41 | 72 | 29.3% | 19.1% | 23.1% |
+| Mode | TP | FP | FN | Redundant | Precision | Recall | F1 |
+|---|---|---|---|---|---|---|---|
+| lenient | 57 | 1 | 32 | 0 | 98.3% | 64.0% | 77.6% |
+| normalized | 42 | 16 | 47 | 0 | 72.4% | 47.2% | 57.1% |
+| strict | 17 | 41 | 72 | 0 | 29.3% | 19.1% | 23.1% |
+
+Redundant = extracted rules restating an already-matched human rule (e.g. one rule per element for 'stairs and ramps'); neither TP nor FP.
 
 Lenient = same clause + operator + value. Normalized additionally requires IFC target and property to agree up to a small synonym table (IfcRamp~IfcRampFlight, ClearHeight~RequiredHeadroom, ...; see _PROPERTY_EQUIV). Strict requires exact target and property (bim-guard alias table only).
 

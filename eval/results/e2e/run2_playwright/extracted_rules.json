@@ -1276,7 +1276,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.8.2.(1)",
+    "ref": "Table under 9.8.8.2",
     "target": "IfcRailing",
     "value": "1.5",
     "_draft_id": 553,
@@ -1327,7 +1327,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.8.2.(1)",
+    "ref": "Table under 9.8.8.2",
     "target": "IfcRailing",
     "value": "0.5_kN_over_100mm_by_100mm_area",
     "_draft_id": 552,
@@ -1379,7 +1379,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.8.2.(1)",
+    "ref": "Table under 9.8.8.2",
     "target": "IfcRailing",
     "value": "0.5_kN_over_100mm_by_100mm_area",
     "_draft_id": 551,
@@ -1433,7 +1433,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.8.2.(2)",
+    "ref": "Table under 9.8.8.2",
     "target": "IfcRailing",
     "value": "0.5_kN_over_max_300mm_by_300mm_area",
     "_draft_id": 550,
@@ -1485,7 +1485,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.8.2.(1)",
+    "ref": "Table under 9.8.8.2",
     "target": "IfcRailing",
     "value": "distributed_0.75_kN_per_m_or_concentrated_1.0_kN",
     "_draft_id": 549,
@@ -1537,7 +1537,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.8.2.(2)",
+    "ref": "Table under 9.8.8.2",
     "target": "IfcRailing",
     "value": "1.0",
     "_draft_id": 548,
@@ -1592,7 +1592,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.8.2.(2)",
+    "ref": "Table under 9.8.8.2",
     "target": "IfcRailing",
     "value": "distributed_0.5_kN_per_m_or_concentrated_1.0_kN",
     "_draft_id": 547,
@@ -2048,7 +2048,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.7.1.(2)",
+    "ref": "Table under 9.8.7.1",
     "target": "IfcRailing",
     "value": "2",
     "_draft_id": 538,
@@ -2102,7 +2102,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.7.1.(2)",
+    "ref": "Table under 9.8.7.1",
     "target": "IfcRailing",
     "value": "2",
     "_draft_id": 537,
@@ -2155,7 +2155,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.7.1.(1)",
+    "ref": "Table under 9.8.7.1",
     "target": "IfcRailing",
     "value": "1",
     "_draft_id": 536,
@@ -2212,7 +2212,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.7.1.(1)",
+    "ref": "Table under 9.8.7.1",
     "target": "IfcRailing",
     "value": "1",
     "_draft_id": 535,
@@ -2267,7 +2267,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.7.1.(4)",
+    "ref": "Table under 9.8.7.1",
     "target": "IfcRailing",
     "value": "1",
     "_draft_id": 534,
@@ -2322,7 +2322,7 @@
       ]
     },
     "kg_candidate_used": null,
-    "ref": "9.8.7.1.(4)",
+    "ref": "Table under 9.8.7.1",
     "target": "IfcRailing",
     "value": "1",
     "_draft_id": 533,

@@ -8,23 +8,25 @@ Positive = clause yields at least one checkable rule.
 | | Extracted: rule | Extracted: none |
 |---|---|---|
 | **Human: rule** | TP 13 | FN 37 |
-| **Human: none** | FP 4 | TN 63 |
+| **Human: none** | FP 2 | TN 65 |
 
-- accuracy: 65.0% [95% CI: 56.0% – 73.0%]
-- precision: 76.5% [95% CI: 52.7% – 90.4%]
+- accuracy: 66.7% [95% CI: 57.7% – 74.6%]
+- precision: 86.7% [95% CI: 62.1% – 96.3%]
 - recall_sensitivity: 26.0% [95% CI: 15.9% – 39.6%]
-- specificity: 94.0% [95% CI: 85.6% – 97.7%]
-- f1_score: 38.8% [95% CI: 24.4% – 55.0%]
-- balanced_accuracy: 60.0% [95% CI: 50.7% – 68.6%]
+- specificity: 97.0% [95% CI: 89.8% – 99.2%]
+- f1_score: 40.0% [95% CI: 25.3% – 56.1%]
+- balanced_accuracy: 61.5% [95% CI: 52.8% – 69.4%]
 
 ## 2. Rule-level matching
 TN is undefined for open-ended extraction.
 
-| Mode | TP | FP | FN | Precision | Recall | F1 |
-|---|---|---|---|---|---|---|
-| lenient | 15 | 8 | 74 | 65.2% | 16.9% | 26.8% |
-| normalized | 5 | 18 | 84 | 21.7% | 5.6% | 8.9% |
-| strict | 5 | 18 | 84 | 21.7% | 5.6% | 8.9% |
+| Mode | TP | FP | FN | Redundant | Precision | Recall | F1 |
+|---|---|---|---|---|---|---|---|
+| lenient | 15 | 6 | 74 | 2 | 71.4% | 16.9% | 27.3% |
+| normalized | 5 | 18 | 84 | 0 | 21.7% | 5.6% | 8.9% |
+| strict | 5 | 18 | 84 | 0 | 21.7% | 5.6% | 8.9% |
+
+Redundant = extracted rules restating an already-matched human rule (e.g. one rule per element for 'stairs and ramps'); neither TP nor FP.
 
 Lenient = same clause + operator + value. Normalized additionally requires IFC target and property to agree up to a small synonym table (IfcRamp~IfcRampFlight, ClearHeight~RequiredHeadroom, ...; see _PROPERTY_EQUIV). Strict requires exact target and property (bim-guard alias table only).
 
@@ -116,13 +118,11 @@ Lenient = same clause + operator + value. Normalized additionally requires IFC t
 
 ## Unmatched extracted rules (lenient FP)
 
-- 9.8.9.1.(1) IfcStairFlight.DesignUniformLoad >= 4.8 (base units)
-- 9.8.9.1.(1) IfcStairFlight.DesignUniformLoad >= 1.9 (base units)
-- 9.8.7.1.(3) IfcRailing.HandrailCount >= 1.0 (base units)
-- 9.8.4.1.(4) IfcStairFlight.RunLength <= 355.0 (base units)
-- 9.8.4.1.(4) IfcStairFlight.RiserHeight >= 125.0 (base units)
-- 9.8.4.1.(2) IfcStairFlight.RunLength <= 355.0 (base units)
-- 9.8.4.1.(1) IfcStairFlight.RiserHeight >= 125.0 (base units)
+- table:9.8.7.1 IfcRailing.HandrailCount >= 1.0 (base units)
+- table:9.8.4.1 IfcStairFlight.RunLength <= 355.0 (base units)
+- table:9.8.4.1 IfcStairFlight.RiserHeight >= 125.0 (base units)
+- table:9.8.4.1 IfcStairFlight.RunLength <= 355.0 (base units)
+- table:9.8.4.1 IfcStairFlight.RiserHeight >= 125.0 (base units)
 - 9.8.2.1.(3) IfcStairFlight.ClearWidth >= ('rel', 0.0, None) (base units)
 
 ## Non-dimensional extracted rules (outside the human gold's scope, not scored)
@@ -143,17 +143,17 @@ Lenient = same clause + operator + value. Normalized additionally requires IFC t
 - 9.8.8.2.(4) IfcRailing.DemonstratedEffectivePerformance matches true
 - 9.8.8.2.(3) IfcRailing.DesignLoadCombination matches specified_guard_loads_not_simultaneous
 - 9.8.8.2.(2) IfcRailing.LoadEngagedPickets matches three_pickets_over_300_mm
-- 9.8.8.2.(1) IfcRailing.GuardDesignLoadCapacity matches horizontal_line_0.75_kN_per_m_or_point_1.0_kN;element_load_0.5_kN_over_100x100_mm;top_vertical_1.5_kN_per_m
-- 9.8.8.2.(2) IfcRailing.GuardDesignLoadCapacity matches horizontal_point_1.0_kN;element_load_0.5_kN_over_100x100_mm;top_vertical_1.5_kN_per_m
-- 9.8.8.2.(2) IfcRailing.GuardDesignLoadCapacity matches horizontal_line_0.5_kN_per_m_or_point_1.0_kN;element_load_0.5_kN_over_300x300_mm;top_vertical_1.5_kN_per_m
+- table:9.8.8.2 IfcRailing.GuardDesignLoadCapacity matches horizontal_line_0.75_kN_per_m_or_point_1.0_kN;element_load_0.5_kN_over_100x100_mm;top_vertical_1.5_kN_per_m
+- table:9.8.8.2 IfcRailing.GuardDesignLoadCapacity matches horizontal_point_1.0_kN;element_load_0.5_kN_over_100x100_mm;top_vertical_1.5_kN_per_m
+- table:9.8.8.2 IfcRailing.GuardDesignLoadCapacity matches horizontal_line_0.5_kN_per_m_or_point_1.0_kN;element_load_0.5_kN_over_300x300_mm;top_vertical_1.5_kN_per_m
 - 9.8.8.1.(1) IfcRailing.IsGuard exists true
-- 9.8.7.1.(1) IfcRailing.HandrailCount >= table_9_8_7_1
-- 9.8.7.1.(2) IfcRailing.HandrailCount >= 1_or_2_by_width
+- table:9.8.7.1 IfcRailing.HandrailCount >= table_9_8_7_1
+- table:9.8.7.1 IfcRailing.HandrailCount >= 1_or_2_by_width
 - 9.8.6.2.(4) IfcSlab.Width >= adjoining_flight_ramp_width_rule
 - 9.8.6.2.(3a) IfcDoor.LandingOmissionPermitted matches true
 - 9.8.6.2.(3) IfcSlab.LengthMeasurementMethod matches perpendicular_to_adjacent_nosings_or_ramp_end_at_half_required_length_from_narrow_edge
 - 9.8.6.2.(3a) IfcDoor.LandingOmissionPermitted matches true
 - 9.8.4.1.(2) IfcStairFlight.StairClassification matches public
 - note:9.8.4.1.(1) IfcStairFlight.StairClassification matches private
-- 9.8.4.1.(2) IfcStairFlight.RiserHeight between None
-- 9.8.4.1.(3) IfcStairFlight.RiserHeight between None
+- table:9.8.4.1 IfcStairFlight.RiserHeight between None
+- table:9.8.4.1 IfcStairFlight.RiserHeight between None

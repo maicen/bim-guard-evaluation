@@ -7,24 +7,26 @@ Positive = clause yields at least one checkable rule.
 
 | | Extracted: rule | Extracted: none |
 |---|---|---|
-| **Human: rule** | TP 11 | FN 39 |
-| **Human: none** | FP 3 | TN 64 |
+| **Human: rule** | TP 10 | FN 40 |
+| **Human: none** | FP 1 | TN 66 |
 
-- accuracy: 64.1% [95% CI: 55.1% – 72.2%]
-- precision: 78.6% [95% CI: 52.4% – 92.4%]
-- recall_sensitivity: 22.0% [95% CI: 12.8% – 35.2%]
-- specificity: 95.5% [95% CI: 87.6% – 98.5%]
-- f1_score: 34.4% [95% CI: 20.5% – 51.0%]
-- balanced_accuracy: 58.8% [95% CI: 50.2% – 66.9%]
+- accuracy: 65.0% [95% CI: 56.0% – 73.0%]
+- precision: 90.9% [95% CI: 62.3% – 98.4%]
+- recall_sensitivity: 20.0% [95% CI: 11.2% – 33.0%]
+- specificity: 98.5% [95% CI: 92.0% – 99.7%]
+- f1_score: 32.8% [95% CI: 19.0% – 49.5%]
+- balanced_accuracy: 59.3% [95% CI: 51.6% – 66.4%]
 
 ## 2. Rule-level matching
 TN is undefined for open-ended extraction.
 
-| Mode | TP | FP | FN | Precision | Recall | F1 |
-|---|---|---|---|---|---|---|
-| lenient | 19 | 10 | 70 | 65.5% | 21.3% | 32.2% |
-| normalized | 12 | 17 | 77 | 41.4% | 13.5% | 20.3% |
-| strict | 7 | 22 | 82 | 24.1% | 7.9% | 11.9% |
+| Mode | TP | FP | FN | Redundant | Precision | Recall | F1 |
+|---|---|---|---|---|---|---|---|
+| lenient | 20 | 7 | 69 | 2 | 74.1% | 22.5% | 34.5% |
+| normalized | 12 | 17 | 77 | 0 | 41.4% | 13.5% | 20.3% |
+| strict | 7 | 22 | 82 | 0 | 24.1% | 7.9% | 11.9% |
+
+Redundant = extracted rules restating an already-matched human rule (e.g. one rule per element for 'stairs and ramps'); neither TP nor FP.
 
 Lenient = same clause + operator + value. Normalized additionally requires IFC target and property to agree up to a small synonym table (IfcRamp~IfcRampFlight, ClearHeight~RequiredHeadroom, ...; see _PROPERTY_EQUIV). Strict requires exact target and property (bim-guard alias table only).
 
@@ -32,7 +34,7 @@ Lenient = same clause + operator + value. Normalized additionally requires IFC t
 
 | Human \ Extracted | >= | <= | == | between |
 |---|---|---|---|---|
-| **>=** | 12 | 1 | 0 | 0 |
+| **>=** | 22 | 1 | 0 | 0 |
 | **<=** | 0 | 6 | 0 | 0 |
 | **==** | 0 | 0 | 0 | 0 |
 | **between** | 0 | 0 | 0 | 0 |
@@ -75,6 +77,7 @@ Lenient = same clause + operator + value. Normalized additionally requires IFC t
 - 9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 1950.0 (base units)
 - 9.8.6.4.(1) IfcSlab.RequiredHeadroom >= 2050.0 (base units)
 - 9.8.7.1.(2) IfcRailing.Other <= 825.0 (base units)
+- 9.8.7.1.(4) IfcRailing.HandrailCount >= 1.0 (base units)
 - 9.8.7.3.(2) IfcRailing.Other >= 300.0 (base units)
 - 9.8.7.1.(5) IfcRailing.HandrailCount >= 1.0 (base units)
 - 9.8.7.5.(1) IfcRailing.HandrailClearance >= 60.0 (base units)
@@ -86,8 +89,6 @@ Lenient = same clause + operator + value. Normalized additionally requires IFC t
 - 9.8.7.7.(2) IfcRailing.Other >= 32.0 (base units)
 - 9.8.8.1.(4) IfcDoor.Other <= 100.0 (base units)
 - 9.8.8.1.(5) IfcWindow.Other <= 100.0 (base units)
-- table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)
-- table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)
 - table:9.8.8.2 IfcRailing.GuardLoad >= 0.5 (base units)
 - table:9.8.8.2 IfcRailing.GuardLoad >= 1.5 (base units)
 - table:9.8.8.2 IfcRailing.GuardLoad >= 1.0 (base units)
@@ -112,16 +113,13 @@ Lenient = same clause + operator + value. Normalized additionally requires IFC t
 
 ## Unmatched extracted rules (lenient FP)
 
-- 9.8.9.1.(1) IfcStairFlight.DesignUniformLoad >= 4.8 (base units)
-- 9.8.9.1.(1) IfcStairFlight.DesignUniformLoad >= 1.9 (base units)
 - 9.8.8.5.(3) IfcRailing.MaximumOpening <= 200.0 (base units)
-- 9.8.8.2.(1) IfcRailing.VerticalDesignLoad >= 1.5 (base units)
-- 9.8.8.2.(2) IfcRailing.HorizontalDesignLoad >= 1.0 (base units)
-- 9.8.7.1.(2) IfcRailing.RailingRole >= 2.0 (base units)
-- 9.8.7.1.(2) IfcRailing.RailingRole >= 2.0 (base units)
-- 9.8.7.1.(1) IfcRailing.RailingRole >= 1.0 (base units)
-- 9.8.7.1.(1) IfcRailing.RailingRole >= 1.0 (base units)
-- 9.8.7.1.(4) IfcRailing.RailingRole >= 1.0 (base units)
+- table:9.8.7.1 IfcRailing.RailingRole >= 2.0 (base units)
+- table:9.8.7.1 IfcRailing.RailingRole >= 2.0 (base units)
+- table:9.8.7.1 IfcRailing.RailingRole >= 1.0 (base units)
+- table:9.8.7.1 IfcRailing.RailingRole >= 1.0 (base units)
+- table:9.8.7.1 IfcRailing.RailingRole >= 1.0 (base units)
+- table:9.8.7.1 IfcRailing.RailingRole >= 1.0 (base units)
 
 ## Non-dimensional extracted rules (outside the human gold's scope, not scored)
 
@@ -133,11 +131,11 @@ Lenient = same clause + operator + value. Normalized additionally requires IFC t
 - 9.8.8.2.(4) IfcRailing.EffectivePerformanceDemonstrated matches true
 - 9.8.8.2.(3) IfcRailing.LoadsActSimultaneously matches false
 - 9.8.8.2.(2) IfcRailing.PicketLoadEngagement matches three_pickets_engaged_over_300mm_width
-- 9.8.8.2.(1) IfcRailing.OutwardElementDesignLoad matches 0.5_kN_over_100mm_by_100mm_area
-- 9.8.8.2.(1) IfcRailing.OutwardElementDesignLoad matches 0.5_kN_over_100mm_by_100mm_area
-- 9.8.8.2.(2) IfcRailing.OutwardElementDesignLoad matches 0.5_kN_over_max_300mm_by_300mm_area
-- 9.8.8.2.(1) IfcRailing.HorizontalDesignLoad matches distributed_0.75_kN_per_m_or_concentrated_1.0_kN
-- 9.8.8.2.(2) IfcRailing.HorizontalDesignLoad matches distributed_0.5_kN_per_m_or_concentrated_1.0_kN
+- table:9.8.8.2 IfcRailing.OutwardElementDesignLoad matches 0.5_kN_over_100mm_by_100mm_area
+- table:9.8.8.2 IfcRailing.OutwardElementDesignLoad matches 0.5_kN_over_100mm_by_100mm_area
+- table:9.8.8.2 IfcRailing.OutwardElementDesignLoad matches 0.5_kN_over_max_300mm_by_300mm_area
+- table:9.8.8.2 IfcRailing.HorizontalDesignLoad matches distributed_0.75_kN_per_m_or_concentrated_1.0_kN
+- table:9.8.8.2 IfcRailing.HorizontalDesignLoad matches distributed_0.5_kN_per_m_or_concentrated_1.0_kN
 - 9.8.8.1.(1) IfcRailing.RailingRole exists true
 - 9.8.8.1.(1) IfcRailing.RailingRole exists true
 - 9.8.7.7.(2) IfcRailing.AttachmentCompliance matches wood_stud_or_blocking_attachment_1200mm_spacing_300mm_end_offset_two_no8_screws_32mm_penetration

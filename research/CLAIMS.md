@@ -146,22 +146,26 @@ adjudication, no IAA — see `LIMITATIONS.md`).
 
 | | |
 |---|---|
-| **Claim** | Through the live BIM-Guard UI, extraction on the human-annotated §9.8 clauses (89 gold rules, 117 clauses), scored on `project1_human_2026-10-02b.json`: see the three runs below. |
+| **Claim** | Through the live BIM-Guard UI, extraction on the human-annotated §9.8 clauses, scored against the Label Studio gold set: see the four runs below. Runs 1–3 are scored on gold `project1_human_2026-10-02b.json` (89 rules, 117 clauses), run 4 on `project1_human_2026-10-03.json` (116 rules, 129 clauses). The two gold versions are **not comparable**; compare runs only within a version. |
 | **Producing script** | `eval/e2e/extraction_confusion_e2e.py` → `eval/score_extraction_vs_human.py` |
-| **Artifacts** | `eval/results/e2e/run1_browser/`, `run2_playwright/`, `run3_variance_a/` (confusion.json/.md, drafts.json); figure `docs/publication/figures/fig_extraction_confusion_run1.png` (`eval/plot_extraction_confusion.py`) |
+| **Artifacts** | `eval/results/e2e/run1_browser/`, `run2_playwright/`, `run3_variance_a/`, `run4_corrected_gold/` (confusion.json/.md, drafts.json); figure `docs/publication/figures/fig_extraction_confusion_run1.png` (`eval/plot_extraction_confusion.py`) |
 | **Status** | **`single-run`, high variance**: run 1 is an outlier (see below). Do not quote run 1 alone. |
 
-| Run | Drafts | Clause TP/FP/FN/TN | Lenient P / R / F1 | Normalized F1 | Strict F1 |
-|---|---|---|---|---|---|
-| run 1 (`run1_browser`, UI by hand; `openai/gpt-5.6-luna-pro`, observed in the request/backend log, not recorded in the output) | 104 | 37 / 0 / 13 / 67 | 98.3 / 64.0 / 77.6 | 57.1 | 23.1 |
-| run 2 (`run2_playwright`; `openai/gpt-5.6-luna-pro`, per `run2_playwright/run.log`) | 48 | 11 / 3 / 39 / 64 | 65.5 / 21.3 / 32.2 | 20.3 | 11.9 |
-| run 3 (`run3_variance_a`, `openai/gpt-5.6-luna-pro`, 2026-10-02 22:01 UTC, **after an app rebuild at 21:50 UTC**) | 53 | 13 / 4 / 37 / 63 | 65.2 / 16.9 / 26.8 | 8.9 | 8.9 |
+| Run | Gold | Drafts | Clause TP/FP/FN/TN | Lenient P / R / F1 | Normalized F1 | Strict F1 |
+|---|---|---|---|---|---|---|
+| run 1 (`run1_browser`, UI by hand; `openai/gpt-5.6-luna-pro`, observed in the request/backend log, not recorded in the output) | 02b | 104 | 37 / 0 / 13 / 67 | 98.3 / 64.0 / 77.6 | 57.1 | 23.1 |
+| run 2 (`run2_playwright`; `openai/gpt-5.6-luna-pro`, per `run2_playwright/run.log`) | 02b | 48 | 10 / 1 / 40 / 66 | 74.1 / 22.5 / 34.5 | 20.3 | 11.9 |
+| run 3 (`run3_variance_a`, `openai/gpt-5.6-luna-pro`, 2026-10-02 22:01 UTC, **after an app rebuild at 21:50 UTC**) | 02b | 53 | 13 / 2 / 37 / 65 | 71.4 / 16.9 / 27.3 | 8.9 | 8.9 |
+| run 4 (`run4_corrected_gold`, `openai/gpt-5.6-luna-pro`, 2026-10-03, corrected clause text as a new document) | 10-03 | 42 | 11 / 1 / 48 / 69 | 84.6 / 19.0 / 31.0 | 13.9 | 12.5 |
 
-Runs 1 and 2 used the **same model** (`openai/gpt-5.6-luna-pro`; an earlier version of this section said GPT-6.1 Sol Pro, which the run evidence contradicts) yet gave 104 vs 48 drafts and lenient F1 77.6% vs 32.2%, so run-to-run variance for one model is already large (the extraction call accepts no seed or temperature; cause unexplained). Run 3 used the same model but post-dates a rebuild of the BIM-Guard app, so its difference from runs 1–2 may be build or variance. Per-run metadata: `eval/results/e2e/README.md`.
+All rows were re-scored on 2026-10-03 with the current scorer, which (a) maps table-derived drafts to their table and spelled-out counts to their sentence, and (b) reports rules that restate an already-matched human rule (one rule per element for "stairs and ramps") in a separate *Redundant* column instead of as false positives. This changed runs 2 and 3 slightly (previously lenient F1 32.2% and 26.8%; clause FP 3 and 4); run 1 is unchanged.
+
+Runs 1, 2 and 4 used the **same model** (`openai/gpt-5.6-luna-pro`; an earlier version of this section said GPT-6.1 Sol Pro, which the run evidence contradicts), yet gave 104 vs 48 vs 42 drafts. Runs 2–4 each produced drafts for only part of §9.8 (e.g. run 4 has none for 9.8.5, 9.8.6 or 9.8.10): with a pasted clause file BIM-Guard's Smart TOC finds a single section, so the whole text reaches the model as one chunk and the output is cut short. Recall is therefore dominated by run-to-run coverage, not per-clause accuracy; precision stays high (74–98% lenient) across runs. The extraction call accepts no seed or temperature. Per-run metadata: `eval/results/e2e/README.md`.
 
 **Gold-set caveats (disclosed, not hidden):**
 - Single annotator, no adjudication, no IAA; dimensional rules only.
-- The gold changed after run 1: `project1_human_2026-10-02.json` (86 rules) was superseded by `…02b.json` (89 rules) after the Label Studio config gained a `HandrailCount` property (commit `bead618`). Scored on the earlier file, run 1 gives clause 34/2/14/67 and lenient F1 69.4%, not 77.6%. All figures in the table use 02b. Because the revision happened after the results were seen, treat the gain as unverified until the annotation change is independently justified.
+- **Revision 1 (after run 1):** `project1_human_2026-10-02.json` (86 rules) was superseded by `…02b.json` (89 rules) after the Label Studio config gained a `HandrailCount` property (commit `bead618`). Scored on the earlier file, run 1 gives clause 34/2/14/67 and lenient F1 69.4%, not 77.6%. Because the revision happened after the results were seen, treat the gain as unverified until the annotation change is independently justified.
+- **Revision 2 (2026-10-03, after runs 1–3):** `…02b.json` → `project1_human_2026-10-03.json` (116 rules, 129 live clauses). Causes, in order of independence from the extractor's output: (i) the section extractor (`.claude/skills/doclang-to-labelstudio/scripts/extract_section.py`, commits `1629d2f`, `114fb3e`, `5746f0a`) had dropped 13+ sentences DocLang stores as bare `<text>` (9.8.4.3.(1), 9.8.4.4.(1)–(4), 9.8.4.4A, 9.8.4.5 winders, 9.8.5.5, 9.8.6.2, 9.8.7.6, 9.8.8.6), mislabelled 9.8.4.5A as 9.8.4, 9.8.6.3 as 9.8.6.2 and the Table 9.8.4.1 notes as sentences, and split continuations into fragment tasks; these were found by reading the source XML, not the extractor output. 16 new sentences were annotated, 12 refs and 6 truncated texts corrected, 4 fragments kept but flagged `data.meta.superseded` and excluded. (ii) Relative bounds ("at least as wide as the stair or ramp") became gold rules via the bridge (`9bffd15`). (iii) The 15 numeric cells of Table 9.8.4.1 were labelled after BIM-Guard was seen extracting them — this part is result-prompted. Table 9.8.7.1's handrail counts remain unlabelled (cells depend on row *and* column), so BIM-Guard's correct count rules for that table still score as false positives.
 - **The gold files and clause text are gitignored (`research/label_studio/data/`; licensing of the OBC text), so the scoring cannot be reproduced from the public repo.** A rules-only derived gold (ref, target, property, operator, value; no code text) would fix this and needs a licensing decision.
 
 ---
