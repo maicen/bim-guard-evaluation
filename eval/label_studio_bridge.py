@@ -77,6 +77,12 @@ def _other_element_property(span: str) -> str | None:
 _COUNT_WORD = re.compile(rf"\b(?:{'|'.join(_NUMBER_WORDS)})\b", re.IGNORECASE)
 
 
+def is_superseded(task: dict[str, Any]) -> bool:
+    """Tasks kept only for history: a fragment whose text now lives in another task
+    (``data.meta.superseded`` names it). Excluded from gold rules and clause counts."""
+    return bool((task.get("data", {}).get("meta") or {}).get("superseded"))
+
+
 # Per-region Choices (config.xml section 1b) naming the property one DIM_* span constrains.
 DIM_PROPERTY_FIELD = "dim_property"
 
@@ -409,6 +415,8 @@ class LabelStudioBridge:
         Returns [] if the clause does not contain a checkable constraint.
         """
         data = task.get("data", {})
+        if is_superseded(task):
+            return []
         section_ref = data.get("section_ref", "unknown")
         text = data.get("text", "")
         annotations = task.get("annotations", [])

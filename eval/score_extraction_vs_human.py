@@ -44,7 +44,7 @@ EVAL_DIR = Path(__file__).resolve().parent
 if str(EVAL_DIR.parent) not in sys.path:
     sys.path.insert(0, str(EVAL_DIR.parent))
 
-from eval.label_studio_bridge import LabelStudioBridge  # noqa: E402
+from eval.label_studio_bridge import LabelStudioBridge, is_superseded  # noqa: E402
 from eval.stats_util import confusion_matrix_metrics  # noqa: E402
 
 OPERATORS = (">=", "<=", "==", "between")
@@ -223,7 +223,7 @@ def _flatten(rule: dict[str, Any]) -> dict[str, Any]:
 
 def load_human(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
     """Gold rules plus every annotated clause ref (the clause-level population)."""
-    tasks = json.loads(path.read_text(encoding="utf-8"))
+    tasks = [t for t in json.loads(path.read_text(encoding="utf-8")) if not is_superseded(t)]
     rules = LabelStudioBridge.export_annotations_to_gold_rules(tasks)
     refs = [normalize_ref(t.get("data", {}).get("section_ref")) for t in tasks]
     return rules, refs

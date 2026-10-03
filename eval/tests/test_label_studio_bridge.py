@@ -418,3 +418,10 @@ def test_gold_rules_handrail_count_from_words():
     count, height = LabelStudioBridge.parse_task_to_gold_rules(task)
     assert (count["property_name"], count["value"], count["unit"]) == ("HandrailCount", 2.0, None)
     assert (height["property_name"], height["value"]) == ("HandrailHeight", 1070.0)
+
+
+def test_superseded_tasks_yield_no_gold_rules():
+    text = "(b) not less than 300 mm."
+    task = _task("9.8.4.3", text, [_span(text, "not less than 300 mm", "DIM_MIN")])
+    task["data"]["meta"] = {"superseded": "9.8.4.3.(1)"}
+    assert LabelStudioBridge.parse_task_to_gold_rules(task) == []
