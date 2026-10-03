@@ -288,21 +288,21 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
                 sys.exit("Saved session has expired. Run with --login again.")
 
             expect(page.get_by_role("button", name="Source document")).to_be_visible(timeout=60_000)
-            if _pick(page, "Source document", lambda v, l: option_label in l) is None:
+            if _pick(page, "Source document", lambda v, label: option_label in label) is None:
                 print(f"Uploading {upload_file.name} ...")
                 page.get_by_text("Add / Upload Document", exact=True).first.click()
                 page.locator('input[type="file"]').set_input_files(str(upload_file))
                 page.get_by_role("button", name=re.compile(r"^(Upload|Add) Document$")).click()
                 for _ in range(90):
                     page.wait_for_timeout(2000)
-                    if any(option_label in l for _, l in _options(page, "Source document")):
+                    if any(option_label in label for _, label in _options(page, "Source document")):
                         break
                     page.keyboard.press("Escape")
                 else:
                     sys.exit("Uploaded document never appeared in the library")
                 page.keyboard.press("Escape")
-                _pick(page, "Source document", lambda v, l: option_label in l)
-            doc_id = next(v for v, l in _options(page, "Source document") if option_label in l)
+                _pick(page, "Source document", lambda v, label: option_label in label)
+            doc_id = next(v for v, label in _options(page, "Source document") if option_label in label)
             page.keyboard.press("Escape")
             print(f"Document id {doc_id}: {option_label}")
 
@@ -334,7 +334,7 @@ def run_extraction(args: argparse.Namespace, out_dir: Path) -> list[dict[str, An
             # Always pin the model: the page's default is simply the first catalogue entry
             # (alphabetical), which can be an expensive model.
             wanted = args.model.lower()
-            chosen = _pick(page, "LLM model", lambda v, l: v.lower().endswith("/" + wanted) or v.lower() == wanted)
+            chosen = _pick(page, "LLM model", lambda v, label: v.lower().endswith("/" + wanted) or v.lower() == wanted)
             if not chosen:
                 sys.exit(f"No extraction model matching {args.model!r}")
             print(f"Model: {chosen}")
