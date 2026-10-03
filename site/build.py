@@ -30,9 +30,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 DIST = SITE / "dist"
 REPO_URL = "https://github.com/maicen/bim-guard-evaluation"
-CUSTOM_DOMAIN = "evaluate.bim-guard.xyz"
-# Where the site is actually served today (the custom domain above does not resolve yet);
-# used for canonical URLs and the sitemap. Switch to the custom domain once it is live.
+# Where the site is served (GitHub Pages project site); used for canonical URLs and the sitemap.
 BASE_URL = "https://maicen.github.io/bim-guard-evaluation"
 PLATFORM_URL = "https://bim-guard.xyz"
 
@@ -217,7 +215,6 @@ def main() -> None:
     shutil.copy(SITE / "assets/style.css", DIST / "style.css")
     shutil.copytree(ROOT / "docs/publication/figures", DIST / "figures")
     (DIST / ".nojekyll").touch()
-    (DIST / "CNAME").write_text(CUSTOM_DOMAIN + "\n")
 
     commit = git_commit()
     for slug, title, src, repo_src in PAGES:
