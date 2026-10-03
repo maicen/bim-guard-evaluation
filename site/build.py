@@ -31,6 +31,19 @@ SITE = ROOT / "site"
 DIST = SITE / "dist"
 REPO_URL = "https://github.com/maicen/bim-guard-evaluation"
 CUSTOM_DOMAIN = "evaluate.bim-guard.xyz"
+# Where the site is actually served today (the custom domain above does not resolve yet);
+# used for canonical URLs and the sitemap. Switch to the custom domain once it is live.
+BASE_URL = "https://maicen.github.io/bim-guard-evaluation"
+PLATFORM_URL = "https://bim-guard.xyz"
+
+PAGE_DESCRIPTIONS = {
+    "index": "Evaluation harnesses and empirical validation for BIM-Guard, an OpenBIM code-compliance platform: what the evidence supports and what it does not.",
+    "results": "Real architecture-engine confusion matrix for BIM-Guard with Wilson confidence intervals, separated from simulated harnesses.",
+    "claims": "Claims-to-evidence ledger: every headline BIM-Guard evaluation number, its producing script, artifact and verification status.",
+    "limitations": "Methodological limitations of the BIM-Guard evaluation, stated plainly.",
+    "determinism": "A run-to-run non-determinism bug in BIM-Guard's validation pipeline: found, root-caused, fixed and verified.",
+    "reproduce": "Commands to re-run each BIM-Guard evaluation harness and reproduce its results.",
+}
 
 # (output slug, title, source markdown, repo-relative source path or None)
 PAGES = [
@@ -154,8 +167,15 @@ TEMPLATE = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} · BIM-Guard Evaluation</title>
-<meta name="description" content="Evaluation harnesses and claims-to-evidence ledger for BIM-Guard.">
+<meta name="description" content="{description}">
 <meta name="theme-color" content="#090d16">
+<link rel="canonical" href="{canonical}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BIM-Guard Evaluation">
+<meta property="og:title" content="{title} · BIM-Guard Evaluation">
+<meta property="og:description" content="{description}">
+<meta property="og:url" content="{canonical}">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -172,6 +192,7 @@ TEMPLATE = """<!doctype html>
 <footer>
   <p>Static snapshot built from <a href="{repo}">{repo_name}</a> at commit
   <code>{commit}</code>. Every number links back to a committed artifact.</p>
+  <p>Evaluates the <a href="{platform}/research">BIM Guard</a> OpenBIM compliance platform.</p>
 </footer>
 </body>
 </html>
@@ -218,8 +239,20 @@ def main() -> None:
             TEMPLATE.format(
                 title=html.escape(title), nav=nav, body=body, repo=REPO_URL,
                 repo_name="maicen/bim-guard-evaluation", commit=commit,
+                description=html.escape(PAGE_DESCRIPTIONS[slug], quote=True),
+                canonical=f"{BASE_URL}/" if slug == "index" else f"{BASE_URL}/{slug}.html",
+                platform=PLATFORM_URL,
             )
         )
+    urls = "".join(
+        f"  <url><loc>{BASE_URL}/{'' if slug == 'index' else slug + '.html'}</loc></url>\n"
+        for slug, _, _, _ in PAGES
+    )
+    (DIST / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n'
+    )
+    (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n")
     print(f"built {len(PAGES)} pages -> {DIST.relative_to(ROOT)}")
 
 

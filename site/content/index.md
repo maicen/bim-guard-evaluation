@@ -45,6 +45,6 @@ estimate: it shows what 22 cases can and cannot establish. See [Results](results
 
 ## Related
 
-- Platform: [maicen/bim-guard](https://github.com/maicen/bim-guard)
+- Platform: [BIM Guard](https://bim-guard.xyz/research) (app and documentation) · source: [maicen/bim-guard](https://github.com/maicen/bim-guard)
 - Evaluation repo: [maicen/bim-guard-evaluation](https://github.com/maicen/bim-guard-evaluation)
 - Cite: see [`CITATION.cff`](https://github.com/maicen/bim-guard-evaluation/blob/main/CITATION.cff)
