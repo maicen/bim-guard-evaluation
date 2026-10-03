@@ -7,14 +7,17 @@ description: Loads a section of a DocLang-converted source document (the .dclg/.
 
 ## What this does and why
 
-`eval/label_studio_bridge.py`'s `doclang_to_label_studio_tasks` only extracts
-`<text>`/`<paragraph>`/`<table>` elements from a DocLang file. In the OBC and
-SBC source documents under `sources/`, almost none of the actual code text
-lives in those tags — it lives inside `<list class="ordered"><ldiv><marker>
-(N)</marker></ldiv>...text...</list>` blocks (DocLang's structure for
-numbered code sentences, with lettered `(a)/(b)/(c)` sub-items as markerless
-`<ldiv/>` continuations). Running the bridge directly on one of these
-documents silently returns almost nothing usable.
+`eval/label_studio_bridge.py`'s `doclang_to_label_studio_tasks` works node by
+node and does not reassemble code sentences. In the OBC and SBC source
+documents under `sources/`, sentences come in three shapes: `<list
+class="ordered"><ldiv><marker>(N)</marker></ldiv>...text...</list>` blocks
+(lettered `(a)/(b)/(c)` sub-items as markerless `<ldiv/>` continuations), bare
+`<text>` elements starting "(N) ...", and several sentences run together in one
+element ("... flight . (2) Except ..."); page breaks also split a sentence into
+separate elements, and some article headings are tagged `<text>`. Running the
+bridge directly on one of these documents yields fragments, not sentences.
+`extract_section.py` handles all of these (and numbers table notes
+"Note to Table X.(n)").
 
 This skill's two scripts (`scripts/extract_section.py`,
 `scripts/build_ls_tasks.py`) replace that step: they pull one section's real
