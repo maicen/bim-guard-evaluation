@@ -1,6 +1,7 @@
 """Two-card results summary: Pillar A (rule extraction) beside Pillar B (architectural audit).
 
-Pillar A reads the scored e2e extraction runs 1-3 (eval/results/e2e/*/confusion.json).
+Pillar A reads the per-run counts of the door and window rule-sheet extractions
+(eval/fixtures/mvp_pdf_extraction_runs.json, from eval/score_mvp_pdf_extraction.py).
 Pillar B reads a tool-vs-expert matrix from BIM-Guard's Evaluation page: either a
 saved GET /api/evaluation/matrix response or the transcribed fixture used by default.
 
@@ -25,8 +26,6 @@ if str(EVAL_DIR) not in sys.path:
 
 from stats_util import confusion_matrix_metrics  # noqa: E402
 
-E2E = EVAL_DIR / "results" / "e2e"
-RUNS = [("run1_browser", "Run 1"), ("run2_playwright", "Run 2"), ("run3_variance_a", "Run 3")]
 
 PAGE, NAVY, WHITE = "#f0f3f9", "#020a1c", "#ffffff"
 INK, MUTED, PALE = "#101828", "#5f6368", "#d5dbe6"
@@ -65,54 +64,52 @@ def _matrix(ax, gx, gy, cells, cols, rows, on, off, head, cw=150, ch=92, gap=6):
     return gx + 2 * cw + gap
 
 
-def load_extraction() -> list[dict]:
-    return [json.loads((E2E / folder / "confusion.json").read_text(encoding="utf-8")) for folder, _ in RUNS]
-
-
-def draw_extraction(ax, runs: list[dict], x0: float, x1: float, y0: float, y1: float) -> None:
+def draw_extraction(ax, d: dict, x0: float, x1: float, y0: float, y1: float) -> None:
     _card(ax, x0, x1, y0, y1, NAVY, NAVY)
-    first = runs[0]
-    clause = first["clause_level"]["metrics"]
-    cm = clause["confusion_matrix"]
+    runs, gold = d["runs"], d["gold_rules"]
+    sheets = list(dict.fromkeys(r["sheet"] for r in runs))
     x = x0 + 40
-    ax.text(x, y0 + 55, "Pillar A · LLM rule extraction vs a human gold set", fontsize=19, fontweight="bold",
+    ax.text(x, y0 + 55, "Pillar A · LLM rule extraction vs the source PDFs", fontsize=19, fontweight="bold",
             color=BLUE_ON_NAVY, va="center")
-    ax.text(x, y0 + 97, f"OBC §9.8 · {cm['total']} clauses, {first['human_rules']} gold rules · {len(runs)} runs "
-            "through the live app, same model", fontsize=12.5, style="italic", color=PALE, va="center")
+    ax.text(x, y0 + 97, f"{len(sheets)} structured rule sheets ({', '.join(sheets)}) · {gold} rules each · "
+            f"{len(runs) // len(sheets)} runs per sheet in the live app", fontsize=12.5, style="italic", color=PALE,
+            va="center")
 
-    ax.text(x, y0 + 142, "Did the LLM find the clauses that hold a rule? (run 1)", fontsize=13.5,
-            fontweight="bold", color=WHITE, va="center")
-    cells = [[("TP", cm["tp"], "rule drafted"), ("FN", cm["fn"], "rule missed")],
-             [("FP", cm["fp"], "rule invented"), ("TN", cm["tn"], "correctly empty")]]
-    gy = y0 + 192
-    edge = _matrix(ax, x + 105, gy, cells, ("LLM: rule", "LLM: none"), ("Human: rule", "Human: none"),
-                   (BLUE, WHITE), ("#16213a", PALE), PALE, ch=80)
-    side = (edge + x1) / 2
-    others = " and ".join(str(r["clause_level"]["tp"] + r["clause_level"]["tn"]) for r in runs[1:])
-    ax.text(side, gy + 50, f"{cm['tp'] + cm['tn']} / {cm['total']}", fontsize=22, fontweight="bold",
-            color=BLUE_ON_NAVY, ha="center", va="center")
-    for dy, line in ((100, "clauses classified correctly"),
-                     (124, f"95% CI {clause['accuracy']['ci_lower']:.1%}–{clause['accuracy']['ci_upper']:.1%}"),
-                     (148, f"runs 2 and 3: {others}")):
-        ax.text(side, gy + dy, line, fontsize=11.5, color=PALE, ha="center", va="center")
+    ax.text(x, y0 + 142, f"Did the LLM find the {gold} rules of each sheet?", fontsize=13.5, fontweight="bold",
+            color=WHITE, va="center")
+    gx, gy, cw, ch, gap = x + 112, y0 + 192, 98, 38, 5
+    rows = (("TP · found", lambda r: r["correct"], True), ("FN · missed", lambda r: r["missed"], False),
+            ("FP · invented", lambda r: r["drafts"] - r.get("duplicates", 0) - r["correct"], False))
+    for j, run in enumerate(runs):
+        cx = gx + j * (cw + gap) + (10 if run["sheet"] != sheets[0] else 0)
+        ax.text(cx + cw / 2, gy - 18, run["label"], fontsize=11.5, color=PALE, ha="center", va="center")
+        for i, (_, count, on) in enumerate(rows):
+            ax.add_patch(FancyBboxPatch((cx, gy + i * (ch + gap)), cw, ch, boxstyle="round,pad=0,rounding_size=6",
+                                        facecolor=BLUE if on else "#16213a", edgecolor="none"))
+            ax.text(cx + cw / 2, gy + i * (ch + gap) + ch / 2, str(count(run)), fontsize=15, fontweight="bold",
+                    color=WHITE if on else PALE, ha="center", va="center")
+    for i, (label, _, _) in enumerate(rows):
+        ax.text(gx - 10, gy + i * (ch + gap) + ch / 2, label, fontsize=11.5, color=PALE, ha="right", va="center")
 
-    drafted = first["extracted_rules"]
-    ax.text(x, y0 + 408, f"Was the drafted rule itself right? ({drafted} dimensional rules, run 1)", fontsize=13.5,
+    found = sum(r["correct"] for r in runs)
+    ax.text(x, y0 + 362, f"Was the drafted rule itself right? ({found} rules found, all runs)", fontsize=13.5,
             fontweight="bold", color=WHITE, va="center")
-    left, length = x + 285, 300
-    for i, (label, mode) in enumerate((("Operator and value", "lenient"),
-                                       ("+ IFC class and property (synonyms)", "normalized"),
-                                       ("+ exact IFC names", "strict"))):
-        right = first["rule_level"][mode]["tp"]
-        y = y0 + 446 + 36 * i
+    left, length = x + 205, 370
+    bars = [(label, sum(r["fields_right"][key] for r in runs))
+            for label, key in (("IFC class", "target"), ("Property name", "property"), ("Operator", "operator"),
+                               ("Value", "value"), ("Unit", "unit"))]
+    bars.append(("Every field", sum(r["all_fields_right"] for r in runs)))
+    for i, (label, right) in enumerate(bars):
+        y = y0 + 396 + 28 * i
         ax.text(x, y, label, fontsize=12, color=PALE, va="center")
-        ax.add_patch(Rectangle((left, y - 11), length, 22, facecolor=ORANGE, edgecolor="none"))
-        ax.add_patch(Rectangle((left, y - 11), length * right / drafted, 22, facecolor=BLUE_ON_NAVY, edgecolor="none"))
-        ax.text(left + length + 14, y, f"{right} right · {drafted - right} wrong", fontsize=12, color=WHITE, va="center")
+        ax.add_patch(Rectangle((left, y - 9), length, 18, facecolor=ORANGE, edgecolor="none"))
+        ax.add_patch(Rectangle((left, y - 9), length * right / found, 18, facecolor=BLUE_ON_NAVY, edgecolor="none"))
+        ax.text(left + length + 14, y, f"{right} right · {found - right} wrong", fontsize=12, color=WHITE, va="center")
 
-    found = " / ".join(str(r["rule_level"]["lenient"]["tp"]) for r in runs)
-    _lead(ax, x, y0 + 572, "Recall is the weak point:", f"gold rules found per run {found} of {first['human_rules']}", WHITE)
-    _lead(ax, x, y0 + 610, "Door and window packs:", "hand-written seed rules, nothing to extract", WHITE)
+    per_sheet = "; ".join(f"{s} sheet " + " / ".join(str(r["correct"]) for r in runs if r["sheet"] == s) for s in sheets)
+    _lead(ax, x, y0 + 578, "Recall is the weak point:", f"found per run, {per_sheet}", WHITE, size=13.5)
+    _lead(ax, x, y0 + 614, "Review stays mandatory:", "one run of six found every rule and invented none", WHITE,
+          size=13.5)
 
 
 def draw_audit(ax, m: dict, x0: float, x1: float, y0: float, y1: float) -> None:
@@ -169,12 +166,14 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--matrix", type=Path, default=EVAL_DIR / "fixtures" / "evaluation_matrix_res_mrc_2026-10-08.json",
                     help="tool-vs-expert matrix JSON (GET /api/evaluation/matrix shape)")
+    ap.add_argument("--extraction", type=Path, default=EVAL_DIR / "fixtures" / "mvp_pdf_extraction_runs.json",
+                    help="per-run extraction counts")
     ap.add_argument("--title", default="Extraction recall is unstable, so review is mandatory; audit verdicts confirmed")
     ap.add_argument("-o", "--out", type=Path,
                     default=EVAL_DIR.parent / "docs" / "publication" / "figures" / "fig_pillars_summary.png")
     a = ap.parse_args()
 
-    extraction = load_extraction()
+    extraction = json.loads(a.extraction.read_text(encoding="utf-8"))
     matrix = json.loads(a.matrix.read_text(encoding="utf-8"))
 
     fig = plt.figure(figsize=(W / 100, H / 100), dpi=240)
@@ -189,8 +188,10 @@ def main() -> int:
     fig.savefig(a.out, facecolor=PAGE)
     plt.close(fig)
 
-    for name, cm in (("extraction, run 1 clauses", extraction[0]["clause_level"]), ("audit", matrix["confusion_matrix"])):
-        print(f"{name:26s} TP {cm['tp']}  FN {cm['fn']}  FP {cm['fp']}  TN {cm['tn']}")
+    for run in extraction["runs"]:
+        print(f"{run['label']:10s} found {run['correct']:>2}  missed {run['missed']:>2}  drafts {run['drafts']}")
+    cm = matrix["confusion_matrix"]
+    print(f"audit      TP {cm['tp']}  FN {cm['fn']}  FP {cm['fp']}  TN {cm['tn']}")
     print(a.out)
     return 0
 
