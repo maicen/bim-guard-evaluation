@@ -1,0 +1,11 @@
+{
+  "_source": "Transcribed by hand from a screenshot of BIM-Guard's Evaluation page (Tool-vs-Expert Validation Matrix), 2026-10-08. Same field names as GET /api/evaluation/matrix, plus model, rules and agreed, which the page shows but the endpoint does not return.",
+  "model": "RES-MRC-ZZ-00-M3-A-0001.ifc",
+  "rules": 41,
+  "total_findings": 8046,
+  "reviewed_findings": 8046,
+  "unreviewed_findings": 0,
+  "agreed": 8045,
+  "confusion_matrix": {"tp": 1098, "fp": 0, "fn": 0, "tn": 2835},
+  "metrics": {"accuracy": 1.0, "precision": 1.0, "recall": 1.0, "specificity": 1.0, "f1": 1.0, "cohens_kappa": 1.0}
+}
