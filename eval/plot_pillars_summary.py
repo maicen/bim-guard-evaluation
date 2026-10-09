@@ -64,34 +64,54 @@ def _matrix(ax, gx, gy, cells, cols, rows, on, off, head, cw=150, ch=92, gap=6):
     return gx + 2 * cw + gap
 
 
+def merge_sheets(d: dict) -> list[dict]:
+    """Add the sheets together run by run: merged run N = the Nth run of every sheet."""
+    sheets = list(dict.fromkeys(r["sheet"] for r in d["runs"]))
+    per_sheet = [[r for r in d["runs"] if r["sheet"] == s] for s in sheets]
+    merged = []
+    for i, group in enumerate(zip(*per_sheet), 1):
+        drafts = sum(r["drafts"] - r.get("duplicates", 0) for r in group)
+        found = sum(r["correct"] for r in group)
+        merged.append({
+            "label": f"Run {i}", "found": found, "missed": sum(r["missed"] for r in group), "invented": drafts - found,
+            "all_fields_right": sum(r["all_fields_right"] for r in group),
+            "fields_right": {k: sum(r["fields_right"][k] for r in group) for k in group[0]["fields_right"]},
+        })
+    return merged
+
+
 def draw_extraction(ax, d: dict, x0: float, x1: float, y0: float, y1: float) -> None:
     _card(ax, x0, x1, y0, y1, NAVY, NAVY)
-    runs, gold = d["runs"], d["gold_rules"]
-    sheets = list(dict.fromkeys(r["sheet"] for r in runs))
+    runs = merge_sheets(d)
+    sheets = list(dict.fromkeys(r["sheet"] for r in d["runs"]))
+    gold = d["gold_rules"] * len(sheets)
+    found = sum(r["found"] for r in runs)
     x = x0 + 40
     ax.text(x, y0 + 55, "Pillar A · LLM rule extraction vs the source PDFs", fontsize=19, fontweight="bold",
             color=BLUE_ON_NAVY, va="center")
-    ax.text(x, y0 + 97, f"{len(sheets)} structured rule sheets ({', '.join(sheets)}) · {gold} rules each · "
-            f"{len(runs) // len(sheets)} runs per sheet in the live app", fontsize=12.5, style="italic", color=PALE,
-            va="center")
+    ax.text(x, y0 + 97, f"{len(sheets)} structured rule sheets ({' and '.join(sorted(sheets))}) · {gold} rules · "
+            f"{len(runs)} runs in the live app", fontsize=12.5, style="italic", color=PALE, va="center")
 
-    ax.text(x, y0 + 142, f"Did the LLM find the {gold} rules of each sheet?", fontsize=13.5, fontweight="bold",
-            color=WHITE, va="center")
-    gx, gy, cw, ch, gap = x + 112, y0 + 192, 98, 38, 5
-    rows = (("TP · found", lambda r: r["correct"], True), ("FN · missed", lambda r: r["missed"], False),
-            ("FP · invented", lambda r: r["drafts"] - r.get("duplicates", 0) - r["correct"], False))
+    ax.text(x, y0 + 142, f"Did the LLM find the {gold} rules?", fontsize=13.5, fontweight="bold", color=WHITE,
+            va="center")
+    gx, gy, cw, ch, gap = x + 112, y0 + 192, 150, 38, 5
+    rows = (("TP · found", "found", True), ("FN · missed", "missed", False), ("FP · invented", "invented", False))
     for j, run in enumerate(runs):
-        cx = gx + j * (cw + gap) + (10 if run["sheet"] != sheets[0] else 0)
+        cx = gx + j * (cw + gap)
         ax.text(cx + cw / 2, gy - 18, run["label"], fontsize=11.5, color=PALE, ha="center", va="center")
-        for i, (_, count, on) in enumerate(rows):
+        for i, (_, key, on) in enumerate(rows):
             ax.add_patch(FancyBboxPatch((cx, gy + i * (ch + gap)), cw, ch, boxstyle="round,pad=0,rounding_size=6",
                                         facecolor=BLUE if on else "#16213a", edgecolor="none"))
-            ax.text(cx + cw / 2, gy + i * (ch + gap) + ch / 2, str(count(run)), fontsize=15, fontweight="bold",
+            ax.text(cx + cw / 2, gy + i * (ch + gap) + ch / 2, str(run[key]), fontsize=15, fontweight="bold",
                     color=WHITE if on else PALE, ha="center", va="center")
     for i, (label, _, _) in enumerate(rows):
         ax.text(gx - 10, gy + i * (ch + gap) + ch / 2, label, fontsize=11.5, color=PALE, ha="right", va="center")
+    side = (gx + len(runs) * (cw + gap) + x1) / 2
+    ax.text(side, gy + 36, f"{found} / {gold * len(runs)}", fontsize=22, fontweight="bold", color=BLUE_ON_NAVY,
+            ha="center", va="center")
+    ax.text(side, gy + 78, "rules found", fontsize=11.5, color=PALE, ha="center", va="center")
+    ax.text(side, gy + 100, f"across the {len(runs)} runs", fontsize=11.5, color=PALE, ha="center", va="center")
 
-    found = sum(r["correct"] for r in runs)
     ax.text(x, y0 + 362, f"Was the drafted rule itself right? ({found} rules found, all runs)", fontsize=13.5,
             fontweight="bold", color=WHITE, va="center")
     left, length = x + 205, 370
@@ -106,10 +126,11 @@ def draw_extraction(ax, d: dict, x0: float, x1: float, y0: float, y1: float) -> 
         ax.add_patch(Rectangle((left, y - 9), length * right / found, 18, facecolor=BLUE_ON_NAVY, edgecolor="none"))
         ax.text(left + length + 14, y, f"{right} right · {found - right} wrong", fontsize=12, color=WHITE, va="center")
 
-    per_sheet = "; ".join(f"{s} sheet " + " / ".join(str(r["correct"]) for r in runs if r["sheet"] == s) for s in sheets)
-    _lead(ax, x, y0 + 578, "Recall is the weak point:", f"found per run, {per_sheet}", WHITE, size=13.5)
-    _lead(ax, x, y0 + 614, "Review stays mandatory:", "one run of six found every rule and invented none", WHITE,
-          size=13.5)
+    per_run = " / ".join(str(r["found"]) for r in runs)
+    complete = sum(r["missed"] == 0 for r in runs)
+    _lead(ax, x, y0 + 578, "Recall is the weak point:", f"rules found per run {per_run} of {gold}", WHITE, size=13.5)
+    _lead(ax, x, y0 + 614, "Review stays mandatory:",
+          f"{'no run' if not complete else f'{complete} of {len(runs)} runs'} found all {gold} rules", WHITE, size=13.5)
 
 
 def draw_audit(ax, m: dict, x0: float, x1: float, y0: float, y1: float) -> None:
@@ -188,8 +209,8 @@ def main() -> int:
     fig.savefig(a.out, facecolor=PAGE)
     plt.close(fig)
 
-    for run in extraction["runs"]:
-        print(f"{run['label']:10s} found {run['correct']:>2}  missed {run['missed']:>2}  drafts {run['drafts']}")
+    for run in merge_sheets(extraction):
+        print(f"{run['label']:10s} found {run['found']:>2}  missed {run['missed']:>2}  invented {run['invented']}")
     cm = matrix["confusion_matrix"]
     print(f"audit      TP {cm['tp']}  FN {cm['fn']}  FP {cm['fp']}  TN {cm['tn']}")
     print(a.out)
