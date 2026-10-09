@@ -5,10 +5,11 @@ cannot show a rate that the counts do not support:
 
     {"subtitle": "Door and window rule sheets, 40 rules, 3 runs through the live app",
      "gold_rules": 40,
-     "runs": [{"label": "Run 1", "drafts": 0, "correct": 0}, ...],
+     "runs": [{"label": "Run 1", "drafts": 0, "duplicates": 0, "correct": 0}, ...],
      "notes": [["Bold lead-in:", "rest of the line"], ...]}
 
-precision = correct / drafts, recall = correct / gold_rules.
+precision = correct / (drafts - duplicates), recall = correct / gold_rules. duplicates
+(drafts restating a rule already counted) are optional and count neither way.
 
 Usage: uv run python eval/plot_extraction_runs_card.py runs.json -o docs/publication/figures/fig_pillar_a_runs.png
 """
@@ -57,19 +58,22 @@ def draw(d: dict, out: Path) -> None:
         ax.add_patch(Rectangle((W / 2 + dx, 203), 12, 12, facecolor=color, edgecolor="none"))
         ax.text(W / 2 + dx + 18, 210, name, fontsize=13, color=WHITE, va="center")
 
-    base, full, bar = 458, 180, 110
+    base, full = 458, 180
+    bar = min(110, 0.38 * (W - 140) / len(runs))
+    wide = bar > 80
     step = (W - 140) / len(runs)
     for i, run in enumerate(runs):
         centre = 85 + step * (i + 0.5)
-        precision = run["correct"] / run["drafts"] if run["drafts"] else 0.0
+        distinct = run["drafts"] - run.get("duplicates", 0)
+        precision = run["correct"] / distinct if distinct else 0.0
         for left, value, color in ((centre - bar, precision, BLUE), (centre, run["correct"] / gold, ORANGE)):
             ax.add_patch(Rectangle((left, base - full * value), bar, full * value, facecolor=color, edgecolor="none"))
-            ax.text(left + bar / 2, base - full * value - 18, f"{value:.1%}", fontsize=14, color=WHITE,
+            ax.text(left + bar / 2, base - full * value - 18, f"{value:.1%}" if wide else f"{value:.0%}", fontsize=14 if wide else 11.5, color=WHITE,
                     ha="center", va="center")
         ax.text(centre, base + 30, run["label"], fontsize=13.5, color=PALE, ha="center", va="center")
 
     found = " / ".join(str(r["correct"]) for r in runs)
-    wrong = " / ".join(str(r["drafts"] - r["correct"]) for r in runs)
+    wrong = " / ".join(str(r["drafts"] - r.get("duplicates", 0) - r["correct"]) for r in runs)
     notes = [["Rules found:", f"{found} of {gold} per run"],
              ["Drafts matching no rule:", f"{wrong} per run"], *d.get("notes", [])]
     for i, (bold, rest) in enumerate(notes):
@@ -87,8 +91,8 @@ def main() -> int:
     a = ap.parse_args()
     d = json.loads(a.runs.read_text(encoding="utf-8"))
     for run in d["runs"]:
-        if not 0 <= run["correct"] <= min(run["drafts"], d["gold_rules"]):
-            sys.exit(f"{run['label']}: correct must be between 0 and min(drafts, gold_rules)")
+        if not 0 <= run["correct"] <= min(run["drafts"] - run.get("duplicates", 0), d["gold_rules"]):
+            sys.exit(f"{run['label']}: correct must be between 0 and min(drafts - duplicates, gold_rules)")
     draw(d, a.out)
     print(a.out)
     return 0

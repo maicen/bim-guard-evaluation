@@ -1,42 +1,78 @@
 {
- "_source": "Counts from eval/score_mvp_pdf_extraction.py on the drafts bim-guard.xyz held on 2026-10-08 for documents #1204 (window) and #1205 (door), read with GET /api/documents/{id}/rules/drafts. 'correct' = drafts whose rule ID is a rule of the sheet; all_fields_right = of those, IFC class, property, operator, value and unit all agree with the sheet. The extraction model was not recorded.",
+ "_source": "Counts from eval/score_mvp_pdf_extraction.py on drafts read from bim-guard.xyz (GET /api/documents/{id}/rules/drafts; #1204 window, #1205 door). Window 1-2 and Door 1 already existed on the site on 2026-10-08; the others were run with eval/e2e/mvp_sheet_extraction_e2e.py. 'correct' = distinct sheet rules a draft carries the rule ID of; 'duplicates' = further drafts repeating a rule ID, counted neither right nor wrong; all_fields_right = of the rules found, IFC class, property, operator, value and unit all agree with the sheet.",
  "title": "Pillar A · LLM rule extraction vs the source PDFs",
- "subtitle": "Door and window MVP rule sheets, 20 rules each · 3 runs on bim-guard.xyz\nScored against each PDF's own rule table",
+ "subtitle": "Door and window MVP rule sheets, 20 rules each · 3 runs per sheet on bim-guard.xyz\nScored against each PDF's own rule table",
  "gold_rules": 20,
  "runs": [
   {
-   "label": "Window sheet, run 1",
+   "label": "Window 1",
    "drafts": 6,
+   "duplicates": 0,
    "correct": 6,
    "all_fields_right": 6,
+   "model": "not recorded",
    "extracted_at": "2026-09-30T01:14",
    "ruleset_id": "EXTRACTED-20260930-011423"
   },
   {
-   "label": "Window sheet, run 2",
+   "label": "Window 2",
    "drafts": 20,
+   "duplicates": 0,
    "correct": 20,
    "all_fields_right": 16,
+   "model": "not recorded",
    "extracted_at": "2026-09-30T01:18",
    "ruleset_id": "EXTRACTED-20260930-011749"
   },
   {
-   "label": "Door sheet, run 1",
+   "label": "Window 3",
+   "drafts": 27,
+   "duplicates": 0,
+   "correct": 7,
+   "all_fields_right": 4,
+   "model": "anthropic/claude-sonnet-5-5",
+   "extracted_at": "2026-10-09T02:57",
+   "ruleset_id": "EXTRACTED-20261009-025617"
+  },
+  {
+   "label": "Door 1",
    "drafts": 22,
+   "duplicates": 0,
    "correct": 15,
    "all_fields_right": 13,
+   "model": "not recorded",
    "extracted_at": "2026-10-02T18:57",
    "ruleset_id": "EXTRACTED-20261002-185522"
+  },
+  {
+   "label": "Door 2",
+   "drafts": 35,
+   "duplicates": 8,
+   "correct": 15,
+   "all_fields_right": 14,
+   "model": "anthropic/claude-sonnet-5-5",
+   "extracted_at": "2026-10-09T02:53",
+   "ruleset_id": "EXTRACTED-20261009-025054"
+  },
+  {
+   "label": "Door 3",
+   "drafts": 42,
+   "duplicates": 8,
+   "correct": 15,
+   "all_fields_right": 12,
+   "model": "anthropic/claude-sonnet-5-5",
+   "extracted_at": "2026-10-09T02:55",
+   "ruleset_id": "EXTRACTED-20261009-025347"
   }
  ],
  "notes": [
   [
    "Every field right:",
-   "6 / 16 / 13 of the rules found"
+   "6 / 16 / 4 / 13 / 14 / 12 of the rules found"
   ],
   [
-   "Recall recovered:",
-   "window sheet 6 → 20 of 20 on the second run"
+   "Model:",
+   "Sonnet 5.5 for Window 3 and Door 2, 3; earlier runs not recorded"
   ]
  ]
 }
