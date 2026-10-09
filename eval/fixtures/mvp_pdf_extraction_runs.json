@@ -1,0 +1,42 @@
+{
+ "_source": "Counts from eval/score_mvp_pdf_extraction.py on the drafts bim-guard.xyz held on 2026-10-08 for documents #1204 (window) and #1205 (door), read with GET /api/documents/{id}/rules/drafts. 'correct' = drafts whose rule ID is a rule of the sheet; all_fields_right = of those, IFC class, property, operator, value and unit all agree with the sheet. The extraction model was not recorded.",
+ "title": "Pillar A · LLM rule extraction vs the source PDFs",
+ "subtitle": "Door and window MVP rule sheets, 20 rules each · 3 runs on bim-guard.xyz\nScored against each PDF's own rule table",
+ "gold_rules": 20,
+ "runs": [
+  {
+   "label": "Window sheet, run 1",
+   "drafts": 6,
+   "correct": 6,
+   "all_fields_right": 6,
+   "extracted_at": "2026-09-30T01:14",
+   "ruleset_id": "EXTRACTED-20260930-011423"
+  },
+  {
+   "label": "Window sheet, run 2",
+   "drafts": 20,
+   "correct": 20,
+   "all_fields_right": 16,
+   "extracted_at": "2026-09-30T01:18",
+   "ruleset_id": "EXTRACTED-20260930-011749"
+  },
+  {
+   "label": "Door sheet, run 1",
+   "drafts": 22,
+   "correct": 15,
+   "all_fields_right": 13,
+   "extracted_at": "2026-10-02T18:57",
+   "ruleset_id": "EXTRACTED-20261002-185522"
+  }
+ ],
+ "notes": [
+  [
+   "Every field right:",
+   "6 / 16 / 13 of the rules found"
+  ],
+  [
+   "Recall recovered:",
+   "window sheet 6 → 20 of 20 on the second run"
+  ]
+ ]
+}

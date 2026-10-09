@@ -1,0 +1,411 @@
+{
+ "_source": "Transcribed by hand from the rule tables of BIMGuard_Door_MVP_20_Rules_Categorized.pdf and BIMGuard_Window_MVP_20_Rules_Categorized.pdf (mock test values, not code limits). ifc_names lists the IFC property name the sheet's own requirement text or IFC property sets use for that property; a draft using it counts as the right property.",
+ "packs": {
+  "window": {
+   "document": "BIMGuard_Window_MVP_20_Rules_Categorized.pdf",
+   "target_ifc_class": "IfcWindow",
+   "rules": [
+    {
+     "rule_id": "WR-001",
+     "property": "Width",
+     "operator": ">=",
+     "value": "800",
+     "unit": "mm",
+     "applicability": "All modeled windows",
+     "ifc_names": [
+      "OverallWidth"
+     ]
+    },
+    {
+     "rule_id": "WR-002",
+     "property": "Height",
+     "operator": ">=",
+     "value": "800",
+     "unit": "mm",
+     "applicability": "All modeled windows",
+     "ifc_names": [
+      "OverallHeight"
+     ]
+    },
+    {
+     "rule_id": "WR-005",
+     "property": "Area",
+     "operator": ">=",
+     "value": "0.64",
+     "unit": "m2",
+     "applicability": "Where quantity is exported"
+    },
+    {
+     "rule_id": "WR-035",
+     "property": "OpeningElement",
+     "operator": "Exists",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "Where modeled with an opening"
+    },
+    {
+     "rule_id": "WR-036",
+     "property": "HostElement",
+     "operator": "Exists",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "Hosted windows"
+    },
+    {
+     "rule_id": "WR-039",
+     "property": "Storey",
+     "operator": "Exists",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "All modeled windows"
+    },
+    {
+     "rule_id": "WR-068",
+     "property": "FireRating",
+     "operator": ">=",
+     "value": "60",
+     "unit": "min",
+     "applicability": "Fire-rated windows only"
+    },
+    {
+     "rule_id": "WR-063",
+     "property": "ThermalTransmittance",
+     "operator": "<=",
+     "value": "1.8",
+     "unit": "W/m2K",
+     "applicability": "Where an energy criterion applies"
+    },
+    {
+     "rule_id": "WR-059",
+     "property": "SHGC",
+     "operator": "<=",
+     "value": "0.40",
+     "unit": "ratio",
+     "applicability": "Where solar-gain criterion applies",
+     "ifc_names": [
+      "SolarHeatGainTransmittance"
+     ]
+    },
+    {
+     "rule_id": "WR-065",
+     "property": "Infiltration",
+     "operator": "<=",
+     "value": "0.30",
+     "unit": "project-defined",
+     "applicability": "Where air-leakage criterion applies"
+    },
+    {
+     "rule_id": "WR-007",
+     "property": "SillHeight",
+     "operator": "<=",
+     "value": "1000",
+     "unit": "mm",
+     "applicability": "Designated escape windows only"
+    },
+    {
+     "rule_id": "WR-012",
+     "property": "ClearOpeningWidth",
+     "operator": ">=",
+     "value": "500",
+     "unit": "mm",
+     "applicability": "Designated escape windows only"
+    },
+    {
+     "rule_id": "WR-013",
+     "property": "ClearOpeningHeight",
+     "operator": ">=",
+     "value": "600",
+     "unit": "mm",
+     "applicability": "Designated escape windows only"
+    },
+    {
+     "rule_id": "WR-014",
+     "property": "ClearOpeningArea",
+     "operator": ">=",
+     "value": "0.35",
+     "unit": "m2",
+     "applicability": "Designated escape windows only"
+    },
+    {
+     "rule_id": "WR-067",
+     "property": "AcousticRating",
+     "operator": ">=",
+     "value": "35",
+     "unit": "dB",
+     "applicability": "Where acoustic requirement applies"
+    },
+    {
+     "rule_id": "WR-057",
+     "property": "IsSafetyGlass",
+     "operator": "=",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "Hazardous locations only"
+    },
+    {
+     "rule_id": "WR-028",
+     "property": "PredefinedType",
+     "operator": "!=",
+     "value": "NOTDEFINED",
+     "unit": "enum",
+     "applicability": "All modeled windows"
+    },
+    {
+     "rule_id": "WR-030",
+     "property": "WindowType",
+     "operator": "Exists",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "All modeled windows"
+    },
+    {
+     "rule_id": "WR-032",
+     "property": "TypeAssignmentCount",
+     "operator": "=",
+     "value": "1",
+     "unit": "count",
+     "applicability": "All modeled windows"
+    },
+    {
+     "rule_id": "WR-023",
+     "property": "GlobalId",
+     "operator": "Valid",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "All modeled windows"
+    }
+   ]
+  },
+  "door": {
+   "document": "BIMGuard_Door_MVP_20_Rules_Categorized.pdf",
+   "target_ifc_class": "IfcDoor",
+   "rules": [
+    {
+     "rule_id": "DR-001",
+     "property": "identity.global_id",
+     "operator": "Valid",
+     "value": "TRUE",
+     "unit": "-",
+     "applicability": "",
+     "ifc_names": [
+      "GlobalId"
+     ]
+    },
+    {
+     "rule_id": "DR-002",
+     "property": "identity.ifc_class",
+     "operator": "=",
+     "value": "IfcDoor",
+     "unit": "-",
+     "applicability": "",
+     "ifc_names": [
+      "ifc_class",
+      "IfcClass"
+     ]
+    },
+    {
+     "rule_id": "DR-003",
+     "property": "type.predefined_type",
+     "operator": "!=",
+     "value": "NOTDEFINED",
+     "unit": "-",
+     "applicability": "",
+     "ifc_names": [
+      "PredefinedType"
+     ]
+    },
+    {
+     "rule_id": "DR-004",
+     "property": "type.assignment_present",
+     "operator": "=",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "",
+     "ifc_names": [
+      "IsTypedBy",
+      "TypeAssignmentPresent"
+     ]
+    },
+    {
+     "rule_id": "DR-005",
+     "property": "spatial.storey_global_id",
+     "operator": "Exists",
+     "value": "TRUE",
+     "unit": "-",
+     "applicability": "",
+     "ifc_names": [
+      "StoreyGlobalId",
+      "Storey"
+     ]
+    },
+    {
+     "rule_id": "DR-006",
+     "property": "relationships.opening_global_id",
+     "operator": "Exists",
+     "value": "TRUE",
+     "unit": "-",
+     "applicability": "",
+     "ifc_names": [
+      "OpeningGlobalId",
+      "OpeningElement"
+     ]
+    },
+    {
+     "rule_id": "DR-007",
+     "property": "relationships.host_global_id",
+     "operator": "Exists",
+     "value": "TRUE",
+     "unit": "-",
+     "applicability": "",
+     "ifc_names": [
+      "HostGlobalId",
+      "HostElement"
+     ]
+    },
+    {
+     "rule_id": "DR-008",
+     "property": "geometry.overall_width_m",
+     "operator": ">=",
+     "value": "900",
+     "unit": "mm",
+     "applicability": "",
+     "ifc_names": [
+      "OverallWidth"
+     ]
+    },
+    {
+     "rule_id": "DR-009",
+     "property": "geometry.overall_height_m",
+     "operator": ">=",
+     "value": "2100",
+     "unit": "mm",
+     "applicability": "",
+     "ifc_names": [
+      "OverallHeight"
+     ]
+    },
+    {
+     "rule_id": "DR-010",
+     "property": "qto.area_m2",
+     "operator": ">=",
+     "value": "1.89",
+     "unit": "m2",
+     "applicability": "",
+     "ifc_names": [
+      "Area"
+     ]
+    },
+    {
+     "rule_id": "DR-011",
+     "property": "geometry.has_body",
+     "operator": "=",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "",
+     "ifc_names": [
+      "HasBody"
+     ]
+    },
+    {
+     "rule_id": "DR-012",
+     "property": "operation.type",
+     "operator": "!=",
+     "value": "NOTDEFINED",
+     "unit": "-",
+     "applicability": "",
+     "ifc_names": [
+      "OperationType"
+     ]
+    },
+    {
+     "rule_id": "DR-013",
+     "property": "door.pset.fire_rating",
+     "operator": ">=",
+     "value": "60",
+     "unit": "min",
+     "applicability": "When applicable",
+     "ifc_names": [
+      "FireRating"
+     ]
+    },
+    {
+     "rule_id": "DR-014",
+     "property": "door.pset.acoustic_rating",
+     "operator": ">=",
+     "value": "35",
+     "unit": "dB",
+     "applicability": "When applicable",
+     "ifc_names": [
+      "AcousticRating"
+     ]
+    },
+    {
+     "rule_id": "DR-015",
+     "property": "door.pset.is_external",
+     "operator": "=",
+     "value": "FALSE",
+     "unit": "Boolean",
+     "applicability": "",
+     "ifc_names": [
+      "IsExternal"
+     ]
+    },
+    {
+     "rule_id": "DR-016",
+     "property": "door.pset.thermal_transmittance",
+     "operator": "<=",
+     "value": "1.8",
+     "unit": "W/m2K",
+     "applicability": "",
+     "ifc_names": [
+      "ThermalTransmittance"
+     ]
+    },
+    {
+     "rule_id": "DR-017",
+     "property": "door.pset.handicap_accessible",
+     "operator": "=",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "Selected test door",
+     "ifc_names": [
+      "HandicapAccessible"
+     ]
+    },
+    {
+     "rule_id": "DR-018",
+     "property": "door.pset.fire_exit",
+     "operator": "=",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "Selected test door",
+     "ifc_names": [
+      "FireExit"
+     ]
+    },
+    {
+     "rule_id": "DR-019",
+     "property": "door.pset.self_closing",
+     "operator": "=",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "Selected test door",
+     "ifc_names": [
+      "SelfClosing"
+     ]
+    },
+    {
+     "rule_id": "DR-020",
+     "property": "door.pset.smoke_stop",
+     "operator": "=",
+     "value": "TRUE",
+     "unit": "Boolean",
+     "applicability": "Selected test door",
+     "ifc_names": [
+      "SmokeStop"
+     ]
+    }
+   ]
+  }
+ }
+}
