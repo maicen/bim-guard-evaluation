@@ -89,48 +89,36 @@ def draw_extraction(ax, d: dict, x0: float, x1: float, y0: float, y1: float) -> 
     x = x0 + 40
     ax.text(x, y0 + 55, "Pillar A · LLM rule extraction vs the source PDFs", fontsize=19, fontweight="bold",
             color=BLUE_ON_NAVY, va="center")
-    ax.text(x, y0 + 97, f"{len(sheets)} structured rule sheets ({' and '.join(sorted(sheets))}) · {gold} rules · "
-            f"{len(runs)} runs in the live app", fontsize=12.5, style="italic", color=PALE, va="center")
-
-    ax.text(x, y0 + 142, f"Did the LLM find the {gold} rules?", fontsize=13.5, fontweight="bold", color=WHITE,
+    ax.text(x, y0 + 97, f"{len(sheets)} structured rule sheets ({' and '.join(sorted(sheets))}), {gold} rules · "
+            f"{len(runs)} runs through the live app", fontsize=12.5, style="italic", color=PALE, va="center")
+    ax.text(x, y0 + 123, "Scored against each PDF's own rule table", fontsize=12.5, style="italic", color=PALE,
             va="center")
-    gx, gy, cw, ch, gap = x + 112, y0 + 192, 150, 38, 5
-    rows = (("TP · found", "found", True), ("FN · missed", "missed", False), ("FP · invented", "invented", False))
-    for j, run in enumerate(runs):
-        cx = gx + j * (cw + gap)
-        ax.text(cx + cw / 2, gy - 18, run["label"], fontsize=11.5, color=PALE, ha="center", va="center")
-        for i, (_, key, on) in enumerate(rows):
-            ax.add_patch(FancyBboxPatch((cx, gy + i * (ch + gap)), cw, ch, boxstyle="round,pad=0,rounding_size=6",
-                                        facecolor=BLUE if on else "#16213a", edgecolor="none"))
-            ax.text(cx + cw / 2, gy + i * (ch + gap) + ch / 2, str(run[key]), fontsize=15, fontweight="bold",
-                    color=WHITE if on else PALE, ha="center", va="center")
-    for i, (label, _, _) in enumerate(rows):
-        ax.text(gx - 10, gy + i * (ch + gap) + ch / 2, label, fontsize=11.5, color=PALE, ha="right", va="center")
-    side = (gx + len(runs) * (cw + gap) + x1) / 2
-    ax.text(side, gy + 36, f"{found} / {gold * len(runs)}", fontsize=22, fontweight="bold", color=BLUE_ON_NAVY,
-            ha="center", va="center")
-    ax.text(side, gy + 78, "rules found", fontsize=11.5, color=PALE, ha="center", va="center")
-    ax.text(side, gy + 100, f"across the {len(runs)} runs", fontsize=11.5, color=PALE, ha="center", va="center")
 
-    ax.text(x, y0 + 362, f"Was the drafted rule itself right? ({found} rules found, all runs)", fontsize=13.5,
-            fontweight="bold", color=WHITE, va="center")
-    left, length = x + 205, 370
-    bars = [(label, sum(r["fields_right"][key] for r in runs))
-            for label, key in (("IFC class", "target"), ("Property name", "property"), ("Operator", "operator"),
-                               ("Value", "value"), ("Unit", "unit"))]
-    bars.append(("Every field", sum(r["all_fields_right"] for r in runs)))
-    for i, (label, right) in enumerate(bars):
-        y = y0 + 396 + 28 * i
-        ax.text(x, y, label, fontsize=12, color=PALE, va="center")
-        ax.add_patch(Rectangle((left, y - 9), length, 18, facecolor=ORANGE, edgecolor="none"))
-        ax.add_patch(Rectangle((left, y - 9), length * right / found, 18, facecolor=BLUE_ON_NAVY, edgecolor="none"))
-        ax.text(left + length + 14, y, f"{right} right · {found - right} wrong", fontsize=12, color=WHITE, va="center")
+    mid = (x0 + x1) / 2
+    for dx, color, name in ((-95, BLUE_ON_NAVY, "Precision"), (25, ORANGE, "Recall")):
+        ax.add_patch(Rectangle((mid + dx, y0 + 164), 11, 11, facecolor=color, edgecolor="none"))
+        ax.text(mid + dx + 17, y0 + 170, name, fontsize=11.5, color=WHITE, va="center")
 
-    per_run = " / ".join(str(r["found"]) for r in runs)
-    complete = sum(r["missed"] == 0 for r in runs)
-    _lead(ax, x, y0 + 578, "Recall is the weak point:", f"rules found per run {per_run} of {gold}", WHITE, size=13.5)
-    _lead(ax, x, y0 + 614, "Review stays mandatory:",
-          f"{'no run' if not complete else f'{complete} of {len(runs)} runs'} found all {gold} rules", WHITE, size=13.5)
+    base, full, bar = y0 + 428, 205, 92
+    step = (x1 - x0 - 110) / len(runs)
+    for i, run in enumerate(runs):
+        centre = x0 + 55 + step * (i + 0.5)
+        rates = ((run["found"] / (run["found"] + run["invented"]), BLUE_ON_NAVY), (run["found"] / gold, ORANGE))
+        for j, (value, color) in enumerate(rates):
+            left = centre - bar + j * bar
+            ax.add_patch(Rectangle((left, base - full * value), bar, full * value, facecolor=color, edgecolor="none"))
+            ax.text(left + bar / 2, base - full * value - 14, f"{value:.1%}", fontsize=12, color=WHITE,
+                    ha="center", va="center")
+        ax.text(centre, base + 26, run["label"], fontsize=12, color=PALE, ha="center", va="center")
+
+    def per_run(key):
+        return " / ".join(str(r[key]) for r in runs)
+
+    lines = [("Recall is unstable:", f"rules found per run {per_run('found')} of {gold}"),
+             ("Operator almost always right:", f"{sum(r['fields_right']['operator'] for r in runs)} of {found} matched rules"),
+             ("Inventions grow:", f"drafts matching no rule per run {per_run('invented')}")]
+    for i, (bold, rest) in enumerate(lines):
+        _lead(ax, x, y0 + 506 + 40 * i, bold, rest, WHITE)
 
 
 def draw_audit(ax, m: dict, x0: float, x1: float, y0: float, y1: float) -> None:
