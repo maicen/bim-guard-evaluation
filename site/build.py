@@ -19,6 +19,7 @@ Content pages may use two placeholders:
 from __future__ import annotations
 
 import html
+import json
 import posixpath
 import re
 import shutil
@@ -173,7 +174,12 @@ TEMPLATE = """<!doctype html>
 <meta property="og:title" content="{title} · BIM-Guard Evaluation">
 <meta property="og:description" content="{description}">
 <meta property="og:url" content="{canonical}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{og_image}">
+<meta property="og:image:alt" content="BIM Guard OpenBIM Compliance Platform Banner">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{og_image}">
+<link rel="alternate" type="text/markdown" href="{md_url}">
+{head_extra}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -197,6 +203,85 @@ TEMPLATE = """<!doctype html>
 """
 
 
+OG_IMAGE = f"{PLATFORM_URL}/og-image.png"
+AUTHOR = "Osama Ata"  # CITATION.cff
+PUBLISHED = "2026-09-24"  # CITATION.cff date-released
+
+
+def head_extra(slug: str, title: str, description: str, canonical: str, commit_date: str) -> str:
+    """Return JSON-LD and Google Scholar ``citation_*`` tags for one page."""
+    ld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": ["WebPage", "TechArticle"],
+                "@id": f"{canonical}#webpage",
+                "url": canonical,
+                "name": f"{title} · BIM-Guard Evaluation",
+                "headline": title,
+                "description": description,
+                "inLanguage": "en",
+                "author": {"@type": "Person", "name": AUTHOR},
+                "datePublished": PUBLISHED,
+                "dateModified": commit_date,
+                "license": "https://opensource.org/license/mit",
+                "isPartOf": {"@type": "WebSite", "name": "BIM-Guard Evaluation", "url": f"{BASE_URL}/"},
+                "about": {"@type": "SoftwareApplication", "name": "BIM Guard", "url": PLATFORM_URL},
+                "encoding": {
+                    "@type": "MediaObject",
+                    "contentUrl": f"{BASE_URL}/{slug}.md",
+                    "encodingFormat": "text/markdown",
+                },
+            }
+        ],
+    }
+    # json.dumps output has braces, so it is passed in as a format argument, never inlined.
+    tags = [
+        f'<meta name="citation_title" content="{html.escape(title, quote=True)} - BIM-Guard Evaluation">',
+        f'<meta name="citation_author" content="Ata, Osama">',
+        f'<meta name="citation_publication_date" content="{PUBLISHED.replace("-", "/")}">',
+        f'<meta name="citation_public_url" content="{canonical}">',
+        f'<script type="application/ld+json">{json.dumps(ld)}</script>',
+    ]
+    return "\n".join(tags)
+
+
+def render_llms_txt() -> str:
+    """Return ``llms.txt`` (llmstxt.org) listing every page's markdown twin."""
+    lines = [
+        "# BIM-Guard Evaluation",
+        "",
+        "> Evaluation harnesses and empirical validation for BIM Guard, an OpenBIM code-compliance "
+        "platform: what the evidence supports and what it does not. Every number links to a committed artifact.",
+        "",
+        "## Pages",
+        "",
+    ]
+    lines += [f"- [{t}]({BASE_URL}/{slug}.md): {PAGE_DESCRIPTIONS[slug]}" for slug, t, _, _ in PAGES]
+    lines += [
+        "",
+        "## Optional",
+        "",
+        f"- [Complete text of all pages]({BASE_URL}/llms-full.txt)",
+        f"- [Source repository]({REPO_URL})",
+        f"- [BIM Guard platform]({PLATFORM_URL}/llms.txt)",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def git_commit_date() -> str:
+    """Return the HEAD commit date (YYYY-MM-DD) for ``dateModified``."""
+    import subprocess
+
+    try:
+        return subprocess.check_output(
+            ["git", "log", "-1", "--format=%cs"], cwd=ROOT, text=True
+        ).strip()
+    except Exception:
+        return PUBLISHED
+
+
 def git_commit() -> str:
     import subprocess
 
@@ -217,6 +302,8 @@ def main() -> None:
     (DIST / ".nojekyll").touch()
 
     commit = git_commit()
+    commit_date = git_commit_date()
+    full_parts: list[str] = []
     for slug, title, src, repo_src in PAGES:
         md = expand_placeholders(src.read_text())
         # GitHub renders a list directly after a paragraph; python-markdown needs a blank line.
@@ -232,13 +319,22 @@ def main() -> None:
             f'<a href="{s}.html"{" aria-current=page" if s == slug else ""}>{t}</a>'
             for s, t, _, _ in PAGES
         )
+        canonical = f"{BASE_URL}/" if slug == "index" else f"{BASE_URL}/{slug}.html"
+        desc = PAGE_DESCRIPTIONS[slug]
+        # Markdown twin for agents: GitHub Pages cannot negotiate content, so it is a sibling file.
+        twin = f"# {title}\n\n> {desc}\n\nCanonical page: {canonical}\n\n" + expand_placeholders(src.read_text())
+        (DIST / f"{slug}.md").write_text(twin)
+        full_parts.append(twin)
         (DIST / f"{slug}.html").write_text(
             TEMPLATE.format(
                 title=html.escape(title), nav=nav, body=body, repo=REPO_URL,
                 repo_name="maicen/bim-guard-evaluation", commit=commit,
                 description=html.escape(PAGE_DESCRIPTIONS[slug], quote=True),
-                canonical=f"{BASE_URL}/" if slug == "index" else f"{BASE_URL}/{slug}.html",
+                canonical=canonical,
                 platform=PLATFORM_URL,
+                og_image=OG_IMAGE,
+                md_url=f"{BASE_URL}/{slug}.md",
+                head_extra=head_extra(slug, title, desc, canonical, commit_date),
             )
         )
     urls = "".join(
@@ -249,7 +345,15 @@ def main() -> None:
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n'
     )
-    (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n")
+    # Same policy as bim-guard.xyz: search and AI retrieval yes, model training no.
+    (DIST / "robots.txt").write_text(
+        "User-agent: *\nAllow: /\nContent-Signal: search=yes, ai-input=yes, ai-train=no\n\n"
+        "User-agent: GPTBot\nUser-agent: ClaudeBot\nUser-agent: Google-Extended\n"
+        "User-agent: Applebot-Extended\nUser-agent: CCBot\nUser-agent: Bytespider\nDisallow: /\n\n"
+        f"Sitemap: {BASE_URL}/sitemap.xml\n"
+    )
+    (DIST / "llms.txt").write_text(render_llms_txt())
+    (DIST / "llms-full.txt").write_text("\n\n---\n\n".join(full_parts))
     print(f"built {len(PAGES)} pages -> {DIST.relative_to(ROOT)}")
 
 
